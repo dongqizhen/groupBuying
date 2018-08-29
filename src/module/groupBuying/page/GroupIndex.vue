@@ -1,14 +1,14 @@
 <template>
 
   <div class="container">
-    <Header isSearchHide="true">
+    <Header :isSearchHide="true">
       <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle">
         <cube-tab v-for="(item, index) in tabs" :label="item.label" :key="item.label">
         </cube-tab>
       </cube-tab-bar>
     </Header>
     <div class="content">
-      <cube-slide :data="Banneritems" />
+      <cube-slide class="banner" :data="Banneritems" />
       <ul class="icons_box">
         <li>
           <a href="#"><img src="/static/images/hospitalApply.png" alt=""></a>
@@ -36,7 +36,15 @@
               </cube-tab>
             </cube-tab-bar>
           </div>
+          <div class="tab-slide-container">
+            <cube-slide ref="slide" :loop="false" :auto-play="false" :show-dots="false" :options="slideOptions" @scroll="scroll" @change="changePage">
+              <cube-slide-item>
 
+                <list-item></list-item>
+                <list-item></list-item>
+              </cube-slide-item>
+            </cube-slide>
+          </div>
         </div>
       </div>
     </div>
@@ -45,6 +53,7 @@
 
 <script>
 import Header from '../components/header/header'
+import ListItem from '../components/common/listItem'
 export default {
   name: 'index',
   data(){
@@ -71,6 +80,7 @@ export default {
           image: '//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png'
         }
       ],
+      loop:false,
       ScrollListSelectedLabel:"2018(3场)",
       listTabs:[{
         label:"2018(3场)"
@@ -80,7 +90,7 @@ export default {
     }
   },
   components:{
-    Header
+    Header,ListItem
   }
 }
 </script>
@@ -92,9 +102,11 @@ export default {
      width:100%;
      .content{
         height: calc(100% - #{$header-height});
-        padding:10px 13px 0;
+        padding:10px 13px;
         background: $base-backgroud;
-        .cube-slide {
+        overflow: auto;
+        //-webkit-overflow-scrolling: touch;
+        .cube-slide.banner {
             height: 145px;
         }
         .icons_box{
@@ -146,12 +158,17 @@ export default {
           .scrollWrapper{
             .listTab{
               height: 40px;
+              border-bottom:1px solid #E9E9E9;
+              box-sizing: border-box;
               .cube-tab-bar{ 
                 height: 100%;
                 .cube-tab{
                    margin:0;
                 }
               }
+            }
+            .tab-slide-container{
+              padding: 10px 10px 0;
             }
           }
         }
