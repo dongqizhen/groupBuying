@@ -24,6 +24,7 @@
         props:["title","goback","isSearchHide"],     
         methods:{
             goPrev(){
+                this.$router.back(-1);
                 this.$store.commit("setTransition", "turn-off");
             }
         },
@@ -51,6 +52,7 @@
         align-items: center;
         justify-content: space-between;
         position: relative;
+        background: #fff;
         >span{
             //padding: 10px;
             position:absolute;

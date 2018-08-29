@@ -3,6 +3,7 @@ const mutations = {
     state.count = name
   },
   setTransition(state, states) {
+    console.log(state)
     state.states = states;
   }
 }

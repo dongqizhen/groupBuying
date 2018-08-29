@@ -100,6 +100,7 @@ export default {
    .container{
      height: 100%;
      width:100%;
+     position: fixed;
      .content{
         height: calc(100% - #{$header-height});
         padding:10px 13px;

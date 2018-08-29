@@ -182,6 +182,7 @@
     @import '../../../../static/scss/_commonScss.scss';
     .container{
         height:100%;
+        position: fixed;
         .content{
             background:$base-backgroud;
             height:calc(100% - #{$header-height});

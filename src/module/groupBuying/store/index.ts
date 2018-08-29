@@ -6,11 +6,13 @@ import createPersistedState from 'vuex-persistedstate'
 
 const plugins = [createPersistedState()]
 
+console.log(state)
+
 export default () => {
   return new Vuex.Store({
     state,
     actions,
     mutations,
-    plugins
+    //plugins
   })
 }

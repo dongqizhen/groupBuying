@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/Details">
+    <router-link to="/Details" @click.native="clickLink">
         <div class="listItem">
             <h2>2018中国非公立医疗机构第二届团购大会</h2>
             <div class="title">苏州团购大会</div>
@@ -37,6 +37,11 @@
             return {
 
             }
+        },
+        methods:{
+            clickLink() {
+                this.$store.commit("setTransition", "turn-on");
+            },
         }
     }
 </script>
