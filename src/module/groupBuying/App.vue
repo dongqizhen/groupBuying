@@ -14,7 +14,16 @@ export default {
   data () {
     return {
     }
-  }
+  },
+  mounted() {
+      //监听浏览器返回事件
+      window.addEventListener("popstate",
+        e => {
+          this.$store.commit("setTransition", "turn-off");
+        },
+        false
+      );
+    }
 }
 </script>
 

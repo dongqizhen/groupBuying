@@ -254,7 +254,7 @@
                         height: 100px;
                         width: 148px;
                         background: #FFFFFF;
-                        border: 0 solid rgba(1,157,221,0.12);
+                        border: 0.5px solid rgba(1,157,221,0.12);
                         box-shadow: 1px 2px 4px 1px rgba(1,157,221,0.09);
                         border-radius: 5px;
                         margin-bottom: 16px;
@@ -270,7 +270,38 @@
                            width: 25px;
                            background: #03ccbb;
                            margin: 15px 0 13px;
-                           
+                           background: url("/static/images/equipment.png") no-repeat center;
+                           background-size: 100% 100%;
+                        }
+                        &:nth-child(2){
+                            i{
+                               background: url("/static/images/consumable.png") no-repeat center; 
+                               background-size: 100% 100%;
+                            }
+                        }
+                        &:nth-child(3){
+                            i{
+                               background: url("/static/images/afterSale.png") no-repeat center; 
+                               background-size: 100% 100%;
+                            }
+                        }
+                        &:nth-child(4){
+                            i{
+                               background: url("/static/images/informatization.png") no-repeat center; 
+                               background-size: 100% 100%;
+                            }
+                        }
+                        &:nth-child(5){
+                            i{
+                               background: url("/static/images/finance.png") no-repeat center; 
+                               background-size: 100% 100%;
+                            }
+                        }
+                        &:nth-child(6){
+                            i{
+                               background: url("/static/images/counsel.png") no-repeat center; 
+                               background-size: 100% 100%;
+                            }
                         }
                         span{
                             font-size: 10px;
@@ -308,8 +339,6 @@
                     li{
                         width: 100px;
                         height: 31px;
-                        border:1px solid #019DDD;
-                        
                         border-radius: 31px;
                         display: flex;
                         border: 1px solid #999999;
@@ -353,7 +382,7 @@
                             height: 50px;
                             width: 103px;
                             background: #FFFFFF;
-                            border: 0 solid rgba(1,157,221,0.12);
+                            border: 0.5px solid rgba(1,157,221,0.12);
                             box-shadow: 1px 2px 4px 1px rgba(1,157,221,0.09);
                             border-radius: 5px;
                             margin-bottom: 15px;

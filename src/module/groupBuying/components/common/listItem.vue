@@ -51,9 +51,9 @@
         padding:30px 12px 18px;
         position: relative;
         background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(254,75,79,0.20);
+        border: 0.5px solid rgba(254,75,79,0.20);
         //box-shadow: 0 2px 7px 0 rgba(97,176,42,0.10);
-        box-shadow: 0 2px 7px 0 rgba(254,74,75,0.09);
+        box-shadow: 0.5px 2px 7px 0.5px rgba(254,74,75,0.09);
         font-family: PingFangSC-Medium;
         color: #333333;
         height: 155px;

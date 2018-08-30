@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import GroupIndex from '@/module/groupBuying/page/GroupIndex.vue'
 import GroupDetails from '../page/GroupDetails'
+import myComponyGroupBuy from '../page/company/myCroupBuy'
+import uploadedProducts from '../page/company/uploadedProducts'
 Vue.use(Router)
 
 const router = new Router({
@@ -13,6 +15,14 @@ const router = new Router({
         path: '/Details',
         name: '团购详情',
         component: GroupDetails
+    }, {
+        path: '/myComponyGroupBuy',
+        name: '我的团购（企业）',
+        component: myComponyGroupBuy
+    }, {
+        path: '/uploadedProducts',
+        name: '上传的产品',
+        component: uploadedProducts
     }]
 })
 

@@ -10,18 +10,18 @@
     <div class="content">
       <cube-slide class="banner" :data="Banneritems" />
       <ul class="icons_box">
-        <li>
-          <a href="#"><img src="/static/images/hospitalApply.png" alt=""></a>
+        <router-link tag="li" to="/">
+          <a><img src="/static/images/hospitalApply.png" alt=""></a>
           <span>医院团购报名</span>
-        </li>
-        <li>
-          <a href="#"><img src="/static/images/companyApply.png" alt=""></a>
+        </router-link>
+        <router-link tag="li" to="/">
+          <a><img src="/static/images/companyApply.png" alt=""></a>
           <span>企业团购报名</span>
-        </li>
-        <li>
-          <a href="#"><img src="/static/images/myApply.png" alt=""></a>
+        </router-link>
+        <router-link tag="li" to="/myComponyGroupBuy" @click="$store.commit('turn-on')">
+          <a><img src="/static/images/myApply.png" alt=""></a>
           <span>我的团购</span>
-        </li>
+        </router-link>
       </ul>
       <div class="meeting_list">
         <h2>
@@ -29,23 +29,7 @@
           团购大会列表
           <span></span>
         </h2>
-        <div class="scrollWrapper">
-          <div class="listTab">
-            <cube-tab-bar v-model="ScrollListSelectedLabel" showSlider>
-              <cube-tab v-for="(item, index) in listTabs" :label="item.label" :key="item.label">
-              </cube-tab>
-            </cube-tab-bar>
-          </div>
-          <div class="tab-slide-container">
-            <cube-slide ref="slide" :loop="false" :auto-play="false" :show-dots="false" :options="slideOptions" @scroll="scroll" @change="changePage">
-              <cube-slide-item>
-
-                <list-item></list-item>
-                <list-item></list-item>
-              </cube-slide-item>
-            </cube-slide>
-          </div>
-        </div>
+        <list-tab></list-tab>
       </div>
     </div>
   </div>
@@ -53,7 +37,8 @@
 
 <script>
 import Header from '../components/header/header'
-import ListItem from '../components/common/listItem'
+import ListTab from '../components/common/listTab'
+import { mapMutations } from 'vuex'
 export default {
   name: 'index',
   data(){
@@ -79,18 +64,16 @@ export default {
           url: 'http://www.didichuxing.com/',
           image: '//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png'
         }
-      ],
-      loop:false,
-      ScrollListSelectedLabel:"2018(3场)",
-      listTabs:[{
-        label:"2018(3场)"
-      },{
-        label:"2019(8场)"
-      }]
+      ]
     }
   },
   components:{
-    Header,ListItem
+    Header,ListTab
+  },
+  methods:{
+    ...mapMutations([
+      'setTransition'
+    ])
   }
 }
 </script>
@@ -154,22 +137,6 @@ export default {
               border-top:1px solid  #CCCCCC;
               width: 20px;
               margin:0 18px;
-            }
-          }
-          .scrollWrapper{
-            .listTab{
-              height: 40px;
-              border-bottom:1px solid #E9E9E9;
-              box-sizing: border-box;
-              .cube-tab-bar{ 
-                height: 100%;
-                .cube-tab{
-                   margin:0;
-                }
-              }
-            }
-            .tab-slide-container{
-              padding: 10px 10px 0;
             }
           }
         }

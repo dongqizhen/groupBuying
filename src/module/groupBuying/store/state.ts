@@ -8,6 +8,6 @@ interface StateType {
 
 let state: StateType = {
   count: 1,
-  states:'turn-off' //控制路由返回
+  states:'turn-on' //控制路由返回
 }
 export default state

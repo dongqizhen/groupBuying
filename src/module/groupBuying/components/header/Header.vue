@@ -71,6 +71,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 18px;
            /*  .cube-tab-bar{
                 .cube-tab{
                     font-size: 15px;
@@ -101,7 +102,15 @@
                     height: 100%;
                 }  
             }
-            
+            >a{
+                display: flex;
+                height: 100%;
+                align-items: center;
+                padding-right: 13px;
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                text-decoration: none
+            }
         }
     }
 </style>
