@@ -4,6 +4,8 @@ import GroupIndex from '@/module/groupBuying/page/GroupIndex.vue'
 import GroupDetails from '../page/GroupDetails'
 import myComponyGroupBuy from '../page/company/myCroupBuy'
 import uploadedProducts from '../page/company/uploadedProducts'
+import companyProfile from '../page/company/companyProfile'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -23,6 +25,11 @@ const router = new Router({
         path: '/uploadedProducts',
         name: '上传的产品',
         component: uploadedProducts
+    }, {
+        path: '/companyProfile',
+        name: '企业介绍',
+        component: companyProfile
+
     }]
 })
 

@@ -11,7 +11,8 @@ import VueTouch from 'vue-touch-easyhi'
 import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css'
 import "../../../static/css/cube-ui/cube-ui.scss"
-
+import { SwipeCell } from 'vant';
+import 'vant/lib/vant-css/index.css';
 
 import Cube, {
     Button,
@@ -21,7 +22,8 @@ import Cube, {
     Sticky,
     Scroll,
     TabBar,
-    Slide
+    Slide,
+    ScrollNavBar
 } from 'cube-ui';
 
 Vue.prototype.$util = Util
@@ -30,15 +32,13 @@ Vue.config.productionTip = false
 
 Vue.use(VueTouch)
     .use(Vuex)
-    .use(VueTouchRipple,
-        /* {
-            // default global options
-            color: '#fff',
-            opacity: 0.3,
-            speed: 1,
-            transition: 'ease'
-          } */
-    ).use(TabBar).use(Slide).use(Scroll)
+    .use(VueTouchRipple, {
+        // default global options
+        color: '#999',
+        opacity: 0.3,
+        speed: 1,
+        transition: 'ease'
+    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell);
 
 /* eslint-disable no-new */
 new Vue({

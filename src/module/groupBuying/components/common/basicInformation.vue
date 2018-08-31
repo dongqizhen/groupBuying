@@ -1,41 +1,55 @@
 <template>
     <div class="basicInformation">
-        <h2>
-            <p>
-                <i></i>
-                企业基本信息
-            </p>
-            <p>
+
+        <basic-title title="企业基本信息" imgurl='/static/images/basicInformation.png'>
+            <p slot='check' class="ckeck" v-if="isShowCheck != undefined">
                 <i></i>
                 审核中
             </p>
-        </h2>
+        </basic-title>
         <div class="content_box">
-            <div class="left">
-                <span>公司名称：</span>
-                <span>企业类型：</span>
-                <span>主营业务：</span>
-                <span>地址：</span>
-            </div>
             <ul>
-                <li>济南博物远航生物科技有限公司</li>
-                <li>外资企业</li>
-                <li>厂家放射性产品</li>
-                <li>山东省济南市</li>
+                <li>
+                    <span>公司名称：</span>
+                    <div>济南博物远航生物科技有限公司</div>
+                </li>
+                <li>
+                    <span>企业类型：</span>
+                    <div>外资企业</div>
+                </li>
+                <li>
+                    <span>主营业务：</span>
+                    <div>厂家放射性产品dddddddddddddd厂家放射性产品厂家放射性产品厂家放射性产品厂家放射性产品厂家放射性产品厂家放射性产品</div>
+                </li>
+                <li>
+                    <span>地址：</span>
+                    <div>山东省济南市</div>
+                </li>
             </ul>
-            <span>企业介绍
-                <i></i>
-            </span>
+            <router-link to="/companyProfile" tag="span" v-if="isShowArrowBox != undefined">
+                <a>企业介绍
+                    <i></i>
+                </a>
+            </router-link>
         </div>
+
     </div>
 </template>
 
 <script>
+    import basicTitle from './basicTitle'
     export default {
         data(){
             return {
 
             }
+        },
+        components:{
+            basicTitle
+        },
+        props:['isShowArrowBox','isShowCheck'],
+        mounted(){
+            console.log(this.isShowArrowBox)
         }
     }
 </script>
@@ -46,27 +60,7 @@
         box-shadow: .5px 1px 3px .5px rgba(0,0,0,0.10);
         border-radius: 5px;
         h2{
-            height: 47px;
-            padding:0 13px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; 
-            border: 0.5px solid #F6F6F6;
             p{
-                font-family: PingFangSC-Medium;
-                font-size: 15px;
-                color: #333333;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                i{
-                    display: flex;
-                    height: 15px;
-                    width: 15px;
-                    margin-right: 7px;
-                    background: url("/static/images/basicInformation.png") no-repeat center;
-                    background-size: 100% 100%;
-                }
                 &:last-child{
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
@@ -85,45 +79,59 @@
         }   
         .content_box{
             display: flex;
-            padding: 10px 13px 0px;
+            padding: 10px 0px;
             position: relative;
-            .left{
-                width: 65px;
-                font-family: PingFangSC-Regular;
-                font-size: 13px;
-                color: #999999;
-                span{
+            flex-direction: column;
+            li{
+                display: flex;
+                justify-content: flex-start;
+                padding: 0 13px 13px;
+                line-height: 18px;
+                >span{
+                    width: 70px;
+                    font-family: PingFangSC-Regular;
+                    font-size: 13px;
+                    color: #999999;
                     display: flex;
-                    margin-bottom: 13px;
+                    
                 }
-            }
-            ul{
-                font-family: PingFangSC-Medium;
-                font-size: 13px;
-                color: #333333;
-                li{
-                    margin-bottom: 13px;
+                >div{
+                    font-family: PingFangSC-Medium;
+                    font-size: 13px;
+                    color: #333333;
+                    width: calc(100% - 65px);
+                }
+                &:last-child{
+                    padding-bottom: 0;
                 }
             }
             >span{
                 font-family: PingFangSC-Medium;
                 font-size: 13px;
-                color: #019DDD;
+                line-height: 18px;
                 position: absolute;
-                bottom: 13px;
+                bottom: 10px;
                 right: 13px;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                i{
+                a{
+                    text-decoration: none;
                     display: flex;
-                    background: url("/static/images/rightArrow.png") no-repeat center;
-                    height: 12px;
-                    width: 7px;
-                    background-size: 100% 100%;
-                    margin-left: 9px;
-                    margin-top: 1px;
+                    justify-content: flex-start;
+                    align-items: center;
+                    color: #019DDD;
+                    i{
+                        display: flex;
+                        background: url("/static/images/rightArrow.png") no-repeat center;
+                        height: 12px;
+                        width: 7px;
+                        background-size: 100% 100%;
+                        margin-left: 9px;
+                        margin-top: 1px;
+                    }
                 }
+                
             }
         }
     }
