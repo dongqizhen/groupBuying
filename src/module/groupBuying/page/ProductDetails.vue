@@ -22,7 +22,6 @@
                 </div>
              </div>
            </div>
-           <item-info></item-info>
            <div class="proDetail">
              <h2>产品详情</h2>
              <div class="proInfo">这里是展示临床应用说明文字的地方，这里是展示临床应用说明文字的地方;这里是展示临床应用说明文字的地方，这里是展示临床应用说明文字的地方</div>
@@ -35,7 +34,6 @@
 <script>
     import Header from '../components/header/header'
     import footerMenu from '../components/common/footerMenu'
-    import itemInfo from '../components/common/itemInfo'
     export default {
         data(){
             return {
@@ -62,7 +60,7 @@
             }
         },
         components:{
-            Header,footerMenu,itemInfo
+            Header,footerMenu
         },
         methods:{
         }
