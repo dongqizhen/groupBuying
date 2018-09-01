@@ -18,6 +18,10 @@ const router = new Router({
         name: '团购详情',
         component: GroupDetails
     }, {
+        path: '/ProDetails',
+        name: '产品详情',
+        component: ProductDetails
+    }, {
         path: '/myComponyGroupBuy',
         name: '我的团购（企业）',
         component: myComponyGroupBuy
