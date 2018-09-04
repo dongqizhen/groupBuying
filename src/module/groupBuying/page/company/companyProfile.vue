@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Header :title="this.$route.name">
-            <router-link to="/uploadedProducts" slot="explain">编辑</router-link>
+            <router-link to="/enterpriseSeal" slot="explain">编辑</router-link>
         </Header>
         <div class="content">
             <basic-information></basic-information>
@@ -9,62 +9,7 @@
                 <basic-title title="团购负责人信息" imgurl="/static/images/Personal_information.png">
                     <span slot="check">收起</span>
                 </basic-title>
-                <div class="details">
-                    <h2>
-                        <i></i>
-                        团购负责人1
-                    </h2>
-                    <ul>
-                        <li>
-                            <span>姓名</span>
-                            <div>张经理</div>
-                        </li>
-                        <li>
-                            <span>职务</span>
-                            <div>经理</div>
-                        </li>
-                        <li>
-                            <span>移动电话</span>
-                            <div>12145451421</div>
-                        </li>
-                        <li>
-                            <span>固定电话</span>
-                            <div>44454545</div>
-                        </li>
-                        <li>
-                            <span>微信号</span>
-                            <div>4444554564564</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="details">
-                    <h2>
-                        <i></i>
-                        团购负责人2
-                    </h2>
-                    <ul>
-                        <li>
-                            <span>姓名</span>
-                            <div>张经理</div>
-                        </li>
-                        <li>
-                            <span>职务</span>
-                            <div>经理</div>
-                        </li>
-                        <li>
-                            <span>移动电话</span>
-                            <div>12145451421</div>
-                        </li>
-                        <li>
-                            <span>固定电话</span>
-                            <div>44454545</div>
-                        </li>
-                        <li>
-                            <span>微信号</span>
-                            <div>4444554564564</div>
-                        </li>
-                    </ul>
-                </div>
+                <personal-information :read="true" :disabled="true" v-for="(val,index) in data" :key="index" :data="val"></personal-information>
             </div>
             <div class="product_list">
                 <basic-title title="参加团购产品列表" imgurl="/static/images/product_list.png"></basic-title>
@@ -95,14 +40,28 @@
     import typeScrollNavBar from '../../components/common/typeScrollNavBar'
     import modelScrollNavBar from '../../components/common/modelScrollNavBar'
     import productList from '../../components/common/productList'
+    import personalInformation from '../../components/common/personalInformation'
     export default {
         data(){
             return {
-
+                disabled:true,
+                data:[{
+                    name:'张经理',
+                    job:'经理',
+                    phone:12321564645,
+                    tel:32213,
+                    weixin:124568754
+                },{
+                    name:'李经理',
+                    job:'经理',
+                    phone:12321564645,
+                    tel:32213,
+                    weixin:124568754
+                }]
             }
         },
         components:{
-            Header,basicInformation,basicTitle,typeScrollNavBar,modelScrollNavBar,productList
+            Header,basicInformation,basicTitle,typeScrollNavBar,modelScrollNavBar,productList,personalInformation
         }
     }
 </script>
@@ -130,14 +89,15 @@
             /deep/ .basicInformation{
                 .content_box{
                     ul{
+                        padding-left: 13px;
                         li{
-                            padding: 13px 13px;
+                            padding: 13px 13px 13px 0;
                             border-bottom: 0.5px solid #F6F6F6;
                             &:first-child{
                                 padding-top: 0;
                             };
                             &:last-child{
-                                padding-bottom: 0;
+                                padding-bottom: 3px;
                                 border: none;
                             }
                         }
@@ -150,56 +110,15 @@
                 border-radius: 5px;
                 margin-top: 10px;
                 /deep/ .basicTitle{
-                    h2>span{
-                        font-size: 13px;
-                        color: #333333;
-                        font-family: PingFangSC-Regular;
-                    }
-                }
-                .details{
                     h2{
-                        font-family: PingFangSC-Medium;
-                        font-size: 14px;
-                        color: #333333;
-                        display: flex;
-                        padding-left:13px; 
-                        height: 44px;
-                        align-items: center;
-                        //font-weight: 600;
-                        border-bottom: 0.5px solid #F6F6F6;
-                        i{
-                            width: 3px;
-                            height: 15px;
-                            background: #4A90E2;
-                            border-radius: 2px;
-                            margin-right: 7px;
-                        }
-                    }
-                    ul{
-                        li{
-                            height: 44px;
-                            padding:0 13px;
-                            display: flex;
-                            justify-content: flex-start;
-                            align-items: center;
-                            border-bottom: 0.5px solid #F6F6F6;
-                            span{
-                                display: flex;
-                                width: 93px;
-                                font-family: PingFangSC-Regular;
-                                font-size: 14px;
-                                color: #999999;
-                            }
-                            >div{
-                                display: flex;
-                                width: calc(100% - 93px);
-                                font-family: PingFangSC-Regular;
-                                font-size: 14px;
-                                color: #333333;
-                            }
+                        span{
+                            font-size: 13px;
+                            color: #333333;
+                            font-family: PingFangSC-Regular;
                         }
                     }
                 }
+                
             }
             .product_list{
                 background: #FFFFFF;

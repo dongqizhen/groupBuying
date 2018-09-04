@@ -1,0 +1,291 @@
+<template>
+    <div class="container">
+        <Header :isSearchHide="false" :title="this.$route.name"></Header>
+        <div class="content">
+            <div class="Select_project">
+                <basic-title title="请选择团购项目" imgurl="/static/images/selectproject.png">
+                    <span slot="select">(必选项，多选)</span>
+                </basic-title>
+                <ul class="nav">
+                    <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
+                        <li class="active">设备团购</li>
+                    </touch-ripple>
+                    <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
+                        <li @click="handleClickEvent">设备团购</li>
+                    </touch-ripple>
+                    <li>设备团购</li>
+                    <li>设备团购</li>
+                    <li>设备团购</li>
+                    <li>设备团购</li>
+                </ul>
+            </div>
+            <div class="company_basic_information">
+                <basic-title title="企业基本信息" imgurl="/static/images/basicInformation.png">
+                    <span slot="select">(必填题)</span>
+                </basic-title>
+                <ul>
+                    <li v-ripple>
+                        <span>公司名称：</span>
+                        <cube-input v-model="value" placeholder="请输入公司全称"></cube-input>
+                    </li>
+                    <li v-ripple>
+                        <router-link to='/typeOfEnterprise'>
+                            <span>企业类型：</span>
+                            <div>外资厂家
+                                <i></i>
+                            </div>
+                        </router-link>
+                    </li>
+                    <li v-ripple>
+                        <router-link to="/mainBusiness">
+                            <span>主营业务：</span>
+                            <cube-input placeholder="请选择主营业务" :disabled="true">
+                                <i slot="append"></i>
+                            </cube-input>
+                        </router-link>
+
+                    </li>
+                    <li v-ripple>
+                        <span>地址：</span>
+                        <cube-input placeholder="请选择地址" :disabled="true">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </li>
+                </ul>
+            </div>
+            <div class="personal_informatin">
+                <basic-title title="团购负责人信息" imgurl='/static/images/blueBasicInformation.png'>
+                    <span slot="select">(
+                        <i>*</i>为必填项)</span>
+                </basic-title>
+                <personal-information :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
+
+            </div>
+            <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
+            <x-button v-else type="primary" show-loading>提交中</x-button>
+        </div>
+    </div>
+</template>
+
+<script>
+    import Header from "../../components/header/header";
+    import basicTitle from "../../components/common/basicTitle";
+    import personalInformation from "../../components/common/personalInformation";
+    export default {
+        data() {
+            return {
+                value: "",
+                submitBtnStatus: true
+            };
+        },
+        components: {
+            Header,
+            basicTitle,
+            personalInformation
+        },
+        methods: {
+            submitBtnClick() {
+                this.submitBtnStatus = false;
+                this.$router.push("registrationSuccess");
+            },
+            handleClickEvent() {}
+        }
+    };
+</script>
+
+<style lang="scss" scoped>
+    @import "../../../../../static/scss/_commonScss";
+    input::-webkit-input-placeholder {
+        //color: #333 !important;
+        opacity: 1;
+        font-family: PingFangSC-Regular;
+        font-size: 14px !important;
+    }
+    .container {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        .content {
+            height: calc(100% - #{$header-height});
+            padding: 10px 13px;
+            background: $base-backgroud;
+            overflow: auto;
+            /deep/ .basicTitle {
+                p {
+                    span {
+                        font-family: PingFangSC-Regular;
+                        font-size: 15px;
+                        color: #aaaaaa;
+                        letter-spacing: 0;
+                        margin-left: 5px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        i {
+                            font-size: 16px;
+                            //width: 10px;
+                            color: #f11f1f;
+                            display: flex;
+                            justify-content: center;
+                            margin-right: 4px;
+                            align-items: center;
+                            font-family: PingFangSC-Regular;
+                        }
+                    }
+                }
+            }
+            .Select_project {
+                background: #ffffff;
+                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                margin-bottom: 10px;
+                > ul.nav {
+                    display: flex;
+                    padding: 0 13px;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    padding-top: 13px;
+                    li {
+                        width: 100px;
+                        height: 31px;
+                        border-radius: 31px;
+                        display: flex;
+                        border: 1px solid rgb(153, 153, 153);
+                        align-items: center;
+                        justify-content: center;
+                        font-family: PingFangSC-Regular;
+                        font-size: 12px;
+                        color: #666666;
+                        margin-bottom: 15px;
+                        &.active {
+                            background: rgba(1, 157, 221, 0.08);
+                            color: #019ddd;
+                            border: 1px solid #019ddd;
+                            box-shadow: 0 2px 2px 0 rgba(1, 157, 221, 0.15);
+                        }
+                    }
+                }
+            }
+            .company_basic_information {
+                background: #ffffff;
+                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                margin-bottom: 10px;
+                ul {
+                    padding-left: 13px;
+                    li {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        height: 47px;
+                        border-bottom: 0.5px solid #f6f6f6;
+                        a {
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            text-decoration: none;
+                            width: 100%;
+                            span {
+                                font-family: PingFangSC-Regular;
+                                font-size: 14px;
+                                color: #333333;
+                                width: 70px;
+                            }
+                            > div {
+                                width: calc(100% - 70px);
+                                display: flex;
+                                justify-content: flex-end;
+                                padding-right: 13px;
+                                font-family: PingFangSC-Regular;
+                                font-size: 14px;
+                                color: #999999;
+                                i {
+                                    display: flex;
+                                    height: 14px;
+                                    width: 8px;
+                                    background: url("/static/images/grayarrow.png")
+                                        no-repeat center;
+                                    background-size: 100% 100%;
+                                    margin-left: 3px;
+                                }
+                            }
+                        }
+                        > span {
+                            font-family: PingFangSC-Regular;
+                            font-size: 14px;
+                            color: #333333;
+                            width: 70px;
+                        }
+                        > div {
+                            width: calc(100% - 70px);
+                            display: flex;
+                            justify-content: flex-end;
+                            padding-right: 13px;
+                            font-family: PingFangSC-Regular;
+                            font-size: 14px;
+                            color: #999999;
+                            i {
+                                display: flex;
+                                height: 14px;
+                                width: 8px;
+                                background: url("/static/images/grayarrow.png")
+                                    no-repeat center;
+                                background-size: 100% 100%;
+                                margin-left: 3px;
+                            }
+                        }
+                        /deep/ .cube-input {
+                            width: calc(100% - 70px);
+                            &:after {
+                                border: none;
+                            }
+                            input {
+                                color: #999999;
+                                font-family: PingFangSC-Regular;
+                                font-size: 14px;
+                                padding-left: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            .personal_informatin {
+                background: #ffffff;
+                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                margin-bottom: 10px;
+                /deep/ .personalInformation {
+                    .details {
+                        ul {
+                            li {
+                                span {
+                                    width: auto;
+                                }
+                                > div {
+                                    width: auto;
+                                    input {
+                                        color: #999999;
+                                    }
+                                    input::-webkit-input-placeholder {
+                                        color: #ccc !important;
+                                        opacity: 1;
+                                        font-family: PingFangSC-Regular;
+                                        font-size: 14px !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            /deep/ .weui-btn {
+                background: #019ddd;
+                font-family: PingFangSC-Regular;
+                font-size: 16px;
+
+                height: 50px;
+                border-radius: 6px;
+            }
+        }
+    }
+</style>

@@ -29,7 +29,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between; 
-            border: 0.5px solid #F6F6F6;
+            border-bottom: 0.5px solid #F6F6F6;
             >p{
                 font-family: PingFangSC-Medium;
                 font-size: 15px;
@@ -37,7 +37,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                i{
+                >i{
                     display: flex;
                     height: 15px;
                     width: 15px;

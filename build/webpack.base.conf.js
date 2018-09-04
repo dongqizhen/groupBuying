@@ -7,6 +7,7 @@ var glob = require('glob');
 var entries = getEntry(['./src/module/*.js', './src/module/**/*.js']);
 const TransformModulesPlugin = require('webpack-transform-modules-plugin')
 const PostCompilePlugin = require('webpack-post-compile-plugin')
+const vuxLoader = require('vux-loader')
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -24,7 +25,8 @@ const createLintingRule = () => ({
     }
 })
 
-module.exports = {
+
+const webpackConfig = {
     context: path.resolve(__dirname, '../'),
     entry: entries,
     output: {
@@ -109,6 +111,10 @@ module.exports = {
         new TransformModulesPlugin()
     ]
 }
+
+module.exports = vuxLoader.merge(webpackConfig, {
+    plugins: ['vux-ui']
+})
 
 // 获取文件地址
 function getEntry(globPath) {

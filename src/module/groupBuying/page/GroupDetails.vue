@@ -5,7 +5,7 @@
             <cube-scroll ref="scroll">
                 <div class="wrapper">
                     <div class="basic_information">
-                        <h2>团购基本信息</h2>
+                        <basic-title title="团购基本信息" imgurl="/static/images/groupBuy.png"></basic-title>
                         <list-item></list-item>
                     </div>
                     <div class="hospitalNeeds">
@@ -161,6 +161,7 @@
 <script>
     import Header from '../components/header/header'
     import ListItem from '../components/common/listItem'
+    import basicTitle from '../components/common/basicTitle'
     export default {
         data(){
             return {
@@ -168,7 +169,7 @@
             }
         },
         components:{
-            Header,ListItem
+            Header,ListItem,basicTitle
         },
         methods:{
             handleClickEvent(){
@@ -200,13 +201,8 @@
                 border-radius: 5px;
                 padding:0 10px;
                 margin-bottom: 10px;
-                >h2{
-                    height: 47px;
-                    font-family: PingFangSC-Medium;
-                    font-size: 15px;
-                    color: #333333;
-                    display: flex;
-                    align-items: center;
+                /deep/ h2{
+                   padding: 0;
                 }
             }
             %h2{
@@ -255,7 +251,7 @@
                         width: 148px;
                         background: #FFFFFF;
                         border: 0.5px solid rgba(1,157,221,0.12);
-                        box-shadow: 1px 2px 4px 1px rgba(1,157,221,0.09);
+                        box-shadow: 0.5px 2px 4px 0.5px rgba(1,157,221,0.09);
                         border-radius: 5px;
                         margin-bottom: 16px;
                         display: flex;
@@ -341,7 +337,7 @@
                         height: 31px;
                         border-radius: 31px;
                         display: flex;
-                        border: 1px solid #999999;
+                        border: 0.5px solid #999999;
                         align-items: center;
                         justify-content: center;
                         font-family: PingFangSC-Regular;
@@ -371,6 +367,17 @@
                             font-size: 12px;
                             color: #666666;
                             line-height: 50px;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            i{
+                                display: flex;
+                                width: 7px;
+                                height: 12px;
+                                background: url('/static/images/grayarrow.png') no-repeat center;
+                                background-size: 100% 100%;
+                                margin-left: 10px;
+                            }
                         }
                     }
                     >ul.type{
@@ -383,7 +390,7 @@
                             width: 103px;
                             background: #FFFFFF;
                             border: 0.5px solid rgba(1,157,221,0.12);
-                            box-shadow: 1px 2px 4px 1px rgba(1,157,221,0.09);
+                            box-shadow: 0.5px 2px 4px 0.5px rgba(1,157,221,0.09);
                             border-radius: 5px;
                             margin-bottom: 15px;
                             display: flex;

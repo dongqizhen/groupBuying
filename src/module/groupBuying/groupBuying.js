@@ -13,7 +13,8 @@ import 'vue-touch-ripple/dist/vue-touch-ripple.css'
 import "../../../static/css/cube-ui/cube-ui.scss"
 import { SwipeCell } from 'vant';
 import 'vant/lib/vant-css/index.css';
-
+import { XButton } from 'vux'
+import FastClick from 'fastclick'
 import Cube, {
     Button,
     Toast,
@@ -23,12 +24,28 @@ import Cube, {
     Scroll,
     TabBar,
     Slide,
-    ScrollNavBar
+    ScrollNavBar,
+    Input,
+    Swipe,
+    createAPI,
+    ActionSheet
 } from 'cube-ui';
+import Ripple from 'vue-ripple-directive'
+
+Ripple.color = 'rgba(153, 153, 153, 0.3)';
+Ripple.zIndex = 55;
+Vue.directive('ripple', Ripple);
 
 Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
 Vue.config.productionTip = false
+
+/* if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+} */
+
 
 Vue.use(VueTouch)
     .use(Vuex)
@@ -38,9 +55,11 @@ Vue.use(VueTouch)
         opacity: 0.3,
         speed: 1,
         transition: 'ease'
-    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell);
+    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe);
+createAPI(Vue, ActionSheet, ['click'], true)
 
-/* eslint-disable no-new */
+Vue.component('x-button', XButton)
+    /* eslint-disable no-new */
 new Vue({
     el: '#app',
     router,

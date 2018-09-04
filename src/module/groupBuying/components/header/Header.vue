@@ -63,6 +63,9 @@
                 img{
                     height:44px;
                 }
+                &:active{
+                    background: rgba($color: #999, $alpha: 0.3);
+                }
             }
         }
         h2{   
@@ -95,12 +98,21 @@
             position: absolute;
             right:0;
             height: 100%;
+            padding-left: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             span{
-                display: block;
+                display: flex;
                 height:100%;
+                justify-content: center;
+                align-items: center;
                 img{
                     height: 100%;
                 }  
+            }
+            &:active{
+                background: rgba($color: #999, $alpha: 0.3);
             }
             >a{
                 display: flex;

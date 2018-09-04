@@ -5,6 +5,10 @@ import GroupDetails from '../page/GroupDetails'
 import myComponyGroupBuy from '../page/company/myCroupBuy'
 import uploadedProducts from '../page/company/uploadedProducts'
 import companyProfile from '../page/company/companyProfile'
+import enterpriseSeal from '../page/company/enterpriseSeal'
+import typeOfEnterprise from '../page/company/typeOfEnterprise'
+import mainBusiness from '../page/company/mainBusiness'
+import registrationSuccess from '../page/company/registrationSuccess'
 
 Vue.use(Router)
 
@@ -30,6 +34,22 @@ const router = new Router({
         name: '企业介绍',
         component: companyProfile
 
+    }, {
+        path: '/enterpriseSeal',
+        name: '企业团购报名',
+        component: enterpriseSeal
+    }, {
+        path: '/typeOfEnterprise',
+        name: '选择企业类型',
+        component: typeOfEnterprise
+    }, {
+        path: '/mainBusiness',
+        name: '选择主营业务',
+        component: mainBusiness
+    }, {
+        path: '/registrationSuccess',
+        name: '报名成功（企业）',
+        component: registrationSuccess
     }]
 })
 
