@@ -12,6 +12,7 @@ import mainBusiness from '../page/company/mainBusiness'
 import registrationSuccess from '../page/company/registrationSuccess'
 import Inventory from '../page/Inventory'
 import BuyClassification from '../page/BuyClassification'
+import uploadProduct from '../page/company/uploadProduct'
 
 Vue.use(Router)
 
@@ -65,6 +66,10 @@ const router = new Router({
         path: '/classify',
         name: '产品清单',
         component: BuyClassification
+    }, {
+        path: '/uploadProduct',
+        name: '上传团购产品（企业）',
+        component: uploadProduct
     }]
 })
 

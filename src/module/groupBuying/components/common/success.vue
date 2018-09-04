@@ -5,7 +5,7 @@
         <p>已有
             <span>28</span>家医院、
             <span>29</span>家企业参加本次团购</p>
-        <x-button type="primary">上传产品</x-button>
+        <x-button type="primary" @click.native="toUploadProduct">上传产品</x-button>
     </div>
 </template>
 
@@ -13,6 +13,11 @@
     export default {
         data() {
             return {};
+        },
+        methods: {
+            toUploadProduct() {
+                this.$router.push("uploadProduct");
+            }
         }
     };
 </script>
