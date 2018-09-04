@@ -162,7 +162,7 @@
                         font-size: 14px;
                         color: #333333;
                         display: flex;
-                        padding-left:13px; 
+                        padding-left:13px;
                         height: 44px;
                         align-items: center;
                         //font-weight: 600;

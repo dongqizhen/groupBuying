@@ -6,6 +6,8 @@ import ProductDetails from '../page/ProductDetails'
 import myComponyGroupBuy from '../page/company/myCroupBuy'
 import uploadedProducts from '../page/company/uploadedProducts'
 import companyProfile from '../page/company/companyProfile'
+import Inventory from '../page/Inventory'
+import BuyClassification from '../page/BuyClassification'
 
 Vue.use(Router)
 
@@ -34,7 +36,14 @@ const router = new Router({
         path: '/companyProfile',
         name: '企业介绍',
         component: companyProfile
-
+    }, {
+        path: '/inventory',
+        name: '产品清单',
+        component: Inventory
+    }, {
+        path: '/classify',
+        name: '产品清单',
+        component: BuyClassification
     }]
 })
 
