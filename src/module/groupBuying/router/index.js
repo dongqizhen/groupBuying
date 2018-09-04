@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import GroupIndex from '@/module/groupBuying/page/GroupIndex.vue'
 import GroupDetails from '../page/GroupDetails'
+import ProductDetails from '../page/ProductDetails'
 import myComponyGroupBuy from '../page/company/myCroupBuy'
 import uploadedProducts from '../page/company/uploadedProducts'
 import companyProfile from '../page/company/companyProfile'
@@ -9,6 +10,8 @@ import enterpriseSeal from '../page/company/enterpriseSeal'
 import typeOfEnterprise from '../page/company/typeOfEnterprise'
 import mainBusiness from '../page/company/mainBusiness'
 import registrationSuccess from '../page/company/registrationSuccess'
+import Inventory from '../page/Inventory'
+import BuyClassification from '../page/BuyClassification'
 
 Vue.use(Router)
 
@@ -21,6 +24,10 @@ const router = new Router({
         path: '/Details',
         name: '团购详情',
         component: GroupDetails
+    }, {
+        path: '/ProDetails',
+        name: '产品详情',
+        component: ProductDetails
     }, {
         path: '/myComponyGroupBuy',
         name: '我的团购（企业）',
@@ -50,6 +57,14 @@ const router = new Router({
         path: '/registrationSuccess',
         name: '报名成功（企业）',
         component: registrationSuccess
+    }, {
+        path: '/inventory',
+        name: '产品清单',
+        component: Inventory
+    }, {
+        path: '/classify',
+        name: '产品清单',
+        component: BuyClassification
     }]
 })
 
