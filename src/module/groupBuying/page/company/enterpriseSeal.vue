@@ -6,18 +6,7 @@
                 <basic-title title="请选择团购项目" imgurl="/static/images/selectproject.png">
                     <span slot="select">(必选项，多选)</span>
                 </basic-title>
-                <ul class="nav">
-                    <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
-                        <li class="active">设备团购</li>
-                    </touch-ripple>
-                    <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
-                        <li @click="handleClickEvent">设备团购</li>
-                    </touch-ripple>
-                    <li>设备团购</li>
-                    <li>设备团购</li>
-                    <li>设备团购</li>
-                    <li>设备团购</li>
-                </ul>
+                <select-project-nav></select-project-nav>
             </div>
             <div class="company_basic_information">
                 <basic-title title="企业基本信息" imgurl="/static/images/basicInformation.png">
@@ -71,6 +60,7 @@
     import Header from "../../components/header/header";
     import basicTitle from "../../components/common/basicTitle";
     import personalInformation from "../../components/common/personalInformation";
+    import selectProjectNav from "../../components/common/selectProjectNav";
     export default {
         data() {
             return {
@@ -81,7 +71,8 @@
         components: {
             Header,
             basicTitle,
-            personalInformation
+            personalInformation,
+            selectProjectNav
         },
         methods: {
             submitBtnClick() {
@@ -139,32 +130,6 @@
                 box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
                 margin-bottom: 10px;
-                > ul.nav {
-                    display: flex;
-                    padding: 0 13px;
-                    flex-wrap: wrap;
-                    justify-content: space-between;
-                    padding-top: 13px;
-                    li {
-                        width: 100px;
-                        height: 31px;
-                        border-radius: 31px;
-                        display: flex;
-                        border: 1px solid rgb(153, 153, 153);
-                        align-items: center;
-                        justify-content: center;
-                        font-family: PingFangSC-Regular;
-                        font-size: 12px;
-                        color: #666666;
-                        margin-bottom: 15px;
-                        &.active {
-                            background: rgba(1, 157, 221, 0.08);
-                            color: #019ddd;
-                            border: 1px solid #019ddd;
-                            box-shadow: 0 2px 2px 0 rgba(1, 157, 221, 0.15);
-                        }
-                    }
-                }
             }
             .company_basic_information {
                 background: #ffffff;
@@ -189,16 +154,15 @@
                                 font-family: PingFangSC-Regular;
                                 font-size: 14px;
                                 color: #333333;
-                                width: 70px;
                             }
                             > div {
-                                width: calc(100% - 70px);
                                 display: flex;
                                 justify-content: flex-end;
                                 padding-right: 13px;
                                 font-family: PingFangSC-Regular;
                                 font-size: 14px;
                                 color: #999999;
+                                flex: 1;
                                 i {
                                     display: flex;
                                     height: 14px;
@@ -214,16 +178,15 @@
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
                             color: #333333;
-                            width: 70px;
                         }
                         > div {
-                            width: calc(100% - 70px);
                             display: flex;
                             justify-content: flex-end;
                             padding-right: 13px;
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
                             color: #999999;
+                            flex: 1;
                             i {
                                 display: flex;
                                 height: 14px;
@@ -235,7 +198,7 @@
                             }
                         }
                         /deep/ .cube-input {
-                            width: calc(100% - 70px);
+                            flex: 1;
                             &:after {
                                 border: none;
                             }

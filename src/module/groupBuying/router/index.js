@@ -15,6 +15,10 @@ import BuyClassification from '../page/BuyClassification'
 import GroupRequireDetails from '../page/hospital/GroupRequireDetails'
 import groupEquipment from '../page/hospital/groupEquipment'
 import perdictTime from '../page/hospital/perdictTime'
+import uploadProduct from '../page/company/uploadProduct'
+import selectBrand from '../page/company/selectBrand'
+import productCategory from "../page/company/productCategory"
+import selectModel from "../page/company/selectModel"
 
 Vue.use(Router)
 
@@ -80,6 +84,22 @@ const router = new Router({
         path: '/perdictTime',
         name: '选择装机时间',
         component: perdictTime
+    }, {
+        path: '/uploadProduct',
+        name: '上传团购产品（企业）',
+        component: uploadProduct
+    }, {
+        path: '/selectBrand',
+        name: '选择品牌',
+        component: selectBrand
+    }, {
+        path: '/productCategory',
+        name: '选择产品分类',
+        component: productCategory
+    }, {
+        path: '/selectModel',
+        name: '选择型号',
+        component: selectModel
     }]
 })
 

@@ -26,7 +26,7 @@
                     <div>山东省济南市</div>
                 </li>
             </ul>
-            <router-link to="/companyProfile" tag="span" v-if="isShowArrowBox != undefined">
+            <router-link to="/companyProfile" tag="span" v-if="isShowArrowBox != undefined" @click.native="setTransition('turn-on')">
                 <a>企业介绍
                     <i></i>
                 </a>
@@ -37,75 +37,76 @@
 </template>
 
 <script>
-    import basicTitle from './basicTitle'
+    import basicTitle from "./basicTitle";
+    import { mapMutations } from "vuex";
     export default {
-        data(){
-            return {
-
-            }
+        data() {
+            return {};
         },
-        components:{
+        components: {
             basicTitle
         },
-        props:['isShowArrowBox','isShowCheck'],
-        mounted(){
-            console.log(this.isShowArrowBox)
+        props: ["isShowArrowBox", "isShowCheck"],
+        mounted() {
+            console.log(this.isShowArrowBox);
+        },
+        methods: {
+            ...mapMutations(["setTransition"])
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
-    .basicInformation{
+    .basicInformation {
         background: #fff;
-        box-shadow: .5px 1px 3px .5px rgba(0,0,0,0.10);
+        box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
-        h2{
-            p{
-                &:last-child{
+        h2 {
+            p {
+                &:last-child {
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #666666;
-                    i{
+                    i {
                         display: flex;
                         height: 8px;
                         width: 8px;
-                        background: #F5A623;
+                        background: #f5a623;
                         border-radius: 100%;
                         margin-top: 2px;
                         margin-right: 6px;
                     }
                 }
             }
-        }   
-        .content_box{
+        }
+        .content_box {
             display: flex;
             padding: 10px 0px;
             position: relative;
             flex-direction: column;
-            li{
+            li {
                 display: flex;
                 justify-content: flex-start;
                 padding: 0 13px 13px;
                 line-height: 18px;
-                >span{
+                > span {
                     width: 70px;
                     font-family: PingFangSC-Regular;
                     font-size: 13px;
                     color: #999999;
                     display: flex;
-                    
                 }
-                >div{
+                > div {
                     font-family: PingFangSC-Medium;
                     font-size: 13px;
                     color: #333333;
                     width: calc(100% - 65px);
                 }
-                &:last-child{
+                &:last-child {
                     padding-bottom: 0;
                 }
             }
-            >span{
+            > span {
                 font-family: PingFangSC-Medium;
                 font-size: 13px;
                 line-height: 18px;
@@ -115,15 +116,16 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                a{
+                a {
                     text-decoration: none;
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-                    color: #019DDD;
-                    i{
+                    color: #019ddd;
+                    i {
                         display: flex;
-                        background: url("/static/images/rightArrow.png") no-repeat center;
+                        background: url("/static/images/rightArrow.png") no-repeat
+                            center;
                         height: 12px;
                         width: 7px;
                         background-size: 100% 100%;
@@ -131,7 +133,6 @@
                         margin-top: 1px;
                     }
                 }
-                
             }
         }
     }

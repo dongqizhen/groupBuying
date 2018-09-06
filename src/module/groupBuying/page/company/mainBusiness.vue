@@ -4,11 +4,7 @@
             <span slot="explain" class="enter">确定</span>
         </Header>
         <div class="content">
-            <div class="search">
-                <cube-input placeholder="请输入主营业务">
-                    <i slot="prepend"></i>
-                </cube-input>
-            </div>
+            <search placeholder="请输入主营业务"></search>
             <h2>可多选</h2>
             <div class="wrapper_box">
                 <cube-scroll>
@@ -34,27 +30,27 @@
 </template>
 
 <script>
-    import Header from '../../components/header/header'
+    import Header from "../../components/header/header";
+    import search from "../../components/search/search";
     export default {
-        data(){
-            return {
-
-            }
+        data() {
+            return {};
         },
-        components:{
-            Header
+        components: {
+            Header,
+            search
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
     @import "../../../../../static/scss/_commonScss";
-    
-    .container{
+
+    .container {
         @include basic_container_style;
-       /deep/  header{
+        /deep/ header {
             .search {
-                .enter{
+                .enter {
                     padding-right: 13px;
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
@@ -62,48 +58,10 @@
                 }
             }
         }
-        .content{
+        .content {
             overflow: hidden;
-            .search{
-                background: #FFFFFF;
-                border-radius: 5px;
-                height: 36px;
-                /deep/ .cube-input{ 
-                    padding-left: 13px;
-                    font-family: PingFangSC-Regular;
-                    font-size: 14px;
-                    display: flex;
-                    justify-content: flex-start;
-                    border-radius: 5px;
-                    input::-webkit-input-placeholder{
-                        color: #999;
-                        font-family: PingFangSC-Regular;
-                        font-size: 14px;
-                    }
-                    input{
-                        padding: 8.5px 8px;
-                       //padding-left: 8px;
-                    }
-                    .cube-input-prepend{
-                        height: 14px;
-                        width:14px; 
-                        //display: flex;
-                        margin-right: 4px;
-                        i{
-                           display: flex;
-                           height: 14px;
-                           width:14px;
-                           background: url("/static/images/write.png") no-repeat center;
-                           background-size:100% 100%;
-                        }
-                    }
-                    border:none;
-                    &:after{
-                        border: none;
-                    }
-                }
-            }
-            >h2{
+
+            > h2 {
                 height: 38px;
                 display: flex;
                 justify-content: flex-start;
@@ -113,14 +71,14 @@
                 font-size: 13px;
                 color: #666666;
             }
-            .wrapper_box{
-                background: #FFFFFF;
-                box-shadow: 0.5px 1px 2px 0.5px rgba(0,0,0,0.10);
+            .wrapper_box {
+                background: #ffffff;
+                box-shadow: 0.5px 1px 2px 0.5px rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
                 padding-left: 13px;
                 height: calc(100% - 74px);
-                ul{
-                    li{
+                ul {
+                    li {
                         height: 46px;
                         display: flex;
                         justify-content: flex-start;
@@ -129,10 +87,10 @@
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #333333;
-                        &.active{
-                            color: #019DDD;
+                        &.active {
+                            color: #019ddd;
                         }
-                        &:last-child{
+                        &:last-child {
                             border-bottom: none;
                         }
                     }

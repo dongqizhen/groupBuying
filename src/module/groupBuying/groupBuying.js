@@ -13,7 +13,10 @@ import 'vue-touch-ripple/dist/vue-touch-ripple.css'
 import "../../../static/css/cube-ui/cube-ui.scss"
 import { SwipeCell } from 'vant';
 import 'vant/lib/vant-css/index.css';
-import { XButton } from 'vux'
+import {
+    XButton,
+    XTextarea
+} from 'vux'
 import FastClick from 'fastclick'
 import Cube, {
     Button,
@@ -21,6 +24,8 @@ import Cube, {
     Dialog,
     ImagePreview,
     Sticky,
+    Radio,
+    Checkbox,
     Scroll,
     TabBar,
     Slide,
@@ -38,6 +43,7 @@ Vue.directive('ripple', Ripple);
 
 Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
+Vue.prototype.$API_URL = process.env.API_HOST.URL
 Vue.config.productionTip = false
 
 /* if ('addEventListener' in document) {
@@ -55,7 +61,7 @@ Vue.use(VueTouch)
         opacity: 0.3,
         speed: 1,
         transition: 'ease'
-    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe);
+    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube);
 createAPI(Vue, ActionSheet, ['click'], true)
 
 Vue.component('x-button', XButton)

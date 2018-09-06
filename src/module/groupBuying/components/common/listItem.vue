@@ -11,8 +11,10 @@
                     </p>
                     <p>
                         地点：
-                        <span>安徽省·合肥市</span>
-                        <i></i>
+                        <span>安徽省·合肥市
+                            <i></i>
+                        </span>
+
                     </p>
                 </div>
                 <div class="right">
@@ -33,86 +35,99 @@
 
 <script>
     export default {
-        data(){
-            return {
-
-            }
+        data() {
+            return {};
         },
-        methods:{
+        methods: {
             clickLink() {
                 this.$store.commit("setTransition", "turn-on");
-            },
+            }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
-    .listItem{
-        padding:30px 12px 18px;
+    .listItem {
+        padding: 30px 12px 18px;
         position: relative;
-        background: rgba(255,255,255,0.03);
-        border: 0.5px solid rgba(254,75,79,0.20);
+        background: rgba(255, 255, 255, 0.03);
+        border: 0.5px solid rgba(254, 75, 79, 0.2);
         //box-shadow: 0 2px 7px 0 rgba(97,176,42,0.10);
-        box-shadow: 0.5px 2px 7px 0.5px rgba(254,74,75,0.09);
+        box-shadow: 0.5px 2px 7px 0.5px rgba(254, 74, 75, 0.09);
         font-family: PingFangSC-Medium;
         color: #333333;
         height: 155px;
         margin-bottom: 10px;
-        .topLeft,.topRight{
+        .topLeft,
+        .topRight {
             position: absolute;
             display: block;
             height: 20px;
             width: 60px;
-            top:0;
+            top: 0;
             background: url("/static/images/progress.png") no-repeat center;
             background-size: 100% 100%;
         }
-        .topLeft{
-            left:0;
+        .topLeft {
+            left: 0;
         }
-        .topRight{
+        .topRight {
             background: url("/static/images/nationwide.png") no-repeat center;
             right: 0;
             background-size: 100% 100%;
         }
-        h2{
-            
+        h2 {
             font-size: 12px;
             margin-bottom: 7px;
-            
         }
-        .title{
+        .title {
             font-size: 15px;
             margin-bottom: 16px;
         }
-        .time_box{
+        .time_box {
             display: flex;
             font-size: 12px;
-            .left{
+            .left {
                 width: 50%;
-                color:#999;
-                p{
-                    &:first-child{
+                color: #999;
+                p {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    &:first-child {
                         margin-bottom: 12px;
                     }
-                    span{
-                        color:#151515;
+                    span {
+                        color: #151515;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        i {
+                            display: flex;
+                            height: 13px;
+                            width: 10px;
+                            background: url("/static/images/site.png") no-repeat
+                                center;
+                            background-size: 100% 100%;
+                            margin-left: 3px;
+                            margin-top: 2px;
+                        }
                     }
                 }
             }
-            .right{
+            .right {
                 width: 50%;
                 color: #666666;
                 padding-left: 15px;
-                span{
+                span {
                     display: block;
-                    &:first-child{
+                    &:first-child {
                         margin-bottom: 12px;
                     }
-                    a{
+                    a {
                         font-family: BebasNeue;
                         font-size: 24px;
-                        color: #FEB930;
+                        color: #feb930;
                     }
                 }
             }
