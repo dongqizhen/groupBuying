@@ -1,115 +1,203 @@
 <template>
-  <cube-page type="scroll-tab-view" title="ScrollTab">
-    <div slot="content">
-      <div class="left-panel">
-        <cube-scroll>
-          <cube-tab-bar v-model="selectedLabel" :data="tabs" @change="changeHandler"></cube-tab-bar>
-        </cube-scroll>
-      </div>
-      <div class="right-panel">
-        <cube-scroll ref="scroll">
-          <ul>
-            <li v-for="(hero, index) in scrollData" :key="hero.id">
-              <img :src="hero.avatar" alt="">
-              <span>{{hero.name}}</span>
-            </li>
-          </ul>
-        </cube-scroll>
-      </div>
+  <div class="container">
+    <Header :title="this.$route.name"></Header>
+    <div class="content">
+       <cube-page type="scroll-tab-view" title="ScrollTab">
+          <div slot="content">
+            <div class="left-panel">
+              <cube-scroll>
+                <cube-tab-bar v-model="selectedLabel" :data="tabs" @change="changeHandler"></cube-tab-bar>
+              </cube-scroll>
+            </div>
+            <div class="right-panel">
+              <cube-scroll ref="scroll">
+                <ul>
+                  <li v-for="hero in scrollData" :key="hero.id">
+                    <span>{{hero.brand}}</span>
+                    <span>{{hero.num}}</span>
+                    <span v-if="hero.rate?true:false">{{hero.rate}}</span>
+                  </li>
+                </ul>
+              </cube-scroll>
+            </div>
+          </div>
+       </cube-page>
     </div>
-  </cube-page>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
-  const DATA_MAP = {
-    '全部': [1,2,3],
-    '近战': [4,5,6],
-    '远程': [4,5,6],
-    '辅助': [4,5,6],
-    '法师': [4,5,6],
-    '打野': [4,5,6],
-    '坦克': [4,5,6],
-    '隐身': [4,5,6],
-    '后期': [4,5,6],
-    '闪烁': [4,5,6],
-    '爆发': [4,5,6],
-    '召唤': [4,5,6],
-    '眩晕': [4,5,6],
-    '治疗': [4,5,6]
+import Header from "../components/header/Header";
+import rate from "cube-ui";
+const DATA_MAP = {
+  全部: [
+    { brand: "品牌", num: "团购数量(台)", rate: "市场保有率" },
+    { brand: "新华", num: "2", rate: "25%" },
+    { brand: "威高", num: "6", rate: "15%" }
+  ],
+  核磁共振MRI类: [
+    { brand: "品牌", num: "团购数量(台)" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  血管造影机DSA类: [
+    { brand: "品牌", num: "团购数量(台)" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  辅助: [
+    { brand: "品牌", num: "团购数量(台)" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  法师: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  打野: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  坦克: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  隐身: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  后期: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  伏虎: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  小气: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ]
+};
+const genTabLabels = Object.keys(DATA_MAP).map(label => ({
+  label
+}));
+export default {
+  data() {
+    return {
+      selectedLabel: "全部",
+      scrollData: [],
+      tabs: genTabLabels
+    };
+  },
+  created() {
+    this.scrollData = DATA_MAP[this.selectedLabel];
+  },
+  methods: {
+    changeHandler(label) {
+      this.scrollData = DATA_MAP[label];
+      this.$nextTick(() => {
+        this.$refs.scroll.scrollTo(0, 0);
+        this.$refs.scroll.refresh();
+      });
+    }
+  },
+  components: {
+    Header
+  },
+  watch: {
+    selectedLabel(newV) {
+      console.log(newV);
+    }
   }
-  const genTabLabels = Object.keys(DATA_MAP).map(label => ({
-    label
-  }))
-  export default {
-    data () {
-      return {
-        selectedLabel: '全部',
-        scrollData: [],
-        tabs: genTabLabels
-      }
-    },
-    created () {
-      this.scrollData = DATA_MAP[this.selectedLabel]
-    },
-    methods: {
-      changeHandler (label) {
-        this.scrollData = DATA_MAP[label]
-        this.$nextTick(() => {
-          // reset better-scroll'postion
-          this.$refs.scroll.scrollTo(0, 0)
-          // you need to caculate scroll-content height when your dom has changed in nextTick
-          this.$refs.scroll.refresh()
-        })
-      }
-    },
-    watch: {
-      selectedLabel (newV) {
-        console.log(newV)
+};
+</script>
+<style lang="stylus" rel="stylesheet/stylus">
+.container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+
+  .content {
+    height: calc(100% - 44px);
+    padding-top: 10px;
+    background: #f6f6f6;
+    overflow: auto;
+  }
+}
+
+.cube-scroll-list-wrapper {
+  .cube-tab-bar {
+    flex-wrap: wrap;
+    background-color: #fff;
+
+    .cube-tab {
+      width: 100px;
+      padding: 20px 13px;
+      font-size: 14px;
+      color: #333;
+      line-height: 20px;
+      transition: all 0.3s ease-in;
+      margin-right: 0;
+      margin-bottom: 1px;
+      background-color: #f6f6f6;
+      flex: none;
+
+      &.cube-tab_active {
+        color: #019DDD;
+        background-color: #fff;
       }
     }
   }
-</script>
-<style lang="stylus" rel="stylesheet/stylus">
-  .cube-scroll-list-wrapper
-    .cube-tab-bar
-      flex-wrap: wrap
-      .cube-tab
-        width: 100%
-        flex-basis: unset
-        height: 40px
-        line-height: 40px
-        font-size: 14px
-        color: #db8931
-        transition: all .3s ease-in
-        &.cube-tab_active
-          color: #fff
-          font-size: 16px
-          background-color: #a74b00
-  .left-panel
-    position: absolute
-    top: 44px
-    left: 0
-    bottom: 0
-    width: 80px
-    background-color: #2d2d2d
-  .right-panel
-    position: absolute
-    top: 44px
-    left: 80px
-    right: 0
-    bottom: 0
-    background-color: #171819
-    li
-      height: 80px
-      display: flex
-      align-items: center
-      background-color: #171819
-      img
-        width: 102px
-        margin: 0 10px 0 20px
-        border: 1px solid #ff9f38
-        border-radius: 3px
-        box-shadow: 0 1px 5px 0 #000
-      span
-        color: #db8931
+}
+
+.left-panel {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  bottom: 0;
+  width: 100px;
+  background-color: #f6f6f6;
+}
+
+.right-panel {
+  position: absolute;
+  top: 54px;
+  left: 100px;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+
+  li {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    justify-content: center;
+    font-size: 14px;
+    color: #666;
+
+    &:first-child {
+      color: #999;
+    }
+
+    span {
+      flex: 1;
+      text-align: center;
+    }
+  }
+}
 </style>

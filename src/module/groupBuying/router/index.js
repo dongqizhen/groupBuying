@@ -12,6 +12,9 @@ import mainBusiness from '../page/company/mainBusiness'
 import registrationSuccess from '../page/company/registrationSuccess'
 import Inventory from '../page/Inventory'
 import BuyClassification from '../page/BuyClassification'
+import GroupRequireDetails from '../page/hospital/GroupRequireDetails'
+import groupEquipment from '../page/hospital/groupEquipment'
+import perdictTime from '../page/hospital/perdictTime'
 
 Vue.use(Router)
 
@@ -63,8 +66,20 @@ const router = new Router({
         component: Inventory
     }, {
         path: '/classify',
-        name: '产品清单',
+        name: '团购分类',
         component: BuyClassification
+    }, {
+        path: '/GroupRequireDetails',
+        name: '团购需求详情',
+        component: GroupRequireDetails
+    }, {
+        path: '/groupEquipment',
+        name: '设备团购',
+        component: groupEquipment
+    }, {
+        path: '/perdictTime',
+        name: '选择装机时间',
+        component: perdictTime
     }]
 })
 
