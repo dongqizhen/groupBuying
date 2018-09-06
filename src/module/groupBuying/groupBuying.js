@@ -43,6 +43,7 @@ Vue.directive('ripple', Ripple);
 
 Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
+Vue.prototype.$API_URL = process.env.API_HOST.URL
 Vue.config.productionTip = false
 
 /* if ('addEventListener' in document) {

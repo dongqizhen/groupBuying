@@ -13,6 +13,9 @@ import registrationSuccess from '../page/company/registrationSuccess'
 import Inventory from '../page/Inventory'
 import BuyClassification from '../page/BuyClassification'
 import uploadProduct from '../page/company/uploadProduct'
+import selectBrand from '../page/company/selectBrand'
+import productCategory from "../page/company/productCategory"
+import selectModel from "../page/company/selectModel"
 
 Vue.use(Router)
 
@@ -70,6 +73,18 @@ const router = new Router({
         path: '/uploadProduct',
         name: '上传团购产品（企业）',
         component: uploadProduct
+    }, {
+        path: '/selectBrand',
+        name: '选择品牌',
+        component: selectBrand
+    }, {
+        path: '/productCategory',
+        name: '选择产品分类',
+        component: productCategory
+    }, {
+        path: '/selectModel',
+        name: '选择型号',
+        component: selectModel
     }]
 })
 

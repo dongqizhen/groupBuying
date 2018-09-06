@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Header :title="this.$route.name">
-            <router-link to="/enterpriseSeal" slot="explain">编辑</router-link>
+            <router-link to="/enterpriseSeal" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
         </Header>
         <div class="content">
             <basic-information></basic-information>
@@ -41,6 +41,7 @@
     import modelScrollNavBar from "../../components/common/modelScrollNavBar";
     import productList from "../../components/common/productList";
     import personalInformation from "../../components/common/personalInformation";
+    import { mapMutations } from "vuex";
     export default {
         data() {
             return {
@@ -71,7 +72,8 @@
             modelScrollNavBar,
             productList,
             personalInformation
-        }
+        },
+        methods: { ...mapMutations(["setTransition"]) }
     };
 </script>
 

@@ -28,7 +28,7 @@
                 </basic-title>
                 <ul>
                     <li v-ripple>
-                        <router-link to="/mainBusiness">
+                        <router-link to="/productCategory">
                             <span>产品分类：</span>
                             <cube-input placeholder="请选择产品分类" :disabled="true">
                                 <i slot="append"></i>
@@ -37,7 +37,7 @@
 
                     </li>
                     <li v-ripple>
-                        <router-link to="/mainBusiness">
+                        <router-link to="/selectBrand">
                             <span>品牌：</span>
                             <cube-input placeholder="请选择品牌" :disabled="true">
                                 <i slot="append"></i>
@@ -46,7 +46,7 @@
 
                     </li>
                     <li v-ripple>
-                        <router-link to='/typeOfEnterprise'>
+                        <router-link to='/selectModel'>
                             <span>型号：</span>
                             <cube-input placeholder="请选择型号" :disabled="true">
 
