@@ -16,6 +16,7 @@
         },
         methods: {
             toUploadProduct() {
+                this.$store.commit("setTransition", "turn-on");
                 this.$router.push("uploadProduct");
             }
         }

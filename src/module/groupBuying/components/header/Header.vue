@@ -16,36 +16,32 @@
 
 <script>
     export default {
-        data(){
-            return {
-                
-            }
+        data() {
+            return {};
         },
-        props:["title","goback","isSearchHide"],     
-        methods:{
-            goPrev(){
-                this.$router.back(-1);
+        props: ["title", "goback", "isSearchHide"],
+        methods: {
+            goPrev() {
+                this.$router.go(-1);
                 this.$store.commit("setTransition", "turn-off");
             }
         },
-        computed:{
-
-        },
+        computed: {},
         mounted() {
             //监听浏览器返回事件
             window.addEventListener(
                 "popstate",
-            e => {
-                this.$store.commit("setTransition", "turn-off");
-            },
+                e => {
+                    this.$store.commit("setTransition", "turn-off");
+                },
                 false
             );
-        },
-    }
+        }
+    };
 </script>
 
 <style lang="scss" scoped>
-    #header{
+    #header {
         height: 44px;
         width: 100%;
         display: flex;
@@ -53,75 +49,75 @@
         justify-content: space-between;
         position: relative;
         background: #fff;
-        >span{
+        > span {
             //padding: 10px;
-            position:absolute;
+            position: absolute;
             z-index: 100;
             height: 100%;
             display: block;
-            &.back{
-                img{
-                    height:44px;
+            &.back {
+                img {
+                    height: 44px;
                 }
-                &:active{
+                &:active {
                     background: rgba($color: #999, $alpha: 0.3);
                 }
             }
         }
-        h2{   
-            width: 100%;  
+        h2 {
+            width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
-           /*  .cube-tab-bar{
-                .cube-tab{
-                    font-size: 15px;
-                    color: #666666;
-                    margin-right: 38px;
-                    
-                    &.cube-tab_active{
-                    color:#019DDD;
+            /*  .cube-tab-bar{
+                    .cube-tab{
+                        font-size: 15px;
+                        color: #666666;
+                        margin-right: 38px;
+                        
+                        &.cube-tab_active{
+                        color:#019DDD;
+                        }
+                        &:last-child{
+                        margin-right:0;
+                        }
                     }
-                    &:last-child{
-                    margin-right:0;
+                    .cube-tab-bar-slider{
+                        width: 20px;
+                        background-color: #019DDD;
                     }
-                }
-                .cube-tab-bar-slider{
-                    width: 20px;
-                    background-color: #019DDD;
-                }
-            } */
+                } */
         }
-        .search{
+        .search {
             position: absolute;
-            right:0;
+            right: 0;
             height: 100%;
             padding-left: 13px;
             display: flex;
             justify-content: center;
             align-items: center;
-            span{
+            span {
                 display: flex;
-                height:100%;
+                height: 100%;
                 justify-content: center;
                 align-items: center;
-                img{
+                img {
                     height: 100%;
-                }  
+                }
             }
-            &:active{
+            &:active {
                 background: rgba($color: #999, $alpha: 0.3);
             }
-            >a{
+            > a {
                 display: flex;
                 height: 100%;
                 align-items: center;
                 padding-right: 13px;
                 font-family: PingFangSC-Regular;
                 font-size: 14px;
-                text-decoration: none
+                text-decoration: none;
             }
         }
     }

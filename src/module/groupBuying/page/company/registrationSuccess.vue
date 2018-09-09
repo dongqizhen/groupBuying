@@ -21,6 +21,18 @@
         components: {
             Header,
             success
+        },
+        created: function() {
+            console.log(1);
+        },
+        mounted: function() {
+            console.log(2);
+        },
+        activated: function() {
+            console.log(3);
+        },
+        deactivated: function() {
+            console.log(4);
         }
     };
 </script>

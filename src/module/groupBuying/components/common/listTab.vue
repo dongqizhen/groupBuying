@@ -18,40 +18,44 @@
 </template>
 
 <script>
-    import ListItem from './listItem'
+    import ListItem from "./listItem";
     export default {
-        data(){
+        data() {
             return {
-                loop:false,
-                ScrollListSelectedLabel:"2018(3场)",
-                listTabs:[{
-                    label:"2018(3场)"
-                },{
-                    label:"2019(8场)"
-                }]
-            }
+                loop: false,
+                ScrollListSelectedLabel: "2018(3场)",
+                listTabs: [
+                    {
+                        label: "2018(3场)"
+                    },
+                    {
+                        label: "2019(8场)"
+                    }
+                ]
+            };
         },
-        components:{
+        components: {
             ListItem
-        }
-    }
+        },
+        props: ["meetingListData"]
+    };
 </script>
 
 <style lang="scss" scoped>
-     .scrollWrapper{
-            .listTab{
-              height: 40px;
-              border-bottom:1px solid #E9E9E9;
-              box-sizing: border-box;
-              .cube-tab-bar{ 
+    .scrollWrapper {
+        .listTab {
+            height: 40px;
+            border-bottom: 1px solid #e9e9e9;
+            box-sizing: border-box;
+            .cube-tab-bar {
                 height: 100%;
-                .cube-tab{
-                   margin:0;
+                .cube-tab {
+                    margin: 0;
                 }
-              }
             }
-            .tab-slide-container{
-              padding: 10px 10px 0;
-            }
-          }
+        }
+        .tab-slide-container {
+            padding: 10px 10px 0;
+        }
+    }
 </style>

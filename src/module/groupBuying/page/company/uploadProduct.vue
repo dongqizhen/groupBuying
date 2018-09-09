@@ -27,7 +27,7 @@
                     </a>
                 </basic-title>
                 <ul>
-                    <li v-ripple>
+                    <li v-ripple @click="setTransition('turn-on')">
                         <router-link to="/productCategory">
                             <span>产品分类：</span>
                             <cube-input placeholder="请选择产品分类" :disabled="true">
@@ -36,7 +36,7 @@
                         </router-link>
 
                     </li>
-                    <li v-ripple>
+                    <li v-ripple @click="setTransition('turn-on')">
                         <router-link to="/selectBrand">
                             <span>品牌：</span>
                             <cube-input placeholder="请选择品牌" :disabled="true">
@@ -45,7 +45,7 @@
                         </router-link>
 
                     </li>
-                    <li v-ripple>
+                    <li v-ripple @click="setTransition('turn-on')">
                         <router-link to='/selectModel'>
                             <span>型号：</span>
                             <cube-input placeholder="请选择型号" :disabled="true">
@@ -69,7 +69,7 @@
                         </div>
 
                     </li>
-                    <li v-ripple>
+                    <li v-ripple @click="setTransition('turn-on')">
                         <router-link to="/mainBusiness">
                             <span>重要参数：</span>
                             <cube-input placeholder="请选择重要参数" :disabled="true">
@@ -116,6 +116,7 @@
     import selectProjectNav from "../../components/common/selectProjectNav";
     import { Group, XTextarea } from "vux";
     import compress from "../../../../../static/js/compressImage";
+    import { mapMutations } from "vuex";
     export default {
         data() {
             return {
@@ -156,7 +157,20 @@
             },
             submitBtnClick() {
                 this.submitBtnStatus = false;
-            }
+            },
+            ...mapMutations(["setTransition"])
+        },
+        created: function() {
+            // console.log(1);
+        },
+        mounted: function() {
+            // console.log(2);
+        },
+        activated: function() {
+            // console.log(3);
+        },
+        deactivated: function() {
+            // console.log(4);
         }
     };
 </script>

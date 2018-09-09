@@ -20,6 +20,7 @@ import selectModel from "../page/company/selectModel"
 Vue.use(Router)
 
 const router = new Router({
+    mode: 'hash',
     routes: [{
         path: '/',
         search: true,
@@ -60,7 +61,10 @@ const router = new Router({
     }, {
         path: '/registrationSuccess',
         name: '报名成功（企业）',
-        component: registrationSuccess
+        component: registrationSuccess,
+        meta: {
+            keepAlive: true
+        }
     }, {
         path: '/inventory',
         name: '产品清单',
@@ -68,11 +72,15 @@ const router = new Router({
     }, {
         path: '/classify',
         name: '产品清单',
-        component: BuyClassification
+        component: BuyClassification,
+
     }, {
         path: '/uploadProduct',
         name: '上传团购产品（企业）',
-        component: uploadProduct
+        component: uploadProduct,
+        meta: {
+            keepAlive: true
+        }
     }, {
         path: '/selectBrand',
         name: '选择品牌',
@@ -84,8 +92,26 @@ const router = new Router({
     }, {
         path: '/selectModel',
         name: '选择型号',
-        component: selectModel
-    }]
+        component: selectModel,
+        meta: {
+            // keepAlive: true
+        }
+    }],
+    /* scrollBehavior(to, from, savedPosition) {
+        console.log(to, from, savedPosition)
+        if (savedPosition) {
+            console.log(1)
+            return { x: 0, y: 100 }
+        } else {
+            if (from.meta.keepAlive) {
+                from.meta.savedPosition = document.body.scrollTop;
+            }
+            return {
+                x: 0,
+                y: to.meta.savedPosition || 0
+            }
+        }
+    } */
 })
 
 /* router.beforeEach((to, from, next) => {

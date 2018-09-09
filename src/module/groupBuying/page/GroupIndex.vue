@@ -3,7 +3,7 @@
     <div class="container">
         <Header :isSearchHide="true">
             <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle">
-                <cube-tab v-for="(item, index) in tabs" :label="item.label" :key="item.label">
+                <cube-tab v-for="(item, index) in tabs" :label="item.label" :key="index">
                 </cube-tab>
             </cube-tab-bar>
         </Header>
@@ -21,7 +21,7 @@
                     团购大会列表
                     <span></span>
                 </h2>
-                <list-tab></list-tab>
+                <list-tab :meetingListData="meetingList"></list-tab>
             </div>
         </div>
     </div>
@@ -31,6 +31,7 @@
     import Header from "../components/header/header";
     import ListTab from "../components/common/listTab";
     import { mapMutations } from "vuex";
+    import { _getData } from "../service/getData";
     const routerLinkArr = [
         {
             path: "/",
@@ -82,7 +83,8 @@
                         image:
                             "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png"
                     }
-                ]
+                ],
+                meetingList: {}
             };
         },
         components: {
@@ -95,20 +97,33 @@
             },
             ...mapMutations(["setTransition"])
         },
-        mounted() {
-            this.$http
-                .post("/server/banner!request.action", {
+        activated() {
+            _getData(
+                //获取轮播图
+                "/server/banner!request.action",
+                {
                     method: "getAppBannerList",
                     userid: "7544",
                     params: { type: 15 },
                     token: "09a52ead-ef25-411d-8ac2-e3384fceed68"
-                })
-                .then(data => {
+                },
+                function(data) {
                     console.log(data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+                }
+            );
+            _getData(
+                "/server_pro/groupPurchase!request.action",
+                {
+                    method: "getPageList",
+                    userid: "7544",
+                    token: "09a52ead-ef25-411d-8ac2-e3384fceed68",
+                    params: {}
+                },
+                data => {
+                    console.log(data);
+                    this.meetingList = data.data.result;
+                }
+            );
         }
     };
 </script>
