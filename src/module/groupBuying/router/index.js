@@ -4,6 +4,7 @@ import GroupIndex from '@/module/groupBuying/page/GroupIndex.vue'
 import GroupDetails from '../page/GroupDetails'
 import ProductDetails from '../page/ProductDetails'
 import myComponyGroupBuy from '../page/company/myCroupBuy'
+import myHospitalGroupBuy from '../page/hospital/myCroupBuy'
 import uploadedProducts from '../page/company/uploadedProducts'
 import companyProfile from '../page/company/companyProfile'
 import enterpriseSeal from '../page/company/enterpriseSeal'
@@ -23,6 +24,7 @@ import selectModel from "../page/company/selectModel"
 Vue.use(Router)
 
 const router = new Router({
+    mode: 'hash',
     routes: [{
         path: '/',
         search: true,
@@ -63,13 +65,19 @@ const router = new Router({
     }, {
         path: '/registrationSuccess',
         name: '报名成功（企业）',
-        component: registrationSuccess
+        component: registrationSuccess,
+        meta: {
+            keepAlive: true
+        }
     }, {
         path: '/inventory',
         name: '产品清单',
         component: Inventory
     }, {
         path: '/classify',
+        name: '产品清单',
+        component: BuyClassification,
+
         name: '团购分类',
         component: BuyClassification
     }, {
@@ -87,7 +95,10 @@ const router = new Router({
     }, {
         path: '/uploadProduct',
         name: '上传团购产品（企业）',
-        component: uploadProduct
+        component: uploadProduct,
+        meta: {
+            keepAlive: true
+        }
     }, {
         path: '/selectBrand',
         name: '选择品牌',
@@ -99,8 +110,29 @@ const router = new Router({
     }, {
         path: '/selectModel',
         name: '选择型号',
-        component: selectModel
-    }]
+        component: selectModel,
+        meta: {
+            // keepAlive: true
+        }
+    }, {
+        path: '/myHospitalGroupBuy',
+        component: myHospitalGroupBuy
+    }],
+    /* scrollBehavior(to, from, savedPosition) {
+        console.log(to, from, savedPosition)
+        if (savedPosition) {
+            console.log(1)
+            return { x: 0, y: 100 }
+        } else {
+            if (from.meta.keepAlive) {
+                from.meta.savedPosition = document.body.scrollTop;
+            }
+            return {
+                x: 0,
+                y: to.meta.savedPosition || 0
+            }
+        }
+    } */
 })
 
 /* router.beforeEach((to, from, next) => {

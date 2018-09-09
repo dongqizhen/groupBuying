@@ -80,6 +80,15 @@
                 this.$router.push("registrationSuccess");
             },
             handleClickEvent() {}
+        },
+        created() {
+            console.log("created");
+        },
+        activated() {
+            console.log("active");
+        },
+        deactivated() {
+            console.log("disactived");
         }
     };
 </script>

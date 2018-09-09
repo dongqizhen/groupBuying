@@ -11,8 +11,8 @@
         </div>
         <div class="number">
           <div class="common requireNumber">
-              <span>需求数量</span>
-              <span class="value">10件</span>
+            <span>需求数量</span>
+            <span class="value">10件</span>
           </div>
           <div class="infoCount">
             本次团购，CT类设备已累计申报98台，历史累计申报共275台。
@@ -23,37 +23,37 @@
           <span class="value">2000万</span>
         </div>
         <div class="common hopeBrand">
-            <ul>
-              <li>
-                <span>
-                  <img src="../../../../../static/images/selected-first.png">
-                  <span>首选</span>
-                </span>
-                <span class="value">GE</span>
-              </li>
-              <li>
-                 <span>
-                  <img src="../../../../../static/images/selected-second.png">
-                  <span>次选</span>
-                </span>
-                <span class="value">飞利浦</span>
-              </li>
-              <li>
-                 <span>
-                  <img src="../../../../../static/images/selected-three.png">
-                  <span>再选</span>
-                </span>
-                <span class="value">西门子</span>
-              </li>
-            </ul>
+          <ul>
+            <li>
+              <span>
+                <img src="../../../../../static/images/selected-first.png">
+                <span>首选</span>
+              </span>
+              <span class="value">GE</span>
+            </li>
+            <li>
+              <span>
+                <img src="../../../../../static/images/selected-second.png">
+                <span>次选</span>
+              </span>
+              <span class="value">飞利浦</span>
+            </li>
+            <li>
+              <span>
+                <img src="../../../../../static/images/selected-three.png">
+                <span>再选</span>
+              </span>
+              <span class="value">西门子</span>
+            </li>
+          </ul>
         </div>
         <div class="common param">
-            <span>重要参数</span>
-            <span class="paramVal">
-              <ul>
-                <li v-for="itemParam in params" :key="itemParam.paramName">{{itemParam.paramName}}</li>
-              </ul>
-            </span>
+          <span>重要参数</span>
+          <span class="paramVal">
+            <ul>
+              <li v-for="itemParam in params" :key="itemParam.paramName">{{itemParam.paramName}}</li>
+            </ul>
+          </span>
         </div>
         <div class="common perdictTime">
           <span>预计装机时间</span>
@@ -68,14 +68,14 @@
         <budget-count></budget-count>
         <div class="number">
           <div class="common requireNumber">
-              <span>设备种类</span>
-              <span class="value">CT类</span>
+            <span>设备种类</span>
+            <span class="value">CT类</span>
           </div>
           <div class="infoCount">
             本次团购，CT类设备已累计申报98台，历史累计申报共275台。
           </div>
         </div>
-         <div class="common productSort">
+        <div class="common productSort">
           <span>设备品牌</span>
           <span class="value">GE</span>
         </div>
@@ -85,7 +85,7 @@
         </div>
       </div>
       <div class="box equipmentBasicInfo">
-         <require-detail-item v-for="item in itemLists" :key="item.id" :itemKeys="item.itemKeys" :itemValue="item.itemValue"></require-detail-item>
+        <require-detail-item v-for="item in itemLists" :key="item.id" :itemKeys="item.itemKeys" :itemValue="item.itemValue"></require-detail-item>
       </div>
       <div class="box maintenanceSort">
         <require-detail-item v-for="item in maintenanceSorts" :key="item.id" :itemKeys="item.itemKeys" :itemValue="item.itemValue"></require-detail-item>
@@ -96,7 +96,7 @@
   </div>
 </template>
 <script>
-import Header from "../../components/header/Header";
+import Header from "../../components/header/header";
 import submitComment from "../../components/common/submitComment";
 import comment from "../../components/common/comment";
 import manHospitalInfo from "../../components/common/manHospitalInfo";

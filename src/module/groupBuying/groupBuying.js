@@ -62,7 +62,9 @@ Vue.use(VueTouch)
         speed: 1,
         transition: 'ease'
     }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube);
+
 createAPI(Vue, ActionSheet, ['click'], true)
+createAPI(Vue, Toast, ['click'], true)
 
 Vue.component('x-button', XButton)
     /* eslint-disable no-new */

@@ -1,6 +1,6 @@
 <template>
     <div class="search">
-        <cube-input :placeholder="placeholder">
+        <cube-input :placeholder="placeholder" :disabled="disabled" v-model="value" @input="$emit('valueChange',value)" :autocomplete="true">
             <i slot="prepend"></i>
         </cube-input>
     </div>
@@ -9,9 +9,11 @@
 <script>
     export default {
         data() {
-            return {};
+            return {
+                value: ""
+            };
         },
-        props: ["placeholder"]
+        props: ["placeholder", "disabled"]
     };
 </script>
 
