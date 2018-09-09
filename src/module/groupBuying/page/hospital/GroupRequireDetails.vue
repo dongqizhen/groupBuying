@@ -138,6 +138,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../../../static/scss/_commonScss";
+
 .container {
   @include basic_container_style;
   .content {
