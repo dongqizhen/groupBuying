@@ -4,6 +4,7 @@ import GroupIndex from '@/module/groupBuying/page/GroupIndex.vue'
 import GroupDetails from '../page/GroupDetails'
 import ProductDetails from '../page/ProductDetails'
 import myComponyGroupBuy from '../page/company/myCroupBuy'
+import myHospitalGroupBuy from '../page/hospital/myCroupBuy'
 import uploadedProducts from '../page/company/uploadedProducts'
 import companyProfile from '../page/company/companyProfile'
 import enterpriseSeal from '../page/company/enterpriseSeal'
@@ -12,6 +13,9 @@ import mainBusiness from '../page/company/mainBusiness'
 import registrationSuccess from '../page/company/registrationSuccess'
 import Inventory from '../page/Inventory'
 import BuyClassification from '../page/BuyClassification'
+import GroupRequireDetails from '../page/hospital/GroupRequireDetails'
+import groupEquipment from '../page/hospital/groupEquipment'
+import perdictTime from '../page/hospital/perdictTime'
 import uploadProduct from '../page/company/uploadProduct'
 import selectBrand from '../page/company/selectBrand'
 import productCategory from "../page/company/productCategory"
@@ -74,6 +78,20 @@ const router = new Router({
         name: '产品清单',
         component: BuyClassification,
 
+        name: '团购分类',
+        component: BuyClassification
+    }, {
+        path: '/GroupRequireDetails',
+        name: '团购需求详情',
+        component: GroupRequireDetails
+    }, {
+        path: '/groupEquipment',
+        name: '设备团购',
+        component: groupEquipment
+    }, {
+        path: '/perdictTime',
+        name: '选择装机时间',
+        component: perdictTime
     }, {
         path: '/uploadProduct',
         name: '上传团购产品（企业）',
@@ -96,6 +114,9 @@ const router = new Router({
         meta: {
             // keepAlive: true
         }
+    }, {
+        path: '/myHospitalGroupBuy',
+        component: myHospitalGroupBuy
     }],
     /* scrollBehavior(to, from, savedPosition) {
         console.log(to, from, savedPosition)

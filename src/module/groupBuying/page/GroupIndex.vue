@@ -34,7 +34,7 @@
     import { _getData } from "../service/getData";
     const routerLinkArr = [
         {
-            path: "/",
+            path: "/myHospitalGroupBuy",
             name: "医院团购报名",
             imgurl: "/static/images/hospitalApply.png"
         },
