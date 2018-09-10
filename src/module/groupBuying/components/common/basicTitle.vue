@@ -12,58 +12,58 @@
 
 <script>
     export default {
-        data(){
-            return{
-
-            }
+        data() {
+            return {};
         },
-        props:['title','imgurl']
-    }
+        props: ["title", "imgurl"]
+    };
 </script>
 
 <style lang="scss" scoped>
-    .basicTitle{
-        h2{
+    .basicTitle {
+        h2 {
             height: 47px;
-            padding:0 13px;
+            padding: 0 13px;
             display: flex;
             align-items: center;
-            justify-content: space-between; 
-            border-bottom: 0.5px solid #F6F6F6;
-            >p{
+            justify-content: space-between;
+            border-bottom: 0.5px solid #f6f6f6;
+            > p {
                 font-family: PingFangSC-Medium;
                 font-size: 15px;
                 color: #333333;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                >i{
+                > i {
                     display: flex;
                     height: 15px;
                     width: 15px;
                     margin-right: 7px;
                     /* background: url("/static/images/basicInformation.png") no-repeat center;
-                    background-size: 100% 100%; */
-                    img{
+                        background-size: 100% 100%; */
+                    align-items: center;
+                    justify-content: center;
+                    img {
                         height: 100%;
                         width: 100%;
                     }
                 }
                 /* &:last-child{
-                    font-family: PingFangSC-Regular;
-                    font-size: 14px;
-                    color: #666666;
-                    i{
-                        display: flex;
-                        height: 8px;
-                        width: 8px;
-                        background: #F5A623;
-                        border-radius: 100%;
-                        margin-top: 2px;
-                        margin-right: 6px;
-                    }
-                } */
+                        font-family: PingFangSC-Regular;
+                        font-size: 14px;
+                        color: #666666;
+                        i{
+                            display: flex;
+                            height: 8px;
+                            width: 8px;
+                            background: #F5A623;
+                            border-radius: 100%;
+                            margin-top: 2px;
+                            margin-right: 6px;
+                        }
+                    } */
             }
-        } 
+        }
     }
 </style>
