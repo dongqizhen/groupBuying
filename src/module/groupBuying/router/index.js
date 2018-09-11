@@ -80,9 +80,6 @@ const router = new Router({
         component: Inventory
     }, {
         path: '/classify',
-        name: '产品清单',
-        component: BuyClassification,
-
         name: '团购分类',
         component: BuyClassification
     }, {

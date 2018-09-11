@@ -11,14 +11,17 @@ import VueTouch from 'vue-touch-easyhi'
 import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css'
 import "../../../static/css/cube-ui/cube-ui.scss"
-import { SwipeCell } from 'vant';
+import {
+    SwipeCell
+} from 'vant';
 import 'vant/lib/vant-css/index.css';
+import VueTextareaAutosize from 'vue-textarea-autosize';
 import {
     XButton,
     XTextarea,
     XNumber
-} from 'vux'
-import FastClick from 'fastclick'
+} from 'vux';
+import FastClick from 'fastclick';
 import Cube, {
     Button,
     Toast,
@@ -62,7 +65,7 @@ Vue.use(VueTouch)
         opacity: 0.3,
         speed: 1,
         transition: 'ease'
-    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube);
+    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize);
 
 createAPI(Vue, ActionSheet, ['click'], true)
 createAPI(Vue, Toast, ['click'], true)
