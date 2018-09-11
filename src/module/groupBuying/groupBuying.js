@@ -15,7 +15,8 @@ import { SwipeCell } from 'vant';
 import 'vant/lib/vant-css/index.css';
 import {
     XButton,
-    XTextarea
+    XTextarea,
+    XNumber
 } from 'vux'
 import FastClick from 'fastclick'
 import Cube, {
@@ -67,6 +68,7 @@ createAPI(Vue, ActionSheet, ['click'], true)
 createAPI(Vue, Toast, ['click'], true)
 
 Vue.component('x-button', XButton)
+Vue.component('x-number', XNumber)
     /* eslint-disable no-new */
 new Vue({
     el: '#app',

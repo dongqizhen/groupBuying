@@ -1,16 +1,17 @@
 <template>
     <div class="container myGroupBuyHospital">
         <Header title="我的团购 (医院)">
-            <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')">需求汇总表</router-link>
+            <router-link to="/demandTable" slot="explain" @click.native="setTransition('turn-on')">需求汇总表</router-link>
         </Header>
         <div class="content">
-            <basic-information isShowArrowBox isShowCheck title="医院基本信息">
+            <basic-information isShowArrowBox isShowCheck title="医院基本信息" buttonName="医院介绍" path='/hospitalProfile'>
 
             </basic-information>
             <div class="i_join_in">
                 <basic-title title="我参加的团购" imgurl='/static/images/groupBuy.png'></basic-title>
                 <list-tab></list-tab>
             </div>
+            <x-button type="primary" @click.native="submitBtnClick" class="">提交我的团购需求</x-button>
         </div>
     </div>
 </template>
@@ -30,6 +31,12 @@
             basicInformation,
             listTab,
             basicTitle
+        },
+        methods: {
+            ...mapMutations(["setTransition"]),
+            submitBtnClick() {
+                this.$router.push("/submitGroupDemand");
+            }
         }
     };
 </script>
@@ -39,14 +46,26 @@
     .container {
         @include basic_container_style;
         .content {
-            @include box_shadow_style;
             .i_join_in {
-                background: #fff;
+                @include box_shadow_style;
                 margin-top: 10px;
-                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
                 /deep/ .basicTitle {
                     h2 {
+                        border: none;
+                    }
+                }
+            }
+            /deep/ .weui-btn {
+                background: #019ddd;
+                font-family: PingFangSC-Regular;
+                font-size: 16px;
+                margin-top: 10px;
+                height: 50px;
+                border-radius: 6px;
+                color: #fff;
+                &.end {
+                    background: #cccccc;
+                    &:after {
                         border: none;
                     }
                 }

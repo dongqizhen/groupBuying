@@ -1,34 +1,29 @@
 <template>
     <div class="container">
-        <Header :title="this.$route.name">
+        <Header title="医院介绍">
             <router-link to="/enterpriseSeal" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
         </Header>
         <div class="content">
-            <basic-information title="企业基本信息"></basic-information>
+            <basic-information title="医院基本信息"></basic-information>
             <div class="Personal_information">
                 <basic-title title="团购负责人信息" imgurl="/static/images/Personal_information.png">
                     <span slot="check">收起</span>
                 </basic-title>
                 <personal-information :read="true" :disabled="true" v-for="(val,index) in data" :key="index" :data="val"></personal-information>
             </div>
+            <div class="hospitalDetails">
+                <basic-title title="医院详细介绍" imgurl="/static/images/hospitalDetails.png"></basic-title>
+                <div class="main_content">
+                    2007年聚通达诞生于北京中关村，是国家和中关村高新技术企业。2016年7月挂牌新三板，证券代码837883。聚通达现有员工300余人，50%以上为专业研发团队。
+                </div>
+            </div>
             <div class="product_list">
-                <basic-title title="参加团购产品列表" imgurl="/static/images/product_list.png"></basic-title>
+                <basic-title title="团购需求列表" imgurl="/static/images/product_list.png"></basic-title>
                 <type-scroll-nav-bar></type-scroll-nav-bar>
+                <budget-count></budget-count>
+                <demand-list></demand-list>
             </div>
-            <div class="products">
-                <model-scroll-nav-bar></model-scroll-nav-bar>
-                <ul>
-                    <li>
-                        <product-list></product-list>
-                    </li>
-                    <li>
-                        <product-list></product-list>
-                    </li>
-                    <li>
-                        <product-list></product-list>
-                    </li>
-                </ul>
-            </div>
+
         </div>
     </div>
 </template>
@@ -42,6 +37,8 @@
     import productList from "../../components/common/productList";
     import personalInformation from "../../components/common/personalInformation";
     import { mapMutations } from "vuex";
+    import budgetCount from "../../components/common/budgetCount";
+    import demandList from "../../components/common/demandList";
     export default {
         data() {
             return {
@@ -71,7 +68,9 @@
             typeScrollNavBar,
             modelScrollNavBar,
             productList,
-            personalInformation
+            personalInformation,
+            budgetCount,
+            demandList
         },
         methods: { ...mapMutations(["setTransition"]) }
     };
@@ -116,9 +115,7 @@
                 }
             }
             .Personal_information {
-                background: #ffffff;
-                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
+                @include box_shadow_style;
                 margin-top: 10px;
                 /deep/ .basicTitle {
                     h2 {
@@ -130,40 +127,20 @@
                     }
                 }
             }
-            .product_list {
-                background: #ffffff;
-                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
+            .hospitalDetails {
+                @include box_shadow_style;
                 margin-top: 10px;
-            }
-            .products {
-                background: #ffffff;
-                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
-                margin-top: 10px;
-                ul {
-                    padding: 10px 0;
-                    border-top: 0.5px solid #f6f6f6;
-                    li {
-                        height: 90px;
-                        width: 100%;
-                        padding: 0 13px;
-                        margin-bottom: 13px;
-                        /deep/ .productList {
-                            height: 100%;
-                            .left_box {
-                                width: 100px;
-                                margin-right: 13px;
-                            }
-                            .right_box {
-                                padding: 16px 0;
-                            }
-                        }
-                        &:last-child {
-                            margin-bottom: 0;
-                        }
-                    }
+                .main_content {
+                    font-family: PingFangSC-Regular;
+                    font-size: 14px;
+                    color: #666666;
+                    line-height: 21px;
+                    padding: 10px 13px;
                 }
+            }
+            .product_list {
+                @include box_shadow_style;
+                margin-top: 10px;
             }
         }
     }

@@ -10,14 +10,14 @@
         <div class="content_box">
             <ul>
                 <li>
-                    <span>公司名称：</span>
+                    <span>{{title == '企业基本信息'?'公司名称：':'医院名称：'}}</span>
                     <div>济南博物远航生物科技有限公司</div>
                 </li>
-                <li>
+                <li :class="title == '企业基本信息'?'':'hide'">
                     <span>企业类型：</span>
                     <div>外资企业</div>
                 </li>
-                <li>
+                <li :class="title == '企业基本信息'?'':'hide'">
                     <span>主营业务：</span>
                     <div>厂家放射性产品dddddddddddddd厂家放射性产品厂家放射性产品厂家放射性产品厂家放射性产品厂家放射性产品厂家放射性产品</div>
                 </li>
@@ -26,8 +26,8 @@
                     <div>山东省济南市</div>
                 </li>
             </ul>
-            <router-link to="/companyProfile" tag="span" v-if="isShowArrowBox != undefined" @click.native="setTransition('turn-on')">
-                <a>企业介绍
+            <router-link :to="path" tag="span" v-if="isShowArrowBox != undefined" @click.native="setTransition('turn-on')">
+                <a>{{buttonName}}
                     <i></i>
                 </a>
             </router-link>
@@ -46,7 +46,7 @@
         components: {
             basicTitle
         },
-        props: ["isShowArrowBox", "isShowCheck", "title"],
+        props: ["isShowArrowBox", "isShowCheck", "title", "buttonName", "path"],
         mounted() {
             console.log(this.isShowArrowBox);
         },
@@ -84,6 +84,23 @@
             padding: 10px 0px;
             position: relative;
             flex-direction: column;
+            ul {
+                padding-left: 13px;
+                li {
+                    padding: 13px 13px 13px 0;
+                    border-bottom: 0.5px solid #f6f6f6;
+                    &:first-child {
+                        padding-top: 0;
+                    }
+                    &:last-child {
+                        padding-bottom: 3px;
+                        border: none;
+                    }
+                    &.hide {
+                        display: none;
+                    }
+                }
+            }
             li {
                 display: flex;
                 justify-content: flex-start;
@@ -111,7 +128,7 @@
                 font-size: 13px;
                 line-height: 18px;
                 position: absolute;
-                bottom: 10px;
+                bottom: 13px;
                 right: 13px;
                 display: flex;
                 justify-content: flex-start;
