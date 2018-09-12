@@ -16,10 +16,11 @@ import {
 } from 'vant';
 import 'vant/lib/vant-css/index.css';
 import VueTextareaAutosize from 'vue-textarea-autosize';
+import VueScroller from 'vue-scroller'
 import {
     XButton,
     XTextarea,
-    XNumber
+    XNumber,
 } from 'vux';
 import FastClick from 'fastclick';
 import Cube, {
@@ -67,8 +68,11 @@ Vue.use(VueTouch)
         transition: 'ease'
     }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize);
 
+Vue.use(VueScroller)
+
 createAPI(Vue, ActionSheet, ['click'], true)
 createAPI(Vue, Toast, ['click'], true)
+
 
 Vue.component('x-button', XButton)
 Vue.component('x-number', XNumber)

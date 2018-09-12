@@ -33,6 +33,7 @@
 <script>
     import Header from "../../components/header/header";
     import scrollTab from "../../components/scrollTab/scrollTab";
+    import { mapMutations } from "vuex";
     const cityData = [
         {
             name: "★Hot City",
@@ -132,8 +133,13 @@
             scrollTab
         },
         methods: {
+            ...mapMutations(["setTransition"]),
             selectItem(item) {
-                console.log(item.name);
+                this.$router.push({
+                    path: "groupDemandDetails",
+                    query: { id: item.value }
+                });
+                this.setTransition("turn-on");
             },
             clickTitle(title) {
                 console.log(title);

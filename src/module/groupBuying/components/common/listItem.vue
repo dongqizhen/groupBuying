@@ -58,6 +58,7 @@
         color: #333333;
         height: 155px;
         margin-bottom: 10px;
+        width: 100%;
         .topLeft,
         .topRight {
             position: absolute;
