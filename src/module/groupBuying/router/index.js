@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import GroupIndex from '@/module/groupBuying/page/GroupIndex.vue'
 import GroupDetails from '../page/GroupDetails'
-import ProductDetails from '../page/ProductDetails'
 import myComponyGroupBuy from '../page/company/myCroupBuy'
 import myHospitalGroupBuy from '../page/hospital/myCroupBuy'
 import uploadedProducts from '../page/company/uploadedProducts'
@@ -11,8 +10,6 @@ import enterpriseSeal from '../page/company/enterpriseSeal'
 import typeOfEnterprise from '../page/company/typeOfEnterprise'
 import mainBusiness from '../page/company/mainBusiness'
 import registrationSuccess from '../page/company/registrationSuccess'
-import Inventory from '../page/Inventory'
-import BuyClassification from '../page/BuyClassification'
 import GroupRequireDetails from '../page/hospital/GroupRequireDetails'
 import groupEquipment from '../page/hospital/groupEquipment'
 import perdictTime from '../page/hospital/perdictTime'
@@ -27,6 +24,9 @@ import hospitalProfile from '../page/hospital/hospitalProfile'
 import submitGroupDemand from '../page/hospital/submitGroupDemand'
 import groupDemand from '../page/groupDemand/groupDemand'
 import groupDemandDetails from '../page/groupDemand/groupDemandDetails'
+import groupClassification from '../page/product/groupClassification'
+import groupInventory from '../page/product/groupInventory'
+import productDetails from '../page/product/productDetails'
 
 Vue.use(Router)
 
@@ -40,11 +40,13 @@ const router = new Router({
         path: '/Details',
         name: '团购详情',
         component: GroupDetails
-    }, {
-        path: '/ProDetails',
+    }, 
+    {
+        path: '/productDetails',
         name: '产品详情',
-        component: ProductDetails
-    }, {
+        component: productDetails
+    }, 
+    {
         path: '/myComponyGroupBuy',
         name: '我的团购（企业）',
         component: myComponyGroupBuy
@@ -77,13 +79,13 @@ const router = new Router({
             keepAlive: true
         }
     }, {
-        path: '/inventory',
+        path: '/groupInventory',
         name: '产品清单',
-        component: Inventory
+        component: groupInventory
     }, {
-        path: '/BuyClassification',
+        path: '/groupClassification',
         name: '团购分类',
-        component: BuyClassification
+        component: groupClassification
     }, {
         path: '/GroupRequireDetails',
         name: '团购需求详情',

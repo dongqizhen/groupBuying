@@ -32,8 +32,8 @@
 </template>
 
 <script>
-    import Header from '../components/header/header'
-    import footerMenu from '../components/common/footerMenu'
+    import Header from '../../components/header/header'
+    import footerMenu from '../../components/common/footerMenu'
     export default {
         data(){
             return {
@@ -68,7 +68,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../../static/scss/_commonScss.scss';
+    @import '../../../../../static/scss/_commonScss.scss';
     .container{
       width: 100%;
       height: 100%;

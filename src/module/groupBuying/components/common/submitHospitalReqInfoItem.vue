@@ -4,48 +4,7 @@
         <hos-man-attention>
           <span slot="hospitalName" class="hospital">山东省立医院</span>
         </hos-man-attention>
-        <div class="common productSort">
-          <span>产品分类</span>
-          <span class="value">CT类</span>
-          <span class="taiNumber">
-            <b>5</b>台</span>
-        </div>
-        <div class="common hopeBrand">
-          <ul>
-            <li>
-              <span>
-                <img src="../../../../../static/images/selected-first.png">
-                <span>首选</span>
-              </span>
-              <span class="brandAndModel">
-                <span class="brand">GE</span>
-                <span class="model">ATS5000</span>
-                <span class="model">1C697BEM731</span>
-              </span>
-            </li>
-            <li>
-              <span>
-                <img src="../../../../../static/images/selected-second.png">
-                <span>次选</span>
-              </span>
-              <span class="brandAndModel">
-                <span class="brand">飞利浦</span>
-                <span class="model">飞895645</span>
-                <span class="model">飞利浦14526</span>
-              </span>
-            </li>
-            <li>
-              <span>
-                <img src="../../../../../static/images/selected-three.png">
-                <span>再选</span>
-              </span>
-              <span class="brandAndModel">
-                <span class="brand">西门子</span>
-                <span class="model">edge</span>
-              </span>
-            </li>
-          </ul>
-        </div>
+        <demand-list></demand-list>
         <div class="common addressAndBudget">
           <div class="address">
             <img src="../../../../../static/images/site.png">
@@ -68,6 +27,7 @@
 </template>
 <script>
 import hosManAttention from "./hosManAttention";
+import demandList from "./demandList";
 export default {
   data() {
     return {};
@@ -78,7 +38,8 @@ export default {
     }
   },
   components: {
-    hosManAttention
+    hosManAttention,
+    demandList
   }
 };
 </script>
