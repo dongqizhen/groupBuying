@@ -2,7 +2,7 @@
   <div class="container">
     <Header :title="this.$route.name"></Header>
     <div class="content">
-      <man-hospital-info></man-hospital-info>
+      <man-hospital-info class="hospitalAttention"></man-hospital-info>
       <div v-if="true" class="intention">
         <budget-count></budget-count>
         <div class="common productSort">
@@ -85,10 +85,35 @@
         </div>
       </div>
       <div class="box equipmentBasicInfo">
-        <require-detail-item v-for="item in itemLists" :key="item.id" :itemKeys="item.itemKeys" :itemValue="item.itemValue"></require-detail-item>
+         <div class="common">
+      <span>设备台数</span>
+      <span class="value">10台</span>
+  </div>
+  <div class="common">
+      <span>期望采购价格(总价)</span>
+      <span class="value">2000万</span>
+  </div><div class="common">
+      <span>维修时间</span>
+      <span class="value">2018年第三季度</span>
+  </div><div class="common">
+      <span>设备安装日期</span>
+      <span class="value">2017-08-15</span>
+  </div><div class="common">
+      <span>该设备每天检查量</span>
+      <span class="value">200人</span>
+  </div><div class="common">
+      <span>响应时间</span>
+      <span class="value">10小时以内</span>
+  </div>
       </div>
       <div class="box maintenanceSort">
-        <require-detail-item v-for="item in maintenanceSorts" :key="item.id" :itemKeys="item.itemKeys" :itemValue="item.itemValue"></require-detail-item>
+        <div class="common">
+      <span>维保类型</span>
+      <span class="value">全保</span>
+  </div><div class="common">
+      <span>备注信息</span>
+      <span class="value">这里是备注信息，10小时以内</span>
+  </div>
       </div>
       <comment></comment>
       <submit-comment></submit-comment>
@@ -111,18 +136,6 @@ export default {
         { paramName: "六排八排" },
         { paramName: "六排六排" },
         { paramName: "八排" }
-      ],
-      itemLists: [
-        { id: 1, itemKeys: "设备台数", itemValue: "10台" },
-        { id: 2, itemKeys: "期望采购价格(总价)", itemValue: "2000万" },
-        { id: 3, itemKeys: "维修时间", itemValue: "2018年第三季度" },
-        { id: 4, itemKeys: "设备安装日期", itemValue: "2017-08-15" },
-        { id: 5, itemKeys: "该设备每天检查量", itemValue: "200人" },
-        { id: 6, itemKeys: "响应时间", itemValue: "10小时以内" }
-      ],
-      maintenanceSorts: [
-        { id: 7, itemKeys: "维保类型", itemValue: "全保" },
-        { id: 8, itemKeys: "备注信息", itemValue: "这里是备注信息" }
       ]
     };
   },
@@ -143,6 +156,11 @@ export default {
   @include basic_container_style;
   .content {
     padding-bottom: 52px;
+    .hospitalAttention {
+      /deep/ .leftBox {
+        padding: 10px 0 10px 18px;
+      }
+    }
     .common {
       width: 100%;
       padding: 13px;
@@ -153,24 +171,16 @@ export default {
       font-family: PingFangSC-Regular;
       font-size: 14px;
       color: #999;
-    }
-    %value {
-      span {
-        &.value {
-          width: 181px;
-          color: #333;
-        }
+      span.value {
+        width: 181px;
+        color: #333;
+        line-height: 18px;
       }
-    }
-
-    .productSort {
-      @extend %value;
     }
     .number {
       border-bottom: 1px solid #e9e9e9;
       .requireNumber {
         border-bottom: none;
-        @extend %value;
       }
       .infoCount {
         width: 336px;
@@ -185,9 +195,6 @@ export default {
         margin-bottom: 13px;
       }
     }
-    .hopePrice {
-      @extend %value;
-    }
     .hopeBrand {
       li {
         margin-bottom: 13px;
@@ -199,7 +206,6 @@ export default {
           height: 8px;
           vertical-align: middle;
         }
-        @extend %value;
         .value {
           margin-left: 20px;
         }
@@ -227,12 +233,8 @@ export default {
         }
       }
     }
-    .perdictTime {
-      @extend %value;
-    }
     .demandIntroduce {
       border-bottom: none;
-      @extend %value;
     }
     .intention {
       background: #ffffff;

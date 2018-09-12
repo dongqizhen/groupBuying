@@ -16,6 +16,7 @@ import BuyClassification from '../page/BuyClassification'
 import GroupRequireDetails from '../page/hospital/GroupRequireDetails'
 import groupEquipment from '../page/hospital/groupEquipment'
 import perdictTime from '../page/hospital/perdictTime'
+import mainParams from '../page/hospital/mainParams'
 import uploadProduct from '../page/company/uploadProduct'
 import selectBrand from '../page/company/selectBrand'
 import productCategory from "../page/company/productCategory"
@@ -95,6 +96,10 @@ const router = new Router({
         path: '/perdictTime',
         name: '选择装机时间',
         component: perdictTime
+    }, {
+        path: '/mainParams',
+        name: '选择重要参数',
+        component: mainParams
     }, {
         path: '/uploadProduct',
         name: '上传团购产品（企业）',
