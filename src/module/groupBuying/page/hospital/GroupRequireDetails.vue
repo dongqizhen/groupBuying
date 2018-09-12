@@ -2,7 +2,7 @@
   <div class="container">
     <Header :title="this.$route.name"></Header>
     <div class="content">
-      <man-hospital-info></man-hospital-info>
+      <man-hospital-info class="hospitalAttention"></man-hospital-info>
       <div v-if="true" class="intention">
         <budget-count></budget-count>
         <div class="common productSort">
@@ -107,7 +107,13 @@
   </div>
       </div>
       <div class="box maintenanceSort">
-        <require-detail-item v-for="item in maintenanceSorts" :key="item.id" :itemKeys="item.itemKeys" :itemValue="item.itemValue"></require-detail-item>
+        <div class="common">
+      <span>维保类型</span>
+      <span class="value">全保</span>
+  </div><div class="common">
+      <span>备注信息</span>
+      <span class="value">这里是备注信息，10小时以内</span>
+  </div>
       </div>
       <comment></comment>
       <submit-comment></submit-comment>
@@ -130,10 +136,6 @@ export default {
         { paramName: "六排八排" },
         { paramName: "六排六排" },
         { paramName: "八排" }
-      ],
-      maintenanceSorts: [
-        { id: 7, itemKeys: "维保类型", itemValue: "全保" },
-        { id: 8, itemKeys: "备注信息", itemValue: "这里是备注信息" }
       ]
     };
   },
@@ -154,6 +156,11 @@ export default {
   @include basic_container_style;
   .content {
     padding-bottom: 52px;
+    .hospitalAttention {
+      /deep/ .leftBox {
+        padding: 10px 0 10px 18px;
+      }
+    }
     .common {
       width: 100%;
       padding: 13px;
@@ -167,6 +174,7 @@ export default {
       span.value {
         width: 181px;
         color: #333;
+        line-height: 18px;
       }
     }
     .number {

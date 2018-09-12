@@ -2,7 +2,7 @@
   <div class="container">
     <Header :title="this.$route.name"></Header>
     <div class="content">
-      <cube-page type="scroll-tab-view" title="ScrollTab">
+      <!-- <cube-page type="scroll-tab-view" title="ScrollTab"> -->
         <div slot="content">
           <div class="left-panel">
             <cube-scroll>
@@ -21,183 +21,183 @@
             </cube-scroll>
           </div>
         </div>
-      </cube-page>
+      <!-- </cube-page> -->
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import Header from "../components/header/header";
+import Header from "../components/header/header";
 
-  const DATA_MAP = {
-      全部: [
-          { brand: "品牌", num: "团购数量(台)", rate: "市场保有率" },
-          { brand: "新华", num: "2", rate: "25%" },
-          { brand: "威高", num: "6", rate: "15%" }
-      ],
-      核磁共振MRI类: [
-          { brand: "品牌", num: "团购数量(台)" },
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" },
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      血管造影机DSA类: [
-          { brand: "品牌", num: "团购数量(台)" },
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      辅助: [
-          { brand: "品牌", num: "团购数量(台)" },
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      法师: [
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      打野: [
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      坦克: [
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      隐身: [
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      后期: [
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      伏虎: [
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ],
-      小气: [
-          { brand: "托人", num: "8" },
-          { brand: "新华", num: "2" },
-          { brand: "威高", num: "6" }
-      ]
-  };
-  const genTabLabels = Object.keys(DATA_MAP).map(label => ({
-      label
-  }));
-  export default {
-      data() {
-          return {
-              selectedLabel: "全部",
-              scrollData: [],
-              tabs: genTabLabels
-          };
-      },
-      created() {
-          this.scrollData = DATA_MAP[this.selectedLabel];
-      },
-      methods: {
-          changeHandler(label) {
-              this.scrollData = DATA_MAP[label];
-              this.$nextTick(() => {
-                  this.$refs.scroll.scrollTo(0, 0);
-                  this.$refs.scroll.refresh();
-              });
-          }
-      },
-      components: {
-          Header
-      },
-      watch: {
-          selectedLabel(newV) {
-              console.log(newV);
-          }
-      }
-  };
+const DATA_MAP = {
+  全部: [
+    { brand: "品牌", num: "团购数量(台)", rate: "市场保有率" },
+    { brand: "新华", num: "2", rate: "25%" },
+    { brand: "威高", num: "6", rate: "15%" }
+  ],
+  核磁共振MRI类: [
+    { brand: "品牌", num: "团购数量(台)" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  血管造影机DSA类: [
+    { brand: "品牌", num: "团购数量(台)" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  辅助: [
+    { brand: "品牌", num: "团购数量(台)" },
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  法师: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  打野: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  坦克: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  隐身: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  后期: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  伏虎: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ],
+  小气: [
+    { brand: "托人", num: "8" },
+    { brand: "新华", num: "2" },
+    { brand: "威高", num: "6" }
+  ]
+};
+const genTabLabels = Object.keys(DATA_MAP).map(label => ({
+  label
+}));
+export default {
+  data() {
+    return {
+      selectedLabel: "全部",
+      scrollData: [],
+      tabs: genTabLabels
+    };
+  },
+  created() {
+    this.scrollData = DATA_MAP[this.selectedLabel];
+  },
+  methods: {
+    changeHandler(label) {
+      this.scrollData = DATA_MAP[label];
+      this.$nextTick(() => {
+        this.$refs.scroll.scrollTo(0, 0);
+        this.$refs.scroll.refresh();
+      });
+    }
+  },
+  components: {
+    Header
+  },
+  watch: {
+    selectedLabel(newV) {
+      console.log(newV);
+    }
+  }
+};
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-  .container {
-    width: 100%;
-    height: 100%;
-    position: fixed;
+.container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
 
-    .content {
-      height: calc(100% - 44px);
-      padding-top: 10px;
-      background: #f6f6f6;
-      overflow: auto;
-    }
+  .content {
+    height: calc(100% - 44px);
+    padding-top: 10px;
+    background: #f6f6f6;
+    overflow: auto;
   }
+}
 
-  .cube-scroll-list-wrapper {
-    .cube-tab-bar {
-      flex-wrap: wrap;
-      background-color: #fff;
-
-      .cube-tab {
-        width: 100px;
-        padding: 20px 13px;
-        font-size: 14px;
-        color: #333;
-        line-height: 20px;
-        transition: all 0.3s ease-in;
-        margin-right: 0;
-        margin-bottom: 1px;
-        background-color: #f6f6f6;
-        flex: none;
-
-        &.cube-tab_active {
-          color: #019DDD;
-          background-color: #fff;
-        }
-      }
-    }
-  }
-
-  .left-panel {
-    position: absolute;
-    top: 54px;
-    left: 0;
-    bottom: 0;
-    width: 100px;
-    background-color: #f6f6f6;
-  }
-
-  .right-panel {
-    position: absolute;
-    top: 54px;
-    left: 100px;
-    right: 0;
-    bottom: 0;
+.cube-scroll-list-wrapper {
+  .cube-tab-bar {
+    flex-wrap: wrap;
     background-color: #fff;
 
-    li {
-      height: 40px;
-      display: flex;
-      align-items: center;
-      background-color: #fff;
-      justify-content: center;
+    .cube-tab {
+      width: 100px;
+      padding: 20px 13px;
       font-size: 14px;
-      color: #666;
+      color: #333;
+      line-height: 20px;
+      transition: all 0.3s ease-in;
+      margin-right: 0;
+      margin-bottom: 1px;
+      background-color: #f6f6f6;
+      flex: none;
 
-      &:first-child {
-        color: #999;
-      }
-
-      span {
-        flex: 1;
-        text-align: center;
+      &.cube-tab_active {
+        color: #019DDD;
+        background-color: #fff;
       }
     }
   }
+}
+
+.left-panel {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  bottom: 0;
+  width: 100px;
+  background-color: #f6f6f6;
+}
+
+.right-panel {
+  position: absolute;
+  top: 54px;
+  left: 100px;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+
+  li {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    justify-content: center;
+    font-size: 14px;
+    color: #666;
+
+    &:first-child {
+      color: #999;
+    }
+
+    span {
+      flex: 1;
+      text-align: center;
+    }
+  }
+}
 </style>

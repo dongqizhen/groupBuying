@@ -1,14 +1,6 @@
 <template>
    <div class="manHospitalInfo">
-         <div class="topBox">
-           <div class="leftBox">
-             <img :src="result.imgUrl" alt="">
-             <span class="name">{{result.name}}</span>
-           </div>
-           <div class="rightBox">
-            <attention-btn></attention-btn>
-           </div>
-         </div>
+        <hos-man-attention></hos-man-attention>
          <div class="bottomBox">
              <div class="left hospitalAndAddress">
                 <div class="hospital">
@@ -28,7 +20,7 @@
       </div>
 </template>
 <script>
-import attentionBtn from "./attentionBtn";
+import hosManAttention from "./hosManAttention";
 export default {
   data() {
     return {
@@ -42,7 +34,7 @@ export default {
     };
   },
   components: {
-    attentionBtn
+    hosManAttention
   }
 };
 </script>
@@ -54,33 +46,6 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   margin-bottom: 10px;
-  .topBox {
-    height: 54px;
-    line-height: 54px;
-    border-bottom: 1px solid #e9e9e9;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .leftBox {
-      img {
-        width: 36px;
-        height: 36px;
-        vertical-align: middle;
-        border-radius: 50%;
-        margin-right: 16px;
-        margin-left: 13px;
-      }
-    }
-    .name {
-      font-family: PingFangSC-Medium;
-      font-size: 14px;
-      color: #333;
-      font-weight: 600;
-    }
-    .rightBox {
-      margin-right: 23px;
-    }
-  }
   .bottomBox {
     padding: 0 13px;
     .hospital {
