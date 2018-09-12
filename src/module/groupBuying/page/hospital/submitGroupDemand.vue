@@ -177,6 +177,41 @@
                     </li>
                 </ul>
             </div>
+            <div class="parameter">
+                <ul>
+                    <li v-ripple @click="setTransition('turn-on')">
+                        <router-link to="/productCategory">
+                            <span>重要参数：</span>
+                            <cube-input placeholder="请选择或输入重要参数" :disabled="true">
+
+                            </cube-input>
+                            <div>
+                                <i></i>
+                            </div>
+                        </router-link>
+
+                    </li>
+                    <li v-ripple @click="setTransition('turn-on')">
+                        <router-link to="/productCategory">
+                            <span>预计装机时间：</span>
+                            <cube-input placeholder="请选择预计装机时间" :disabled="true">
+
+                            </cube-input>
+                            <div>
+                                <i></i>
+                            </div>
+                        </router-link>
+
+                    </li>
+                    <li class="clinic">
+                        <!-- <label for="textarea"></label> -->
+                        <group>
+                            <x-textarea title="采购需求说明：" v-model="Textareavalue" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+                        </group>
+
+                    </li>
+                </ul>
+            </div>
             <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购需求表</x-button>
             <x-button v-else type="primary" show-loading>提交中</x-button>
         </div>
@@ -197,7 +232,7 @@
             return {
                 checked: true,
                 Textareavalue: "",
-                numberValue: "1",
+                numberValue: 1,
                 introduce: "",
                 submitBtnStatus: true,
                 action: {
@@ -647,7 +682,137 @@
                     }
                 }
             }
-
+            .parameter {
+                @include box_shadow_style;
+                margin-bottom: 10px;
+                ul {
+                    padding-left: 13px;
+                    padding-bottom: 1px;
+                    li {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        height: 47px;
+                        border-bottom: 0.5px solid #f6f6f6;
+                        a {
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            text-decoration: none;
+                            width: 100%;
+                            span {
+                                font-family: PingFangSC-Regular;
+                                font-size: 14px;
+                                color: #333333;
+                                float: left;
+                                //justify-content: flex-start;
+                                // flex-wrap: nowrap;
+                                width: auto;
+                                // word-wrap: normal;
+                            }
+                            > div {
+                                //width: calc(100% - 70px);
+                                display: flex;
+                                justify-content: flex-end;
+                                padding-right: 13px;
+                                font-family: PingFangSC-Regular;
+                                font-size: 14px;
+                                color: #999999;
+                                i {
+                                    display: flex;
+                                    height: 14px;
+                                    width: 8px;
+                                    background: url("/static/images/grayarrow.png")
+                                        no-repeat center;
+                                    background-size: 100% 100%;
+                                    margin-left: 3px;
+                                }
+                            }
+                        }
+                        > span {
+                            font-family: PingFangSC-Regular;
+                            font-size: 14px;
+                            color: #333333;
+                        }
+                        > div {
+                            display: flex;
+                            justify-content: flex-end;
+                            padding-right: 13px;
+                            font-family: PingFangSC-Regular;
+                            font-size: 14px;
+                            color: #999999;
+                            i {
+                                display: flex;
+                                height: 14px;
+                                width: 8px;
+                                background: url("/static/images/grayarrow.png")
+                                    no-repeat center;
+                                background-size: 100% 100%;
+                                margin-left: 3px;
+                            }
+                        }
+                        /deep/ .cube-input {
+                            flex: 1;
+                            &:after {
+                                border: none;
+                            }
+                            input {
+                                color: #999999;
+                                font-family: PingFangSC-Regular;
+                                font-size: 14px;
+                                padding-left: 0;
+                            }
+                        }
+                        &.clinic {
+                            height: auto;
+                            border-bottom: none;
+                            //margin-bottom: 10px;
+                            > div {
+                                width: 100%;
+                            }
+                            /deep/ .weui-cells {
+                                margin-top: 0;
+                                width: 100%;
+                                &:before {
+                                    border-top: 0;
+                                }
+                                &:after {
+                                    border-bottom: 0;
+                                }
+                                .weui-cell {
+                                    display: flex;
+                                    flex-direction: column;
+                                    padding: 0;
+                                    .weui-cell__hd {
+                                        height: 43px;
+                                        font-family: PingFangSC-Regular;
+                                        font-size: 14px;
+                                        color: #333333;
+                                        display: flex;
+                                        align-items: center;
+                                    }
+                                    .weui-cell__bd {
+                                        width: 100%;
+                                        min-height: 40px;
+                                        textarea::-webkit-input-placeholder {
+                                            font-family: PingFangSC-Regular;
+                                            font-size: 14px;
+                                            color: #cccccc;
+                                        }
+                                        textarea {
+                                            // height: 45px !important;
+                                            color: #999;
+                                            font-family: PingFangSC-Regular;
+                                            font-size: 14px;
+                                            margin-bottom: 12px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             /deep/ .weui-btn {
                 background: #019ddd;
                 font-family: PingFangSC-Regular;

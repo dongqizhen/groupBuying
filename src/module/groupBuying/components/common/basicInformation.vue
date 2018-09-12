@@ -1,7 +1,7 @@
 <template>
     <div class="basicInformation">
 
-        <basic-title :title="title" imgurl='/static/images/basicInformation.png'>
+        <basic-title :title="title" imgurl='../static/images/basicInformation.png'>
             <p slot='check' class="ckeck" v-if="isShowCheck != undefined">
                 <i></i>
                 审核中

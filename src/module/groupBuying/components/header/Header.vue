@@ -73,23 +73,23 @@
             justify-content: center;
             font-size: 18px;
             /*  .cube-tab-bar{
-                            .cube-tab{
-                                font-size: 15px;
-                                color: #666666;
-                                margin-right: 38px;
-                                
-                                &.cube-tab_active{
-                                color:#019DDD;
-                                }
-                                &:last-child{
-                                margin-right:0;
-                                }
-                            }
-                            .cube-tab-bar-slider{
-                                width: 20px;
-                                background-color: #019DDD;
-                            }
-                        } */
+                                        .cube-tab{
+                                            font-size: 15px;
+                                            color: #666666;
+                                            margin-right: 38px;
+                                            
+                                            &.cube-tab_active{
+                                            color:#019DDD;
+                                            }
+                                            &:last-child{
+                                            margin-right:0;
+                                            }
+                                        }
+                                        .cube-tab-bar-slider{
+                                            width: 20px;
+                                            background-color: #019DDD;
+                                        }
+                                    } */
         }
         .search {
             position: absolute;

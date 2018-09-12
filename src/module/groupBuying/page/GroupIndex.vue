@@ -36,17 +36,17 @@
         {
             path: "/myHospitalGroupBuy",
             name: "医院团购报名",
-            imgurl: "/static/images/hospitalApply.png"
+            imgurl: "../static/images/hospitalApply.png"
         },
         {
             path: "/",
             name: "企业团购报名",
-            imgurl: "/static/images/companyApply.png"
+            imgurl: "../static/images/companyApply.png"
         },
         {
             path: "/myComponyGroupBuy",
             name: "我的团购",
-            imgurl: "/static/images/myApply.png"
+            imgurl: "../static/images/myApply.png"
         }
     ];
 

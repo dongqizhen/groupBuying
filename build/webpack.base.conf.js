@@ -43,7 +43,8 @@ const webpackConfig = {
             '@': resolve('src'),
             '#': resolve('src/components'),
             '^': resolve('src/module'),
-            '%': resolve('src/common')
+            '%': resolve('src/common'),
+            'static': path.resolve(__dirname, '../static')
         }
     },
     module: {

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Header :title="this.$route.name" :isSearchHide="true"></Header>
+        <Header title="团购详情" :isSearchHide="true"></Header>
         <div class="content">
             <cube-scroll ref="scroll">
                 <div class="wrapper">
@@ -16,49 +16,16 @@
                         </h2>
                         <span>企业用户查看</span>
                         <ul>
-                            <li>
-                                <i></i>
-                                设备团购 (600台)
-                                <span>已有
-                                    <a>12</a>家医院提交团购需求
-                                </span>
-                            </li>
-                            <li>
-                                <i></i>
-                                设备团购 (600台)
-                                <span>已有
-                                    <a>12</a>家医院提交团购需求
-                                </span>
-                            </li>
-                            <li>
-                                <i></i>
-                                设备团购 (600台)
-                                <span>已有
-                                    <a>12</a>家医院提交团购需求
-                                </span>
-                            </li>
-                            <li>
-                                <i></i>
-                                设备团购 (600台)
-                                <span>已有
-                                    <a>12</a>家医院提交团购需求
-                                </span>
-                            </li>
-                            <li>
-                                <i></i>
-                                设备团购 (600台)
-                                <span>已有
-                                    <a>12</a>家医院提交团购需求
-                                </span>
-                            </li>
-                            <li>
-                                <i></i>
-                                设备团购 (600台)
-                                <span>
-                                    已有
-                                    <em>12</em>家医院提交团购需求
-                                </span>
-                            </li>
+                            <router-link tag="li" :to="{ path: 'groupDemand', query: { groupID: val.id }}" v-for="(val,index) in GroupList" :key="index" @click.native="setTransition('turn-on')">
+                                <a>
+                                    <i><img :src="val.imgurl" alt=""></i>
+                                    {{val.name}}
+                                    <span>已有
+                                        <a>{{val.num}}</a>家医院提交团购需求
+                                    </span>
+                                </a>
+                            </router-link>
+
                         </ul>
                     </div>
                     <div class="Enterprise_Product">
@@ -159,81 +126,105 @@
 </template>
 
 <script>
-    import Header from '../components/header/header'
-    import ListItem from '../components/common/listItem'
-    import basicTitle from '../components/common/basicTitle'
+    import Header from "../components/header/header";
+    import ListItem from "../components/common/listItem";
+    import basicTitle from "../components/common/basicTitle";
+    import { mapMutations } from "vuex";
+    const GroupList = [
+        {
+            imgurl: "../static/images/equipment.png",
+            name: "设备团购 (600台)",
+            num: 12,id:1
+        },
+        {
+            imgurl: "../static/images/consumable.png",
+            name: "耗材团购 (389单)",
+            num: 12,id:2
+        },
+        {
+            imgurl: "../static/images/afterSale.png",
+            name: "售后团购 (167台)",
+            num: 12,id:3
+        },
+        {
+            imgurl: "../static/images/informatization.png",
+            name: "信息化团购 (398单)",
+            num: 12,id:4
+        },
+        {
+            imgurl: "../static/images/finance.png",
+            name: "金融团购 (183单)",
+            num: 12,id:5
+        },
+        { imgurl: "../static/images/counsel.png", name: "咨询团购 (45家)", num: 12,id:6 }
+    ];
     export default {
-        data(){
-            return {
-
-            }
+        data() {
+            return { GroupList };
         },
-        components:{
-            Header,ListItem,basicTitle
+        components: {
+            Header,
+            ListItem,
+            basicTitle
         },
-        methods:{
-            handleClickEvent(){
-                alert()
+        methods: {
+            ...mapMutations(["setTransition"]),
+            handleClickEvent() {
+                alert();
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../../static/scss/_commonScss.scss';
-    .container{
-        height:100%;
-        position: fixed;
-        .content{
-            background:$base-backgroud;
-            height:calc(100% - #{$header-height});
-            
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            .wrapper{
-                padding:10px 13px;
-               
+    @import "../../../../static/scss/_commonScss.scss";
+    .container {
+        @include basic_container_style;
+        .content {
+            padding: 0;
+            .wrapper {
+                padding: 10px 13px;
             }
-            .basic_information{
+            .basic_information {
                 height: 219px;
-                background: #FFFFFF;
-                box-shadow: 0 1px 3px 0 rgba(0,0,0,0.10);
+                background: #ffffff;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
-                padding:0 10px;
+                padding: 0 10px;
                 margin-bottom: 10px;
-                /deep/ h2{
-                   padding: 0;
+                /deep/ h2 {
+                    padding: 0;
                 }
             }
-            %h2{
+            %h2 {
                 // height: 57px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 15px;
-                    text-align: center;
-                    color: #666666;
-                    font-family: PingFangSC-Medium;
-                    //border-bottom:1px solid #E9E9E9;
-                    margin-bottom: 5px;
-                    span{
-                    display:block;
-                    border-top:1px solid  #CCCCCC;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                text-align: center;
+                color: #666666;
+                font-family: PingFangSC-Medium;
+                //border-bottom:1px solid #E9E9E9;
+                margin-bottom: 5px;
+                span {
+                    display: block;
+                    border-top: 1px solid #cccccc;
                     width: 20px;
-                    margin:0 18px;
-                    }
+                    margin: 0 18px;
+                }
             }
-            .hospitalNeeds{
+            .hospitalNeeds {
                 min-height: 436px;
-                background: #FFFFFF;
-                box-shadow: 0 1px 3px 0 rgba(0,0,0,0.10);
+                background: #ffffff;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
                 padding-top: 16px;
                 margin-bottom: 10px;
-                >h2{
-                    @extend %h2 ;
+                > h2 {
+                    @extend %h2;
                 }
-                >span{
+                > span {
                     font-family: PingFangSC-Regular;
                     font-size: 12px;
                     color: #999999;
@@ -241,85 +232,64 @@
                     justify-content: center;
                     margin-bottom: 20px;
                 }
-                >ul{
+                > ul {
                     display: flex;
                     flex-wrap: wrap;
                     justify-content: space-between;
-                    padding:0 18px;
-                    li{
+                    padding: 0 18px;
+                    li {
                         height: 100px;
                         width: 148px;
-                        background: #FFFFFF;
-                        border: 0.5px solid rgba(1,157,221,0.12);
-                        box-shadow: 0.5px 2px 4px 0.5px rgba(1,157,221,0.09);
+                        background: #ffffff;
+                        border: 0.5px solid rgba(1, 157, 221, 0.12);
+                        box-shadow: 0.5px 2px 4px 0.5px rgba(1, 157, 221, 0.09);
                         border-radius: 5px;
                         margin-bottom: 16px;
                         display: flex;
-                        flex-direction: column;
-                        align-items: center;
+
                         font-family: PingFangSC-Medium;
                         font-size: 12px;
                         color: #333333;
                         letter-spacing: 0;
-                        i{
-                           height: 25px; 
-                           width: 25px;
-                           background: #03ccbb;
-                           margin: 15px 0 13px;
-                           background: url("/static/images/equipment.png") no-repeat center;
-                           background-size: 100% 100%;
-                        }
-                        &:nth-child(2){
-                            i{
-                               background: url("/static/images/consumable.png") no-repeat center; 
-                               background-size: 100% 100%;
-                            }
-                        }
-                        &:nth-child(3){
-                            i{
-                               background: url("/static/images/afterSale.png") no-repeat center; 
-                               background-size: 100% 100%;
-                            }
-                        }
-                        &:nth-child(4){
-                            i{
-                               background: url("/static/images/informatization.png") no-repeat center; 
-                               background-size: 100% 100%;
-                            }
-                        }
-                        &:nth-child(5){
-                            i{
-                               background: url("/static/images/finance.png") no-repeat center; 
-                               background-size: 100% 100%;
-                            }
-                        }
-                        &:nth-child(6){
-                            i{
-                               background: url("/static/images/counsel.png") no-repeat center; 
-                               background-size: 100% 100%;
-                            }
-                        }
-                        span{
-                            font-size: 10px;
-                            margin-top: 6px;
-                            color: #999999;
+                        > a {
+                            text-decoration: none;
                             display: flex;
-                            a{
-                                color:#019DDD;
+                            height: 100%;
+                            width: 100%;
+                            flex-direction: column;
+                            align-items: center;
+                            i {
+                                height: 25px;
+                                width: 25px;
+
+                                margin: 15px 0 13px;
+                                img {
+                                    height: 100%;
+                                    width: 100%;
+                                }
+                            }
+                            span {
+                                font-size: 10px;
+                                margin-top: 6px;
+                                color: #999999;
+                                display: flex;
+                                a {
+                                    color: #019ddd;
+                                }
                             }
                         }
                     }
                 }
             }
-            .Enterprise_Product{
-                background: #FFFFFF;
+            .Enterprise_Product {
+                background: #ffffff;
                 padding-top: 16px;
-                box-shadow: 0 1px 3px 0 rgba(0,0,0,0.10);
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
-                >h2{
-                    @extend %h2 ;
+                > h2 {
+                    @extend %h2;
                 }
-                >span{
+                > span {
                     font-family: PingFangSC-Regular;
                     font-size: 12px;
                     color: #999999;
@@ -327,12 +297,12 @@
                     justify-content: center;
                     margin-bottom: 20px;
                 }
-                >ul.nav{
+                > ul.nav {
                     display: flex;
                     padding: 0 13px;
                     flex-wrap: wrap;
                     justify-content: space-between;
-                    li{
+                    li {
                         width: 100px;
                         height: 31px;
                         border-radius: 31px;
@@ -344,16 +314,16 @@
                         font-size: 12px;
                         color: #666666;
                         margin-bottom: 15px;
-                        &.active{
-                            background: rgba(1,157,221,0.08);
-                            color: #019DDD;
-                            border:1px solid #019DDD;
-                            box-shadow: 0 2px 2px 0 rgba(1,157,221,0.15);
+                        &.active {
+                            background: rgba(1, 157, 221, 0.08);
+                            color: #019ddd;
+                            border: 1px solid #019ddd;
+                            box-shadow: 0 2px 2px 0 rgba(1, 157, 221, 0.15);
                         }
                     }
                 }
-                .subscription{
-                    >h3{
+                .subscription {
+                    > h3 {
                         display: flex;
                         justify-content: space-between;
                         font-family: PingFangSC-Medium;
@@ -362,7 +332,7 @@
                         height: 50px;
                         padding: 0 13px;
                         align-items: center;
-                        span{
+                        span {
                             font-family: PingFangSC-Regular;
                             font-size: 12px;
                             color: #666666;
@@ -370,39 +340,40 @@
                             display: flex;
                             justify-content: flex-start;
                             align-items: center;
-                            i{
+                            i {
                                 display: flex;
                                 width: 7px;
                                 height: 12px;
-                                background: url('/static/images/grayarrow.png') no-repeat center;
+                                background: url("/static/images/grayarrow.png")
+                                    no-repeat center;
                                 background-size: 100% 100%;
                                 margin-left: 10px;
                             }
                         }
                     }
-                    >ul.type{
+                    > ul.type {
                         display: flex;
                         flex-wrap: wrap;
                         padding: 0 13px;
                         justify-content: space-between;
-                        li{
+                        li {
                             height: 50px;
                             width: 103px;
-                            background: #FFFFFF;
-                            border: 0.5px solid rgba(1,157,221,0.12);
-                            box-shadow: 0.5px 2px 4px 0.5px rgba(1,157,221,0.09);
+                            background: #ffffff;
+                            border: 0.5px solid rgba(1, 157, 221, 0.12);
+                            box-shadow: 0.5px 2px 4px 0.5px rgba(1, 157, 221, 0.09);
                             border-radius: 5px;
                             margin-bottom: 15px;
                             display: flex;
                             flex-direction: column;
                             font-family: PingFangSC-Medium;
                             font-size: 12px;
-                            color: #019DDD;
+                            color: #019ddd;
                             letter-spacing: 0;
                             text-align: center;
                             align-items: center;
                             padding-top: 10px;
-                            span{
+                            span {
                                 font-family: PingFangSC-Regular;
                                 font-size: 10px;
                                 color: #999999;
@@ -412,8 +383,8 @@
                         }
                     }
                 }
-                .brand{
-                    h2{
+                .brand {
+                    h2 {
                         height: 40px;
                         margin-bottom: 5px;
                         padding: 0 13px;
@@ -424,43 +395,42 @@
                         font-size: 14px;
                         color: #333333;
                     }
-                    >ul{
-                        li{
+                    > ul {
+                        li {
                             display: flex;
                             height: 52px;
                             align-items: center;
-                            border-bottom: 1px solid #E9E9E9;
-                           // justify-content: space-between;
-                            &:first-child{
-                                
+                            border-bottom: 1px solid #e9e9e9;
+                            // justify-content: space-between;
+                            &:first-child {
                                 height: 36px;
-                                border-top: 1px solid #E9E9E9;
-                                span{
+                                border-top: 1px solid #e9e9e9;
+                                span {
                                     font-family: PingFangSC-Regular;
                                     font-size: 12px;
                                     color: #999999;
                                 }
                             }
-                            &:last-child{
+                            &:last-child {
                                 border-bottom: none;
                             }
-                            span{
+                            span {
                                 display: flex;
                                 justify-content: center;
                                 font-family: PingFangSC-Medium;
                                 font-size: 14px;
                                 color: #333333;
-                                &:first-child{
+                                &:first-child {
                                     width: 123px;
                                 }
-                                &:nth-child(2){
+                                &:nth-child(2) {
                                     width: 60px;
                                     margin-right: 23px;
                                 }
-                                &:nth-child(3){
+                                &:nth-child(3) {
                                     width: 60px;
                                 }
-                                &:last-child{
+                                &:last-child {
                                     width: 83px;
                                 }
                             }
@@ -468,6 +438,6 @@
                     }
                 }
             }
-        }   
+        }
     }
 </style>    

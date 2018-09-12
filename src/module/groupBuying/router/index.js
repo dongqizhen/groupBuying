@@ -24,6 +24,8 @@ import demandTable from "../page/hospital/demandTable"
 import demandTableDetaile from '../page/hospital/demandTableDetaile'
 import hospitalProfile from '../page/hospital/hospitalProfile'
 import submitGroupDemand from '../page/hospital/submitGroupDemand'
+import groupDemand from '../page/groupDemand/groupDemand'
+import groupDemandDetails from '../page/groupDemand/groupDemandDetails'
 
 Vue.use(Router)
 
@@ -78,10 +80,7 @@ const router = new Router({
         name: '产品清单',
         component: Inventory
     }, {
-        path: '/classify',
-        name: '产品清单',
-        component: BuyClassification,
-
+        path: '/BuyClassification',
         name: '团购分类',
         component: BuyClassification
     }, {
@@ -136,6 +135,14 @@ const router = new Router({
         path: '/submitGroupDemand',
         name: '提交团购需求 (医院)',
         component: submitGroupDemand
+    }, {
+        path: '/groupDemand',
+        name: '团购需求',
+        component: groupDemand
+    }, {
+        path: '/groupDemandDetails',
+        name: '团购需求详情',
+        component: groupDemandDetails
     }],
     /* scrollBehavior(to, from, savedPosition) {
         console.log(to, from, savedPosition)
