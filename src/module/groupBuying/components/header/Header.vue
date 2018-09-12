@@ -1,14 +1,14 @@
 <template>
     <header id="header">
         <slot name="logo"></slot>
-        <span @click="goPrev" class="back"><img src="/static/images/back.png" alt=""></span>
+        <span @click="goPrev" class="back"><img src="../../../../../static/images/back.png" alt=""></span>
         <h2>
             <slot name="mainTitle"></slot>
             {{title}}
         </h2>
         <div class="search">
             <slot name="explain"></slot>
-            <span v-if="isSearchHide"><img src="/static/images/Search.png" alt=""></span>
+            <span v-if="isSearchHide"><img src="../../../../../static/images/Search.png" alt=""></span>
         </div>
 
     </header>
@@ -50,6 +50,7 @@
         position: relative;
         background: #fff;
         border-bottom: 0.5px #ddd solid;
+        // background: #999;
         > span {
             //padding: 10px;
             position: absolute;
@@ -73,23 +74,23 @@
             justify-content: center;
             font-size: 18px;
             /*  .cube-tab-bar{
-                                        .cube-tab{
-                                            font-size: 15px;
-                                            color: #666666;
-                                            margin-right: 38px;
-                                            
-                                            &.cube-tab_active{
-                                            color:#019DDD;
-                                            }
-                                            &:last-child{
-                                            margin-right:0;
-                                            }
-                                        }
-                                        .cube-tab-bar-slider{
-                                            width: 20px;
-                                            background-color: #019DDD;
-                                        }
-                                    } */
+                                                                    .cube-tab{
+                                                                        font-size: 15px;
+                                                                        color: #666666;
+                                                                        margin-right: 38px;
+                                                                        
+                                                                        &.cube-tab_active{
+                                                                        color:#019DDD;
+                                                                        }
+                                                                        &:last-child{
+                                                                        margin-right:0;
+                                                                        }
+                                                                    }
+                                                                    .cube-tab-bar-slider{
+                                                                        width: 20px;
+                                                                        background-color: #019DDD;
+                                                                    }
+                                                                } */
         }
         .search {
             position: absolute;
@@ -102,7 +103,7 @@
             span {
                 display: flex;
                 height: 100%;
-                justify-content: center;
+                justify-content: space-around;
                 align-items: center;
                 img {
                     height: 100%;

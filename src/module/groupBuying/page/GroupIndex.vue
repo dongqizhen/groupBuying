@@ -8,21 +8,33 @@
             </cube-tab-bar>
         </Header>
         <div class="content">
-            <cube-slide class="banner" :data="Banneritems" />
-            <ul class="icons_box">
-                <router-link tag="li" v-for="item in routerLinkArr" :key="item.name" :to="item.path" @click.native="setTransition('turn-on')">
-                    <a><img :src="item.imgurl" alt=""></a>
-                    <span>{{item.name}}</span>
-                </router-link>
-            </ul>
-            <div class="meeting_list">
-                <h2>
-                    <span></span>
-                    团购大会列表
-                    <span></span>
-                </h2>
-                <list-tab :meetingListData="meetingList"></list-tab>
+            <div class="scroll-list-wrap">
+                <scroller>
+                    <cube-slide class="banner" :data="Banneritems" />
+                    <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
+                        <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.native="setTransition('turn-on')">
+                            <img slot="icon" :src="item.imgurl">
+                            <span slot="label">{{item.name}}</span>
+                        </grid-item>
+
+                    </grid>
+                    <!-- <ul class="icons_box">
+                        <router-link tag="li" v-for="item in routerLinkArr" :key="item.name" :to="item.path" @click.native="setTransition('turn-on')">
+                            <a><img :src="item.imgurl" alt=""></a>
+                            <span>{{item.name}}</span>
+                        </router-link>
+                    </ul> -->
+                    <div class="meeting_list">
+                        <h2>
+                            <span></span>
+                            团购大会列表
+                            <span></span>
+                        </h2>
+                        <list-tab :meetingListData="meetingList"></list-tab>
+                    </div>
+                </scroller>
             </div>
+
         </div>
     </div>
 </template>
@@ -32,6 +44,7 @@
     import ListTab from "../components/common/listTab";
     import { mapMutations } from "vuex";
     import { _getData } from "../service/getData";
+    import { Grid, GridItem } from "vux";
     const routerLinkArr = [
         {
             path: "/myHospitalGroupBuy",
@@ -89,7 +102,9 @@
         },
         components: {
             Header,
-            ListTab
+            ListTab,
+            Grid,
+            GridItem
         },
         methods: {
             handleClick() {
@@ -131,15 +146,18 @@
 <style lang="scss" scoped>
     @import "../../../../static/scss/_commonScss";
     .container {
-        height: 100%;
-        width: 100%;
-        position: fixed;
+        @include basic_container_style;
         .content {
-            height: calc(100% - #{$header-height});
-            padding: 10px 13px;
-            background: $base-backgroud;
-            overflow: auto;
-            //-webkit-overflow-scrolling: touch;
+            padding: 0;
+            .scroll-list-wrap {
+                height: 100%;
+                position: relative;
+                /deep/ ._v-container {
+                    ._v-content {
+                        padding: 10px 13px;
+                    }
+                }
+            }
             .cube-slide.banner {
                 height: 145px;
             }
@@ -152,16 +170,21 @@
                 margin: 10px 0;
                 box-shadow: $base-box-shadow;
                 border-radius: 5px;
-                li {
+                > a {
                     display: flex;
                     align-items: center;
                     flex-direction: column;
-                    justify-content: center;
-                    width: (100% / 3);
-                    a {
+                    justify-content: flex-start;
+
+                    padding: 0;
+                    /deep/ .weui-grid__icon {
                         margin-bottom: 5px;
+                        width: 46px;
+                        height: 46px;
+                        margin-top: 20px;
                         img {
                             width: 46px;
+                            height: 46px;
                         }
                     }
                     span {
@@ -177,6 +200,7 @@
                 background: #fff;
                 box-shadow: $base-box-shadow;
                 border-radius: 5px;
+                width: 100%;
                 > h2 {
                     height: 57px;
                     display: flex;
