@@ -12,10 +12,12 @@
                   <span>{{result.address}}</span>
                   </div>
              </div>
-             <div class="right hospitalIntroduce">
-               <span>医院介绍</span>
-               <img src="../../../../../static/images/rightArrow.png" alt="">
-             </div>
+             <router-link to="/hospitalProfile" @click.native="clickLink">
+                 <div class="right hospitalIntroduce">
+                  <span>医院介绍</span>
+                  <img src="../../../../../static/images/rightArrow.png" alt="">
+                </div>
+             </router-link>
          </div>
       </div>
 </template>
@@ -35,6 +37,11 @@ export default {
   },
   components: {
     hosManAttention
+  },
+  methods: {
+    clickLink() {
+      this.$store.commit("setTransition", "turn-on");
+    }
   }
 };
 </script>
