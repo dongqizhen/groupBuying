@@ -8,9 +8,11 @@
                 </cube-scroll>
             </div>
             <div class="right-panel">
+                <slot name="title"></slot>
                 <cube-scroll ref="scroll">
                     <slot name="right-panel-container"></slot>
                 </cube-scroll>
+                <slot name="count"></slot>
             </div>
         </div>
         <!--  </cube-page> -->

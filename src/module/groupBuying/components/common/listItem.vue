@@ -113,7 +113,7 @@
                                 no-repeat center;
                             background-size: 100% 100%;
                             margin-left: 3px;
-                            margin-top: 2px;
+                            //margin-top: 2px;
                         }
                     }
                 }
@@ -125,7 +125,7 @@
                 span {
                     display: block;
                     &:first-child {
-                        margin-bottom: 12px;
+                        margin-bottom: 5px;
                     }
                     a {
                         font-family: BebasNeue;

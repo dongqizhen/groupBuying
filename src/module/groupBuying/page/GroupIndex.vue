@@ -2,20 +2,30 @@
 
     <div class="container">
         <Header :isSearchHide="true">
-            <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle">
+            <tab slot="mainTitle" :line-width="2" custom-bar-width="20px" active-color="#019DDD" default-color="#666">
+                <tab-item v-for="(item, index) in tabs" @on-item-click="handler" :key="index" :selected="index==2?true:false">{{item.label}}</tab-item>
+            </tab>
+            <!-- <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle" @change="tabBarChange">
                 <cube-tab v-for="(item, index) in tabs" :label="item.label" :key="index">
                 </cube-tab>
-            </cube-tab-bar>
+            </cube-tab-bar> -->
         </Header>
         <div class="content">
             <div class="scroll-list-wrap">
                 <scroller>
-                    <cube-slide class="banner" :data="Banneritems" />
+                    <cube-slide ref="slide" :data="Banneritems" class="banner">
+                        <cube-slide-item v-for="(item, index) in Banneritems" :key="index">
+                            <a :href="item.url">
+                                <img :src="item.img">
+                            </a>
+                        </cube-slide-item>
+                    </cube-slide>
+
                     <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
                         <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.native="setTransition('turn-on')">
                             <img slot="icon" :src="item.imgurl">
                             <span slot="label">{{item.name}}</span>
-                            <badge :text="`已报名${item.num}家`" v-if="item.showText"></badge>
+                            <badge :text="`已报名${item.num}家`" v-if="item.num"></badge>
                         </grid-item>
 
                     </grid>
@@ -45,7 +55,8 @@
     import ListTab from "../components/common/listTab";
     import { mapMutations } from "vuex";
     import { _getData } from "../service/getData";
-    import { Grid, GridItem, Badge } from "vux";
+    import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
+    import { log } from "util";
     const routerLinkArr = [
         {
             path: "/myHospitalGroupBuy",
@@ -54,7 +65,7 @@
             num: 50
         },
         {
-            path: "/",
+            path: "/enterpriseSeal",
             name: "企业团购报名",
             imgurl: "../static/images/companyApply.png",
             num: 50
@@ -83,23 +94,7 @@
                         label: "团购"
                     }
                 ],
-                Banneritems: [
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide01.png"
-                    },
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide02.png"
-                    },
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png"
-                    }
-                ],
+                Banneritems: [],
                 meetingList: {}
             };
         },
@@ -108,15 +103,18 @@
             ListTab,
             Grid,
             GridItem,
-            Badge
+            Badge,
+            Tab,
+            TabItem
         },
         methods: {
             handleClick() {
                 this.setTransition("turn-on");
             },
-            ...mapMutations(["setTransition"])
+            ...mapMutations(["setTransition"]),
+            handler() {}
         },
-        activated() {
+        mounted() {
             _getData(
                 //获取轮播图
                 "/server/banner!request.action",
@@ -126,10 +124,13 @@
                     params: { type: 15 },
                     token: "09a52ead-ef25-411d-8ac2-e3384fceed68"
                 },
-                function(data) {
+                data => {
                     console.log(data);
+                    this.Banneritems = data.bannerList;
                 }
             );
+        },
+        activated() {
             _getData(
                 "/server_pro/groupPurchase!request.action",
                 {
@@ -140,7 +141,7 @@
                 },
                 data => {
                     console.log(data);
-                    this.meetingList = data.data.result;
+                    this.meetingList = data;
                 }
             );
         }
@@ -151,19 +152,29 @@
     @import "../../../../static/scss/_commonScss";
     .container {
         @include basic_container_style;
-        .content {
-            padding: 0;
-            .scroll-list-wrap {
+        /deep/ header {
+            .vux-tab-wrap {
                 height: 100%;
-                position: relative;
-                /deep/ ._v-container {
-                    ._v-content {
-                        padding: 10px 13px;
+                width: 204px;
+                .vux-tab {
+                    .vux-tab-item {
+                        font-family: PingFangSC-Regular;
+                        font-size: 15px;
+                        color: #666666;
                     }
                 }
             }
+        }
+        .content {
             .cube-slide.banner {
                 height: 145px;
+                .cube-slide-item {
+                    a {
+                        img {
+                            width: 100%;
+                        }
+                    }
+                }
             }
             .icons_box {
                 display: flex;
@@ -174,6 +185,10 @@
                 margin: 10px 0;
                 box-shadow: $base-box-shadow;
                 border-radius: 5px;
+                &::before {
+                    border: none;
+                }
+
                 > a {
                     display: flex;
                     align-items: center;
@@ -181,6 +196,11 @@
                     justify-content: flex-start;
                     text-decoration: none;
                     padding: 0;
+                    position: relative;
+                    // overflow: auto;
+                    &::after {
+                        border: none;
+                    }
                     /deep/ .weui-grid__icon {
                         margin-bottom: 5px;
                         width: 46px;
@@ -191,9 +211,28 @@
                             height: 46px;
                         }
                     }
-                    span {
-                        color: #666666;
-                        font-size: 13px;
+                    .weui-grid__label {
+                        span {
+                            color: #666666;
+                            font-size: 13px;
+                        }
+                    }
+                    > span {
+                        position: absolute;
+                        background: #fb4354;
+                        height: 15px;
+                        font-family: PingFangSC-Medium;
+                        font-size: 10px;
+                        color: #ffffff;
+                        display: flex;
+                        justify-content: center;
+                        flex-wrap: nowrap;
+                        align-items: center;
+                        top: 15px;
+                        left: 50%;
+                        min-width: 77px;
+                        width: auto;
+                        z-index: 10;
                     }
                     &:active {
                         background: rgba($color: #999, $alpha: 0.3);

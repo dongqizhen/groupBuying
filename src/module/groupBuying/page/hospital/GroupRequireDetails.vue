@@ -15,7 +15,7 @@
             <span class="value">10件</span>
           </div>
           <div class="infoCount">
-            本次团购，CT类设备已累计申报98台，历史累计申报共275台。
+            本次团购,CT类设备已累计申报98台,历史累计申报共275台。
           </div>
         </div>
         <div class="common hopePrice">
@@ -72,7 +72,7 @@
             <span class="value">CT类</span>
           </div>
           <div class="infoCount">
-            本次团购，CT类设备已累计申报98台，历史累计申报共275台。
+            本次团购,CT类设备已累计申报98台,历史累计申报共275台。
           </div>
         </div>
         <div class="common productSort">
@@ -189,7 +189,7 @@ export default {
         font-family: PingFangSC-Regular;
         font-size: 11px;
         color: #f4854b;
-        padding: 0 13px;
+        padding-left: 13px;
         border-top-right-radius: 10.5px;
         border-bottom-right-radius: 10.5px;
         margin-bottom: 13px;

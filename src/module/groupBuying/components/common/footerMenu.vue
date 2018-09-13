@@ -2,7 +2,21 @@
 <template>
         <div class="footerMenu">
             <ul>
-              <li v-for="item in arrays" :key="item.name"><div v-if="item.img"><img :src="item.img" alt=""></div><div class="itemName">{{item.name}}</div></li>
+              <router-link tag="li" :to="{ path: 'productDetails', query: { shopID: 1 }}"  @click.native="clickLink">
+                  <div><img src="../../../../../static/images/shop.png"></div>
+                  <div class="itemName">查看商家</div>
+            </router-link>
+            <li>
+                 <div><img src="../../../../../static/images/email.png"></div>
+                  <div class="itemName">私信商家</div>
+                  </li>
+            <li>
+                  <div><img src="../../../../../static/images/store.png"></div>
+                  <div class="itemName">收藏</div>
+             </li>
+            <router-link tag="li" :to="{ path: 'submitGroupDemand', query: { hospitalID: 1 }}"  @click.native="clickLink">
+                 <div class="itemName">加入我的团购需求表</div>
+            </router-link>
             </ul>
         </div>
 </template>
@@ -11,12 +25,14 @@
     export default {
         data(){
             return {
-              arrays:[
-                {id:1,name:"查看商家",img:"../../../../../static/images/shop.png"},
-                {id:2,name:"私信商家",img:"../../../../../static/images/email.png"},
-                {id:3,name:"收藏",img:"../../../../../static/images/store.png"},
-                {id:4,name:"加入我的团购需求表",img:""}
-              ]
+              lists:[
+                {id:1,path:'productDetails',imgUrl:'../../../../../static/images/shop.png',name:'查看商家'},
+                {id:2,path:'',imgUrl:'../../../../../static/images/email.png',name:'私信商家'},
+                {id:3,path:'',imgUrl:'../../../../../static/images/store.png',name:'收藏'},
+                {id:4,path:'submitGroupDemand',imgUrl:'',name:'加入我的团购需求表'},
+                ],
+                hospitalID:1,
+                shopID:1
             }
         },
         methods:{
@@ -52,8 +68,10 @@
         border-right:none;
         line-height: 46px;
         background-color: $theme-color;
-        color: #fff;
         font-size: 14px;
+        .itemName{
+          color: #fff;
+        }
       }
       img{
         width: 16px;

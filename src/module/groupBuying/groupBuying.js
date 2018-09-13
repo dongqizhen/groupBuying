@@ -10,7 +10,7 @@ import Axios from '@/config/axios.js'
 import VueTouch from 'vue-touch-easyhi'
 import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css'
-import "../../../static/css/cube-ui/cube-ui.scss"
+//import "../../../static/css/cube-ui/cube-ui.scss"
 import {
     SwipeCell
 } from 'vant';

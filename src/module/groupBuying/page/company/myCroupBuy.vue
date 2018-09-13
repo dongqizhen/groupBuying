@@ -1,6 +1,6 @@
 <template>
     <div class="container myCompanyGroupBuy">
-        <Header :isSearchHide="false" :title="this.$route.name">
+        <Header :isSearchHide="false" title="我的团购（企业）">
             <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')">上传的产品</router-link>
         </Header>
         <div class="content">
