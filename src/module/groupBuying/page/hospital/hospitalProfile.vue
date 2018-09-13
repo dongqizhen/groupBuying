@@ -6,19 +6,19 @@
         <div class="content">
             <basic-information title="医院基本信息"></basic-information>
             <div class="Personal_information">
-                <basic-title title="团购负责人信息" imgurl="/static/images/Personal_information.png">
+                <basic-title title="团购负责人信息" imgurl="../static/images/Personal_information.png">
                     <span slot="check">收起</span>
                 </basic-title>
                 <personal-information :read="true" :disabled="true" v-for="(val,index) in data" :key="index" :data="val"></personal-information>
             </div>
             <div class="hospitalDetails">
-                <basic-title title="医院详细介绍" imgurl="/static/images/hospitalDetails.png"></basic-title>
+                <basic-title title="医院详细介绍" imgurl="../static/images/hospitalDetails.png"></basic-title>
                 <div class="main_content">
                     2007年聚通达诞生于北京中关村，是国家和中关村高新技术企业。2016年7月挂牌新三板，证券代码837883。聚通达现有员工300余人，50%以上为专业研发团队。
                 </div>
             </div>
             <div class="product_list">
-                <basic-title title="团购需求列表" imgurl="/static/images/product_list.png"></basic-title>
+                <basic-title title="团购需求列表" imgurl="../static/images/product_list.png"></basic-title>
                 <type-scroll-nav-bar></type-scroll-nav-bar>
                 <budget-count></budget-count>
                 <demand-list></demand-list>

@@ -4,14 +4,19 @@
             <router-link to="/demandTable" slot="explain" @click.native="setTransition('turn-on')">需求汇总表</router-link>
         </Header>
         <div class="content">
-            <basic-information isShowArrowBox isShowCheck title="医院基本信息" buttonName="医院介绍" path='/hospitalProfile'>
+            <div class="scroll-list-wrap">
+                <scroller>
+                    <basic-information isShowArrowBox isShowCheck title="医院基本信息" buttonName="医院介绍" path='/hospitalProfile'>
 
-            </basic-information>
-            <div class="i_join_in">
-                <basic-title title="我参加的团购" imgurl='/static/images/groupBuy.png'></basic-title>
-                <list-tab></list-tab>
+                    </basic-information>
+                    <div class="i_join_in">
+                        <basic-title title="我参加的团购" imgurl='../static/images/groupBuy.png'></basic-title>
+                        <list-tab></list-tab>
+                    </div>
+                    <x-button type="primary" @click.native="submitBtnClick" class="">提交我的团购需求</x-button>
+                </scroller>
             </div>
-            <x-button type="primary" @click.native="submitBtnClick" class="">提交我的团购需求</x-button>
+
         </div>
     </div>
 </template>

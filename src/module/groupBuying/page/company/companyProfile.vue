@@ -6,7 +6,7 @@
         <div class="content">
             <basic-information title="企业基本信息"></basic-information>
             <div class="Personal_information">
-                <basic-title title="团购负责人信息" imgurl="../images/Personal_information.png">
+                <basic-title title="团购负责人信息" imgurl="../static/images/Personal_information.png">
                     <span slot="check">收起</span>
                 </basic-title>
                 <personal-information :read="true" :disabled="true" v-for="(val,index) in data" :key="index" :data="val"></personal-information>

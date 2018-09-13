@@ -2,56 +2,60 @@
     <div class="container">
         <Header :isSearchHide="false" :title="this.$route.name"></Header>
         <div class="content">
-            <div class="Select_project">
-                <basic-title title="请选择团购项目" imgurl="/static/images/selectproject.png">
-                    <span slot="select">(必选项，多选)</span>
-                </basic-title>
-                <select-project-nav></select-project-nav>
-            </div>
-            <div class="company_basic_information">
-                <basic-title title="企业基本信息" imgurl="/static/images/basicInformation.png">
-                    <span slot="select">(必填题)</span>
-                </basic-title>
-                <ul>
-                    <li v-ripple>
-                        <span>公司名称：</span>
-                        <cube-input v-model="value" placeholder="请输入公司全称"></cube-input>
-                    </li>
-                    <li v-ripple>
-                        <router-link to='/typeOfEnterprise'>
-                            <span>企业类型：</span>
-                            <div>外资厂家
-                                <i></i>
-                            </div>
-                        </router-link>
-                    </li>
-                    <li v-ripple>
-                        <router-link to="/mainBusiness">
-                            <span>主营业务：</span>
-                            <cube-input placeholder="请选择主营业务" :disabled="true">
-                                <i slot="append"></i>
-                            </cube-input>
-                        </router-link>
+            <div class="scroll-list-wrap">
+                <scroller>
+                    <div class="Select_project">
+                        <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
+                            <span slot="select">(必选项，多选)</span>
+                        </basic-title>
+                        <select-project-nav></select-project-nav>
+                    </div>
+                    <div class="company_basic_information">
+                        <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
+                            <span slot="select">(必填题)</span>
+                        </basic-title>
+                        <ul>
+                            <li v-ripple>
+                                <span>公司名称：</span>
+                                <cube-input v-model="value" placeholder="请输入公司全称"></cube-input>
+                            </li>
+                            <li v-ripple>
+                                <router-link to='/typeOfEnterprise'>
+                                    <span>企业类型：</span>
+                                    <div>外资厂家
+                                        <i></i>
+                                    </div>
+                                </router-link>
+                            </li>
+                            <li v-ripple>
+                                <router-link to="/mainBusiness">
+                                    <span>主营业务：</span>
+                                    <cube-input placeholder="请选择主营业务" :disabled="true">
+                                        <i slot="append"></i>
+                                    </cube-input>
+                                </router-link>
 
-                    </li>
-                    <li v-ripple>
-                        <span>地址：</span>
-                        <cube-input placeholder="请选择地址" :disabled="true">
-                            <i slot="append"></i>
-                        </cube-input>
-                    </li>
-                </ul>
-            </div>
-            <div class="personal_informatin">
-                <basic-title title="团购负责人信息" imgurl='/static/images/blueBasicInformation.png'>
-                    <span slot="select">(
-                        <i>*</i>为必填项)</span>
-                </basic-title>
-                <personal-information :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
+                            </li>
+                            <li v-ripple>
+                                <span>地址：</span>
+                                <cube-input placeholder="请选择地址" :disabled="true">
+                                    <i slot="append"></i>
+                                </cube-input>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="personal_informatin">
+                        <basic-title title="团购负责人信息" imgurl='../static/images/blueBasicInformation.png'>
+                            <span slot="select">(
+                                <i>*</i>为必填项)</span>
+                        </basic-title>
+                        <personal-information :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
 
+                    </div>
+                    <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
+                    <x-button v-else type="primary" show-loading>提交中</x-button>
+                </scroller>
             </div>
-            <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
-            <x-button v-else type="primary" show-loading>提交中</x-button>
         </div>
     </div>
 </template>
@@ -102,14 +106,8 @@
         font-size: 14px !important;
     }
     .container {
-        height: 100%;
-        width: 100%;
-        position: fixed;
+        @include basic_container_style;
         .content {
-            height: calc(100% - #{$header-height});
-            padding: 10px 13px;
-            background: $base-backgroud;
-            overflow: auto;
             /deep/ .basicTitle {
                 p {
                     span {
@@ -176,7 +174,7 @@
                                     display: flex;
                                     height: 14px;
                                     width: 8px;
-                                    background: url("/static/images/grayarrow.png")
+                                    background: url("../../../../../static/images/grayarrow.png")
                                         no-repeat center;
                                     background-size: 100% 100%;
                                     margin-left: 3px;
@@ -200,7 +198,7 @@
                                 display: flex;
                                 height: 14px;
                                 width: 8px;
-                                background: url("/static/images/grayarrow.png")
+                                background: url("../../../../../static/images/grayarrow.png")
                                     no-repeat center;
                                 background-size: 100% 100%;
                                 margin-left: 3px;

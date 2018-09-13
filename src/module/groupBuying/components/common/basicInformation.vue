@@ -141,8 +141,8 @@
                     color: #019ddd;
                     i {
                         display: flex;
-                        background: url("/static/images/rightArrow.png") no-repeat
-                            center;
+                        background: url("../../../../../static/images/rightArrow.png")
+                            no-repeat center;
                         height: 12px;
                         width: 7px;
                         background-size: 100% 100%;
