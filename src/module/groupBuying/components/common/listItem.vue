@@ -66,14 +66,16 @@
             height: 20px;
             width: 60px;
             top: 0;
-            background: url("/static/images/progress.png") no-repeat center;
+            background: url("../../../../../static/images/progress.png") no-repeat
+                center;
             background-size: 100% 100%;
         }
         .topLeft {
             left: 0;
         }
         .topRight {
-            background: url("/static/images/nationwide.png") no-repeat center;
+            background: url("../../../../../static/images/nationwide.png") no-repeat
+                center;
             right: 0;
             background-size: 100% 100%;
         }
@@ -107,8 +109,8 @@
                             display: flex;
                             height: 13px;
                             width: 10px;
-                            background: url("/static/images/site.png") no-repeat
-                                center;
+                            background: url("../../../../../static/images/site.png")
+                                no-repeat center;
                             background-size: 100% 100%;
                             margin-left: 3px;
                             margin-top: 2px;

@@ -51,11 +51,11 @@ Vue.prototype.$http = Axios
 Vue.prototype.$API_URL = process.env.API_HOST.URL
 Vue.config.productionTip = false
 
-/* if ('addEventListener' in document) {
+if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
         FastClick.attach(document.body);
     }, false);
-} */
+}
 
 
 Vue.use(VueTouch)

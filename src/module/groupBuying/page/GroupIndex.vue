@@ -15,6 +15,7 @@
                         <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.native="setTransition('turn-on')">
                             <img slot="icon" :src="item.imgurl">
                             <span slot="label">{{item.name}}</span>
+                            <badge :text="`已报名${item.num}家`" v-if="item.showText"></badge>
                         </grid-item>
 
                     </grid>
@@ -44,17 +45,19 @@
     import ListTab from "../components/common/listTab";
     import { mapMutations } from "vuex";
     import { _getData } from "../service/getData";
-    import { Grid, GridItem } from "vux";
+    import { Grid, GridItem, Badge } from "vux";
     const routerLinkArr = [
         {
             path: "/myHospitalGroupBuy",
             name: "医院团购报名",
-            imgurl: "../static/images/hospitalApply.png"
+            imgurl: "../static/images/hospitalApply.png",
+            num: 50
         },
         {
             path: "/",
             name: "企业团购报名",
-            imgurl: "../static/images/companyApply.png"
+            imgurl: "../static/images/companyApply.png",
+            num: 50
         },
         {
             path: "/myComponyGroupBuy",
@@ -104,7 +107,8 @@
             Header,
             ListTab,
             Grid,
-            GridItem
+            GridItem,
+            Badge
         },
         methods: {
             handleClick() {
@@ -175,7 +179,7 @@
                     align-items: center;
                     flex-direction: column;
                     justify-content: flex-start;
-
+                    text-decoration: none;
                     padding: 0;
                     /deep/ .weui-grid__icon {
                         margin-bottom: 5px;

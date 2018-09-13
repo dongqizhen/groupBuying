@@ -3,13 +3,13 @@
         <Header :isSearchHide="false" :title="this.$route.name"></Header>
         <div class="content">
             <div class="Select_project">
-                <basic-title title="请选择团购项目" imgurl="/static/images/selectproject.png">
+                <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
                     <span slot="select">(必选项，多选)</span>
                 </basic-title>
                 <select-project-nav></select-project-nav>
             </div>
             <div class="company_basic_information">
-                <basic-title title="企业基本信息" imgurl="/static/images/basicInformation.png">
+                <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
                     <span slot="select">(必填题)</span>
                 </basic-title>
                 <ul>
@@ -43,7 +43,7 @@
                 </ul>
             </div>
             <div class="personal_informatin">
-                <basic-title title="团购负责人信息" imgurl='/static/images/blueBasicInformation.png'>
+                <basic-title title="团购负责人信息" imgurl='../static/images/blueBasicInformation.png'>
                     <span slot="select">(
                         <i>*</i>为必填项)</span>
                 </basic-title>
@@ -176,7 +176,7 @@
                                     display: flex;
                                     height: 14px;
                                     width: 8px;
-                                    background: url("/static/images/grayarrow.png")
+                                    background: url("../../../../../static/images/grayarrow.png")
                                         no-repeat center;
                                     background-size: 100% 100%;
                                     margin-left: 3px;
@@ -200,7 +200,7 @@
                                 display: flex;
                                 height: 14px;
                                 width: 8px;
-                                background: url("/static/images/grayarrow.png")
+                                background: url("../../../../../static/images/grayarrow.png")
                                     no-repeat center;
                                 background-size: 100% 100%;
                                 margin-left: 3px;

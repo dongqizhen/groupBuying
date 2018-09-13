@@ -16,55 +16,54 @@
 
 <script>
     export default {
-        data(){
-            return {
-
-            }
+        data() {
+            return {};
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
-    .productList{
+    .productList {
         width: 100%;
         display: flex;
         justify-content: flex-start;
-        .left_box{
+        .left_box {
             width: 75px;
             background: #03cc03;
             height: 100%;
             margin-right: 20px;
         }
-        .right_box{
-            p{
+        .right_box {
+            p {
                 font-family: PingFangSC-Medium;
                 font-size: 18px;
-                color: #FB4354;
+                color: #fb4354;
                 display: flex;
                 justify-content: flex-start;
                 align-items: flex-end;
                 height: 22px;
-                span{
+                span {
                     font-family: PingFangSC-Regular;
                     font-size: 13px;
                     margin-bottom: 1px;
                     //margin-right: 2px;
-                    &.groupbuy{
+                    &.groupbuy {
                         width: 37px;
                         height: 15px;
-                        background: #F56A23;
+                        background: #f56a23;
                         border-radius: 2px;
                         font-family: PingFangSC-Medium;
                         font-size: 10px;
-                        color: #FEFFFF;
+                        color: #feffff;
                         align-items: center;
                         justify-content: center;
                         line-height: 15px;
                         margin-left: 11px;
+                        text-align: center;
                     }
                 }
             }
-            >span{
+            > span {
                 font-family: PingFangSC-Medium;
                 font-size: 13px;
                 color: #333333;
