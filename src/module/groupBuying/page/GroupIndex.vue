@@ -40,185 +40,185 @@
 </template>
 
 <script>
-    import Header from "../components/header/header";
-    import ListTab from "../components/common/listTab";
-    import { mapMutations } from "vuex";
-    import { _getData } from "../service/getData";
-    import { Grid, GridItem } from "vux";
-    const routerLinkArr = [
-        {
-            path: "/myHospitalGroupBuy",
-            name: "医院团购报名",
-            imgurl: "../static/images/hospitalApply.png"
-        },
-        {
-            path: "/",
-            name: "企业团购报名",
-            imgurl: "../static/images/companyApply.png"
-        },
-        {
-            path: "/myComponyGroupBuy",
-            name: "我的团购",
-            imgurl: "../static/images/myApply.png"
-        }
-    ];
+import Header from "../components/header/header";
+import ListTab from "../components/common/listTab";
+import { mapMutations } from "vuex";
+import { _getData } from "../service/getData";
+import { Grid, GridItem } from "vux";
+const routerLinkArr = [
+  {
+    path: "/myHospitalGroupBuy",
+    name: "医院团购报名",
+    imgurl: "../static/images/hospitalApply.png"
+  },
+  {
+    path: "/",
+    name: "企业团购报名",
+    imgurl: "../static/images/companyApply.png"
+  },
+  {
+    path: "/myComponyGroupBuy",
+    name: "我的团购",
+    imgurl: "../static/images/myApply.png"
+  }
+];
 
-    export default {
-        name: "index",
-        data() {
-            return {
-                routerLinkArr,
-                selectedLabel: "团购",
-                tabs: [
-                    {
-                        label: "产品"
-                    },
-                    {
-                        label: "商家"
-                    },
-                    {
-                        label: "团购"
-                    }
-                ],
-                Banneritems: [
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide01.png"
-                    },
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide02.png"
-                    },
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png"
-                    }
-                ],
-                meetingList: {}
-            };
+export default {
+  name: "index",
+  data() {
+    return {
+      routerLinkArr,
+      selectedLabel: "团购",
+      tabs: [
+        {
+          label: "产品"
         },
-        components: {
-            Header,
-            ListTab,
-            Grid,
-            GridItem
+        {
+          label: "商家"
         },
-        methods: {
-            handleClick() {
-                this.setTransition("turn-on");
-            },
-            ...mapMutations(["setTransition"])
-        },
-        activated() {
-            _getData(
-                //获取轮播图
-                "/server/banner!request.action",
-                {
-                    method: "getAppBannerList",
-                    userid: "7544",
-                    params: { type: 15 },
-                    token: "09a52ead-ef25-411d-8ac2-e3384fceed68"
-                },
-                function(data) {
-                    console.log(data);
-                }
-            );
-            _getData(
-                "/server_pro/groupPurchase!request.action",
-                {
-                    method: "getPageList",
-                    userid: "7544",
-                    token: "09a52ead-ef25-411d-8ac2-e3384fceed68",
-                    params: {}
-                },
-                data => {
-                    console.log(data);
-                    this.meetingList = data.data.result;
-                }
-            );
+        {
+          label: "团购"
         }
+      ],
+      Banneritems: [
+        {
+          url: "http://www.didichuxing.com/",
+          image:
+            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide01.png"
+        },
+        {
+          url: "http://www.didichuxing.com/",
+          image:
+            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide02.png"
+        },
+        {
+          url: "http://www.didichuxing.com/",
+          image:
+            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png"
+        }
+      ],
+      meetingList: {}
     };
+  },
+  components: {
+    Header,
+    ListTab,
+    Grid,
+    GridItem
+  },
+  methods: {
+    handleClick() {
+      this.setTransition("turn-on");
+    },
+    ...mapMutations(["setTransition"])
+  },
+  activated() {
+    _getData(
+      //获取轮播图
+      "/server/banner!request.action",
+      {
+        method: "getAppBannerList",
+        userid: "7544",
+        params: { type: 15 },
+        token: "09a52ead-ef25-411d-8ac2-e3384fceed68"
+      },
+      function(data) {
+        console.log(data);
+      }
+    );
+    _getData(
+      "/server_pro/groupPurchase!request.action",
+      {
+        method: "getPageList",
+        userid: "7544",
+        token: "09a52ead-ef25-411d-8ac2-e3384fceed68",
+        params: {}
+      },
+      data => {
+        console.log(data);
+        this.meetingList = data.data.result;
+      }
+    );
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../../static/scss/_commonScss";
-    .container {
-        @include basic_container_style;
-        .content {
-            padding: 0;
-            .scroll-list-wrap {
-                height: 100%;
-                position: relative;
-                /deep/ ._v-container {
-                    ._v-content {
-                        padding: 10px 13px;
-                    }
-                }
-            }
-            .cube-slide.banner {
-                height: 145px;
-            }
-            .icons_box {
-                display: flex;
-                flex-wrap: nowrap;
-                justify-content: center;
-                height: 110px;
-                background: #fff;
-                margin: 10px 0;
-                box-shadow: $base-box-shadow;
-                border-radius: 5px;
-                > a {
-                    display: flex;
-                    align-items: center;
-                    flex-direction: column;
-                    justify-content: flex-start;
-
-                    padding: 0;
-                    /deep/ .weui-grid__icon {
-                        margin-bottom: 5px;
-                        width: 46px;
-                        height: 46px;
-                        margin-top: 20px;
-                        img {
-                            width: 46px;
-                            height: 46px;
-                        }
-                    }
-                    span {
-                        color: #666666;
-                        font-size: 13px;
-                    }
-                    &:active {
-                        background: rgba($color: #999, $alpha: 0.3);
-                    }
-                }
-            }
-            .meeting_list {
-                background: #fff;
-                box-shadow: $base-box-shadow;
-                border-radius: 5px;
-                width: 100%;
-                > h2 {
-                    height: 57px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 15px;
-                    text-align: center;
-                    color: #666666;
-                    font-family: PingFangSC-Medium;
-                    border-bottom: 1px solid #e9e9e9;
-                    span {
-                        display: block;
-                        border-top: 1px solid #cccccc;
-                        width: 20px;
-                        margin: 0 18px;
-                    }
-                }
-            }
+@import "../../../../static/scss/_commonScss";
+.container {
+  @include basic_container_style;
+  .content {
+    padding: 0;
+    .scroll-list-wrap {
+      height: 100%;
+      position: relative;
+      /deep/ ._v-container {
+        ._v-content {
+          padding: 10px 13px;
         }
+      }
     }
+    .cube-slide.banner {
+      height: 145px;
+    }
+    .icons_box {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      height: 110px;
+      background: #fff;
+      margin: 10px 0;
+      box-shadow: $base-box-shadow;
+      border-radius: 5px;
+      > a {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        padding: 0;
+        /deep/ .weui-grid__icon {
+          margin-bottom: 5px;
+          width: 46px;
+          height: 46px;
+          margin-top: 20px;
+          img {
+            width: 46px;
+            height: 46px;
+          }
+        }
+        span {
+          color: #666666;
+          font-size: 13px;
+        }
+        &:active {
+          background: rgba($color: #999, $alpha: 0.3);
+        }
+      }
+    }
+    .meeting_list {
+      background: #fff;
+      box-shadow: $base-box-shadow;
+      border-radius: 5px;
+      width: 100%;
+      > h2 {
+        height: 57px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        text-align: center;
+        color: #666666;
+        font-family: PingFangSC-Medium;
+        border-bottom: 1px solid #e9e9e9;
+        span {
+          display: block;
+          border-top: 1px solid #cccccc;
+          width: 20px;
+          margin: 0 18px;
+        }
+      }
+    }
+  }
+}
 </style>

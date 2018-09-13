@@ -1,8 +1,8 @@
 
 <template>
 <div class="submitHospitalInfo">
-        <hos-man-attention>
-          <span slot="hospitalName" class="hospital">山东省立医院</span>
+        <hos-man-attention :result="result">
+          <span slot="hospitalName" class="hospital">{{result.hospital}}</span>
         </hos-man-attention>
         <demand-list></demand-list>
         <div class="common addressAndBudget">
@@ -37,6 +37,7 @@ export default {
       this.$store.commit("setTransition", "turn-on");
     }
   },
+  props: ["result"],
   components: {
     hosManAttention,
     demandList

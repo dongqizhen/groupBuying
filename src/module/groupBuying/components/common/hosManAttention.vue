@@ -16,16 +16,9 @@
 import attentionBtn from "./attentionBtn";
 export default {
   data() {
-    return {
-      result: {
-        imgUrl: "../../../../../static/images/add.png",
-        name: "张工",
-        hospital: "山东省立医院",
-        address: "山东省济南市",
-        introduce: "这是一所山东省立医院，归属山东省政府管理规划"
-      }
-    };
+    return {};
   },
+  props: ["result"],
   components: {
     attentionBtn
   }
