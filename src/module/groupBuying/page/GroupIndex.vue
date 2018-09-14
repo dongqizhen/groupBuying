@@ -56,7 +56,7 @@
     import { mapMutations } from "vuex";
     import { _getData } from "../service/getData";
     import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
-    import { log } from "util";
+    import _ from "lodash";
     const routerLinkArr = [
         {
             path: "/myHospitalGroupBuy",
@@ -125,12 +125,9 @@
                     token: "09a52ead-ef25-411d-8ac2-e3384fceed68"
                 },
                 data => {
-                    console.log(data);
                     this.Banneritems = data.bannerList;
                 }
             );
-        },
-        activated() {
             _getData(
                 "/server_pro/groupPurchase!request.action",
                 {
@@ -140,11 +137,14 @@
                     params: {}
                 },
                 data => {
-                    console.log(data);
-                    this.meetingList = data;
+                    this.meetingList = _.keyBy(data.list, val => {
+                        return `${val.year}(${val.num}场)`;
+                    });
+                    console.log(this.meetingList);
                 }
             );
-        }
+        },
+        activated() {}
     };
 </script>
 

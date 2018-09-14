@@ -23,6 +23,7 @@
 
 <script>
     import ListItem from "./listItem";
+    import _ from "lodash";
     export default {
         data() {
             return {
@@ -41,7 +42,8 @@
                     probeType: 3,
                     /* lock y-direction when scrolling horizontally and  vertically at the same time */
                     directionLockThreshold: 0
-                }
+                },
+                ListData: this.addListData || []
             };
         },
         components: {
@@ -86,7 +88,17 @@
                     item => item.label === this.ScrollListSelectedLabel
                 );
                 return index;
+            },
+            addListData() {
+                console.log("1");
+                return _.map(this.listTabs, (val, key) => {
+                    console.log(val, key);
+                });
             }
+        },
+        watch: {},
+        mounted() {
+            console.log(this.meetingListData);
         }
     };
 </script>
