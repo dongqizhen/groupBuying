@@ -2,7 +2,7 @@
   <div class="container">
     <Header :title="this.$route.name"></Header>
     <div class="content">
-      <man-hospital-info class="hospitalAttention"></man-hospital-info>
+      <man-hospital-info class="hospitalAttention" :result="result"></man-hospital-info>
       <div v-if="true" class="intention">
         <budget-count></budget-count>
         <div class="common productSort">
@@ -136,7 +136,14 @@ export default {
         { paramName: "六排八排" },
         { paramName: "六排六排" },
         { paramName: "八排" }
-      ]
+      ],
+      result: {
+        imgUrl: "../../../../../static/images/add.png",
+        name: "张工",
+        hospital: "山东省立医院",
+        address: "山东省济南市",
+        introduce: "这是一所山东省立医院，归属山东省政府管理规划"
+      }
     };
   },
   components: {

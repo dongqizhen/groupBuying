@@ -4,7 +4,7 @@
     <div class="content">
       <select-path-nav></select-path-nav>
       <div class="submitNumber">已提交需求的医院共<span>12</span>家</div>
-        <submit-hospital-req-info-item></submit-hospital-req-info-item>
+        <submit-hospital-req-info-item :result="result"></submit-hospital-req-info-item>
     </div>
   </div>
 </template>
