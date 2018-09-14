@@ -68,9 +68,7 @@ export default {
         }
       } else if (this.itemSelect.length == 3) {
         this.itemSelect = _.without(this.itemSelect, param);
-        if (this.itemSelect.length == 3) {
-          this.showToastTime();
-        }
+        this.showToastTime();
       }
     },
     deleteItem(item) {

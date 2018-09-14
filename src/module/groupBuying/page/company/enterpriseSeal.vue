@@ -8,7 +8,7 @@
                         <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
                             <span slot="select">(必选项，多选)</span>
                         </basic-title>
-                        <select-project-nav></select-project-nav>
+                        <select-project-nav v-on:select-value="handleSelect" ></select-project-nav>
                     </div>
                     <div class="company_basic_information">
                         <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
@@ -61,201 +61,219 @@
 </template>
 
 <script>
-    import Header from "../../components/header/header";
-    import basicTitle from "../../components/common/basicTitle";
-    import personalInformation from "../../components/common/personalInformation";
-    import selectProjectNav from "../../components/common/selectProjectNav";
-    export default {
-        data() {
-            return {
-                value: "",
-                submitBtnStatus: true
-            };
-        },
-        components: {
-            Header,
-            basicTitle,
-            personalInformation,
-            selectProjectNav
-        },
-        methods: {
-            submitBtnClick() {
-                this.submitBtnStatus = false;
-                this.$router.push("registrationSuccess");
-            },
-            handleClickEvent() {}
-        },
-        created() {
-            console.log("created");
-        },
-        activated() {
-            console.log("active");
-        },
-        deactivated() {
-            console.log("disactived");
-        }
+import Header from "../../components/header/header";
+import basicTitle from "../../components/common/basicTitle";
+import personalInformation from "../../components/common/personalInformation";
+import selectProjectNav from "../../components/common/selectProjectNav";
+export default {
+  data() {
+    return {
+      value: "",
+      submitBtnStatus: true,
+      submitData: {
+        id: "",
+        hospitalName: "积水潭医院",
+        address: "北京积水潭",
+        lat: "",
+        lng: "",
+        introduce: "",
+        groupPurchaseTypeIds: "144,222,444",
+        contactId: "",
+        contactName: "",
+        contactPost: "",
+        contactTelphone: "",
+        contactPhone: "",
+        contactWxcode: ""
+      }
     };
+  },
+  components: {
+    Header,
+    basicTitle,
+    personalInformation,
+    selectProjectNav
+  },
+  methods: {
+    submitBtnClick() {
+      this.submitBtnStatus = false;
+      this.$router.push("registrationSuccess");
+    },
+    handleClickEvent() {},
+    handleSelect(value) {
+      console.log(value);
+    }
+  },
+  created() {
+    console.log("created");
+  },
+  activated() {
+    console.log("active");
+  },
+  deactivated() {
+    console.log("disactived");
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../../../static/scss/_commonScss";
-    input::-webkit-input-placeholder {
-        //color: #333 !important;
-        opacity: 1;
-        font-family: PingFangSC-Regular;
-        font-size: 14px !important;
-    }
-    .container {
-        @include basic_container_style;
-        .content {
-            /deep/ .basicTitle {
-                p {
-                    span {
-                        font-family: PingFangSC-Regular;
-                        font-size: 15px;
-                        color: #aaaaaa;
-                        letter-spacing: 0;
-                        margin-left: 5px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-start;
-                        i {
-                            font-size: 16px;
-                            //width: 10px;
-                            color: #f11f1f;
-                            display: flex;
-                            justify-content: center;
-                            margin-right: 4px;
-                            align-items: center;
-                            font-family: PingFangSC-Regular;
-                        }
-                    }
-                }
-            }
-            .Select_project {
-                background: #ffffff;
-                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
-                margin-bottom: 10px;
-            }
-            .company_basic_information {
-                background: #ffffff;
-                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
-                margin-bottom: 10px;
-                ul {
-                    padding-left: 13px;
-                    li {
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        height: 47px;
-                        border-bottom: 0.5px solid #f6f6f6;
-                        a {
-                            display: flex;
-                            justify-content: flex-start;
-                            align-items: center;
-                            text-decoration: none;
-                            width: 100%;
-                            span {
-                                font-family: PingFangSC-Regular;
-                                font-size: 14px;
-                                color: #333333;
-                            }
-                            > div {
-                                display: flex;
-                                justify-content: flex-end;
-                                padding-right: 13px;
-                                font-family: PingFangSC-Regular;
-                                font-size: 14px;
-                                color: #999999;
-                                flex: 1;
-                                i {
-                                    display: flex;
-                                    height: 14px;
-                                    width: 8px;
-                                    background: url("../../../../../static/images/grayarrow.png")
-                                        no-repeat center;
-                                    background-size: 100% 100%;
-                                    margin-left: 3px;
-                                }
-                            }
-                        }
-                        > span {
-                            font-family: PingFangSC-Regular;
-                            font-size: 14px;
-                            color: #333333;
-                        }
-                        > div {
-                            display: flex;
-                            justify-content: flex-end;
-                            padding-right: 13px;
-                            font-family: PingFangSC-Regular;
-                            font-size: 14px;
-                            color: #999999;
-                            flex: 1;
-                            i {
-                                display: flex;
-                                height: 14px;
-                                width: 8px;
-                                background: url("../../../../../static/images/grayarrow.png")
-                                    no-repeat center;
-                                background-size: 100% 100%;
-                                margin-left: 3px;
-                            }
-                        }
-                        /deep/ .cube-input {
-                            flex: 1;
-                            &:after {
-                                border: none;
-                            }
-                            input {
-                                color: #999999;
-                                font-family: PingFangSC-Regular;
-                                font-size: 14px;
-                                padding-left: 0;
-                            }
-                        }
-                    }
-                }
-            }
-            .personal_informatin {
-                background: #ffffff;
-                box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
-                margin-bottom: 10px;
-                /deep/ .personalInformation {
-                    .details {
-                        ul {
-                            li {
-                                span {
-                                    width: auto;
-                                }
-                                > div {
-                                    width: auto;
-                                    input {
-                                        color: #999999;
-                                    }
-                                    input::-webkit-input-placeholder {
-                                        color: #ccc !important;
-                                        opacity: 1;
-                                        font-family: PingFangSC-Regular;
-                                        font-size: 14px !important;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            /deep/ .weui-btn {
-                background: #019ddd;
-                font-family: PingFangSC-Regular;
-                font-size: 16px;
-
-                height: 50px;
-                border-radius: 6px;
-            }
+@import "../../../../../static/scss/_commonScss";
+input::-webkit-input-placeholder {
+  //color: #333 !important;
+  opacity: 1;
+  font-family: PingFangSC-Regular;
+  font-size: 14px !important;
+}
+.container {
+  @include basic_container_style;
+  .content {
+    /deep/ .basicTitle {
+      p {
+        span {
+          font-family: PingFangSC-Regular;
+          font-size: 15px;
+          color: #aaaaaa;
+          letter-spacing: 0;
+          margin-left: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          i {
+            font-size: 16px;
+            //width: 10px;
+            color: #f11f1f;
+            display: flex;
+            justify-content: center;
+            margin-right: 4px;
+            align-items: center;
+            font-family: PingFangSC-Regular;
+          }
         }
+      }
     }
+    .Select_project {
+      background: #ffffff;
+      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .company_basic_information {
+      background: #ffffff;
+      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-bottom: 10px;
+      ul {
+        padding-left: 13px;
+        li {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          height: 47px;
+          border-bottom: 0.5px solid #f6f6f6;
+          a {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-decoration: none;
+            width: 100%;
+            span {
+              font-family: PingFangSC-Regular;
+              font-size: 14px;
+              color: #333333;
+            }
+            > div {
+              display: flex;
+              justify-content: flex-end;
+              padding-right: 13px;
+              font-family: PingFangSC-Regular;
+              font-size: 14px;
+              color: #999999;
+              flex: 1;
+              i {
+                display: flex;
+                height: 14px;
+                width: 8px;
+                background: url("../../../../../static/images/grayarrow.png")
+                  no-repeat center;
+                background-size: 100% 100%;
+                margin-left: 3px;
+              }
+            }
+          }
+          > span {
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+          }
+          > div {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 13px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #999999;
+            flex: 1;
+            i {
+              display: flex;
+              height: 14px;
+              width: 8px;
+              background: url("../../../../../static/images/grayarrow.png")
+                no-repeat center;
+              background-size: 100% 100%;
+              margin-left: 3px;
+            }
+          }
+          /deep/ .cube-input {
+            flex: 1;
+            &:after {
+              border: none;
+            }
+            input {
+              color: #999999;
+              font-family: PingFangSC-Regular;
+              font-size: 14px;
+              padding-left: 0;
+            }
+          }
+        }
+      }
+    }
+    .personal_informatin {
+      background: #ffffff;
+      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-bottom: 10px;
+      /deep/ .personalInformation {
+        .details {
+          ul {
+            li {
+              span {
+                width: auto;
+              }
+              > div {
+                width: auto;
+                input {
+                  color: #999999;
+                }
+                input::-webkit-input-placeholder {
+                  color: #ccc !important;
+                  opacity: 1;
+                  font-family: PingFangSC-Regular;
+                  font-size: 14px !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    /deep/ .weui-btn {
+      background: #019ddd;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+
+      height: 50px;
+      border-radius: 6px;
+    }
+  }
+}
 </style>
