@@ -2,19 +2,17 @@
     <div class="scrollWrapper">
         <div class="listTab">
             <cube-tab-bar v-model="ScrollListSelectedLabel" showSlider ref="tabNav">
-                <cube-tab v-for="(item, index) in listTabs" :label="item.label" :key="item.label">
+                <cube-tab v-for="(item, index) in listTabsData" :label="item.label" :key="index">
                 </cube-tab>
             </cube-tab-bar>
         </div>
         <div class="tab-slide-container">
             <cube-slide ref="slide" :loop="false" :initial-index="initialIndex" :auto-play="false" :show-dots="false" :options="slideOptions" @scroll="scroll" @change="changePage">
-                <cube-slide-item>
-                    <list-item></list-item>
-                    <list-item></list-item>
-                </cube-slide-item>
-                <cube-slide-item>
-                    <list-item></list-item>
-                    <list-item></list-item>
+                <cube-slide-item v-for="(item,key) in meetingListData" :key="key">
+
+                    <list-item v-for="(val,index) in item.underwayList" :key="`underwayList_${index}`" class="underwayList" :dataValue="val"></list-item>
+                    <list-item v-for="(val,index) in item.beginList" :key="`beginList_${index}`" class="beginList" :dataValue="val"></list-item>
+                    <list-item v-for="(val,index) in item.theEndList" :key="`theEndList_${index}`" class="theEndList" :dataValue="val"></list-item>
                 </cube-slide-item>
             </cube-slide>
         </div>
@@ -28,22 +26,15 @@
         data() {
             return {
                 loop: false,
-                ScrollListSelectedLabel: "2018(3场)",
-                listTabs: [
-                    {
-                        label: "2018(3场)"
-                    },
-                    {
-                        label: "2019(8场)"
-                    }
-                ],
+                ScrollListSelectedLabel: "",
+                listTabs: this.listTabsData || [],
                 slideOptions: {
                     listenScroll: true,
                     probeType: 3,
                     /* lock y-direction when scrolling horizontally and  vertically at the same time */
                     directionLockThreshold: 0
                 },
-                ListData: this.addListData || []
+                ListData: this.meetingListData
             };
         },
         components: {
@@ -89,14 +80,21 @@
                 );
                 return index;
             },
-            addListData() {
-                console.log("1");
-                return _.map(this.listTabs, (val, key) => {
-                    console.log(val, key);
+            listTabsData() {
+                return _.map(Object.keys(this.meetingListData), val => {
+                    return {
+                        label: val
+                    };
                 });
             }
         },
-        watch: {},
+        watch: {
+            meetingListData: function(val, oldVal) {}
+        },
+        created() {
+            this.listTabs = this.listTabsData;
+            this.ScrollListSelectedLabel = this.listTabsData[0].label;
+        },
         mounted() {
             console.log(this.meetingListData);
         }

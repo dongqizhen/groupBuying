@@ -1,18 +1,18 @@
 <template>
     <router-link to="/Details" @click.native="clickLink">
         <div class="listItem">
-            <h2>2018中国非公立医疗机构第二届团购大会</h2>
-            <div class="title">苏州团购大会</div>
+            <h2>{{dataValue.mainName}}</h2>
+            <div class="title">{{dataValue.viceName}}</div>
             <div class="time_box">
                 <div class="left">
                     <p>
                         时间：
-                        <span>2018年8月7~8日</span>
+                        <span>{{dataValue.dateArea}}</span>
                     </p>
                     <p>
                         地点：
                         <span>安徽省·合肥市
-                            <i></i>
+                            <i :class=""></i>
                         </span>
 
                     </p>
@@ -20,8 +20,8 @@
                 <div class="right">
                     <span>已参加团购的有:</span>
                     <span>
-                        <a>50</a>家医院
-                        <a>100</a>家企业
+                        <a>{{dataValue.hospitalNum}}</a>家医院
+                        <a>{{dataValue.companyNum}}</a>家企业
                     </span>
 
                 </div>
@@ -42,13 +42,22 @@
             clickLink() {
                 this.$store.commit("setTransition", "turn-on");
             }
+        },
+        props: ["dataValue"],
+        computed: {
+            addClass() {
+                switch (this.dataValue.leveName) {
+                    case "全国团购":
+                        return "National";
+                }
+            }
         }
     };
 </script>
 
 <style lang="scss" scoped>
     .listItem {
-        padding: 30px 12px 18px;
+        padding: 30px 12px 15.5px;
         position: relative;
         background: rgba(255, 255, 255, 0.03);
         border: 0.5px solid rgba(254, 75, 79, 0.2);
@@ -81,11 +90,11 @@
         }
         h2 {
             font-size: 12px;
-            margin-bottom: 7px;
+            margin-bottom: 10px;
         }
         .title {
             font-size: 15px;
-            margin-bottom: 16px;
+            margin-bottom: 21.5px;
         }
         .time_box {
             display: flex;
@@ -98,7 +107,7 @@
                     justify-content: flex-start;
                     align-items: center;
                     &:first-child {
-                        margin-bottom: 12px;
+                        margin-bottom: 17px;
                     }
                     span {
                         color: #151515;
@@ -122,15 +131,19 @@
                 width: 50%;
                 color: #666666;
                 padding-left: 15px;
+                font-family: PingFangSC-Regular;
+                font-size: 10px;
+                color: #666666;
                 span {
                     display: block;
                     &:first-child {
-                        margin-bottom: 5px;
+                        margin-bottom: 10.5px;
                     }
                     a {
-                        font-family: BebasNeue;
+                        font-family: BebasNeue, Arial, Helvetica, sans-serif;
                         font-size: 24px;
                         color: #feb930;
+                        margin-right: 4px;
                     }
                 }
             }
