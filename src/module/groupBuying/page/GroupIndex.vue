@@ -41,7 +41,7 @@
                             团购大会列表
                             <span></span>
                         </h2>
-                        <list-tab :meetingListData="meetingList"></list-tab>
+                        <list-tab v-if="Object.keys(meetingList).length" :meetingListData="meetingList"></list-tab>
                     </div>
                 </scroller>
             </div>
@@ -140,7 +140,6 @@
                     this.meetingList = _.keyBy(data.list, val => {
                         return `${val.year}(${val.num}场)`;
                     });
-                    console.log(this.meetingList);
                 }
             );
         },
@@ -230,9 +229,10 @@
                         align-items: center;
                         top: 15px;
                         left: 50%;
-                        min-width: 77px;
+                        min-width: 62px;
                         width: auto;
                         z-index: 10;
+                        padding: 0 5px;
                     }
                     &:active {
                         background: rgba($color: #999, $alpha: 0.3);

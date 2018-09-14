@@ -6,7 +6,7 @@
         <div class="wrapper">
           <div class="basic_information">
             <basic-title title="团购基本信息" imgurl="../static/images/groupBuy.png"></basic-title>
-            <list-item :result="groupDetailBasicInfo"></list-item>
+            <list-item :dataValue="groupDetailBasicInfo"></list-item>
           </div>
           <div class="hospitalNeeds">
             <h2>
