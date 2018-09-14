@@ -102,10 +102,11 @@
 </script>
 
 <style lang="scss" scoped>
+    @import "../../../../../static/scss/_commonScss";
     .scrollWrapper {
         .listTab {
             height: 40px;
-            border-bottom: 1px solid #e9e9e9;
+            border-bottom: $border_style;
             box-sizing: border-box;
             /deep/ .cube-tab-bar {
                 height: 100%;
@@ -121,7 +122,7 @@
                 }
             }
         }
-        .tab-slide-container {
+        /deep/ .tab-slide-container {
             padding: 10px 10px 0;
         }
     }

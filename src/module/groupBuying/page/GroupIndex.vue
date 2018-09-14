@@ -167,6 +167,7 @@
         .content {
             .cube-slide.banner {
                 height: 145px;
+                @include box_shadow_style;
                 .cube-slide-item {
                     a {
                         img {
@@ -253,7 +254,7 @@
                     text-align: center;
                     color: #666666;
                     font-family: PingFangSC-Medium;
-                    border-bottom: 1px solid #e9e9e9;
+                    border-bottom: $border_style;
                     span {
                         display: block;
                         border-top: 1px solid #cccccc;
