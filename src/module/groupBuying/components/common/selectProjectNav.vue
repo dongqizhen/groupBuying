@@ -41,8 +41,7 @@ export default {
           }
         }
       }
-      console.log(this.itemSelect);
-      this.$emit("select-value", this.itemSelect);
+      this.$emit("select-value", this.itemSelect.join(","));
     },
     activeClass(id) {
       if (this.itemSelect) {

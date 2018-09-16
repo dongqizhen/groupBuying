@@ -8,7 +8,7 @@
                         <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
                             <span slot="select">(必选项，多选)</span>
                         </basic-title>
-                        <select-project-nav v-on:select-value="handleSelect" ></select-project-nav>
+                        <select-project-nav v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
                     </div>
                     <div class="company_basic_information">
                         <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
@@ -17,12 +17,13 @@
                         <ul>
                             <li v-ripple>
                                 <span>公司名称：</span>
-                                <cube-input v-model="value" placeholder="请输入公司全称"></cube-input>
+                                <cube-input v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
                             </li>
                             <li v-ripple>
                                 <router-link to='/typeOfEnterprise'>
                                     <span>企业类型：</span>
-                                    <div>外资厂家
+                                    <div>
+                                      {{companyType.companyTypeName}}
                                         <i></i>
                                     </div>
                                 </router-link>
@@ -30,7 +31,7 @@
                             <li v-ripple>
                                 <router-link to="/mainBusiness">
                                     <span>主营业务：</span>
-                                    <cube-input placeholder="请选择主营业务" :disabled="true">
+                                    <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusiness.mainBusinessName">
                                         <i slot="append"></i>
                                     </cube-input>
                                 </router-link>
@@ -49,7 +50,7 @@
                             <span slot="select">(
                                 <i>*</i>为必填项)</span>
                         </basic-title>
-                        <personal-information :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
+                        <personal-information v-on:nameChange="nameChange" v-for="(item,index) in items" v-on:items-length="handler" :itemsLength="items.length" :personNumber="index" :key="index" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
 
                     </div>
                     <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
@@ -65,19 +66,26 @@ import Header from "../../components/header/header";
 import basicTitle from "../../components/common/basicTitle";
 import personalInformation from "../../components/common/personalInformation";
 import selectProjectNav from "../../components/common/selectProjectNav";
+
 export default {
   data() {
     return {
-      value: "",
+      companyType: { companyTypeName: "", companyTypeId: "" },
+      mainBusiness: { mainBusinessName: "", mainBusinessNameId: "" },
+      items: [0],
       submitBtnStatus: true,
       submitData: {
         id: "",
-        hospitalName: "积水潭医院",
+        companyName: "积水潭医院",
         address: "北京积水潭",
         lat: "",
         lng: "",
         introduce: "",
-        groupPurchaseTypeIds: "144,222,444",
+        groupPurchaseTypeIds: "",
+        province: "",
+        city: "",
+        companyTypeId: "",
+        productlineId: "",
         contactId: "",
         contactName: "",
         contactPost: "",
@@ -101,6 +109,17 @@ export default {
     handleClickEvent() {},
     handleSelect(value) {
       console.log(value);
+      this.submitData.groupPurchaseTypeIds = value;
+    },
+    handler(val) {
+      if (this.items.length < val) {
+        this.items.push(val);
+      } else {
+        this.items.pop();
+      }
+    },
+    nameChange(val) {
+      console.log(val);
     }
   },
   created() {
@@ -108,6 +127,9 @@ export default {
   },
   activated() {
     console.log("active");
+    this.companyType = this.$store.state.page.typeOfEnterprise.selectedCompanyType;
+    this.mainBusiness = this.$store.state.page.mainBusiness.selectedMainBusiness;
+    this.submitData.companyTypeId = this.companyType.companyTypeId;
   },
   deactivated() {
     console.log("disactived");
