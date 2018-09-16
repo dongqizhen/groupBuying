@@ -10,9 +10,9 @@
             <cube-slide ref="slide" :loop="false" :initial-index="initialIndex" :auto-play="false" :show-dots="false" :options="slideOptions" @scroll="scroll" @change="changePage">
                 <cube-slide-item v-for="(item,key) in meetingListData" :key="key">
 
-                    <list-item v-for="(val,index) in item.underwayList" :key="`underwayList_${index}`" class="underwayList" :dataValue="val"></list-item>
-                    <list-item v-for="(val,index) in item.beginList" :key="`beginList_${index}`" class="beginList" :dataValue="val"></list-item>
-                    <list-item v-for="(val,index) in item.theEndList" :key="`theEndList_${index}`" class="theEndList" :dataValue="val"></list-item>
+                    <list-item v-for="(val,index) in item.underwayList" :key="`underwayList_${index}`" :dataValue="val"></list-item>
+                    <list-item v-for="(val,index) in item.beginList" :key="`beginList_${index}`" :dataValue="val"></list-item>
+                    <list-item v-for="(val,index) in item.theEndList" :key="`theEndList_${index}`" :dataValue="val"></list-item>
                 </cube-slide-item>
             </cube-slide>
         </div>

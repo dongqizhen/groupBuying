@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{path:'Details',query:{id:dataValue.id}}" @click.native="clickLink">
+    <router-link :to="{path:'Details',query:{id:dataValue.id}}" @click.native="clickLink" :class="dataValue.status">
         <div class="listItem">
             <h2>{{dataValue.mainName}}</h2>
             <div class="title">{{dataValue.viceName}}</div>
@@ -11,7 +11,7 @@
                     </p>
                     <p>
                         地点：
-                        <span>安徽省·合肥市
+                        <span>{{dataValue.addr}}
                             <i></i>
                         </span>
 
@@ -34,13 +34,16 @@
 </template>
 
 <script>
+    import { mapMutations } from "vuex";
     export default {
         data() {
             return {};
         },
         methods: {
+            ...mapMutations(["setTransition", "setDetailsPageData"]),
             clickLink() {
-                this.$store.commit("setTransition", "turn-on");
+                this.setTransition("turn-on");
+                this.setDetailsPageData(this.dataValue);
             }
         },
         props: ["dataValue"],
@@ -164,7 +167,7 @@
             }
         }
 
-        &.theEndList {
+        &.theEnd {
             .listItem {
                 border: 0.5px solid rgba(204, 204, 204, 0.2);
                 box-shadow: 0.5px 2px 7px 0.5px rgba(204, 204, 204, 0.19);
@@ -174,7 +177,7 @@
                 background-size: 100% 100%;
             }
         }
-        &.beginList {
+        &.begin {
             .listItem {
                 border: 0.5px solid rgba(105, 180, 42, 0.2);
                 box-shadow: 0.5px 2px 7px 0.5px rgba(97, 176, 42, 0.1);

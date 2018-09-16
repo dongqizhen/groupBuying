@@ -3,6 +3,7 @@ interface StateType {
   count: Number,
   states:String,
   API_HOST:Object
+  page:Object
 }
 
 console.log();
@@ -11,6 +12,11 @@ console.log();
 let state: StateType = {
   count: 1,
   states: "turn-on", //控制路由返回
-  API_HOST: process.env.API_HOST
+  API_HOST: process.env.API_HOST,
+  page:{
+    detailsPageData:{
+
+    }
+  }
 };
 export default state

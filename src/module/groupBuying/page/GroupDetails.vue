@@ -6,7 +6,8 @@
         <div class="wrapper">
           <div class="basic_information">
             <basic-title title="团购基本信息" imgurl="../static/images/groupBuy.png"></basic-title>
-            <list-item></list-item>
+            <list-item :dataValue="this.$store.state.page.detailsPageData
+"></list-item>
           </div>
           <div class="hospitalNeeds">
             <h2>
@@ -118,6 +119,7 @@
   import Header from "../components/header/header";
   import ListItem from "../components/common/listItem";
   import basicTitle from "../components/common/basicTitle";
+  import { _getData } from "../service/getData";
   import { mapMutations } from "vuex";
   const GroupList = [
       {
@@ -174,9 +176,10 @@
           id: 3
       }
   ];
+  var groupDetailBasicInfo = [];
   export default {
       data() {
-          return { GroupList, groupInventoryList };
+          return { GroupList, groupInventoryList, groupDetailBasicInfo };
       },
       components: {
           Header,
@@ -191,7 +194,8 @@
           clickLink() {
               this.$store.commit("setTransition", "turn-on");
           }
-      }
+      },
+      mounted() {}
   };
 </script>
 

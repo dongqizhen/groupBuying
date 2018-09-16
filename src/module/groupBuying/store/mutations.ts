@@ -4,6 +4,9 @@ const mutations = {
   },
   setTransition(state, states) {
     state.states = states;
+  },
+  setDetailsPageData(state,val){
+    state.page.detailsPageData = val;
   }
 }
 
