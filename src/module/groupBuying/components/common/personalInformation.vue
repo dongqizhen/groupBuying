@@ -1,12 +1,12 @@
 <template>
     <div class="personalInformation">
-        <div class="details">
+        <div class="details" v-for="(itemPerson,index) in persons" :key="index">
             <h2>
                 <p>
                     <i></i>
-                    团购负责人{{personNumber+1}}
+                    团购负责人{{index+1}}
                 </p>
-                <span v-if="isShowAddBtn != undefined" :class="ISADDORDETELE==personNumber?'':'delete'" @click="addOrdelete(personNumber)"></span>
+                <span v-if="isShowAddBtn != undefined" :class="index==0?'':'delete'" @click="addOrdelete(index)"></span>
             </h2>
             <ul>
                 <li>
@@ -16,31 +16,31 @@
                     <span v-else>
                         <i v-if="isShowStar">*</i>姓名：
                     </span>
-                    <cube-input class="ipt_box" ref="input1" @input="$emit('nameChange',value.name)" v-model="value.name" placeholder="请输入姓名" :disabled='disabled'></cube-input>
+                    <cube-input class="ipt_box" required  v-model.trim="itemPerson.name" placeholder="请输入姓名" :disabled='disabled'></cube-input>
                 </li>
                 <li>
                     <span v-if="read">
                         <i v-if="isShowStar">*</i>职务</span>
                     <span v-else>
                         <i v-if="isShowStar">*</i>职务：</span>
-                    <cube-input class="ipt_box" @input="$emit('jobChange',value.job)" v-model="value.job" placeholder="请输入职务" :disabled='disabled'></cube-input>
+                    <cube-input class="ipt_box" v-model.trim="itemPerson.job" placeholder="请输入职务" :disabled='disabled'></cube-input>
                 </li>
                 <li>
                     <span v-if="read">
                         <i v-if="isShowStar">*</i>移动电话</span>
                     <span v-else>
                         <i v-if="isShowStar">*</i>移动电话：</span>
-                    <cube-input class="ipt_box" @input="$emit('phoneChange',value.phone)" v-model.number="value.phone" placeholder="请输入手机号码" :disabled='disabled' :maxlength="11"></cube-input>
+                    <cube-input class="ipt_box" v-model.number.trim="itemPerson.phone" placeholder="请输入手机号码" :disabled='disabled' :maxlength="11"></cube-input>
                 </li>
                 <li>
                     <span v-if="read">固定电话</span>
                     <span v-else>固定电话：</span>
-                    <cube-input class="ipt_box" @input="$emit('telChange',value.tel)" v-model.trim="value.tel" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
+                    <cube-input class="ipt_box" v-model.trim="itemPerson.tel" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
                 </li>
                 <li>
                     <span v-if="read">微信号</span>
                     <span v-else>微信号：</span>
-                    <cube-input class="ipt_box" v-model.trim="value.weixin" placeholder="请输入微信号" :disabled='disabled'></cube-input>
+                    <cube-input class="ipt_box" v-model.trim="itemPerson.weixin" placeholder="请输入微信号" :disabled='disabled'></cube-input>
                 </li>
             </ul>
         </div>
@@ -51,7 +51,7 @@
 export default {
   data() {
     return {
-      value: this.data
+      persons: this.data
         ? this.data
         : [
             {
@@ -61,8 +61,7 @@ export default {
               tel: "",
               weixin: ""
             }
-          ],
-      ISADDORDETELE: 0
+          ]
     };
   },
   props: [
@@ -74,17 +73,21 @@ export default {
     "personNumber",
     "itemsLength"
   ],
-  mounted() {
-    console.log(this.value);
-    console.log(this.$refs.input1.value);
-  },
+  mounted() {},
   computed: {},
   methods: {
     addOrdelete(i) {
+      console.log(i);
       if (i == 0) {
-        this.$emit("items-length", this.itemsLength + 1);
+        this.persons.push({
+          name: "",
+          job: "",
+          phone: "",
+          tel: "",
+          weixin: ""
+        });
       } else {
-        this.$emit("items-length", this.itemsLength - 1);
+        this.persons.splice(i, 1);
       }
     }
   }

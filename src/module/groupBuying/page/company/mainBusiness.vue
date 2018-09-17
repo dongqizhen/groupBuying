@@ -4,14 +4,31 @@
             <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
-            <search placeholder="请输入主营业务" v-on:valueChange="getValue"></search>
-            <h2>可多选</h2>
+          <div class="selected" >
+                <h2>已选主营业务:</h2>
+                <ul v-if="selectMainBusinessArr.length">
+                    <li v-for="(item,index) in selectMainBusinessArr" :key="item.id">
+                        <span>{{item.name}}</span>
+                        <i @click="deleteItem(index)"></i>
+                    </li>
+                </ul>
+            </div>
+            <search placeholder="请输入主营业务" :selectValue="selectMainBusinessArr" v-on:selectMainBusiness="selectMain" v-on:valueChange="getValue" type="main" isShowSave="true" >
+            <span slot="perpend">保存</span>
+            </search>
             <div class="wrapper_box">
-                <cube-scroll>
+              <cube-index-list :data="mainBusinessList">
+                    <cube-index-list-group v-for="(group, index) in mainBusinessList" :key="index" :group="group">
+                        <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="select" >
+                            <div class="custom-item" :class="activeClass(item.id)">{{item.name}}</div>
+                        </cube-index-list-item>
+                    </cube-index-list-group>
+                </cube-index-list>
+                <!-- <cube-scroll>
                     <ul>
                       <li v-for="item in mainBusinessList" :key="item.id"  @click="select(item)" :class="activeClass(item.id)">{{item.name}}</li>
                     </ul>
-                </cube-scroll>
+                </cube-scroll> -->
             </div>
         </div>
     </div>
@@ -27,20 +44,9 @@ export default {
   data() {
     return {
       searchValue: "",
-      tempMainBusiness: { tempMainBusinessName: "", tempMainBusinessId: "" },
       mainBusiness: { mainBusinessName: "", mainBusinessId: "" },
       selectMainBusinessArr: [],
-      mainBusinessList: [
-        { name: "CT类", id: 286, productLineId: 264 },
-        { name: "医用激光类", id: 287, productLineId: 265 },
-        { name: "灯床塔等手术室设备类", id: 288, productLineId: 266 },
-        {
-          name: "检验室设备类（生化/免疫/临检类）",
-          id: 289,
-          productLineId: 267
-        },
-        { name: "普放类(DR/CR/数字胃肠机)", id: 285, productLineId: 268 }
-      ]
+      mainBusinessList: []
     };
   },
   components: {
@@ -54,43 +60,66 @@ export default {
       this.$router.go(-1);
       if (this.selectMainBusinessArr) {
         for (const val of this.selectMainBusinessArr) {
-          this.tempMainBusiness.tempMainBusinessId += val.id + ",";
-          this.tempMainBusiness.tempMainBusinessName += val.name + ",";
+          this.mainBusiness.mainBusinessId += val.id + ",";
+          this.mainBusiness.mainBusinessName += val.name + ",";
         }
       }
       if (this.searchValue) {
         this.mainBusiness.mainBusinessName =
-          this.tempMainBusiness.tempMainBusinessName + this.searchValue;
+          this.mainBusiness.mainBusinessName + this.searchValue;
         this.mainBusiness.mainBusinessId =
-          this.tempMainBusiness.tempMainBusinessId + this.searchValue;
+          this.mainBusiness.mainBusinessId + this.searchValue;
       } else {
-        this.mainBusiness.mainBusinessName = this.tempMainBusiness.tempMainBusinessName.slice(
+        this.mainBusiness.mainBusinessName = this.mainBusiness.mainBusinessName.slice(
           0,
-          this.tempMainBusiness.tempMainBusinessName.length - 1
+          this.mainBusiness.mainBusinessName.length - 1
         );
-        this.mainBusiness.mainBusinessId = this.tempMainBusiness.tempMainBusinessId.slice(
+        this.mainBusiness.mainBusinessId = this.mainBusiness.mainBusinessId.slice(
           0,
-          this.tempMainBusiness.tempMainBusinessId.length - 1
+          this.mainBusiness.mainBusinessId.length - 1
         );
       }
       this.selectMainBusiness(this.mainBusiness);
     },
+    deleteItem(i) {
+      console.log(i);
+      this.selectMainBusinessArr.splice(i, 1);
+    },
     getValue(val) {
       console.log(val);
-      this.searchValue = val;
+      this.mainBusinessList = val;
     },
+    selectMain(val) {},
     select(item) {
-      if (
-        _.without(this.selectMainBusinessArr, item).length ==
-        this.selectMainBusinessArr.length
-      ) {
-        this.selectMainBusinessArr.push(item);
-      } else {
+      if (this.selectMainBusinessArr.length < 3) {
+        if (
+          _.without(this.selectMainBusinessArr, item).length ==
+          this.selectMainBusinessArr.length
+        ) {
+          this.selectMainBusinessArr.push(item);
+        } else {
+          this.selectMainBusinessArr = _.without(
+            this.selectMainBusinessArr,
+            item
+          );
+        }
+      } else if (this.selectMainBusinessArr.length == 3) {
         this.selectMainBusinessArr = _.without(
           this.selectMainBusinessArr,
           item
         );
+        if (this.itemSelect.length == 3) {
+          this.showToastTime();
+        }
       }
+      console.log(this.selectMainBusinessArr);
+    },
+    showToastTime() {
+      const toast = this.$createToast({
+        time: 1000,
+        txt: "最多选择三个主营业务"
+      });
+      toast.show();
     },
     activeClass(id) {
       if (this.selectMainBusinessArr) {
@@ -104,13 +133,14 @@ export default {
   },
   mounted() {
     _getData(
-      "/server_pro/company!request.action",
+      "/server_pro/mainBussiness!request.action",
       {
-        method: "getProductLineList",
+        method: "getAppPageMainBusinessList",
         params: {}
       },
       data => {
         console.log(data);
+        this.mainBusinessList = data.list;
       }
     );
   }
@@ -135,42 +165,168 @@ export default {
   .content {
     padding: 13px;
     overflow: hidden;
-
-    > h2 {
-      height: 38px;
-      display: flex;
-      justify-content: flex-start;
-      padding-left: 13px;
-      align-items: center;
-      font-family: PingFangSC-Regular;
-      font-size: 13px;
-      color: #666666;
-    }
-    .wrapper_box {
+    .selected {
+      height: 77px;
       background: #ffffff;
-      box-shadow: 0.5px 1px 2px 0.5px rgba(0, 0, 0, 0.1);
       border-radius: 5px;
-      padding-left: 13px;
-      height: calc(100% - 74px);
+      margin-bottom: 10px;
+      h2 {
+        height: 36px;
+        padding-left: 13px;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #666666;
+        display: flex;
+        align-items: center;
+      }
       ul {
+        display: flex;
+        justify-content: flex-start;
+        padding: 0 13px;
         li {
-          height: 46px;
+          height: 30px;
+          border: 0.5px solid #999999;
+          border-radius: 7px;
           display: flex;
-          justify-content: flex-start;
           align-items: center;
-          border-bottom: 0.5px solid #f6f6f6;
           font-family: PingFangSC-Regular;
-          font-size: 14px;
-          color: #333333;
-          &.active {
-            color: #019ddd;
+          font-size: 13px;
+          color: #666666;
+          width: 104px;
+          padding-left: 10px;
+          margin-right: 5px;
+          &.disabled {
+            color: #cccccc;
+            border-color: #ccc;
+            > i {
+              pointer-events: none;
+            }
           }
-          &:last-child {
-            border-bottom: none;
+          > span {
+            //display: flex;
+            width: 72px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          i {
+            display: flex;
+            width: 22px;
+            height: 22px;
+            border-radius: 22px;
+            background: url("/static/images/del.png") no-repeat center center;
+            background-size: 12px 12px;
+            //padding-left: 14.5px;
+            justify-content: center;
+            &:active {
+              background-color: rgba($color: #999, $alpha: 0.3);
+            }
           }
         }
       }
     }
+
+    .wrapper_box {
+      margin-top: 10px;
+      @include box_shadow_style;
+      height: calc(100% - 87px - 60px);
+      padding-top: 0.1px;
+      > h2 {
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #cccccc;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding-left: 13px;
+        border-bottom: 0.5px solid #f6f6f6;
+        justify-content: flex-start;
+        span {
+          font-size: 12px;
+          display: flex;
+          justify-content: flex-start;
+        }
+      }
+      /deep/ .cube-index-list {
+        // height: calc(100% - 40px);
+        border-radius: 5px;
+        .cube-index-list-fixed {
+          display: none;
+        }
+        .cube-index-list-content {
+          > ul {
+            .cube-index-list-group {
+              h2 {
+                display: none;
+              }
+              > ul {
+                li {
+                  height: 46px;
+                  border-bottom: 0.5px solid #f6f6f6;
+                  padding-left: 0;
+                  margin-left: 13px;
+                  display: flex;
+                  align-items: center;
+                  > div {
+                    padding-left: 0;
+                    font-family: PingFangSC-Regular;
+                    font-size: 14px;
+                    color: #333333;
+                    &.active {
+                      color: #019ddd;
+                    }
+                  }
+                  &.disabled {
+                    pointer-events: none;
+                    > div {
+                      color: #cccccc;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .cube-index-list-nav {
+          ul {
+            li {
+              font-family: PingFangSC-Medium;
+              font-size: 11px;
+              color: #999999;
+              padding-right: 4px;
+              &.active {
+                color: #019ddd;
+              }
+            }
+          }
+        }
+      }
+    }
+    // .wrapper_box {
+    // background: #ffffff;
+    // box-shadow: 0.5px 1px 2px 0.5px rgba(0, 0, 0, 0.1);
+    // border-radius: 5px;
+    // padding-left: 13px;
+    // height: calc(100% - 74px);
+    // ul {
+    //   li {
+    //     height: 46px;
+    //     display: flex;
+    //     justify-content: flex-start;
+    //     align-items: center;
+    //     border-bottom: 0.5px solid #f6f6f6;
+    //     font-family: PingFangSC-Regular;
+    //     font-size: 14px;
+    //     color: #333333;
+    //     &.active {
+    //       color: #019ddd;
+    //     }
+    //     &:last-child {
+    //       border-bottom: none;
+    //     }
+    //   }
+    // }
+    // }
   }
 }
 </style>

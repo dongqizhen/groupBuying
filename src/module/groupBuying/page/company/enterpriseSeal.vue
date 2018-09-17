@@ -50,8 +50,7 @@
                             <span slot="select">(
                                 <i>*</i>为必填项)</span>
                         </basic-title>
-                        <personal-information v-on:nameChange="nameChange" v-for="(item,index) in items" v-on:items-length="handler" :itemsLength="items.length" :personNumber="index" :key="index" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
-
+                        <personal-information ref="person" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
                     </div>
                     <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
                     <x-button v-else type="primary" show-loading>提交中</x-button>
@@ -72,7 +71,6 @@ export default {
     return {
       companyType: { companyTypeName: "", companyTypeId: "" },
       mainBusiness: { mainBusinessName: "", mainBusinessNameId: "" },
-      items: [0],
       submitBtnStatus: true,
       submitData: {
         id: "",
@@ -105,21 +103,12 @@ export default {
     submitBtnClick() {
       this.submitBtnStatus = false;
       this.$router.push("registrationSuccess");
+      console.log(this.$refs.person.persons);
     },
     handleClickEvent() {},
     handleSelect(value) {
       console.log(value);
       this.submitData.groupPurchaseTypeIds = value;
-    },
-    handler(val) {
-      if (this.items.length < val) {
-        this.items.push(val);
-      } else {
-        this.items.pop();
-      }
-    },
-    nameChange(val) {
-      console.log(val);
     }
   },
   created() {
@@ -272,7 +261,7 @@ input::-webkit-input-placeholder {
                 width: auto;
               }
               > div {
-                width: auto;
+                //width: auto;
                 input {
                   color: #999999;
                 }
