@@ -21,6 +21,7 @@ import selectModel from "../page/company/selectModel"
 import demandTable from "../page/hospital/demandTable"
 import demandTableDetaile from '../page/hospital/demandTableDetaile'
 import hospitalProfile from '../page/hospital/hospitalProfile'
+import hospitalSeal from '../page/hospital/hospitalSeal'
 import submitGroupDemand from '../page/hospital/submitGroupDemand'
 import groupDemand from '../page/groupDemand/groupDemand'
 import groupDemandDetails from '../page/groupDemand/groupDemandDetails'
@@ -33,124 +34,132 @@ Vue.use(Router)
 const router = new Router({
     mode: 'hash',
     routes: [{
-        path: '/',
-        search: true,
-        component: GroupIndex
-    }, {
-        path: '/Details',
-        name: '团购详情',
-        component: GroupDetails
-    }, 
-    {
-        path: '/productDetails',
-        name: '产品详情',
-        component: productDetails
-    }, 
-    {
-        path: '/myComponyGroupBuy',
-        name: '我的团购（企业）',
-        component: myComponyGroupBuy
-    }, {
-        path: '/uploadedProducts',
-        name: '上传的产品',
-        component: uploadedProducts
-    }, {
-        path: '/companyProfile',
-        name: '企业介绍',
-        component: companyProfile
+            path: '/',
+            search: true,
+            component: GroupIndex
+        }, {
+            path: '/Details',
+            name: '团购详情',
+            component: GroupDetails
+        },
+        {
+            path: '/productDetails',
+            name: '产品详情',
+            component: productDetails
+        },
+        {
+            path: '/myComponyGroupBuy',
+            name: '我的团购（企业）',
+            component: myComponyGroupBuy
+        }, {
+            path: '/uploadedProducts',
+            name: '上传的产品',
+            component: uploadedProducts
+        }, {
+            path: '/companyProfile',
+            name: '企业介绍',
+            component: companyProfile
 
-    }, {
-        path: '/enterpriseSeal',
-        name: '企业团购报名',
-        component: enterpriseSeal
-    }, {
-        path: '/typeOfEnterprise',
-        name: '选择企业类型',
-        component: typeOfEnterprise
-    }, {
-        path: '/mainBusiness',
-        name: '选择主营业务',
-        component: mainBusiness
-    }, {
-        path: '/registrationSuccess',
-        name: '报名成功（企业）',
-        component: registrationSuccess,
-        meta: {
-            keepAlive: true
+        },
+        {
+            path: '/enterpriseSeal',
+            name: '企业团购报名',
+            component: enterpriseSeal
+        },
+        {
+            path: '/hospitalSeal',
+            name: '医院团购报名',
+            component: hospitalSeal
+        },
+        {
+            path: '/typeOfEnterprise',
+            name: '选择企业类型',
+            component: typeOfEnterprise
+        }, {
+            path: '/mainBusiness',
+            name: '选择主营业务',
+            component: mainBusiness
+        }, {
+            path: '/registrationSuccess',
+            name: '报名成功（企业）',
+            component: registrationSuccess,
+            meta: {
+                keepAlive: true
+            }
+        }, {
+            path: '/groupInventory',
+            name: '产品清单',
+            component: groupInventory
+        }, {
+            path: '/groupClassification',
+            name: '团购分类',
+            component: groupClassification
+        }, {
+            path: '/GroupRequireDetails',
+            name: '团购需求详情',
+            component: GroupRequireDetails
+        }, {
+            path: '/groupEquipment',
+            name: '设备团购',
+            component: groupEquipment
+        }, {
+            path: '/perdictTime',
+            name: '选择装机时间',
+            component: perdictTime
+        }, {
+            path: '/mainParams',
+            name: '选择重要参数',
+            component: mainParams
+        }, {
+            path: '/uploadProduct',
+            name: '上传团购产品（企业）',
+            component: uploadProduct,
+            meta: {
+                keepAlive: true
+            }
+        }, {
+            path: '/selectBrand',
+            name: '选择品牌',
+            component: selectBrand
+        }, {
+            path: '/productCategory',
+            name: '选择产品分类',
+            component: productCategory
+        }, {
+            path: '/selectModel',
+            name: '选择型号',
+            component: selectModel,
+            meta: {
+                // keepAlive: true
+            }
+        }, {
+            path: '/myHospitalGroupBuy',
+            component: myHospitalGroupBuy
+        }, {
+            path: '/demandTable',
+            name: '团购需求表',
+            component: demandTable
+        }, {
+            path: '/demandTableDetaile',
+            name: '团购需求表详情',
+            component: demandTableDetaile
+        }, {
+            path: '/hospitalProfile',
+            component: hospitalProfile
+        }, {
+            path: '/submitGroupDemand',
+            name: '提交团购需求 (医院)',
+            component: submitGroupDemand
+        }, {
+            path: '/groupDemand',
+            name: '团购需求',
+            component: groupDemand
+        }, {
+            path: '/groupDemandDetails',
+            name: '团购需求详情',
+            component: groupDemandDetails
         }
-    }, {
-        path: '/groupInventory',
-        name: '产品清单',
-        component: groupInventory
-    }, {
-        path: '/groupClassification',
-        name: '团购分类',
-        component: groupClassification
-    }, {
-        path: '/GroupRequireDetails',
-        name: '团购需求详情',
-        component: GroupRequireDetails
-    }, {
-        path: '/groupEquipment',
-        name: '设备团购',
-        component: groupEquipment
-    }, {
-        path: '/perdictTime',
-        name: '选择装机时间',
-        component: perdictTime
-    }, {
-        path: '/mainParams',
-        name: '选择重要参数',
-        component: mainParams
-    }, {
-        path: '/uploadProduct',
-        name: '上传团购产品（企业）',
-        component: uploadProduct,
-        meta: {
-            keepAlive: true
-        }
-    }, {
-        path: '/selectBrand',
-        name: '选择品牌',
-        component: selectBrand
-    }, {
-        path: '/productCategory',
-        name: '选择产品分类',
-        component: productCategory
-    }, {
-        path: '/selectModel',
-        name: '选择型号',
-        component: selectModel,
-        meta: {
-            // keepAlive: true
-        }
-    }, {
-        path: '/myHospitalGroupBuy',
-        component: myHospitalGroupBuy
-    }, {
-        path: '/demandTable',
-        name: '团购需求表',
-        component: demandTable
-    }, {
-        path: '/demandTableDetaile',
-        name: '团购需求表详情',
-        component: demandTableDetaile
-    }, {
-        path: '/hospitalProfile',
-        component: hospitalProfile
-    }, {
-        path: '/submitGroupDemand',
-        name: '提交团购需求 (医院)',
-        component: submitGroupDemand
-    }, {
-        path: '/groupDemand',
-        name: '团购需求',
-        component: groupDemand
-    }, {
-        path: '/groupDemandDetails',
-        name: '团购需求详情',
-        component: groupDemandDetails
-    }],
+    ],
     /* scrollBehavior(to, from, savedPosition) {
         console.log(to, from, savedPosition)
         if (savedPosition) {

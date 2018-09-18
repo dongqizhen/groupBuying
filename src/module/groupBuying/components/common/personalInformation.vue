@@ -23,7 +23,7 @@
                         <i v-if="isShowStar">*</i>职务</span>
                     <span v-else>
                         <i v-if="isShowStar">*</i>职务：</span>
-                    <cube-input class="ipt_box" v-model.trim="itemPerson.job" placeholder="请输入职务" :disabled='disabled'></cube-input>
+                    <cube-input class="ipt_box" v-model.trim="itemPerson.post" placeholder="请输入职务" :disabled='disabled'></cube-input>
                 </li>
                 <li>
                     <span v-if="read">
@@ -35,12 +35,12 @@
                 <li>
                     <span v-if="read">固定电话</span>
                     <span v-else>固定电话：</span>
-                    <cube-input class="ipt_box" v-model.trim="itemPerson.tel" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
+                    <cube-input class="ipt_box" v-model.trim="itemPerson.telphone" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
                 </li>
                 <li>
                     <span v-if="read">微信号</span>
                     <span v-else>微信号：</span>
-                    <cube-input class="ipt_box" v-model.trim="itemPerson.weixin" placeholder="请输入微信号" :disabled='disabled'></cube-input>
+                    <cube-input class="ipt_box" v-model.trim="itemPerson.wxCode" placeholder="请输入微信号" :disabled='disabled'></cube-input>
                 </li>
             </ul>
         </div>
@@ -51,17 +51,16 @@
 export default {
   data() {
     return {
-      persons: this.data
-        ? this.data
-        : [
-            {
-              name: "",
-              job: "",
-              phone: "",
-              tel: "",
-              weixin: ""
-            }
-          ]
+      persons: [
+        {
+          id: "",
+          name: "",
+          post: "",
+          phone: "",
+          telphone: "",
+          wxCode: ""
+        }
+      ]
     };
   },
   props: [
@@ -73,6 +72,11 @@ export default {
     "personNumber",
     "itemsLength"
   ],
+  watch: {
+    data(newVal) {
+      this.persons = newVal;
+    }
+  },
   mounted() {},
   computed: {},
   methods: {
@@ -80,11 +84,12 @@ export default {
       console.log(i);
       if (i == 0) {
         this.persons.push({
+          id: "",
           name: "",
-          job: "",
+          post: "",
           phone: "",
-          tel: "",
-          weixin: ""
+          telphone: "",
+          wxCode: ""
         });
       } else {
         this.persons.splice(i, 1);

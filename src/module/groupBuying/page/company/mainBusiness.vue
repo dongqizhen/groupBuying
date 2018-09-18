@@ -43,6 +43,8 @@ import _ from "lodash";
 export default {
   data() {
     return {
+      tempMainBusinessId: "",
+      tempMainBusinessName: "",
       searchValue: "",
       mainBusiness: { mainBusinessName: "", mainBusinessId: "" },
       selectMainBusinessArr: [],
@@ -60,26 +62,21 @@ export default {
       this.$router.go(-1);
       if (this.selectMainBusinessArr) {
         for (const val of this.selectMainBusinessArr) {
-          this.mainBusiness.mainBusinessId += val.id + ",";
-          this.mainBusiness.mainBusinessName += val.name + ",";
+          this.tempMainBusinessId += val.id + ",";
+          this.tempMainBusinessName += val.name + ",";
         }
       }
-      if (this.searchValue) {
-        this.mainBusiness.mainBusinessName =
-          this.mainBusiness.mainBusinessName + this.searchValue;
-        this.mainBusiness.mainBusinessId =
-          this.mainBusiness.mainBusinessId + this.searchValue;
-      } else {
-        this.mainBusiness.mainBusinessName = this.mainBusiness.mainBusinessName.slice(
-          0,
-          this.mainBusiness.mainBusinessName.length - 1
-        );
-        this.mainBusiness.mainBusinessId = this.mainBusiness.mainBusinessId.slice(
-          0,
-          this.mainBusiness.mainBusinessId.length - 1
-        );
-      }
+      this.mainBusiness.mainBusinessName = this.tempMainBusinessName.slice(
+        0,
+        this.tempMainBusinessName.length - 1
+      );
+      this.mainBusiness.mainBusinessId = this.tempMainBusinessId.slice(
+        0,
+        this.tempMainBusinessId.length - 1
+      );
       this.selectMainBusiness(this.mainBusiness);
+      this.tempMainBusinessId = "";
+      this.tempMainBusinessName = "";
     },
     deleteItem(i) {
       console.log(i);
@@ -108,7 +105,7 @@ export default {
           this.selectMainBusinessArr,
           item
         );
-        if (this.itemSelect.length == 3) {
+        if (this.selectMainBusinessArr.length == 3) {
           this.showToastTime();
         }
       }

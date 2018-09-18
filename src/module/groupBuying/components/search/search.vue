@@ -63,16 +63,17 @@ export default {
             this.selectValue.push({ id: this.value, name: this.value });
           } else {
             if (this.selectValue.length < 3) {
-              for (let i = 0; i < this.selectValue.length; i++) {
-                if (this.selectValue[i][name] != this.value) {
-                  this.selectValue.push({ id: this.value, name: this.value });
-                }
+              if (
+                _.findLastIndex(this.selectValue, o => {
+                  return o.name == this.value;
+                }) == -1
+              ) {
+                this.selectValue.push({ id: this.value, name: this.value });
               }
             } else {
               this.showToastTime();
             }
           }
-
           this.$emit("selectMainBusiness", this.selectValue);
         }
       }

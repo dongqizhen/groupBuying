@@ -11,31 +11,13 @@
                         <select-project-nav v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
                     </div>
                     <div class="company_basic_information">
-                        <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
+                        <basic-title title="医院基本信息" imgurl="../static/images/basicInformation.png">
                             <span slot="select">(必填题)</span>
                         </basic-title>
                         <ul>
                             <li v-ripple>
-                                <span>公司名称：</span>
-                                <cube-input v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
-                            </li>
-                            <li v-ripple>
-                                <router-link to='/typeOfEnterprise'>
-                                    <span>企业类型：</span>
-                                    <div>
-                                      {{companyType.companyTypeName}}
-                                        <i></i>
-                                    </div>
-                                </router-link>
-                            </li>
-                            <li v-ripple>
-                                <router-link to="/mainBusiness">
-                                    <span>主营业务：</span>
-                                    <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusiness.mainBusinessName">
-                                        <i slot="append"></i>
-                                    </cube-input>
-                                </router-link>
-
+                                <span>医院名称：</span>
+                                <cube-input v-model.trim="submitData.hospitalName" placeholder="请输入医院名称"></cube-input>
                             </li>
                             <li v-ripple>
                                 <span>地址：</span>
@@ -52,6 +34,12 @@
                         </basic-title>
                         <personal-information ref="person" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
                     </div>
+                    <div class="hospitalIntroduce">
+                        <basic-title title="医院详情介绍" imgurl='../static/images/hospitalDetails.png'></basic-title>
+                        <group>
+                            <x-textarea v-model="introduce" placeholder="请输入医院介绍" autosize></x-textarea>
+                        </group>
+                    </div>
                     <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
                     <x-button v-else type="primary" show-loading>提交中</x-button>
                 </scroller>
@@ -65,16 +53,16 @@ import Header from "../../components/header/header";
 import basicTitle from "../../components/common/basicTitle";
 import personalInformation from "../../components/common/personalInformation";
 import selectProjectNav from "../../components/common/selectProjectNav";
+import { Group, XTextarea } from "vux";
 import { _getData } from "../../service/getData";
 export default {
   data() {
     return {
-      companyType: { companyTypeName: "", companyTypeId: "" },
-      mainBusiness: { mainBusinessName: "", mainBusinessNameId: "" },
+      introduce: "",
       submitBtnStatus: true,
       submitData: {
         id: "",
-        companyName: "积水潭医院",
+        hospitalName: "积水潭医院",
         address: "北京积水潭",
         lat: "",
         lng: "",
@@ -82,7 +70,6 @@ export default {
         groupPurchaseTypeIds: "",
         province: "",
         city: "",
-        companyTypeId: "",
         productlineId: "",
         contact: ""
       }
@@ -92,7 +79,9 @@ export default {
     Header,
     basicTitle,
     personalInformation,
-    selectProjectNav
+    selectProjectNav,
+    Group,
+    XTextarea
   },
   methods: {
     submitBtnClick() {
@@ -104,9 +93,9 @@ export default {
     },
     submit() {
       _getData(
-        "/server_pro/groupPurchaseCompany!request.action",
+        "/server_pro/groupPurchaseHospital!request.action",
         {
-          method: "addOrUpdateGroupPurchaseCompany",
+          method: "addOrUpdateGroupPurchaseHospital",
           params: this.submitData
         },
         data => {
@@ -114,7 +103,6 @@ export default {
           this.$router.push({
             path: "registrationSuccess",
             query: {
-              companyNum: data.companyNum,
               hospitalNum: data.hospitalNum
             }
           });
@@ -132,9 +120,6 @@ export default {
   },
   activated() {
     console.log("active");
-    this.companyType = this.$store.state.page.typeOfEnterprise.selectedCompanyType;
-    this.mainBusiness = this.$store.state.page.mainBusiness.selectedMainBusiness;
-    this.submitData.companyTypeId = this.companyType.companyTypeId;
   },
   deactivated() {
     console.log("disactived");
@@ -290,6 +275,34 @@ input::-webkit-input-placeholder {
               }
             }
           }
+        }
+      }
+    }
+    .hospitalIntroduce {
+      @include box_shadow_style;
+      margin-bottom: 10px;
+      /deep/ .weui-cells {
+        margin-top: 0;
+        border-radius: 5px;
+        &::before {
+          border: 0;
+        }
+        &:after {
+          border: 0;
+        }
+        .weui-cell {
+          min-height: 106px;
+          padding: 13px;
+        }
+        textarea::-webkit-input-placeholder {
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #cccccc;
+        }
+        textarea {
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #999;
         }
       }
     }

@@ -3,9 +3,7 @@
         <Header :isSearchHide="false" :title="this.$route.name">
             <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
-
         <div class="content">
-
             <cube-scroll>
                 <div class="wrapper_box">
                   <div class="common" v-for="(value,key,index) in companyTypeList" :key="index">
@@ -14,41 +12,9 @@
                        <li v-for="item in value" :key="item.id" :class="current === item.id?'active':''" @click="activeSelect(item)">{{item.name}}</li>
                      </ul>
                   </div>
-                    <!-- <div class="vender common">
-                        <h2>厂家</h2>
-                        <ul>
-                            <li class="active">外资厂家</li>
-                            <li>名族厂家</li>
-                        </ul>
-                    </div>
-                    <div class="common">
-                        <h2>代理商</h2>
-                        <ul>
-                            <li>代理商 (经销商)</li>
-                            <li>配送商 (平台配送)</li>
-                        </ul>
-                    </div>
-                    <div class="common">
-                        <h2>维修</h2>
-                        <ul>
-                            <li>原厂维修</li>
-                            <li>维修代理商</li>
-                        </ul>
-                    </div>
-                    <div class="common">
-                        <h2>其他</h2>
-                        <ul>
-                            <li>第三方维修</li>
-                            <li>融资租赁 (金融公司)</li>
-                            <li>外贸公司</li>
-                            <li>招标公司</li>
-                        </ul>
-                    </div> -->
                 </div>
             </cube-scroll>
-
         </div>
-
     </div>
 </template>
 
