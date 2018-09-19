@@ -11,7 +11,7 @@
             <ul>
                 <li>
                     <span>{{title == '企业基本信息'?'公司名称：':'医院名称：'}}</span>
-                    <div>{{type=="hospital"?detailData.companyName:detailData.hospital}}</div>
+                    <div>{{type=="hospital"?detailData.hospitalName:detailData.companyName}}</div>
                 </li>
                 <li :class="title == '企业基本信息'?'':'hide'">
                     <span>企业类型：</span>

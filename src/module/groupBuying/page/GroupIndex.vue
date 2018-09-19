@@ -70,8 +70,13 @@ const routerLinkArr = [
     imgurl: "../static/images/companyApply.png",
     num: 50
   },
+  // {
+  //   path: "/myComponyGroupBuy",
+  //   name: "我的团购",
+  //   imgurl: "../static/images/myApply.png"
+  // },
   {
-    path: "/myComponyGroupBuy",
+    path: "/myHospitalGroupBuy",
     name: "我的团购",
     imgurl: "../static/images/myApply.png"
   }

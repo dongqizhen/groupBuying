@@ -17,7 +17,7 @@
                         <ul>
                             <li v-ripple>
                                 <span>公司名称：</span>
-                                <cube-input v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
+                                <cube-input class="name" v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
                             </li>
                             <li v-ripple>
                                 <router-link to='/typeOfEnterprise'>
@@ -149,6 +149,7 @@ input::-webkit-input-placeholder {
   opacity: 1;
   font-family: PingFangSC-Regular;
   font-size: 14px !important;
+  text-align: left;
 }
 .container {
   @include basic_container_style;
@@ -250,6 +251,11 @@ input::-webkit-input-placeholder {
             }
           }
           /deep/ .cube-input {
+            &.name {
+              input {
+                text-align: left;
+              }
+            }
             flex: 1;
             &:after {
               border: none;
@@ -259,6 +265,7 @@ input::-webkit-input-placeholder {
               font-family: PingFangSC-Regular;
               font-size: 14px;
               padding-left: 0;
+              text-align: right;
             }
           }
         }

@@ -45,7 +45,7 @@ export default {
   methods: {
     ...mapMutations(["setTransition", "selectCompanyType"]),
     clickSure() {
-      this.setTransition("turn-on");
+      this.setTransition("turn-off");
       this.$router.go(-1);
       this.companyType.companyTypeName = this.tempCompanyType.tempCompanyTypeName;
       this.companyType.companyTypeId = this.tempCompanyType.tempCompanyTypeId;

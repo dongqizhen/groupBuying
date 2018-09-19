@@ -93,6 +93,7 @@ export default {
       color: #666666;
       margin-bottom: 15px;
       &.active {
+        font-family: PingFangSC-Medium;
         background: rgba(1, 157, 221, 0.08);
         color: #019ddd;
         border: 1px solid #019ddd;

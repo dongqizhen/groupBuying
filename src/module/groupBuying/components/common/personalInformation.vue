@@ -74,6 +74,7 @@ export default {
   ],
   watch: {
     data(newVal) {
+      console.log(newVal);
       this.persons = newVal;
     }
   },
@@ -150,7 +151,7 @@ export default {
         width: 93px;
         font-family: PingFangSC-Regular;
         font-size: 14px;
-        color: #999999;
+        color: #333;
         i {
           font-size: 16px;
           //width: 10px;
