@@ -1,21 +1,21 @@
 <template>
-    <div class="container">
-        <Header :isSearchHide="false" :title="this.$route.name">
-            <span slot="explain" class="enter" @click="clickSure">确定</span>
-        </Header>
-        <div class="content">
-            <cube-scroll>
-                <div class="wrapper_box">
-                  <div class="common" v-for="(value,key,index) in companyTypeList" :key="index">
-                     <h2>{{key}}</h2>
-                     <ul>
-                       <li v-for="item in value" :key="item.id" :class="current === item.id?'active':''" @click="activeSelect(item)">{{item.name}}</li>
-                     </ul>
-                  </div>
-                </div>
-            </cube-scroll>
+  <div class="container">
+    <Header :isSearchHide="false" :title="this.$route.name">
+      <span slot="explain" class="enter" @click="clickSure">确定</span>
+    </Header>
+    <div class="content">
+      <cube-scroll>
+        <div class="wrapper_box">
+          <div class="common" v-for="(value,key,index) in companyTypeList" :key="index">
+            <h2>{{key}}</h2>
+            <ul>
+              <li v-for="item in value" :key="item.id" :class="current === item.id?'active':''" @click="activeSelect(item)">{{item.name}}</li>
+            </ul>
+          </div>
         </div>
+      </cube-scroll>
     </div>
+  </div>
 </template>
 
 <script>
@@ -70,6 +70,9 @@ export default {
         // this.companyTypeList = data.companyTypeList;
       }
     );
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>

@@ -1,63 +1,63 @@
 <template>
-    <div class="container">
-        <Header :isSearchHide="false" :title="this.$route.name"></Header>
-        <div class="content">
-            <div class="scroll-list-wrap">
-                <scroller>
-                    <div class="Select_project">
-                        <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
-                            <span slot="select">(必选项，多选)</span>
-                        </basic-title>
-                        <select-project-nav v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
-                    </div>
-                    <div class="company_basic_information">
-                        <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
-                            <span slot="select">(必填题)</span>
-                        </basic-title>
-                        <ul>
-                            <li v-ripple>
-                                <span>公司名称：</span>
-                                <cube-input class="name" v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
-                            </li>
-                            <li v-ripple>
-                                <router-link to='/typeOfEnterprise'>
-                                    <span>企业类型：</span>
-                                    <div>
-                                      {{companyType.companyTypeName}}
-                                        <i></i>
-                                    </div>
-                                </router-link>
-                            </li>
-                            <li v-ripple>
-                                <router-link to="/mainBusiness">
-                                    <span>主营业务：</span>
-                                    <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusiness.mainBusinessName">
-                                        <i slot="append"></i>
-                                    </cube-input>
-                                </router-link>
+  <div class="container">
+    <Header :isSearchHide="false" :title="this.$route.name"></Header>
+    <div class="content">
+      <div class="scroll-list-wrap">
+        <cube-scroll ref="scroll">
+          <div class="Select_project">
+            <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
+              <span slot="select">(必选项，多选)</span>
+            </basic-title>
+            <select-project-nav v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
+          </div>
+          <div class="company_basic_information">
+            <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
+              <span slot="select">(必填题)</span>
+            </basic-title>
+            <ul>
+              <li v-ripple>
+                <span>公司名称：</span>
+                <cube-input class="name" v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
+              </li>
+              <li v-ripple>
+                <router-link to='/typeOfEnterprise' @click.native="setTransition('turn-on')">
+                  <span>企业类型：</span>
+                  <div>
+                    {{companyType.companyTypeName}}
+                    <i></i>
+                  </div>
+                </router-link>
+              </li>
+              <li v-ripple>
+                <router-link to="/mainBusiness" @click.native="setTransition('turn-on')">
+                  <span>主营业务：</span>
+                  <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusiness.mainBusinessName">
+                    <i slot="append"></i>
+                  </cube-input>
+                </router-link>
 
-                            </li>
-                            <li v-ripple>
-                                <span>地址：</span>
-                                <cube-input placeholder="请选择地址" :disabled="true">
-                                    <i slot="append"></i>
-                                </cube-input>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="personal_informatin">
-                        <basic-title title="团购负责人信息" imgurl='../static/images/blueBasicInformation.png'>
-                            <span slot="select">(
-                                <i>*</i>为必填项)</span>
-                        </basic-title>
-                        <personal-information ref="person" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
-                    </div>
-                    <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
-                    <x-button v-else type="primary" show-loading>提交中</x-button>
-                </scroller>
-            </div>
-        </div>
+              </li>
+              <li v-ripple @click="openNative">
+                <span>地址：</span>
+                <cube-input :placeholder="responseData" :disabled="true">
+                  <i slot="append"></i>
+                </cube-input>
+              </li>
+            </ul>
+          </div>
+          <div class="personal_informatin">
+            <basic-title title="团购负责人信息" imgurl='../static/images/blueBasicInformation.png'>
+              <span slot="select">(
+                <i>*</i>为必填项)</span>
+            </basic-title>
+            <personal-information ref="person" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
+          </div>
+          <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
+          <x-button v-else type="primary" show-loading>提交中</x-button>
+        </cube-scroll>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -66,6 +66,7 @@ import basicTitle from "../../components/common/basicTitle";
 import personalInformation from "../../components/common/personalInformation";
 import selectProjectNav from "../../components/common/selectProjectNav";
 import { _getData } from "../../service/getData";
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -85,7 +86,8 @@ export default {
         companyTypeId: "",
         productlineId: "",
         contact: ""
-      }
+      },
+      responseData: ""
     };
   },
   components: {
@@ -95,6 +97,7 @@ export default {
     selectProjectNav
   },
   methods: {
+    ...mapMutations(["setTransition"]),
     submitBtnClick() {
       this.submitBtnStatus = false;
       console.log(this.$refs.person.persons);
@@ -125,6 +128,20 @@ export default {
     handleSelect(value) {
       console.log(value);
       this.submitData.groupPurchaseTypeIds = value;
+    },
+    openNative() {
+      window.WebViewJavascriptBridge.callHandler(
+        "navNativePage",
+        {
+          param: JSON.stringify({
+            actionName: "selectAddressPage",
+            isForResult: "true"
+          })
+        },
+        responseData => {
+          this.responseData = responseData;
+        }
+      );
     }
   },
   created() {
@@ -137,7 +154,7 @@ export default {
     this.submitData.companyTypeId = this.companyType.companyTypeId;
   },
   deactivated() {
-    console.log("disactived");
+    // this.$destroy();
   }
 };
 </script>
@@ -178,6 +195,7 @@ input::-webkit-input-placeholder {
         }
       }
     }
+
     .Select_project {
       background: #ffffff;
       box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);

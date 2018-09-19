@@ -30,6 +30,9 @@ $border_style: 0.5px solid #E9E9E9;
                     padding: 10px 13px;
                 }
             }
+            /deep/ .cube-scroll-content {
+                padding: 10px 13px;
+            }
         }
     }
 }

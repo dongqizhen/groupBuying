@@ -1,11 +1,11 @@
 
 <template>
-    <div class="search">
-        <cube-input :placeholder="placeholder" :disabled="disabled" v-model.trim="value" @input="search" :autocomplete="true">
-            <i slot="prepend"></i>
-            <span slot="append" v-if="isShowSave" @click="save">保存</span>
-        </cube-input>
-    </div>
+  <div class="search">
+    <cube-input :placeholder="placeholder" :disabled="disabled" v-model.trim="value" @input="search" :autocomplete="true">
+      <i slot="prepend"></i>
+      <span slot="append" v-if="isShowSave" @click="save">保存</span>
+    </cube-input>
+  </div>
 </template>
 
 <script>
@@ -29,10 +29,11 @@ export default {
   methods: {
     search() {
       console.log(111);
-      //this.$emit("valueChange", this.value);
-      this.getSearchData(this.value);
+      //this.getMainBusinessSearchData(this.value); //主营业务
+      //this.getProductLineSearchData(this.value); //产品分类
+      //this.getProductBrandSearchData(this.value); //产品品牌
     },
-    getSearchData(name) {
+    getMainBusinessSearchData(name) {
       _getData(
         "/server_pro/mainBussiness!request.action",
         {
@@ -41,8 +42,72 @@ export default {
         },
         data => {
           console.log(data);
-          this.list = data.list;
-          this.$emit("valueChange", data.list);
+          if (data.list.length == 0) {
+            this.$emit("valueChange", name);
+          } else {
+            this.$emit("valueChange", data.list);
+          }
+        }
+      );
+    },
+    getProductLineSearchData(name) {
+      _getData(
+        "/server_pro/groupPurchaseCompanyProduct!request.action",
+        {
+          method: "getProductLineListByGroupPurchaseType",
+          params: { name: name, groupPurchaseId: "520" }
+        },
+        data => {
+          console.log(data);
+          if (name == "") {
+            this.$emit("valueChange", {
+              stick_area_arr: data.productLineList,
+              general_area_arr: data.wzdProductLineList
+            });
+          } else {
+            if (_.concat(data.productLineList, data.aliasList).length == 0) {
+              this.$emit("valueChange", this.value);
+            } else {
+              this.$emit(
+                "valueChange",
+                _.concat(data.productLineList, data.aliasList)
+              );
+            }
+          }
+        }
+      );
+    },
+    getProductBrandSearchData(name) {
+      _getData(
+        "/server_pro/groupPurchaseCompanyProduct!request.action",
+        {
+          method: "getBrandListByGroupPurchaseType",
+          params: { name: name, productLineId: "264" }
+        },
+        data => {
+          console.log(data);
+          if (data.brandList.length == 0) {
+            this.$emit("valueChange", this.value);
+          } else {
+            this.$emit("valueChange", data.brandList);
+          }
+        }
+      );
+    },
+    getMainParamsSearchData(name) {
+      _getData(
+        "/server_pro/productParam!request.action",
+        {
+          method: "getList",
+          params: { name: name }
+        },
+        data => {
+          console.log(data);
+          // if (data.brandList.length == 0) {
+          //   this.$emit("valueChange", this.value);
+          // } else {
+          //   this.$emit("valueChange", data.brandList);
+          // }
         }
       );
     },
@@ -60,7 +125,10 @@ export default {
         if (this.list.length == 0) {
           console.log(this.selectValue);
           if (this.selectValue.length == 0) {
-            this.selectValue.push({ id: this.value, name: this.value });
+            this.selectValue.push({
+              id: this.value,
+              name: this.value
+            });
           } else {
             if (this.selectValue.length < 3) {
               if (
@@ -68,7 +136,10 @@ export default {
                   return o.name == this.value;
                 }) == -1
               ) {
-                this.selectValue.push({ id: this.value, name: this.value });
+                this.selectValue.push({
+                  id: this.value,
+                  name: this.value
+                });
               }
             } else {
               this.showToastTime();
@@ -112,7 +183,7 @@ export default {
         display: flex;
         height: 14px;
         width: 14px;
-        background: url("/static/images/write.png") no-repeat center;
+        background: url("../../../../assets/images/write.png") no-repeat center;
         background-size: 100% 100%;
       }
     }

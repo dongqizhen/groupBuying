@@ -59,8 +59,6 @@ export default {
       "/server/basedata!request.action",
       {
         method: "getGroupPurchaseTypeList",
-        userid: "7544",
-        token: "09a52ead-ef25-411d-8ac2-e3384fceed68",
         params: { code: "TGDHLX" }
       },
       data => {

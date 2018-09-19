@@ -1,53 +1,53 @@
 <template>
 
-    <div class="container">
-        <Header :isSearchHide="true">
-            <tab slot="mainTitle" :line-width="2" custom-bar-width="20px" active-color="#019DDD" default-color="#666">
-                <tab-item v-for="(item, index) in tabs" @on-item-click="handler" :key="index" :selected="index==2?true:false">{{item.label}}</tab-item>
-            </tab>
-            <!-- <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle" @change="tabBarChange">
+  <div class="container">
+    <Header :isSearchHide="true">
+      <tab slot="mainTitle" :line-width="2" custom-bar-width="20px" active-color="#019DDD" default-color="#666">
+        <tab-item v-for="(item, index) in tabs" @on-item-click="handler" :key="index" :selected="index==2?true:false">{{item.label}}</tab-item>
+      </tab>
+      <!-- <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle" @change="tabBarChange">
                 <cube-tab v-for="(item, index) in tabs" :label="item.label" :key="index">
                 </cube-tab>
             </cube-tab-bar> -->
-        </Header>
-        <div class="content">
-            <div class="scroll-list-wrap">
-                <scroller>
-                    <cube-slide ref="slide" :data="Banneritems" class="banner">
-                        <cube-slide-item v-for="(item, index) in Banneritems" :key="index">
-                            <a :href="item.url">
-                                <img :src="item.img">
-                            </a>
-                        </cube-slide-item>
-                    </cube-slide>
+    </Header>
+    <div class="content">
+      <div class="scroll-list-wrap">
+        <scroller>
+          <cube-slide ref="slide" :data="Banneritems" class="banner">
+            <cube-slide-item v-for="(item, index) in Banneritems" :key="index">
+              <a :href="item.url">
+                <img :src="item.img">
+              </a>
+            </cube-slide-item>
+          </cube-slide>
 
-                    <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
-                        <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.native="setTransition('turn-on')">
-                            <img slot="icon" :src="item.imgurl">
-                            <span slot="label">{{item.name}}</span>
-                            <badge :text="`已报名${item.num}家`" v-if="item.num"></badge>
-                        </grid-item>
+          <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
+            <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.native="setTransition('turn-on')">
+              <img slot="icon" :src="item.imgurl">
+              <span slot="label">{{item.name}}</span>
+              <badge :text="`已报名${item.num}家`" v-if="item.num"></badge>
+            </grid-item>
 
-                    </grid>
-                    <!-- <ul class="icons_box">
+          </grid>
+          <!-- <ul class="icons_box">
                         <router-link tag="li" v-for="item in routerLinkArr" :key="item.name" :to="item.path" @click.native="setTransition('turn-on')">
                             <a><img :src="item.imgurl" alt=""></a>
                             <span>{{item.name}}</span>
                         </router-link>
                     </ul> -->
-                    <div class="meeting_list">
-                        <h2>
-                            <span></span>
-                            团购大会列表
-                            <span></span>
-                        </h2>
-                        <list-tab v-if="Object.keys(meetingList).length" :meetingListData="meetingList"></list-tab>
-                    </div>
-                </scroller>
-            </div>
+          <div class="meeting_list">
+            <h2>
+              <span></span>
+              团购大会列表
+              <span></span>
+            </h2>
+            <list-tab v-if="Object.keys(meetingList).length" :meetingListData="meetingList"></list-tab>
+          </div>
+        </scroller>
+      </div>
 
-        </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -68,12 +68,12 @@ const routerLinkArr = [
     path: "/enterpriseSeal",
     name: "企业团购报名",
     imgurl: "../static/images/companyApply.png",
-    num: 50
+    num: 150
   },
   // {
-  //   path: "/myComponyGroupBuy",
-  //   name: "我的团购",
-  //   imgurl: "../static/images/myApply.png"
+  //     path: "/myComponyGroupBuy",
+  //     name: "我的团购",
+  //     imgurl: "../static/images/myApply.png"
   // },
   {
     path: "/myHospitalGroupBuy",
@@ -135,8 +135,6 @@ export default {
       "/server_pro/groupPurchase!request.action",
       {
         method: "getPageList",
-        userid: "7544",
-        token: "09a52ead-ef25-411d-8ac2-e3384fceed68",
         params: {}
       },
       data => {
@@ -234,7 +232,7 @@ export default {
           align-items: center;
           top: 15px;
           left: 50%;
-          min-width: 83px;
+          min-width: 68px;
           // width: auto;
           z-index: 10;
           padding: 0 5px;

@@ -13,6 +13,15 @@ const mutations = {
   },
   selectMainBusiness(state, businessValue) {
     state.page.mainBusiness.selectedMainBusiness = businessValue;
+  },
+  selectProductSort(state, productSortValue) {
+    state.page.uploadProduct.productSort = productSortValue;
+  },
+  selectProductBrand(state, productBrandValue) {
+    state.page.uploadProduct.productBrand = productBrandValue;
+  },
+  selectProductModel(state, productModelValue) {
+    state.page.uploadProduct.productModel = productModelValue;
   }
 }
 

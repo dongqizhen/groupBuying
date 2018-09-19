@@ -1,37 +1,37 @@
 <template>
-    <div class="container">
-        <Header :isSearchHide="false" :title="this.$route.name">
-            <span slot="explain" class="enter" @click="clickSure">确定</span>
-        </Header>
-        <div class="content">
-          <div class="selected" >
-                <h2>已选主营业务:</h2>
-                <ul v-if="selectMainBusinessArr.length">
-                    <li v-for="(item,index) in selectMainBusinessArr" :key="item.id">
-                        <span>{{item.name}}</span>
-                        <i @click="deleteItem(index)"></i>
-                    </li>
-                </ul>
-            </div>
-            <search placeholder="请输入主营业务" :selectValue="selectMainBusinessArr" v-on:selectMainBusiness="selectMain" v-on:valueChange="getValue" type="main" isShowSave="true" >
-            <span slot="perpend">保存</span>
-            </search>
-            <div class="wrapper_box">
-              <cube-index-list :data="mainBusinessList">
-                    <cube-index-list-group v-for="(group, index) in mainBusinessList" :key="index" :group="group">
-                        <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="select" >
-                            <div class="custom-item" :class="activeClass(item.id)">{{item.name}}</div>
-                        </cube-index-list-item>
-                    </cube-index-list-group>
-                </cube-index-list>
-                <!-- <cube-scroll>
+  <div class="container">
+    <Header :isSearchHide="false" :title="this.$route.name">
+      <span slot="explain" class="enter" @click="clickSure">确定</span>
+    </Header>
+    <div class="content">
+      <div class="selected">
+        <h2>已选主营业务:</h2>
+        <ul v-if="selectMainBusinessArr.length">
+          <li v-for="(item,index) in selectMainBusinessArr" :key="item.id">
+            <span>{{item.name}}</span>
+            <i @click="deleteItem(index)"></i>
+          </li>
+        </ul>
+      </div>
+      <search placeholder="请输入主营业务" :selectValue="selectMainBusinessArr" v-on:selectMainBusiness="selectMain" v-on:valueChange="getValue" type="main" isShowSave="true">
+        <span slot="perpend">保存</span>
+      </search>
+      <div class="wrapper_box">
+        <cube-index-list :data="mainBusinessList">
+          <cube-index-list-group v-for="(group, index) in mainBusinessList" :key="index" :group="group">
+            <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="select">
+              <div class="custom-item" :class="activeClass(item.id)">{{item.name}}</div>
+            </cube-index-list-item>
+          </cube-index-list-group>
+        </cube-index-list>
+        <!-- <cube-scroll>
                     <ul>
                       <li v-for="item in mainBusinessList" :key="item.id"  @click="select(item)" :class="activeClass(item.id)">{{item.name}}</li>
                     </ul>
                 </cube-scroll> -->
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -58,7 +58,7 @@ export default {
   methods: {
     ...mapMutations(["setTransition", "selectMainBusiness"]),
     clickSure() {
-      this.setTransition("turn-on");
+      this.setTransition("turn-off");
       this.$router.go(-1);
       if (this.selectMainBusinessArr) {
         for (const val of this.selectMainBusinessArr) {
@@ -84,7 +84,11 @@ export default {
     },
     getValue(val) {
       console.log(val);
-      this.mainBusinessList = val;
+      if (typeof val == "string") {
+        this.mainBusinessList = [];
+      } else {
+        this.mainBusinessList = val;
+      }
     },
     selectMain(val) {},
     select(item) {
@@ -140,6 +144,9 @@ export default {
         this.mainBusinessList = data.list;
       }
     );
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>
@@ -201,7 +208,7 @@ export default {
           }
           > span {
             //display: flex;
-            width: 72px;
+            width: 71px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -211,7 +218,8 @@ export default {
             width: 22px;
             height: 22px;
             border-radius: 22px;
-            background: url("/static/images/del.png") no-repeat center center;
+            background: url("../../../../assets/images/del.png") no-repeat
+              center center;
             background-size: 12px 12px;
             //padding-left: 14.5px;
             justify-content: center;
@@ -236,7 +244,7 @@ export default {
         display: flex;
         align-items: center;
         padding-left: 13px;
-        border-bottom: 0.5px solid #f6f6f6;
+        border-bottom: $border_style;
         justify-content: flex-start;
         span {
           font-size: 12px;
@@ -259,7 +267,7 @@ export default {
               > ul {
                 li {
                   height: 46px;
-                  border-bottom: 0.5px solid #f6f6f6;
+                  border-bottom: $border_style;
                   padding-left: 0;
                   margin-left: 13px;
                   display: flex;

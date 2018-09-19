@@ -11,6 +11,7 @@ import VueTouch from 'vue-touch-easyhi'
 import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css'
 //import "../../../static/css/cube-ui/cube-ui.scss"
+import jsbridge from 'jsbridge'
 import {
     SwipeCell
 } from 'vant';
@@ -41,7 +42,7 @@ import Cube, {
     ActionSheet
 } from 'cube-ui';
 import Ripple from 'vue-ripple-directive'
-
+console.log(jsbridge)
 Ripple.color = 'rgba(153, 153, 153, 0.3)';
 Ripple.zIndex = 55;
 Vue.directive('ripple', Ripple);
@@ -49,6 +50,8 @@ Vue.directive('ripple', Ripple);
 Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
 Vue.prototype.$API_URL = process.env.API_HOST.URL
+Vue.prototype.$bridge = jsbridge
+
 Vue.config.productionTip = false
 
 if ('addEventListener' in document) {
