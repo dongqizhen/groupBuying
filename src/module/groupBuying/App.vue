@@ -26,6 +26,23 @@
                 },
                 false
             );
+            window.WebViewJavascriptBridge.registerHandler(
+                "androidPhysicalBack",
+                () => {
+                    window.WebViewJavascriptBridge.callHandler(
+                        "Log",
+                        {
+                            param: JSON.stringify({
+                                data: "1111111111"
+                            })
+                        },
+                        function(responseData) {}
+                    );
+
+                    this.$store.commit("setTransition", "turn-off");
+                    this.$router.back();
+                }
+            );
         }
     };
 </script>
@@ -46,8 +63,8 @@
         transition: transform 0.4s ease;
     }
     /* .turn-on-enter-to{
-                                                                                                                                                                                                                  transform: translate3d(0, 0, 0);
-                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                              transform: translate3d(0, 0, 0);
+                                                                                                                                                                                                                                            } */
     .turn-off-enter {
         /* transform: translate3d(-20%, 0, 0); */
     }

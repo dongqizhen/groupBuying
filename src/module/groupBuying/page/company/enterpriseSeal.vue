@@ -67,6 +67,7 @@
   import selectProjectNav from "../../components/common/selectProjectNav";
   import { _getData } from "../../service/getData";
   import { mapMutations } from "vuex";
+  import { JsCallNativeMethods } from "../../../../common/js/jsBridge";
   export default {
       data() {
           return {
@@ -87,7 +88,7 @@
                   productlineId: "",
                   contact: ""
               },
-              responseData: ""
+              responseData: "请选择地址"
           };
       },
       components: {
@@ -130,18 +131,28 @@
               this.submitData.groupPurchaseTypeIds = value;
           },
           openNative() {
-              window.WebViewJavascriptBridge.callHandler(
-                  "navNativePage",
+              JsCallNativeMethods(
+                  "",
                   {
-                      param: JSON.stringify({
-                          actionName: "selectAddressPage",
-                          isForResult: "true"
-                      })
+                      actionName: "selectAddressPage",
+                      isForResult: true
                   },
-                  responseData => {
-                      this.responseData = responseData;
+                  data => {
+                      this.responseData = data.cityName;
                   }
               );
+              /* window.WebViewJavascriptBridge.callHandler(
+                          "navNativePage",
+                          {
+                              param: JSON.stringify({
+                                  actionName: "selectAddressPage",
+                                  isForResult: "true"
+                              })
+                          },
+                          Data => {
+                              this.responseData = JSON.parse(Data).cityName;
+                          }
+                      ); */
           }
       },
       created() {
