@@ -3,7 +3,7 @@
   <div class="search">
     <cube-input :placeholder="placeholder" :disabled="disabled" v-model.trim="value" @input="search" :autocomplete="true">
       <i slot="prepend"></i>
-      <span slot="append" v-if="isShowSave&&value!=''" @click="save">保存</span>
+      <span slot="append" v-if="isShowSave&&value!==''" @click="save">保存</span>
     </cube-input>
   </div>
 </template>
@@ -29,10 +29,11 @@
       methods: {
           search() {
               console.log(111);
-              //this.$emit("valueChange", this.value);
-              this.getSearchData(this.value);
+              //this.getMainBusinessSearchData(this.value); //主营业务
+              //this.getProductLineSearchData(this.value); //产品分类
+              //this.getProductBrandSearchData(this.value); //产品品牌
           },
-          getSearchData(name) {
+          getMainBusinessSearchData(name) {
               _getData(
                   "/server_pro/mainBussiness!request.action",
                   {
@@ -41,8 +42,75 @@
                   },
                   data => {
                       console.log(data);
-                      this.list = data.list;
-                      this.$emit("valueChange", data.list);
+                      if (data.list.length == 0) {
+                          this.$emit("valueChange", name);
+                      } else {
+                          this.$emit("valueChange", data.list);
+                      }
+                  }
+              );
+          },
+          getProductLineSearchData(name) {
+              _getData(
+                  "/server_pro/groupPurchaseCompanyProduct!request.action",
+                  {
+                      method: "getProductLineListByGroupPurchaseType",
+                      params: { name: name, groupPurchaseId: "520" }
+                  },
+                  data => {
+                      console.log(data);
+                      if (name == "") {
+                          this.$emit("valueChange", {
+                              stick_area_arr: data.productLineList,
+                              general_area_arr: data.wzdProductLineList
+                          });
+                      } else {
+                          if (
+                              _.concat(data.productLineList, data.aliasList)
+                                  .length == 0
+                          ) {
+                              this.$emit("valueChange", this.value);
+                          } else {
+                              this.$emit(
+                                  "valueChange",
+                                  _.concat(data.productLineList, data.aliasList)
+                              );
+                          }
+                      }
+                  }
+              );
+          },
+          getProductBrandSearchData(name) {
+              _getData(
+                  "/server_pro/groupPurchaseCompanyProduct!request.action",
+                  {
+                      method: "getBrandListByGroupPurchaseType",
+                      params: { name: name, productLineId: "264" }
+                  },
+                  data => {
+                      console.log(data);
+                      if (data.brandList.length == 0) {
+                          this.$emit("valueChange", this.value);
+                      } else {
+                          this.$emit("valueChange", data.brandList);
+                      }
+                  }
+              );
+          },
+          getMainParamsSearchData(name) {
+              _getData(
+                  "/server_pro/productParam!request.action",
+                  {
+                      method: "getList",
+                      params: { name: name }
+                  },
+                  data => {
+                      console.log(data);
+                      // if (data.brandList.length == 0) {
+                      //   this.$emit("valueChange", this.value);
+                      // } else {
+                      //   this.$emit("valueChange", data.brandList);
+                      // }
                   }
               );
           },

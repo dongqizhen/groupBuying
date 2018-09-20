@@ -71,3 +71,7 @@ export async function JsCallNativeMethods(nativeName = 'navNativePage', params =
         }
     );
 }
+
+export const isBackNative = () => {
+
+}

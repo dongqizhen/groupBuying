@@ -59,8 +59,6 @@ export default {
       "/server/basedata!request.action",
       {
         method: "getGroupPurchaseTypeList",
-        userid: "7544",
-        token: "09a52ead-ef25-411d-8ac2-e3384fceed68",
         params: { code: "TGDHLX" }
       },
       data => {
@@ -93,6 +91,7 @@ export default {
       color: #666666;
       margin-bottom: 15px;
       &.active {
+        font-family: PingFangSC-Medium;
         background: rgba(1, 157, 221, 0.08);
         color: #019ddd;
         border: 1px solid #019ddd;

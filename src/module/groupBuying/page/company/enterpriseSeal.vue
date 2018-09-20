@@ -17,7 +17,7 @@
             <ul>
               <li v-ripple>
                 <span>公司名称：</span>
-                <cube-input v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
+                <cube-input class="name" v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
               </li>
               <li v-ripple>
                 <router-link to='/typeOfEnterprise' @click.native="setTransition('turn-on')">
@@ -132,7 +132,7 @@
           },
           openNative() {
               JsCallNativeMethods(
-                  "",
+                  "navNativePage",
                   {
                       actionName: "selectAddressPage",
                       isForResult: true
@@ -142,21 +142,22 @@
                   }
               );
               /* window.WebViewJavascriptBridge.callHandler(
-                          "navNativePage",
-                          {
-                              param: JSON.stringify({
-                                  actionName: "selectAddressPage",
-                                  isForResult: "true"
-                              })
-                          },
-                          Data => {
-                              this.responseData = JSON.parse(Data).cityName;
-                          }
-                      ); */
+                                    "navNativePage",
+                                    {
+                                        param: JSON.stringify({
+                                            actionName: "selectAddressPage",
+                                            isForResult: "true"
+                                        })
+                                    },
+                                    Data => {
+                                        this.responseData = JSON.parse(Data).cityName;
+                                    }
+                                ); */
           }
       },
       created() {
           console.log("created");
+          console.log(this.$router);
       },
       activated() {
           console.log("active");
@@ -177,6 +178,7 @@
       opacity: 1;
       font-family: PingFangSC-Regular;
       font-size: 14px !important;
+      text-align: left;
   }
   .container {
       @include basic_container_style;
@@ -279,6 +281,11 @@
                           }
                       }
                       /deep/ .cube-input {
+                          &.name {
+                              input {
+                                  text-align: left;
+                              }
+                          }
                           flex: 1;
                           &:after {
                               border: none;
@@ -288,6 +295,7 @@
                               font-family: PingFangSC-Regular;
                               font-size: 14px;
                               padding-left: 0;
+                              text-align: right;
                           }
                       }
                   }

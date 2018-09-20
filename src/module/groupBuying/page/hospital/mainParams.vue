@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <Header :title="this.$route.name">
-       <span slot="explain" class="enter" @click="enterClick">确定</span>
+       <span slot="explain" class="enter" @click="clickSure">确定</span>
     </Header>
     <div class="content">
       <div class="selectedParamBox">
@@ -15,9 +15,7 @@
              </ul>
           </div>
       </div>
-      <search placeholder="请输入重要参数">
-        <!-- //<span slot="explain" @click="save">保存</span> -->
-      </search>
+      <search placeholder="请输入重要参数" isShowSave="true" v-on:valueChange="prentValueChange"></search>
       <div class="paramBox">
         <div class="pleaseSelected">请选择:<span>(企业提供的重要参数清单)</span></div>
         <div class="params">
@@ -34,6 +32,7 @@ import Header from "../../components/header/header";
 import search from "../../components/search/search";
 import _ from "lodash";
 import { mapMutations } from "vuex";
+import { _getData } from "../../service/getData";
 export default {
   data() {
     return {
@@ -53,9 +52,12 @@ export default {
   },
   methods: {
     ...mapMutations(["setTransition"]),
-    enterClick() {
+    clickSure() {
       this.setTransition("turn-off");
       this.$router.go(-1);
+    },
+    prentValueChange(val) {
+      console.log(val);
     },
     selected(param) {
       if (this.itemSelect.length < 3) {
@@ -90,6 +92,19 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    _getData(
+      "/server_pro/productParam!request.action",
+      {
+        method: "getList",
+        params: { name: "" }
+      },
+      data => {
+        console.log(data);
+        this.params = data.paramList;
+      }
+    );
   }
 };
 </script>

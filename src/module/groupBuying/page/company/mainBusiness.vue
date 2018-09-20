@@ -84,7 +84,11 @@
           },
           getValue(val) {
               console.log(val);
-              this.mainBusinessList = val;
+              if (typeof val == "string") {
+                  this.mainBusinessList = [];
+              } else {
+                  this.mainBusinessList = val;
+              }
           },
           selectMain(val) {},
           select(item) {
@@ -163,7 +167,7 @@
           }
       }
       .content {
-          padding: 13px;
+          padding: 10px 13px;
           overflow: hidden;
           .selected {
               height: 77px;
@@ -230,7 +234,7 @@
           .wrapper_box {
               margin-top: 10px;
               @include box_shadow_style;
-              height: calc(100% - 87px - 60px);
+              height: calc(100% - 87px - 46px);
               padding-top: 0.1px;
               > h2 {
                   font-family: PingFangSC-Regular;
@@ -256,6 +260,7 @@
                   }
                   .cube-index-list-content {
                       > ul {
+                          border-radius: 5px;
                           .cube-index-list-group {
                               h2 {
                                   display: none;
@@ -283,6 +288,11 @@
                                               color: #cccccc;
                                           }
                                       }
+                                  }
+                              }
+                              &:last-child {
+                                  ul > li:last-child {
+                                      border-bottom: 0;
                                   }
                               }
                           }

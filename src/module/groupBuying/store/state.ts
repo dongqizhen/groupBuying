@@ -25,7 +25,13 @@ let state : StateType = {
         mainBusinessName: "",
         mainBusinessId: ""
       }
-    }
+    },
+    uploadProduct: {
+      productSort: {},
+      productBrand: {},
+      productModel: {}
+    },
+    mainParams: {}
   }
 };
 export default state

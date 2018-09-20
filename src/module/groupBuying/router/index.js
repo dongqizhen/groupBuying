@@ -1,33 +1,62 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import GroupIndex from '@/module/groupBuying/page/GroupIndex.vue'
-import GroupDetails from '../page/GroupDetails'
-import myComponyGroupBuy from '../page/company/myCroupBuy'
-import myHospitalGroupBuy from '../page/hospital/myCroupBuy'
-import uploadedProducts from '../page/company/uploadedProducts'
-import companyProfile from '../page/company/companyProfile'
-import enterpriseSeal from '../page/company/enterpriseSeal'
-import typeOfEnterprise from '../page/company/typeOfEnterprise'
-import mainBusiness from '../page/company/mainBusiness'
-import registrationSuccess from '../page/company/registrationSuccess'
-import GroupRequireDetails from '../page/hospital/GroupRequireDetails'
-import groupEquipment from '../page/hospital/groupEquipment'
-import perdictTime from '../page/hospital/perdictTime'
-import mainParams from '../page/hospital/mainParams'
-import uploadProduct from '../page/company/uploadProduct'
-import selectBrand from '../page/company/selectBrand'
-import productCategory from "../page/company/productCategory"
-import selectModel from "../page/company/selectModel"
-import demandTable from "../page/hospital/demandTable"
-import demandTableDetaile from '../page/hospital/demandTableDetaile'
-import hospitalProfile from '../page/hospital/hospitalProfile'
-import hospitalSeal from '../page/hospital/hospitalSeal'
-import submitGroupDemand from '../page/hospital/submitGroupDemand'
-import groupDemand from '../page/groupDemand/groupDemand'
-import groupDemandDetails from '../page/groupDemand/groupDemandDetails'
-import groupClassification from '../page/product/groupClassification'
-import groupInventory from '../page/product/groupInventory'
-import productDetails from '../page/product/productDetails'
+const GroupIndex = () =>
+    import ('@/module/groupBuying/page/GroupIndex.vue')
+const GroupDetails = () =>
+    import ('../page/GroupDetails')
+const myComponyGroupBuy = () =>
+    import ('../page/company/myCroupBuy')
+const myHospitalGroupBuy = () =>
+    import ('../page/hospital/myCroupBuy')
+const uploadedProducts = () =>
+    import ('../page/company/uploadedProducts')
+const companyProfile = () =>
+    import ('../page/company/companyProfile')
+const enterpriseSeal = () =>
+    import ('../page/company/enterpriseSeal')
+const typeOfEnterprise = () =>
+    import ('../page/company/typeOfEnterprise')
+const registrationSuccess = () =>
+    import ('../page/company/registrationSuccess')
+const mainBusiness = () =>
+    import ('../page/company/mainBusiness')
+const groupEquipment = () =>
+    import ('../page/hospital/groupEquipment')
+const perdictTime = () =>
+    import ('../page/hospital/perdictTime')
+const mainParams = () =>
+    import ('../page/hospital/mainParams')
+const uploadProduct = () =>
+    import ('../page/company/uploadProduct')
+const selectBrand = () =>
+    import ('../page/company/selectBrand')
+const productCategory = () =>
+    import ('../page/company/productCategory')
+const GroupRequireDetails = () =>
+    import ('../page/hospital/GroupRequireDetails')
+const selectModel = () =>
+    import ('../page/company/selectModel')
+const demandTable = () =>
+    import ('../page/hospital/demandTable')
+const demandTableDetaile = () =>
+    import ('../page/hospital/demandTableDetaile')
+const hospitalProfile = () =>
+    import ('../page/hospital/hospitalProfile')
+const hospitalSeal = () =>
+    import ('../page/hospital/hospitalSeal')
+const submitGroupDemand = () =>
+    import ('../page/hospital/submitGroupDemand')
+const groupDemand = () =>
+    import ('../page/groupDemand/groupDemand')
+const groupDemandDetails = () =>
+    import ('../page/groupDemand/groupDemandDetails')
+const groupClassification = () =>
+    import ('../page/product/groupClassification')
+const groupInventory = () =>
+    import ('../page/product/groupInventory')
+const productDetails = () =>
+    import ('../page/product/productDetails')
+
 
 Vue.use(Router)
 
@@ -36,6 +65,7 @@ const router = new Router({
     routes: [{
             path: '/',
             search: true,
+            name: '首页',
             component: GroupIndex
         }, {
             path: '/Details',

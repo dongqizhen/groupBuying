@@ -70,8 +70,13 @@
           imgurl: "../static/images/companyApply.png",
           num: 150
       },
+      // {
+      //     path: "/myComponyGroupBuy",
+      //     name: "我的团购",
+      //     imgurl: "../static/images/myApply.png"
+      // },
       {
-          path: "/myComponyGroupBuy",
+          path: "/myHospitalGroupBuy",
           name: "我的团购",
           imgurl: "../static/images/myApply.png"
       }
@@ -152,10 +157,18 @@
               height: 100%;
               width: 204px;
               .vux-tab {
+                  background: transparent;
                   .vux-tab-item {
                       font-family: PingFangSC-Regular;
                       font-size: 15px;
                       color: #666666;
+                      background: transparent;
+                  }
+                  .vux-tab-ink-bar {
+                      background: none !important;
+                      span {
+                          border-radius: 2px;
+                      }
                   }
               }
           }

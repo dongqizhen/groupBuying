@@ -66,6 +66,96 @@
                             imgurl:
                                 "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
                         }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
+                    },
+                    {
+                        item: {
+                            id: "3649034125",
+                            name: "念葳蕊",
+                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+                            imgurl:
+                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+                        }
                     }
                 ],
                 btns: [
@@ -130,9 +220,11 @@
 
                 /deep/ .cube-scroll-wrapper {
                     height: 100%;
+                    padding-bottom: 10px;
                     .cube-scroll-content {
                         min-height: calc(100% + 1px);
-                        padding-top: 10px;
+                        padding: 10px 13px;
+                        padding-bottom: 0;
                         .cube-swipe {
                             > ul {
                                 > li {
@@ -145,6 +237,7 @@
                                         display: flex;
                                         padding: 13px 0;
                                         width: 100%;
+                                        text-decoration: none;
                                     }
                                     .cube-swipe-item {
                                         height: 100%;

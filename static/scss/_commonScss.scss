@@ -13,7 +13,7 @@ $border_style: 0.5px solid #E9E9E9;
     //基础样式
     height: 100%;
     width: 100%;
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: column;
     .content {
@@ -30,8 +30,10 @@ $border_style: 0.5px solid #E9E9E9;
                     padding: 10px 13px;
                 }
             }
-            /deep/ .cube-scroll-content {
-                padding: 10px 13px;
+            >.cube-scroll-wrapper {
+                /deep/ .cube-scroll-content {
+                    padding: 10px 13px;
+                }
             }
         }
     }

@@ -29,7 +29,7 @@
                     <li v-ripple @click="setTransition('turn-on')">
                         <router-link to="/productCategory">
                             <span>产品分类：</span>
-                            <cube-input placeholder="请选择产品分类" :disabled="true">
+                            <cube-input placeholder="请选择产品分类" :disabled="true" v-model="productSort.name">
                                 <i slot="append"></i>
                             </cube-input>
                         </router-link>
@@ -38,7 +38,7 @@
                     <li v-ripple @click="setTransition('turn-on')">
                         <router-link to="/selectBrand">
                             <span>品牌：</span>
-                            <cube-input placeholder="请选择品牌" :disabled="true">
+                            <cube-input placeholder="请选择品牌" :disabled="true" v-model="productBrand.name">
                                 <i slot="append"></i>
                             </cube-input>
                         </router-link>
@@ -58,7 +58,7 @@
                     <li class="price">
 
                         <span>团购价格：</span>
-                        <cube-input placeholder="请输入团购价格" :disabled="false">
+                        <cube-input placeholder="请输入团购价格" :disabled="false" type="number" v-model.trim.number="groupPrice">
                             <span slot="append">万元</span>
                         </cube-input>
                         <div class="check_box">
@@ -69,7 +69,7 @@
 
                     </li>
                     <li v-ripple @click="setTransition('turn-on')">
-                        <router-link to="/mainBusiness">
+                        <router-link to="/mainParams">
                             <span>重要参数：</span>
                             <cube-input placeholder="请选择重要参数" :disabled="true">
                                 <i slot="append"></i>
@@ -120,6 +120,7 @@ import { mapMutations } from "vuex";
 export default {
   data() {
     return {
+      groupPrice: "",
       current: -1,
       checked: true,
       value: "",
@@ -129,6 +130,8 @@ export default {
         target: "//jsonplaceholder.typicode.com/photos/",
         prop: "base64Value"
       },
+      productSort: { name: "", productLineId: "" },
+      productBrand: { name: "", id: "" },
       groupUnderWayList: [],
       submitData: {
         id: "",
@@ -194,6 +197,8 @@ export default {
   },
   activated: function() {
     // console.log(3);
+    this.productSort = this.$store.state.page.uploadProduct.productSort;
+    this.productBrand = this.$store.state.page.uploadProduct.productBrand;
   },
   deactivated: function() {
     // console.log(4);
@@ -216,6 +221,7 @@ export default {
     }
   }
   .content {
+    padding: 13px;
     .selectGroupMeeting {
       padding-bottom: 0.5px;
       margin-bottom: 10px;

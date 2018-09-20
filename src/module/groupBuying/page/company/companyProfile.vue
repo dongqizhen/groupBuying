@@ -4,7 +4,7 @@
             <router-link to="/enterpriseSeal" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
         </Header>
         <div class="content">
-            <basic-information type="hospital" :detailData="detailData" title="企业基本信息"></basic-information>
+            <basic-information :detailData="detailData" title="企业基本信息"></basic-information>
             <div class="Personal_information">
                 <basic-title title="团购负责人信息" imgurl="../static/images/Personal_information.png">
                     <span slot="check">收起</span>
