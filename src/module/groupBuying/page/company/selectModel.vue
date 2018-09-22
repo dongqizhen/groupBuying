@@ -1,11 +1,10 @@
 <template>
     <div class="container selectModel">
         <Header :title="this.$route.name">
-            <span slot="explain" class="enter" @click="enterClcik">确定</span>
+            <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
-
-            <div class="selected">
+            <div class="selected" v-if="Multiple">
                 <h2>已选型号:</h2>
                 <ul>
                     <li v-for="item in itemSelect" :key="item.id" :class="checked?'disabled':''">
@@ -14,16 +13,14 @@
                     </li>
                 </ul>
             </div>
-            <cube-checkbox v-model="checked">
+            <cube-checkbox v-model="checked" v-if="Multiple">
                 不了解产品型号，请厂家根据我院临床需求推荐
             </cube-checkbox>
-            <search placeholder="请输入型号" :disabled="checked"></search>
+            <search placeholder="请输入型号" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
             <div class="Model_container">
-                <h2> 请选择：
-                    <span>(企业提供的型号清单)</span>
-                </h2>
-                <cube-index-list :data="cityData">
-                    <cube-index-list-group v-for="(group, index) in cityData" :key="index" :group="group">
+                <h2>请选择：<span>(企业提供的型号清单)</span></h2>
+                <cube-index-list :data="modelData">
+                    <cube-index-list-group v-for="(group, index) in modelData" :key="index" :group="group">
                         <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem" :class="checked?'disabled':''">
                             <div class="custom-item" :class="addClass(item.id)">{{item.name}}</div>
                         </cube-index-list-item>
@@ -32,146 +29,23 @@
             </div>
         </div>
     </div>
-
 </template>
-
 <script>
 import Header from "../../components/header/header";
 import search from "../../components/search/search";
+import { _getData } from "../../service/getData.js";
 import _ from "lodash";
 import { mapMutations } from "vuex";
-const cityData = [
-  {
-    name: "★Hot City",
-    items: [
-      {
-        name: "BEIJING",
-        value: 1,
-        id: 1
-      },
-      {
-        name: "SHANGHAI",
-        value: 2,
-        id: 2
-      }
-    ]
-  },
-  {
-    name: "A",
-    items: [
-      {
-        name: "ANSHAN",
-        value: 3,
-        id: 3
-      },
-      {
-        name: "ANQING",
-        value: 4,
-        id: 4
-      }
-    ]
-  },
-  {
-    name: "B",
-    items: [
-      {
-        name: "BNSHAN",
-        value: 3,
-        id: 5
-      },
-      {
-        name: "BNQING",
-        value: 4,
-        id: 6
-      }
-    ]
-  },
-  {
-    name: "C",
-    items: [
-      {
-        name: "CNSHAN",
-        value: 3,
-        id: 7
-      },
-      {
-        name: "CNQING",
-        value: 4,
-        id: 8
-      }
-    ]
-  },
-  {
-    name: "D",
-    items: [
-      {
-        name: "DNSHAN",
-        value: 3,
-        id: 9
-      },
-      {
-        name: "DNQING",
-        value: 4,
-        id: 10
-      }
-    ]
-  },
-  {
-    name: "E",
-    items: [
-      {
-        name: "ENSHAN",
-        value: 3,
-        id: 11
-      },
-      {
-        name: "ENQING",
-        value: 4,
-        id: 12
-      }
-    ]
-  },
-  {
-    name: "F",
-    items: [
-      {
-        name: "FNSHAN",
-        value: 3,
-        id: 13
-      },
-      {
-        name: "FNQING",
-        value: 4,
-        id: 14
-      },
-      {
-        name: "FNSHAN",
-        value: 3,
-        id: 15
-      },
-      {
-        name: "FNQING",
-        value: 4,
-        id: 16
-      },
-      {
-        name: "FNSHAN",
-        value: 3,
-        id: 17
-      },
-      {
-        name: "FNQING",
-        value: 4,
-        id: 18
-      }
-    ]
-  }
-];
+import { Toast } from "vant";
+const modelData = [];
 export default {
   data() {
     return {
+      tempLastSearchValue: "",
+      tempProductModel: {},
+      productModel: { id: "", name: "" },
       checked: false,
-      cityData,
+      modelData,
       itemSelect: []
     };
   },
@@ -179,19 +53,53 @@ export default {
     Header,
     search
   },
+  props: ["Multiple"],
   methods: {
-    ...mapMutations(["setTransition"]),
+    ...mapMutations(["setTransition", "selectProductModel"]),
+    clickSure() {
+      this.setTransition("turn-off");
+      if (this.itemSelect.length == 0) {
+        if (this.tempLastSearchValue == "") {
+          Toast("请选择或者输入型号");
+          return;
+        } else {
+          this.saveModel(this.tempLastSearchValue);
+        }
+      }
+      this.productModel.id = _.join(_.map(this.itemSelect, "id"), ",");
+      this.productModel.name = _.join(_.map(this.itemSelect, "name"), ",");
+      this.selectProductModel(this.productModel);
+      this.$router.go(-1);
+    },
     selectItem(item) {
-      if (this.itemSelect.length < 3) {
-        if (_.without(this.itemSelect, item).length == this.itemSelect.length) {
+      let changeItem = _.find(this.itemSelect, function(o) {
+        return o.id == item.id;
+      });
+      if (this.Multiple) {
+        if (this.itemSelect.length < 3) {
+          if (
+            _.without(this.itemSelect, changeItem).length ==
+            this.itemSelect.length
+          ) {
+            this.itemSelect.push(item);
+          } else {
+            this.itemSelect = _.without(this.itemSelect, changeItem);
+          }
+        } else if (this.itemSelect.length == 3) {
+          this.itemSelect = _.without(this.itemSelect, changeItem);
+          if (this.itemSelect.length == 3) {
+            this.showToastTime();
+          }
+        }
+      } else {
+        if (this.itemSelect.length < 1) {
           this.itemSelect.push(item);
         } else {
-          this.itemSelect = _.without(this.itemSelect, item);
-        }
-      } else if (this.itemSelect.length == 3) {
-        this.itemSelect = _.without(this.itemSelect, item);
-        if (this.itemSelect.length == 3) {
-          this.showToastTime();
+          if (changeItem) {
+            this.itemSelect = _.without(this.itemSelect, changeItem);
+          } else {
+            this.itemSelect.splice(0, 1, item);
+          }
         }
       }
     },
@@ -207,27 +115,65 @@ export default {
     deleteItem(item) {
       this.itemSelect = _.without(this.itemSelect, item);
     },
-    showToastTime() {
-      const toast = this.$createToast({
-        time: 1000,
-        txt: "最多选择三个型号"
-      });
-      toast.show();
+    reqData(name) {
+      _getData(
+        "/server_pro/groupPurchaseCompanyProduct!request.action",
+        {
+          method: "getModelListByGroupPurchaseType",
+          params: { name: name, brandId: "273", productLineId: "206" }
+        },
+        data => {
+          console.log(data);
+          this.modelData = data.modelList;
+        }
+      );
     },
-    enterClcik() {
-      this.setTransition("turn-off");
-      this.$router.go(-1);
+    selectModel(name) {
+      this.itemSelect = [];
+      this.reqData(name);
+      this.tempLastSearchValue = name;
+    },
+    saveModel(name) {
+      console.log(name);
+      let modelListCommon, itemSelectCommon;
+      itemSelectCommon = _.find(this.itemSelect, function(o) {
+        return o.name.toUpperCase() === name.toUpperCase();
+      });
+      if (this.modelData.length > 0) {
+        modelListCommon = _.find(this.modelData[0].items, function(o) {
+          return o.name.toUpperCase() === name.toUpperCase();
+        });
+      }
+      if (this.itemSelect.length === 3) {
+        Toast("最多选择三个型号");
+      } else {
+        if (!itemSelectCommon && !modelListCommon) {
+          this.itemSelect.push({ id: "", name: name });
+        } else {
+          if (!itemSelectCommon && modelListCommon) {
+            this.itemSelect.push(modelListCommon);
+          } else if (itemSelectCommon) {
+          }
+        }
+      }
     }
   },
   computed: {},
-  created() {
-    //console.log("shua");
+  mounted() {
+    this.reqData();
   },
   activated() {
     // console.log("1");
   },
   deactivated() {
-    this.$destroy();
+    // this.$destroy();
+  },
+  watch: {
+    itemSelect() {
+      if (this.itemSelect.length > 3) {
+        Toast("最多选择三个型号");
+      }
+    }
   }
 };
 </script>
@@ -247,7 +193,7 @@ export default {
     }
   }
   .content {
-    padding: 13px;
+    padding: 10px 13px;
     .selected {
       //@include box_shadow_style;
       height: 77px;

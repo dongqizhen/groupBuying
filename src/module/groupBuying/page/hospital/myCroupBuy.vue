@@ -1,7 +1,7 @@
 <template>
     <div class="container myGroupBuyHospital">
         <Header title="我的团购 (医院)">
-            <router-link to="/demandTable" slot="explain" @click.native="setTransition('turn-on')">需求汇总表</router-link>
+            <router-link to="/demandTable" slot="explain" @click.native="setTransition('turn-on')">需求清单</router-link>
         </Header>
         <div class="content">
             <div class="scroll-list-wrap">

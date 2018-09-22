@@ -13,9 +13,7 @@
           </li>
         </ul>
       </div>
-      <search placeholder="请输入主营业务" :selectValue="selectMainBusinessArr" v-on:selectMainBusiness="selectMain" v-on:valueChange="getValue" type="main" isShowSave="true">
-        <span slot="perpend">保存</span>
-      </search>
+      <search placeholder="请输入主营业务" v-on:saveValue="saveValue" v-on:inputValue="getValue" isShowSave="true"></search>
       <div class="wrapper_box">
         <cube-index-list :data="mainBusinessList">
           <cube-index-list-group v-for="(group, index) in mainBusinessList" :key="index" :group="group">
@@ -24,11 +22,6 @@
             </cube-index-list-item>
           </cube-index-list-group>
         </cube-index-list>
-        <!-- <cube-scroll>
-                    <ul>
-                      <li v-for="item in mainBusinessList" :key="item.id"  @click="select(item)" :class="activeClass(item.id)">{{item.name}}</li>
-                    </ul>
-                </cube-scroll> -->
       </div>
     </div>
   </div>
@@ -43,10 +36,6 @@ import _ from "lodash";
 export default {
   data() {
     return {
-      tempMainBusinessId: "",
-      tempMainBusinessName: "",
-      searchValue: "",
-      mainBusiness: { mainBusinessName: "", mainBusinessId: "" },
       selectMainBusinessArr: [],
       mainBusinessList: []
     };
@@ -59,66 +48,74 @@ export default {
     ...mapMutations(["setTransition", "selectMainBusiness"]),
     clickSure() {
       this.setTransition("turn-off");
+      this.selectMainBusiness(this.selectMainBusinessArr);
       this.$router.go(-1);
-      if (this.selectMainBusinessArr) {
-        for (const val of this.selectMainBusinessArr) {
-          this.tempMainBusinessId += val.id + ",";
-          this.tempMainBusinessName += val.name + ",";
-        }
-      }
-      this.mainBusiness.mainBusinessName = this.tempMainBusinessName.slice(
-        0,
-        this.tempMainBusinessName.length - 1
-      );
-      this.mainBusiness.mainBusinessId = this.tempMainBusinessId.slice(
-        0,
-        this.tempMainBusinessId.length - 1
-      );
-      this.selectMainBusiness(this.mainBusiness);
-      this.tempMainBusinessId = "";
-      this.tempMainBusinessName = "";
     },
     deleteItem(i) {
       console.log(i);
       this.selectMainBusinessArr.splice(i, 1);
     },
     getValue(val) {
+      this.reqData(val);
+    },
+    saveValue(val) {
       console.log(val);
-      if (typeof val == "string") {
-        this.mainBusinessList = [];
+      var mainBusinessSelectCommon = _.find(
+        this.selectMainBusinessArr,
+        function(o) {
+          return o.name.toUpperCase() === val.toUpperCase();
+        }
+      );
+      let modelListCommon = _.find(this.mainBusinessList, function(o) {
+        return _.find(o.items, function(item) {
+          return item.name.toUpperCase() == val.toUpperCase();
+        });
+      });
+      console.log(modelListCommon);
+      if (this.selectMainBusinessArr.length === 3) {
+        this.showToastTime("最多选择三个主营业务");
       } else {
-        this.mainBusinessList = val;
+        if (!mainBusinessSelectCommon && !modelListCommon) {
+          this.selectMainBusinessArr.push({ id: "", name: val });
+        } else {
+          if (!mainBusinessSelectCommon && modelListCommon) {
+            this.selectMainBusinessArr.push(modelListCommon);
+          } else if (mainBusinessSelectCommon) {
+            this.showToastTime("已选相同主营业务，请勿重复选择");
+          }
+        }
       }
     },
-    selectMain(val) {},
     select(item) {
+      let changeItem = _.find(this.selectMainBusinessArr, function(o) {
+        return o.id == item.id;
+      });
       if (this.selectMainBusinessArr.length < 3) {
         if (
-          _.without(this.selectMainBusinessArr, item).length ==
+          _.without(this.selectMainBusinessArr, changeItem).length ==
           this.selectMainBusinessArr.length
         ) {
           this.selectMainBusinessArr.push(item);
         } else {
           this.selectMainBusinessArr = _.without(
             this.selectMainBusinessArr,
-            item
+            changeItem
           );
         }
       } else if (this.selectMainBusinessArr.length == 3) {
         this.selectMainBusinessArr = _.without(
           this.selectMainBusinessArr,
-          item
+          changeItem
         );
         if (this.selectMainBusinessArr.length == 3) {
-          this.showToastTime();
+          this.showToastTime("最多选择三个主营业务");
         }
       }
-      console.log(this.selectMainBusinessArr);
     },
-    showToastTime() {
+    showToastTime(txt) {
       const toast = this.$createToast({
         time: 1000,
-        txt: "最多选择三个主营业务"
+        txt: txt
       });
       toast.show();
     },
@@ -130,23 +127,26 @@ export default {
           }
         }
       }
+    },
+    reqData(name) {
+      _getData(
+        "/server_pro/mainBussiness!request.action",
+        {
+          method: "getAppPageMainBusinessList",
+          params: { name: name }
+        },
+        data => {
+          console.log(data);
+          this.mainBusinessList = data.list;
+        }
+      );
     }
   },
   mounted() {
-    _getData(
-      "/server_pro/mainBussiness!request.action",
-      {
-        method: "getAppPageMainBusinessList",
-        params: {}
-      },
-      data => {
-        console.log(data);
-        this.mainBusinessList = data.list;
-      }
-    );
+    this.reqData();
   },
   deactivated() {
-    this.$destroy();
+    // this.$destroy();
   }
 };
 </script>
@@ -167,7 +167,7 @@ export default {
     }
   }
   .content {
-    padding: 13px;
+    padding: 10px 13px;
     overflow: hidden;
     .selected {
       height: 77px;
@@ -234,7 +234,7 @@ export default {
     .wrapper_box {
       margin-top: 10px;
       @include box_shadow_style;
-      height: calc(100% - 87px - 60px);
+      height: calc(100% - 87px - 46px);
       padding-top: 0.1px;
       > h2 {
         font-family: PingFangSC-Regular;

@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
+import Vant from 'vant'
+import 'vant/lib/vant-css/index.css'
 import store from './store/index'
 import Util from '@/common/js/util'
 import Axios from '@/config/axios.js'
@@ -69,7 +71,7 @@ Vue.use(VueTouch)
         opacity: 0.3,
         speed: 1,
         transition: 'ease'
-    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize);
+    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize).use(Vant);
 
 Vue.use(VueScroller)
 

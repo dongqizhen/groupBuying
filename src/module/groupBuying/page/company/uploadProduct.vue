@@ -2,109 +2,103 @@
     <div class="container uploadProduct">
         <Header :title="this.$route.name"></Header>
         <div class="content">
-            <div class="selectGroupMeeting">
-                <basic-title title="选择团购大会" imgurl="/static/images/groupBuy.png">
-                    <span slot="select">(必选项)</span>
-                </basic-title>
-                <div class="list_box">
-                    <list-item v-for="(item,index) in groupUnderWayList" :isActive="current===index?true:false" v-on:changeIdx="idx" :index="index" :key="item.id" :dataValue="item" :disabled="true"></list-item>
-                </div>
-
-            </div>
-            <div class="groupType">
-                <basic-title title="团购产品类型" imgurl="/static/images/selectproject.png">
-                    <span slot="select">(必选项)</span>
-                </basic-title>
-                <select-project-nav v-on:select-value="handleSelect"></select-project-nav>
-            </div>
-            <div class="productBasicInfromation">
-                <basic-title title="产品基本信息" imgurl="/static/images/basicInformation.png">
-                    <span slot="select">建议:通过PC端批量上传</span>
-                    <a slot="check" class="server">
-                        <i></i>
-                        客服
-                    </a>
-                </basic-title>
-                <ul>
-                    <li v-ripple @click="setTransition('turn-on')">
-                        <router-link to="/productCategory">
-                            <span>产品分类：</span>
-                            <cube-input placeholder="请选择产品分类" :disabled="true" v-model="productSort.name">
-                                <i slot="append"></i>
+          <div class="scroll-list-wrap">
+            <cube-scroll ref="scroll">
+              <div class="selectGroupMeeting">
+                  <basic-title title="选择团购大会" imgurl="../static/images/groupBuy.png">
+                      <span slot="select">(必选项)</span>
+                  </basic-title>
+                  <div class="list_box">
+                      <list-item v-for="(item,index) in groupUnderWayList" :isActive="current===index?true:false" v-on:changeIdx="idx" :index="index" :key="item.id" :dataValue="item" :disabled="true"></list-item>
+                  </div>
+              </div>
+              <div class="groupType">
+                  <basic-title title="团购产品类型" imgurl="../static/images/selectproject.png">
+                      <span slot="select">(必选项)</span>
+                  </basic-title>
+                  <select-project-nav v-on:selectObj="getItemObj" v-on:select-value="selectGroupId"></select-project-nav>
+              </div>
+              <div class="productBasicInfromation">
+                  <basic-title title="产品基本信息" imgurl="../static/images/basicInformation.png">
+                      <span slot="select">建议:通过PC端批量上传</span>
+                      <a slot="check" class="server" @click="service">
+                          <i></i>
+                          客服
+                      </a>
+                  </basic-title>
+                  <div>
+                    <ul v-if="this.groupItemObj.code=='SBTG'||!this.groupItemObj">
+                        <li v-ripple @click="setTransition('turn-on')">
+                            <router-link to="/productCategory">
+                                <span>设备分类：</span>
+                                <cube-input placeholder="请选择分类" :disabled="true" v-model="productSort.name">
+                                    <i slot="append"></i>
+                                </cube-input>
+                            </router-link>
+                        </li>
+                        <li v-ripple @click="setTransition('turn-on')">
+                            <router-link to="/selectBrand">
+                                <span>设备品牌：</span>
+                                <cube-input placeholder="请选择品牌" :disabled="true" v-model="productBrand.name">
+                                    <i slot="append"></i>
+                                </cube-input>
+                            </router-link>
+                        </li>
+                        <li v-ripple @click="setTransition('turn-on')">
+                            <router-link to='/selectModel'>
+                                <span>型号：</span>
+                                <cube-input placeholder="默认为不限" :disabled="true" v-model="productModel.name"></cube-input>
+                                <div><!-- 默认为全线产品 --><i></i></div>
+                            </router-link>
+                        </li>
+                        <li class="price">
+                            <span>团购价格：</span>
+                            <cube-input placeholder="请输入团购价格" :disabled="false" type="number" v-model.trim.number="groupPrice">
+                                <span slot="append">万元</span>
                             </cube-input>
-                        </router-link>
-
-                    </li>
-                    <li v-ripple @click="setTransition('turn-on')">
-                        <router-link to="/selectBrand">
-                            <span>品牌：</span>
-                            <cube-input placeholder="请选择品牌" :disabled="true" v-model="productBrand.name">
-                                <i slot="append"></i>
-                            </cube-input>
-                        </router-link>
-
-                    </li>
-                    <li v-ripple @click="setTransition('turn-on')">
-                        <router-link to='/selectModel'>
-                            <span>型号：</span>
-                            <cube-input placeholder="请选择型号" :disabled="true">
-
-                            </cube-input>
-                            <div>默认为全线产品
-                                <i></i>
+                            <div class="check_box">
+                                <cube-checkbox v-model="checked">
+                                    对外公开
+                                </cube-checkbox>
                             </div>
-                        </router-link>
-                    </li>
-                    <li class="price">
-
-                        <span>团购价格：</span>
-                        <cube-input placeholder="请输入团购价格" :disabled="false" type="number" v-model.trim.number="groupPrice">
-                            <span slot="append">万元</span>
-                        </cube-input>
-                        <div class="check_box">
-                            <cube-checkbox v-model="checked">
-                                对外公开
-                            </cube-checkbox>
-                        </div>
-
-                    </li>
-                    <li v-ripple @click="setTransition('turn-on')">
-                        <router-link to="/mainParams">
-                            <span>重要参数：</span>
-                            <cube-input placeholder="请选择重要参数" :disabled="true">
-                                <i slot="append"></i>
-                            </cube-input>
-                        </router-link>
-
-                    </li>
-                    <li class="clinic">
-                        <!-- <label for="textarea"></label> -->
-                        <group>
-                            <x-textarea title="临床应用：" v-model="value" placeholder="为保证医院的采购质量与效率，请详细填写设备的临床用途。" autosize></x-textarea>
-                        </group>
-                    </li>
-                </ul>
-            </div>
-            <div class="img_upload">
-                <basic-title title="产品图片" imgurl="/static/images/imgUpload.png">
-
-                </basic-title>
-                <div class="upload_container">
-                    <cube-upload ref="upload" :action="action" :simultaneous-uploads="1" :process-file="processFile" @file-submitted="fileSubmitted" />
-                    <span>点击上传产品图片</span>
-                </div>
-
-            </div>
-            <div class="product_introduce">
-                <basic-title title="产品介绍" imgurl="/static/images/Introduction.png"></basic-title>
-                <group>
-                    <x-textarea v-model="introduce" placeholder="请在这里填写产品介绍" autosize></x-textarea>
-                </group>
-            </div>
-            <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购产品</x-button>
-            <x-button v-else type="primary" show-loading>提交中</x-button>
+                        </li>
+                        <li v-ripple @click="setTransition('turn-on')">
+                            <router-link to="/mainParams">
+                                <span>重要参数：</span>
+                                <cube-input placeholder="请选择或输入重要参数" :disabled="true" v-model="mainParams">
+                                    <i slot="append"></i>
+                                </cube-input>
+                            </router-link>
+                        </li>
+                        <li class="clinic">
+                            <!-- <label for="textarea"></label> -->
+                            <group>
+                                <x-textarea title="临床应用：" v-model="value" placeholder="为保证医院的采购质量与效率，请详细填写设备的临床用途。" autosize></x-textarea>
+                            </group>
+                        </li>
+                    </ul>
+                  </div>
+              </div>
+              <div class="img_upload">
+                  <basic-title title="产品图片" imgurl="../static/images/imgUpload.png">
+                     <span slot="select">(至少上传一张)</span>
+                  </basic-title>
+                  <div class="upload_container">
+                      <cube-upload ref="upload" :action="action" :simultaneous-uploads="1" :process-file="processFile" @file-submitted="fileSubmitted" @file-success="fileSuccess" @file-error="fileError" @file-removed="fileRemove"/>
+                      <span>点击上传产品图片</span>
+                  </div>
+              </div>
+              <div class="product_introduce">
+                  <basic-title title="产品介绍" imgurl="../static/images/Introduction.png"></basic-title>
+                  <group>
+                      <x-textarea v-model="introduce" placeholder="请在这里填写产品介绍" autosize></x-textarea>
+                  </group>
+              </div>
+              <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购产品</x-button>
+              <x-button v-else type="primary" show-loading>提交中</x-button>
+            </cube-scroll>
+           </div>
         </div>
-
     </div>
 </template>
 
@@ -120,18 +114,21 @@ import { mapMutations } from "vuex";
 export default {
   data() {
     return {
+      productSort: {},
+      productBrand: {},
+      productModel: {},
+      mainParams: "",
+      groupItemObj: "",
       groupPrice: "",
-      current: -1,
+      current: null,
       checked: true,
       value: "",
       introduce: "",
       submitBtnStatus: true,
       action: {
-        target: "//jsonplaceholder.typicode.com/photos/",
-        prop: "base64Value"
+        target: "http://60.195.252.86:8080/server/imageupload"
+        // prop: "base64Value"
       },
-      productSort: { name: "", productLineId: "" },
-      productBrand: { name: "", id: "" },
       groupUnderWayList: [],
       submitData: {
         id: "",
@@ -148,9 +145,18 @@ export default {
     XTextarea
   },
   methods: {
-    handleSelect(value) {
+    ...mapMutations(["setTransition"]),
+    selectGroupId(value) {
       console.log(value);
+      this.groupId = value;
       //this.submitData.groupPurchaseTypeIds = value;
+    },
+    getItemObj(itemObj) {
+      console.log(itemObj);
+      this.groupItemObj = itemObj;
+    },
+    service() {
+      callPhone("18735342261");
     },
     idx(v) {
       console.log(v);
@@ -171,12 +177,23 @@ export default {
       );
     },
     fileSubmitted(file) {
-      file.base64Value = file.file.base64;
+      //file.base64Value = file.file.base64;
+    },
+    fileSuccess(file) {
+      console.log(222);
+      console.log(file);
+    },
+    fileRemove(file){
+      console.log(3333)
+      console.log(file)
+    },
+    fileError() {
+      console.log(111);
     },
     submitBtnClick() {
-      this.submitBtnStatus = false;
-    },
-    ...mapMutations(["setTransition"])
+      // this.submitBtnStatus = false;
+
+    }
   },
   created: function() {
     // console.log(1);
@@ -196,9 +213,14 @@ export default {
     );
   },
   activated: function() {
-    // console.log(3);
+    console.log(3);
     this.productSort = this.$store.state.page.uploadProduct.productSort;
-    this.productBrand = this.$store.state.page.uploadProduct.productBrand;
+    // this.productBrand = this.$store.state.page.uploadProduct.productBrand;
+    // this.productModel = this.$store.state.page.uploadProduct.productModel;
+    this.mainParams = _.join(
+      _.map(this.$store.state.page.uploadProduct.mainParams, "name"),
+      ","
+    );
   },
   deactivated: function() {
     // console.log(4);
@@ -221,7 +243,6 @@ export default {
     }
   }
   .content {
-    padding: 13px;
     .selectGroupMeeting {
       padding-bottom: 0.5px;
       margin-bottom: 10px;
@@ -335,6 +356,7 @@ export default {
               font-family: PingFangSC-Regular;
               font-size: 14px;
               padding-left: 0;
+              text-align:right;
             }
           }
           &.price {

@@ -173,6 +173,7 @@ export default {
         &:after {
           border: none;
         }
+
         input {
           border: none;
           padding-left: 0;

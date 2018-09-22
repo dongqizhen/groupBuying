@@ -3,7 +3,7 @@
   <div class="search">
     <cube-input :placeholder="placeholder" :disabled="disabled" v-model.trim="value" @input="search" :autocomplete="true">
       <i slot="prepend"></i>
-      <span slot="append" v-if="isShowSave" @click="save">保存</span>
+      <span slot="append" v-if="isShowSave&&value!=''" @click="save">保存</span>
     </cube-input>
   </div>
 </template>
@@ -11,44 +11,20 @@
 <script>
 import { _getData } from "../../service/getData";
 import _ from "lodash";
+import { log } from "eruda";
 export default {
   data() {
     return {
-      value: "",
-      list: []
+      value: ""
     };
   },
-  props: ["placeholder", "disabled", "type", "isShowSave", "selectValue"],
-  mounted() {
-    console.log(this.type);
-    console.log(this.isShowSave);
-    if (this.type == "main") {
-      // _getData()
-    }
-  },
+  props: ["placeholder", "disabled", "type", "isShowSave"],
   methods: {
     search() {
-      console.log(111);
-      //this.getMainBusinessSearchData(this.value); //主营业务
-      //this.getProductLineSearchData(this.value); //产品分类
-      //this.getProductBrandSearchData(this.value); //产品品牌
+      this.$emit("inputValue", this.value);
     },
-    getMainBusinessSearchData(name) {
-      _getData(
-        "/server_pro/mainBussiness!request.action",
-        {
-          method: "getAppPageMainBusinessList",
-          params: { name: name }
-        },
-        data => {
-          console.log(data);
-          if (data.list.length == 0) {
-            this.$emit("valueChange", name);
-          } else {
-            this.$emit("valueChange", data.list);
-          }
-        }
-      );
+    save() {
+      this.$emit("saveValue", this.value);
     },
     getProductLineSearchData(name) {
       _getData(
@@ -103,51 +79,8 @@ export default {
         },
         data => {
           console.log(data);
-          // if (data.brandList.length == 0) {
-          //   this.$emit("valueChange", this.value);
-          // } else {
-          //   this.$emit("valueChange", data.brandList);
-          // }
         }
       );
-    },
-    showToastTime() {
-      const toast = this.$createToast({
-        time: 1000,
-        txt: "最多选择三个主营业务"
-      });
-      toast.show();
-    },
-    save() {
-      if (this.value == "") {
-        alert("请输入内容再保存");
-      } else {
-        if (this.list.length == 0) {
-          console.log(this.selectValue);
-          if (this.selectValue.length == 0) {
-            this.selectValue.push({
-              id: this.value,
-              name: this.value
-            });
-          } else {
-            if (this.selectValue.length < 3) {
-              if (
-                _.findLastIndex(this.selectValue, o => {
-                  return o.name == this.value;
-                }) == -1
-              ) {
-                this.selectValue.push({
-                  id: this.value,
-                  name: this.value
-                });
-              }
-            } else {
-              this.showToastTime();
-            }
-          }
-          this.$emit("selectMainBusiness", this.selectValue);
-        }
-      }
     }
   }
 };

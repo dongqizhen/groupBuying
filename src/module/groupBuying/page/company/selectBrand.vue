@@ -4,9 +4,9 @@
             <span slot="explain" class="enter" @click="clickLink">确定</span>
         </Header>
         <div class="content">
-            <search placeholder="请输入品牌" v-on:valueChange="prentValueChange"></search>
-            <cube-index-list :data="cityData">
-              <cube-index-list-group v-for="(group, index) in cityData" :key="index" :group="group">
+            <search placeholder="请输入品牌" v-on:inputValue="selectBrand"></search>
+            <cube-index-list :data="brandListData">
+              <cube-index-list-group v-for="(group, index) in brandListData" :key="index" :group="group">
                 <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem">
                   <div :class="['custom-item',current==item.id?'active':'']">{{item.name}} <span v-if="item.brandLabel">{{item.brandLabel}}</span></div>
                 </cube-index-list-item>
@@ -21,12 +21,11 @@ import Header from "../../components/header/header";
 import search from "../../components/search/search";
 import { _getData } from "../../service/getData";
 import { mapMutations } from "vuex";
-const cityData = [];
 export default {
   data() {
     return {
-      title: "Current City: BEIJING",
-      cityData: cityData,
+      tempLastSearchValue: "",
+      brandListData: [],
       current: null,
       tempProductBrand: {},
       productBrand: {}
@@ -40,37 +39,55 @@ export default {
     ...mapMutations(["setTransition", "selectProductBrand"]),
     clickLink() {
       this.setTransition("turn-off");
-      this.$router.go(-1);
+      console.log(this.tempLastSearchValue);
+      if (this.tempProductBrand.length == 0) {
+        if (this.tempLastSearchValue != "") {
+          this.tempProductBrand = {
+            id: this.tempLastSearchValue,
+            name: this.tempLastSearchValue
+          };
+          _getData("/server/alias!request.action", {
+            method: "addAlias",
+            params: {
+              name: this.tempLastSearchValue,
+              type: 1,
+              createSource: 1
+            }
+          });
+        } else {
+          alert("请选择或输入品牌");
+          return;
+        }
+      }
       this.productBrand = this.tempProductBrand;
       this.selectProductBrand(this.productBrand);
+      this.$router.go(-1);
     },
     selectItem(item) {
       console.log(item.name);
       this.current = item.id;
       this.tempProductBrand = item;
     },
-    prentValueChange(val) {
-      console.log(val);
-      if (typeof val == "string") {
-        this.cityData = [];
-        this.tempProductBrand = { id: val, name: val };
-      } else {
-        this.cityData = val;
-      }
+    selectBrand(val) {
+      this.reqData(val);
+      this.tempLastSearchValue = val;
+    },
+    reqData(name) {
+      _getData(
+        "/server_pro/groupPurchaseCompanyProduct!request.action",
+        {
+          method: "getBrandListByGroupPurchaseType",
+          params: { name: name, productLineId: "264" }
+        },
+        data => {
+          console.log(data);
+          this.brandListData = data.brandList;
+        }
+      );
     }
   },
   mounted() {
-    _getData(
-      "/server_pro/groupPurchaseCompanyProduct!request.action",
-      {
-        method: "getBrandListByGroupPurchaseType",
-        params: { name: "", productLineId: "264" }
-      },
-      data => {
-        console.log(data);
-        this.cityData = data.brandList;
-      }
-    );
+    this.reqData();
   }
 };
 </script>
@@ -90,7 +107,7 @@ export default {
     }
   }
   .content {
-    padding: 13px;
+    padding: 10px 13px;
     /deep/ .cube-index-list {
       height: calc(100% - 46px);
       margin-top: 10px;

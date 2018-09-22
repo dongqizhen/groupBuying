@@ -23,7 +23,7 @@
                 <router-link to='/typeOfEnterprise' @click.native="setTransition('turn-on')">
                   <span>企业类型：</span>
                   <div>
-                    {{companyType.companyTypeName}}
+                    {{companyTypeName}}
                     <i></i>
                   </div>
                 </router-link>
@@ -31,7 +31,7 @@
               <li v-ripple>
                 <router-link to="/mainBusiness" @click.native="setTransition('turn-on')">
                   <span>主营业务：</span>
-                  <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusiness.mainBusinessName">
+                  <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusinessName">
                     <i slot="append"></i>
                   </cube-input>
                 </router-link>
@@ -67,16 +67,17 @@ import personalInformation from "../../components/common/personalInformation";
 import selectProjectNav from "../../components/common/selectProjectNav";
 import { _getData } from "../../service/getData";
 import { mapMutations } from "vuex";
+import { Toast } from "vant";
 export default {
   data() {
     return {
-      companyType: { companyTypeName: "", companyTypeId: "" },
-      mainBusiness: { mainBusinessName: "", mainBusinessNameId: "" },
+      companyTypeName: "",
+      mainBusinessName: "",
       submitBtnStatus: true,
       submitData: {
         id: "",
-        companyName: "积水潭医院",
-        address: "北京积水潭",
+        companyName: "",
+        address: "",
         lat: "",
         lng: "",
         introduce: "",
@@ -84,7 +85,7 @@ export default {
         province: "",
         city: "",
         companyTypeId: "",
-        productlineId: "",
+        businessId: "",
         contact: ""
       },
       responseData: ""
@@ -100,10 +101,68 @@ export default {
     ...mapMutations(["setTransition"]),
     submitBtnClick() {
       this.submitBtnStatus = false;
-      console.log(this.$refs.person.persons);
-      this.submitData.contact = JSON.stringify(this.$refs.person.persons);
-      this.submit();
-      this.submitBtnStatus = true;
+      this.submitData.companyTypeId = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeId;
+      this.submitData.businessId = JSON.stringify(
+        this.$store.state.page.mainBusiness.selectedMainBusiness
+      );
+      if (this.submitData.groupPurchaseTypeIds == "") {
+        Toast({ message: "请选择团购项目", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.submitData.companyName == "") {
+        Toast({ message: "请输入公司全称", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.submitData.companyTypeId == "") {
+        Toast({ message: "请选择企业类型", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (
+        this.$store.state.page.mainBusiness.selectedMainBusiness.length == 0
+      ) {
+        Toast({ message: "请选择主营业务", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      var flag = true;
+      var that = this;
+      _.each(this.$refs.person.persons, function(value, key) {
+        if (value.name == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "姓名",
+            duration: 1000
+          });
+          that.submitBtnStatus = true;
+          return false;
+        }
+        if (value.post == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "职务",
+            duration: 1000
+          });
+          that.submitBtnStatus = true;
+          return false;
+        }
+        if (value.phone == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "移动电话",
+            duration: 1000
+          });
+          that.submitBtnStatus = true;
+          return false;
+        }
+      });
+      if (flag) {
+        this.submitData.contact = JSON.stringify(this.$refs.person.persons);
+        this.submit();
+        this.submitBtnStatus = true;
+      }
     },
     submit() {
       _getData(
@@ -124,7 +183,6 @@ export default {
         }
       );
     },
-    handleClickEvent() {},
     handleSelect(value) {
       console.log(value);
       this.submitData.groupPurchaseTypeIds = value;
@@ -148,10 +206,11 @@ export default {
     console.log("created");
   },
   activated() {
-    console.log("active");
-    this.companyType = this.$store.state.page.typeOfEnterprise.selectedCompanyType;
-    this.mainBusiness = this.$store.state.page.mainBusiness.selectedMainBusiness;
-    this.submitData.companyTypeId = this.companyType.companyTypeId;
+    this.companyTypeName = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeName;
+    this.mainBusinessName = _.join(
+      _.map(this.$store.state.page.mainBusiness.selectedMainBusiness, "name"),
+      ","
+    );
   },
   deactivated() {
     // this.$destroy();
@@ -195,7 +254,6 @@ input::-webkit-input-placeholder {
         }
       }
     }
-
     .Select_project {
       background: #ffffff;
       box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
