@@ -1,25 +1,25 @@
 <template>
     <div class="scrollTab">
         <!-- <cube-page type="scroll-tab-view" title="ScrollTab"> -->
-        <div slot="content">
-            <div class="left-panel">
-                <cube-scroll>
-                    <cube-tab-bar v-model="selectedLabel" :data="tabs" @change="changeHandler"></cube-tab-bar>
-                </cube-scroll>
-            </div>
-            <div class="right-panel">
-                <slot name="title"></slot>
-                <cube-scroll ref="scroll">
-                    <slot name="right-panel-container"></slot>
-                </cube-scroll>
-                <slot name="count"></slot>
-            </div>
+
+        <div class="left-panel">
+            <cube-scroll>
+                <cube-tab-bar v-model="selectedLabel" :data="tabs" @change="changeHandler"></cube-tab-bar>
+            </cube-scroll>
         </div>
+        <div class="right-panel">
+            <slot name="title"></slot>
+            <cube-scroll ref="scroll">
+                <slot name="right-panel-container"></slot>
+            </cube-scroll>
+            <slot name="count"></slot>
+        </div>
+
         <!--  </cube-page> -->
     </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
     export default {
         data() {
             return {
@@ -56,52 +56,63 @@
                 console.log(newV);
             }
         },
+        activated() {},
         deactivated() {
-            this.$destroy();
+            // this.$destroy();
         }
     };
 </script>
-<style lang="stylus" rel="stylesheet/stylus" scoped>
-    .cube-scroll-list-wrapper {
-        .cube-tab-bar {
-            flex-wrap: wrap;
-            background-color: #fff;
+<style lang="scss" scoped>
+    .scrollTab {
+        height: calc(100% - 10px);
+        margin-top: 10px;
+        display: flex;
+        justify-content: flex-start;
+        overflow: hidden;
+        .left-panel {
+            height: 100%;
+            width: 100px;
+            background-color: #f6f6f6;
+            /deep/ .cube-scroll-wrapper {
+                height: 100%;
 
-            .cube-tab {
-                width: 100px;
-                padding: 20px 13px;
-                font-size: 14px;
-                color: #333;
-                line-height: 20px;
-                transition: all 0.3s ease-in;
-                margin-right: 0;
-                margin-bottom: 1px;
-                background-color: #f6f6f6;
-                flex: none;
+                .cube-scroll-content {
+                    min-height: calc(100% + 1px);
+                    .cube-scroll-list-wrapper {
+                        .cube-tab-bar {
+                            display: flex;
+                            flex-direction: column;
+                            flex-wrap: wrap;
+                            background-color: #fff;
+                            font-family: PingFangSC-Regular;
 
-                &.cube-tab_active {
-                    color: #019DDD;
-                    background-color: #fff;
+                            .cube-tab {
+                                width: 100px;
+                                padding: 20px 13px;
+                                font-size: 14px;
+                                color: #333;
+                                line-height: 20px;
+                                transition: all 0.3s ease-in;
+                                margin-right: 0;
+                                margin-bottom: 1px;
+                                background-color: #f6f6f6;
+                                flex: none;
+
+                                &.cube-tab_active {
+                                    color: #019ddd;
+                                    background-color: #fff;
+                                    font-family: PingFangSC-Medium;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
 
-    .left-panel {
-        position: absolute;
-        top: 54px;
-        left: 0;
-        bottom: 0;
-        width: 100px;
-        background-color: #f6f6f6;
-    }
-
-    .right-panel {
-        position: absolute;
-        top: 54px;
-        left: 100px;
-        right: 0;
-        bottom: 0;
-        background-color: #fff;
+        .right-panel {
+            flex: 1;
+            background-color: #fff;
+        }
     }
 </style>

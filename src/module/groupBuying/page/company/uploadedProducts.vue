@@ -1,39 +1,24 @@
 <template>
     <div class="container uploadedProducts">
-        <Header :isSearchHide="false" :title="this.$route.name">
+        <Header :isSearchHide="false" title="上传的产品">
         </Header>
         <div class="content">
             <div class="type">
-                <type-scroll-nav-bar></type-scroll-nav-bar>
-                <model-scroll-nav-bar></model-scroll-nav-bar>
+                <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+                <model-scroll-nav-bar :modelData="modelData" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
             </div>
             <div class="wrapper_container">
-                <cube-scroll ref="scroll">
+                <scroller>
                     <cube-swipe>
                         <transition-group name="swipe" tag="ul" class="Swipe_box">
-                            <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="data.item.id">
-                                <cube-swipe-item ref="swipeItem" :btns="btns" :index="0" @btn-click="onBtnClick" @active="onItemActive">
-                                    <product-list></product-list>
-
-                                    <!-- <div @click="onItemClick(data.item, index)" class="item-inner">
-                                        <div class="icon">
-                                            <img width="60" height="60" :src="data.item.imgurl">
-                                        </div>
-                                        <div class="text">
-                                            <h2 class="item-name" v-html="data.item.name"></h2>
-                                            <p class="item-desc" v-html="data.item.desc"></p>
-                                        </div>
-                                    </div> -->
-                                </cube-swipe-item>
-                            </li>
-                            <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="data.item.id">
-                                <cube-swipe-item ref="swipeItem" :btns="btns" :index="1" @btn-click="onBtnClick" @active="onItemActive">
-                                    <product-list></product-list>
+                            <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="index">
+                                <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive" @item-click="onItemClick">
+                                    <product-list :listData="data"></product-list>
                                 </cube-swipe-item>
                             </li>
                         </transition-group>
                     </cube-swipe>
-                </cube-scroll>
+                </scroller>
 
             </div>
 
@@ -46,20 +31,13 @@
     import typeScrollNavBar from "../../components/common/typeScrollNavBar";
     import modelScrollNavBar from "../../components/common/modelScrollNavBar";
     import productList from "../../components/common/productList";
+    import { _getData } from "../../service/getData";
+    import { mapMutations } from "vuex";
+    import _ from "lodash";
+    import { getProductList } from "../../components/mixin/mixin";
     export default {
         data() {
             return {
-                swipeData: [
-                    {
-                        item: {
-                            id: "3646653877",
-                            name: "还不是因为你长得不好看",
-                            desc: "伤感：歌词再狠，也抵不过现实伤人",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/MhQ4bJBPt3Yt5icXyBGNhyPJnE9O51CqaN72iaDgvFmDKaia12UFhU5uQ/600?n=1"
-                        }
-                    }
-                ],
                 btns: [
                     {
                         action: "rewrite",
@@ -74,16 +52,16 @@
                 ]
             };
         },
+        mixins: [getProductList],
         components: {
             Header,
             typeScrollNavBar,
             modelScrollNavBar,
             productList
         },
-        created() {
-            this.activeIndex = -1;
-        },
+        created() {},
         methods: {
+            ...mapMutations(["setTransition"]),
             onItemClick(item) {
                 console.log("click item:", item);
             },
@@ -93,15 +71,19 @@
                         title: "确认要删除吗",
                         active: 0,
                         data: [{ content: "删除" }],
-                        onSelect: () => {
-                            //this.swipeData.splice(index, 1)
+                        onSelect: (item, val) => {
+                            alert();
+                            this.swipeData.splice(index, 1);
                         }
                     }).show();
                 } else {
+                    this.setTransition("turn-on");
                     this.$refs.swipeItem[index].shrink();
+                    this.$router.push("uploadProduct");
                 }
             },
             onItemActive(index) {
+                console.log(index);
                 if (index === this.activeIndex) {
                     return;
                 }
@@ -111,20 +93,18 @@
                 }
                 this.activeIndex = index;
             }
-        }
+        },
+        activated() {}
     };
 </script>
 
 <style lang="scss" scoped>
     @import "../../../../../static/scss/_commonScss";
     .container {
-        height: 100%;
-        width: 100%;
-        position: fixed;
+        @include basic_container_style;
         .content {
-            height: calc(100% - #{$header-height});
             padding: 10px 13px;
-            background: $base-backgroud;
+            overflow: hidden;
             .type {
                 box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
@@ -132,7 +112,14 @@
                 margin-bottom: 10px;
             }
             .wrapper_container {
-                height: calc(100% - 111px);
+                height: calc(100%);
+                position: relative;
+                /deep/ ._v-container {
+                    height: 100%;
+                    /*  ._v-content {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                }
             }
             /deep/ ul.Swipe_box {
                 height: 100%;

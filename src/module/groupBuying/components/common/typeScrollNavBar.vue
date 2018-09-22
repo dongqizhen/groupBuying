@@ -1,6 +1,7 @@
 <template>
     <div class="typeScrollNavBar">
-        <cube-scroll-nav-bar :current="current" :labels="labels" @change="changeHandler" />
+
+        <cube-scroll-nav-bar :current="current" v-if="labels.length" :labels="labels" @change="changeHandler" />
     </div>
 </template>
 
@@ -8,24 +9,23 @@
     export default {
         data() {
             return {
-                current: "设备团购(66)",
-                labels: [
-                    "设备团购(66)",
-                    "设备团购(65)",
-                    "设备团购(665)",
-                    "设备团购(65r6)",
-                    "设备团购(656)",
-                    "设备团购(66h)",
-                    "设备团购(662)",
-                    "设备团购(664)",
-                    "设备团购(665)",
-                    "设备团购(663)"
-                ]
+                current: "",
+                labels: []
             };
         },
+        props: ["typeData"],
         methods: {
             changeHandler(cur) {
                 this.current = cur;
+                this.$emit("typeNavChange", cur);
+            }
+        },
+        updated() {},
+        created() {},
+        watch: {
+            typeData() {
+                this.labels = this.typeData;
+                this.current = this.typeData[0];
             }
         }
     };
@@ -45,7 +45,9 @@
             .cube-scroll-wrapper {
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
+                justify-content: flex-start;
                 .cube-scroll-content {
+                    min-width: 100%;
                     padding: 0 !important;
                 }
                 .cube-scroll-nav-bar-items {
@@ -82,6 +84,8 @@
                                 border: 0.5px solid #019ddd;
                                 box-shadow: 0.5px 2px 2px 0.5px
                                     rgba(1, 157, 221, 0.15);
+                                color: #019ddd;
+                                font-family: PingFangSC-Medium;
                             }
                         }
                     }

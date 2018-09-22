@@ -75,7 +75,7 @@ Vue.use(VueTouch)
 
 Vue.use(VueScroller)
 
-createAPI(Vue, ActionSheet, ['click'], true)
+createAPI(Vue, ActionSheet, ['select'], true)
 createAPI(Vue, Toast, ['click'], true)
 
 

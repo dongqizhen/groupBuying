@@ -1,7 +1,8 @@
 <template>
     <div class="container demandTableDetaile">
         <Header title="团购需求表详情">
-            <!-- <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')">pc端上传</router-link> -->
+            <span slot="explain"><img src="../../../../../static/images/share.png" alt=""></span>
+            <!-- <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')"></router-link> -->
         </Header>
         <div class="content">
             <div class="scroll-list-wrap">

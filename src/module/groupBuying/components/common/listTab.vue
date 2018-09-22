@@ -40,7 +40,14 @@
         components: {
             ListItem
         },
-        props: ["meetingListData"],
+        props: {
+            meetingListData: {
+                type: Object,
+                default: () => {
+                    return {};
+                }
+            }
+        },
         methods: {
             scroll(pos) {
                 const x = Math.abs(pos.x);
@@ -89,7 +96,9 @@
             }
         },
         watch: {
-            meetingListData: function(val, oldVal) {}
+            meetingListData: function(val, oldVal) {
+                console.log(val);
+            }
         },
         created() {
             this.listTabs = this.listTabsData;
