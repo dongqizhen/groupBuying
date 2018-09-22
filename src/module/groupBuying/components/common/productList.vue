@@ -1,23 +1,36 @@
 <template>
-    <div class="productList">
+    <div class="productList" @click="OnItemClick(listData)">
         <div class="left_box">
 
         </div>
         <div class="right_box">
             <p>
                 <span>￥</span>
-                95788.00
+                {{listData.price}}.00
                 <span class="groupbuy">团购价</span>
             </p>
-            <span>CT类/GE/8500</span>
+            <span>{{listData.productLineName}}/{{listData.brandName}}/{{listData.modelName}}</span>
         </div>
     </div>
 </template>
 
 <script>
+    import { mapMutations } from "vuex";
     export default {
         data() {
             return {};
+        },
+        props: ["listData"],
+        methods: {
+            ...mapMutations(["setTransition"]),
+            OnItemClick(item) {
+                console.log(item);
+                this.setTransition("turn-on");
+                this.$router.push({
+                    path: "productDetails",
+                    query: { id: item.id }
+                });
+            }
         }
     };
 </script>

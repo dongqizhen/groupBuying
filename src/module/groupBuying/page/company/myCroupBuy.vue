@@ -14,7 +14,7 @@
                 </scroller>
             </div>
         </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -27,7 +27,8 @@ import { _getData } from "../../service/getData";
 export default {
   data() {
     return {
-      detailData: {}
+      detailData: {},
+      meetingListData: {}
     };
   },
   components: {
@@ -48,6 +49,20 @@ export default {
         console.log(data);
         this.detailData = data;
         console.log(this.detailData);
+      }
+    );
+    _getData(
+      "/server_pro/groupPurchaseCompany!request.action",
+      {
+        method: "getMyGroupPurchaseCompany",
+        params: { companyId: "1" }
+      },
+      data => {
+        console.log(data);
+        this.meetingListData = _.keyBy(data.list, val => {
+          return `${val.year}(${val.num}场)`;
+        });
+        console.log(this.meetingListData);
       }
     );
   }

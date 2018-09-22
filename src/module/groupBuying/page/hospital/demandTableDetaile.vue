@@ -1,13 +1,19 @@
 <template>
     <div class="container demandTableDetaile">
         <Header title="团购需求表详情">
-            <!-- <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')">pc端上传</router-link> -->
+            <span slot="explain"><img src="../../../../../static/images/share.png" alt=""></span>
+            <!-- <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')"></router-link> -->
         </Header>
         <div class="content">
-            <div class="detaile">
-                这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详
+            <div class="scroll-list-wrap">
+                <scroller>
+                    <div class="detaile">
+                        这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详 这里显示团购需求表的详情这里显示团购需求表的详情这里显示团购需求表的详
 
+                    </div>
+                </scroller>
             </div>
+
         </div>
     </div>
 </template>

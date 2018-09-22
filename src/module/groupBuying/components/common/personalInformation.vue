@@ -1,50 +1,50 @@
 <template>
-    <div class="personalInformation">
-        <div class="details" v-for="(itemPerson,index) in persons" :key="index">
-            <h2>
-                <p>
-                    <i></i>
-                    团购负责人{{index+1}}
-                </p>
-                <span v-if="isShowAddBtn != undefined" :class="index==0?'':'delete'" @click="addOrdelete(index)"></span>
-            </h2>
-            <ul>
-                <li>
-                    <span v-if="read">
-                        <i v-if="isShowStar">*</i>姓名
-                    </span>
-                    <span v-else>
-                        <i v-if="isShowStar">*</i>姓名：
-                    </span>
-                    <cube-input class="ipt_box" required  v-model.trim="itemPerson.name" placeholder="请输入姓名" :disabled='disabled'></cube-input>
-                </li>
-                <li>
-                    <span v-if="read">
-                        <i v-if="isShowStar">*</i>职务</span>
-                    <span v-else>
-                        <i v-if="isShowStar">*</i>职务：</span>
-                    <cube-input class="ipt_box" v-model.trim="itemPerson.post" placeholder="请输入职务" :disabled='disabled'></cube-input>
-                </li>
-                <li>
-                    <span v-if="read">
-                        <i v-if="isShowStar">*</i>移动电话</span>
-                    <span v-else>
-                        <i v-if="isShowStar">*</i>移动电话：</span>
-                    <cube-input class="ipt_box" v-model.number.trim="itemPerson.phone" placeholder="请输入手机号码" :disabled='disabled' :maxlength="11"></cube-input>
-                </li>
-                <li>
-                    <span v-if="read">固定电话</span>
-                    <span v-else>固定电话：</span>
-                    <cube-input class="ipt_box" v-model.trim="itemPerson.telphone" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
-                </li>
-                <li>
-                    <span v-if="read">微信号</span>
-                    <span v-else>微信号：</span>
-                    <cube-input class="ipt_box" v-model.trim="itemPerson.wxCode" placeholder="请输入微信号" :disabled='disabled'></cube-input>
-                </li>
-            </ul>
-        </div>
+  <div class="personalInformation">
+    <div class="details" v-for="(itemPerson,index) in persons" :key="index">
+      <h2>
+        <p>
+          <i></i>
+          团购负责人{{index+1}}
+        </p>
+        <span v-if="isShowAddBtn != undefined" :class="index==0?'':'delete'" @click="addOrdelete(index)"></span>
+      </h2>
+      <ul>
+        <li>
+          <span v-if="read">
+            <i v-if="isShowStar">*</i>姓名
+          </span>
+          <span v-else>
+            <i v-if="isShowStar">*</i>姓名：
+          </span>
+          <cube-input class="ipt_box" required v-model.trim="itemPerson.name" placeholder="请输入姓名" :disabled='disabled'></cube-input>
+        </li>
+        <li>
+          <span v-if="read">
+            <i v-if="isShowStar">*</i>职务</span>
+          <span v-else>
+            <i v-if="isShowStar">*</i>职务：</span>
+          <cube-input class="ipt_box" v-model.trim="itemPerson.post" placeholder="请输入职务" :disabled='disabled'></cube-input>
+        </li>
+        <li>
+          <span v-if="read">
+            <i v-if="isShowStar">*</i>移动电话</span>
+          <span v-else>
+            <i v-if="isShowStar">*</i>移动电话：</span>
+          <cube-input class="ipt_box" type="number" v-model.number.trim="itemPerson.phone" placeholder="请输入手机号码" :disabled='disabled' :maxlength="11"></cube-input>
+        </li>
+        <li>
+          <span v-if="read">固定电话</span>
+          <span v-else>固定电话：</span>
+          <cube-input class="ipt_box" type="number" v-model.trim="itemPerson.telphone" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
+        </li>
+        <li>
+          <span v-if="read">微信号</span>
+          <span v-else>微信号：</span>
+          <cube-input class="ipt_box" v-model.trim="itemPerson.wxCode" placeholder="请输入微信号" :disabled='disabled'></cube-input>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script>
@@ -129,10 +129,10 @@ export default {
       display: flex;
       height: 22px;
       width: 22px;
-      background: url("/static/images/add.png") no-repeat center;
+      background: url("../../../../assets/images/add.png") no-repeat center;
       background-size: 100% 100%;
       &.delete {
-        background: url("/static/images/delete.png") no-repeat center;
+        background: url("../../../../assets/images/delete.png") no-repeat center;
         background-size: 100% 100%;
       }
     }

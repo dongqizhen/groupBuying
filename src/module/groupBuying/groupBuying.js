@@ -13,7 +13,9 @@ import VueTouch from 'vue-touch-easyhi'
 import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css'
 //import "../../../static/css/cube-ui/cube-ui.scss"
-import jsbridge from 'jsbridge'
+import {
+    connectWebViewJavascriptBridge
+} from '../../common/js/jsBridge'
 import {
     SwipeCell
 } from 'vant';
@@ -44,7 +46,7 @@ import Cube, {
     ActionSheet
 } from 'cube-ui';
 import Ripple from 'vue-ripple-directive'
-console.log(jsbridge)
+
 Ripple.color = 'rgba(153, 153, 153, 0.3)';
 Ripple.zIndex = 55;
 Vue.directive('ripple', Ripple);
@@ -52,7 +54,7 @@ Vue.directive('ripple', Ripple);
 Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
 Vue.prototype.$API_URL = process.env.API_HOST.URL
-Vue.prototype.$bridge = jsbridge
+    //Vue.prototype.$bridge = jsbridge
 
 Vue.config.productionTip = false
 
@@ -75,19 +77,52 @@ Vue.use(VueTouch)
 
 Vue.use(VueScroller)
 
-createAPI(Vue, ActionSheet, ['click'], true)
+createAPI(Vue, ActionSheet, ['select'], true)
 createAPI(Vue, Toast, ['click'], true)
 
 
 Vue.component('x-button', XButton)
 Vue.component('x-number', XNumber)
     /* eslint-disable no-new */
-new Vue({
-    el: '#app',
-    router,
-    store,
-    components: {
-        App
-    },
-    template: '<App/>'
+
+const initVueApp = () => {
+    new Vue({
+        el: '#app',
+        router,
+        store,
+        components: {
+            App
+        },
+        template: '<App/>'
+    })
+}
+
+// 第一连接时初始化bridage
+new connectWebViewJavascriptBridge(function(bridge) {
+
+    initVueApp()
+
+    bridge.init(function(message, responseCallback) {
+        console.log('JS got a message', message);
+        var data = {
+            'Javascript Responds': '测试中文!'
+        };
+        console.log('JS responding with', data);
+        responseCallback(data);
+    });
+    // 注册一个"functionInJs",
+    bridge.registerHandler("functionInJs", function(data, responseCallback) {
+
+        bridge.callHandler(
+            "Log", {
+                param: JSON.stringify({
+                    data: "1111111111"
+                })
+            },
+            function(responseData) {
+                responseCallback(responseData);
+            }
+        );
+
+    });
 })

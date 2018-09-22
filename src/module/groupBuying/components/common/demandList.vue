@@ -4,7 +4,9 @@
             <span>产品分类</span>
             <span class="value">CT类</span>
             <span class="taiNumber">
-                <b>5</b>台</span>
+                <b>5</b>
+                <a>台</a>
+            </span>
         </div>
         <div class="common hopeBrand">
             <ul>
@@ -97,10 +99,20 @@
                 font-family: PingFangSC-Regular;
                 font-size: 10px;
                 color: #999999;
+                display: flex;
+                align-items: flex-end;
+
                 b {
                     font-family: BebasNeue;
                     font-size: 24px;
                     color: #333333;
+                }
+                a {
+                    font-family: PingFangSC-Regular;
+                    font-size: 10px;
+                    color: #999999;
+                    margin-bottom: 2px;
+                    text-decoration: none;
                 }
             }
         }

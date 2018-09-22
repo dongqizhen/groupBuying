@@ -355,6 +355,9 @@
                       height: 50px;
                       padding: 0 13px;
                       align-items: center;
+                      a{
+                          text-decoration: none;
+                      }
                       span {
                           font-family: PingFangSC-Regular;
                           font-size: 12px;

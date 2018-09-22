@@ -32,6 +32,10 @@
         overflow: hidden;
     }
     
+    body {
+        position: relative;
+    }
+    
     article,
     aside,
     blockquote,

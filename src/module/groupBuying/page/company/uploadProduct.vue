@@ -47,8 +47,9 @@
                         <li v-ripple @click="setTransition('turn-on')">
                             <router-link to='/selectModel'>
                                 <span>型号：</span>
-                                <cube-input placeholder="默认为不限" :disabled="true" v-model="productModel.name"></cube-input>
-                                <div><!-- 默认为全线产品 --><i></i></div>
+                                <cube-input placeholder="默认为不限" :disabled="true" v-model="productModel.name">
+                                 <i slot="append"></i>
+                                </cube-input>
                             </router-link>
                         </li>
                         <li class="price">
@@ -109,6 +110,7 @@ import basicTitle from "../../components/common/basicTitle";
 import selectProjectNav from "../../components/common/selectProjectNav";
 import { Group, XTextarea } from "vux";
 import { _getData } from "../../service/getData";
+import _ from "lodash";
 import compress from "../../../../../static/js/compressImage";
 import { mapMutations } from "vuex";
 export default {
@@ -183,16 +185,15 @@ export default {
       console.log(222);
       console.log(file);
     },
-    fileRemove(file){
-      console.log(3333)
-      console.log(file)
+    fileRemove(file) {
+      console.log(3333);
+      console.log(file);
     },
     fileError() {
       console.log(111);
     },
     submitBtnClick() {
       // this.submitBtnStatus = false;
-
     }
   },
   created: function() {
@@ -356,7 +357,7 @@ export default {
               font-family: PingFangSC-Regular;
               font-size: 14px;
               padding-left: 0;
-              text-align:right;
+              text-align: right;
             }
           }
           &.price {

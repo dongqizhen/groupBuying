@@ -26,6 +26,17 @@
                 },
                 false
             );
+            window.WebViewJavascriptBridge.registerHandler(
+                "androidPhysicalBack",
+                (data, responseCallback) => {
+                    if (this.$router.currentRoute.path == "/") {
+                        responseCallback(JSON.stringify({ isNativeBack: "true" }));
+                    } else {
+                        this.$store.commit("setTransition", "turn-off");
+                        this.$router.back();
+                    }
+                }
+            );
         }
     };
 </script>
@@ -33,6 +44,7 @@
 <style lang="scss" scoped>
     #app {
         height: 100%;
+        position: relative;
     }
 
     .turn-on-enter {
@@ -46,8 +58,8 @@
         transition: transform 0.4s ease;
     }
     /* .turn-on-enter-to{
-                                                                                                                                                                                                                  transform: translate3d(0, 0, 0);
-                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                  transform: translate3d(0, 0, 0);
+                                                                                                                                                                                                                                                                                                } */
     .turn-off-enter {
         /* transform: translate3d(-20%, 0, 0); */
     }

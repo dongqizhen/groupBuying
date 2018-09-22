@@ -260,6 +260,7 @@ export default {
         }
         .cube-index-list-content {
           > ul {
+            border-radius: 5px;
             .cube-index-list-group {
               h2 {
                 display: none;
@@ -287,6 +288,11 @@ export default {
                       color: #cccccc;
                     }
                   }
+                }
+              }
+              &:last-child {
+                ul > li:last-child {
+                  border-bottom: 0;
                 }
               }
             }

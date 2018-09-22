@@ -1,14 +1,21 @@
 <template>
     <div class="modelScrollNavBar">
         <div class="slide_container">
-            <cube-scroll-nav-bar :current="current" :labels="labels" @change="changeHandler" />
+            <cube-scroll-nav-bar :current="current" :labels="labels" @change="changeHandler" v-if="hackReset" />
         </div>
         <div @click="handleClick">
             <touch-ripple :speed="1" :opacity="0.3" color="#999" transition="ease">
                 <i :class="arrowIsActive?'active':''"></i>
             </touch-ripple>
         </div>
-        <div class="hide_box" v-if="hideBoxIsShow">
+        <transition name="showBox">
+            <div class="side-container-vertical" v-if="hideBoxIsShow">
+                <cube-scroll-nav-bar direction="vertical" :current="current" :labels="labels" @change="changeHandler" v-if="hackReset">
+                    <i slot-scope="props">{{props.txt}}</i>
+                </cube-scroll-nav-bar>
+            </div>
+        </transition>
+        <!-- <div class="hide_box" v-if="hideBoxIsShow">
             <cube-scroll ref="scroll">
                 <ul>
                     <li v-for="(value,index) in labels" :key="index">
@@ -16,7 +23,7 @@
                     </li>
                 </ul>
             </cube-scroll>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -25,36 +32,62 @@
         data() {
             return {
                 arrowIsActive: false,
-                current: "磁共震MRI类(27)",
+                current: "", //说明文档详见 https://didi.github.io/cube-ui/#/zh-CN/docs/scroll-nav-bar
                 hideBoxIsShow: false,
-                labels: [
-                    "磁共震MRI类(27)",
-                    "血管造影机类(27f)",
-                    "血管造影机类(27fa)",
-                    "血管造影机类(27ad)",
-                    "血管造影机类(27ddf)",
-                    "血管造影机类(27dasd)",
-                    "血管造影机类(27dw)",
-                    "血管造影机类(27wd)",
-                    "血管造影机类(27cv)",
-                    "血管造影机类(27dd)"
-                ]
+                labels: [],
+                hackReset: false
             };
         },
         methods: {
             changeHandler(cur) {
                 this.current = cur;
+                this.$emit("modelNavChange", cur);
+                this.hideBoxIsShow = false;
             },
             handleClick() {
                 this.arrowIsActive = !this.arrowIsActive;
+                this.hideBoxIsShow = !this.hideBoxIsShow;
             }
         },
-        mounted() {}
+        props: {
+            modelData: {
+                type: Array
+            }
+        },
+        mounted() {},
+        watch: {
+            modelData(newVal, oldVal) {
+                console.log(newVal, oldVal, newVal == oldVal);
+
+                this.labels = [...newVal];
+
+                this.current = this.modelData[0];
+                this.$nextTick(() => {
+                    this.hackReset = true;
+                });
+                this.hackReset = false;
+            }
+        }
     };
 </script>
 
 <style lang="scss" scoped>
-    .modelScrollNavBar {
+    .showBox-leave-active,
+    .showBox-enter-active {
+        transition: all 0.4s ease;
+    }
+    .showBox-leave-active,
+    .showBox-enter {
+        transform: translate3d(0, 100%, 0);
+        opacity: 0;
+    }
+    .showBox-leave,
+    .showBox-enter-active {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+
+            .modelScrollNavBar {
         height: 44px;
         position: relative;
         display: flex;
@@ -80,6 +113,54 @@
                         }
                         &.cube-scroll-nav-bar-item_active {
                             color: #019ddd;
+                        }
+                    }
+                }
+            }
+            /deep/ .cube-scroll-wrapper {
+                .cube-scroll-content {
+                    min-width: 100%;
+                }
+            }
+        }
+        .side-container-vertical {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            height: 300px;
+            position: absolute;
+            top: 45px;
+            left: 0;
+            z-index: 100;
+            //border-top: 0.5px solid #e9e9e9;
+            padding-left: 13px;
+            background: #fff;
+            border-radius: 5px;
+            /deep/ .cube-scroll-nav-bar {
+                width: 100%;
+                border-radius: 5px;
+                .cube-scroll-wrapper {
+                    width: 100%;
+                    border-radius: 5px;
+                    .cube-scroll-content {
+                        min-height: calc(100% + 1px);
+                        .cube-scroll-nav-bar-item {
+                            font-family: PingFangSC-Regular;
+                            font-size: 14px;
+                            color: #333333;
+                            padding: 16px 0;
+                            border-bottom: 0.5px solid #e9e9e9;
+                            border-radius: 5px;
+                            text-align: left;
+                            &.cube-scroll-nav-bar-item_active {
+                                color: #019ddd;
+                            }
+                            i {
+                                font-style: normal;
+                            }
+                            &:last-child {
+                                border: 0;
+                            }
                         }
                     }
                 }

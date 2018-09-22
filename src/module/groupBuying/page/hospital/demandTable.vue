@@ -4,8 +4,8 @@
             <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')">上传</router-link>
         </Header>
         <div class="content">
-            <div class="swipe-wrapper">
-                <cube-scroll>
+            <div class="scroll-list-wrap">
+                <scroller>
                     <cube-swipe>
                         <transition-group name="swipe" tag="ul">
                             <router-link tag="li" class="swipe-item-wrapper" v-for="(data,index) in swipeData" :key="data.item.id" to="/demandTableDetaile" @click.native="setTransition('turn-on')">
@@ -25,7 +25,7 @@
                             </router-link>
                         </transition-group>
                     </cube-swipe>
-                </cube-scroll>
+                </scroller>
             </div>
         </div>
     </div>
@@ -55,6 +55,96 @@ export default {
             desc: "『武侠配乐』快意恩仇江湖情",
             imgurl:
               "http://p.qpic.cn/music_cover/8KfvDey9cibtZ5xkWxRic6vhXgdPic3wnB7reibI4pdPQBCP8u57uqcjsQ/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
+          }
+        },
+        {
+          item: {
+            id: "3649034125",
+            name: "念葳蕊",
+            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
+            imgurl:
+              "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
           }
         },
         {
@@ -124,77 +214,83 @@ export default {
   @include basic_container_style;
   .content {
     padding-top: 0;
-    .swipe-wrapper {
+    .scroll-list-wrap {
       height: 100%;
 
       /deep/ .cube-scroll-wrapper {
         height: 100%;
+        padding-bottom: 10px;
         .cube-scroll-content {
           min-height: calc(100% + 1px);
-          padding-top: 10px;
-          .cube-swipe {
-            > ul {
-              > li {
-                height: 68px;
+          padding: 10px 13px;
+          padding-bottom: 0;
+        }
+      }
+      /deep/ .cube-swipe {
+        > ul {
+          > li {
+            height: 68px;
 
-                background: #fff;
-                margin-bottom: 10px;
-                @include box_shadow_style;
-                > a {
-                  display: flex;
-                  padding: 13px 0;
-                  width: 100%;
-                }
-                .cube-swipe-item {
-                  height: 100%;
+            background: #fff;
+            margin-bottom: 10px;
+            @include box_shadow_style;
+            > a {
+              display: flex;
+              padding: 13px 0;
+              width: 100%;
+              text-decoration: none;
+            }
+            .cube-swipe-item {
+              height: 100%;
+              display: flex;
+              justify-content: flex-start;
+              width: 100%;
+              .item-inner {
+                height: 100%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+                padding: 0 13px;
+                .icon {
                   display: flex;
                   justify-content: flex-start;
-                  width: 100%;
-                  .item-inner {
-                    height: 100%;
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    width: 100%;
-                    padding: 0 13px;
-                    .icon {
-                      display: flex;
-                      justify-content: flex-start;
-                      align-items: center;
-                      img {
-                        width: 42px;
-                        height: 42px;
-                      }
-                    }
-                    .text {
-                      font-family: PingFangSC-Regular;
-                      font-size: 14px;
-                      color: #333333;
-                      margin-left: 16px;
-                      line-height: 18px;
-                    }
+                  align-items: center;
+                  img {
+                    width: 42px;
+                    height: 42px;
                   }
-                  .cube-swipe-btns {
-                    li {
-                      height: 68px;
-                      //left: calc(100% + 13px);
-                      padding: 0;
-                      top: -13px;
-                      width: 120px;
-                      span {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-family: PingFangSC-Regular;
-                        font-size: 16px;
-                        color: #ffffff;
-                        letter-spacing: 0;
-                        text-align: right;
-                      }
-                    }
+                }
+                .text {
+                  font-family: PingFangSC-Regular;
+                  font-size: 14px;
+                  color: #333333;
+                  margin-left: 16px;
+                  line-height: 18px;
+                }
+              }
+              .cube-swipe-btns {
+                li {
+                  height: 68px;
+                  //left: calc(100% + 13px);
+                  padding: 0;
+                  top: -13px;
+                  width: 120px;
+                  span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: PingFangSC-Regular;
+                    font-size: 16px;
+                    color: #ffffff;
+                    letter-spacing: 0;
+                    text-align: right;
                   }
                 }
               }
+            }
+            &:last-child {
+              margin-bottom: 0;
             }
           }
         }
