@@ -5,7 +5,7 @@
         <p>已有
             <span>{{hospitalNum}}</span>家医院
             <i v-if="companyNum">、<span>{{companyNum}}</span>家企业</i>参加本次团购</p>
-        <x-button type="primary" @click.native="toUploadProduct">上传产品</x-button>
+        <x-button type="primary" @click.native="toUploadProduct">{{companyNum?"上传产品":"填写团购需求表"}}</x-button>
     </div>
 </template>
 
@@ -17,7 +17,11 @@ export default {
   methods: {
     toUploadProduct() {
       this.$store.commit("setTransition", "turn-on");
-      this.$router.push("uploadProduct");
+      if (this.companyNum) {
+        this.$router.push("uploadProduct");
+      } else {
+        this.$router.push("submitGroupDemand");
+      }
     }
   },
   props: ["companyNum", "hospitalNum"]

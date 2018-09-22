@@ -164,6 +164,7 @@ const router = new Router({
             }
         }, {
             path: '/myHospitalGroupBuy',
+            name: '我的团购（医院）',
             component: myHospitalGroupBuy
         }, {
             path: '/demandTable',

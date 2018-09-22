@@ -30,7 +30,7 @@
                     <ul v-if="this.groupItemObj.code=='SBTG'||!this.groupItemObj">
                         <li v-ripple @click="setTransition('turn-on')">
                             <router-link to="/productCategory">
-                                <span>设备分类：</span>
+                                <span><img src="../../../../../static/images/star.png">设备分类：</span>
                                 <cube-input placeholder="请选择分类" :disabled="true" v-model="productSort.name">
                                     <i slot="append"></i>
                                 </cube-input>
@@ -38,7 +38,7 @@
                         </li>
                         <li v-ripple @click="setTransition('turn-on')">
                             <router-link to="/selectBrand">
-                                <span>设备品牌：</span>
+                                <span><img src="../../../../../static/images/star.png">设备品牌：</span>
                                 <cube-input placeholder="请选择品牌" :disabled="true" v-model="productBrand.name">
                                     <i slot="append"></i>
                                 </cube-input>
@@ -148,6 +148,11 @@ export default {
   },
   methods: {
     ...mapMutations(["setTransition"]),
+    submitBtnClick() {
+      this.submitBtnStatus = false;
+      this.setTransition("turn-on");
+      this.$router.push("/myComponyGroupBuy");
+    },
     selectGroupId(value) {
       console.log(value);
       this.groupId = value;
@@ -191,9 +196,6 @@ export default {
     },
     fileError() {
       console.log(111);
-    },
-    submitBtnClick() {
-      // this.submitBtnStatus = false;
     }
   },
   created: function() {
@@ -216,7 +218,7 @@ export default {
   activated: function() {
     console.log(3);
     this.productSort = this.$store.state.page.uploadProduct.productSort;
-    // this.productBrand = this.$store.state.page.uploadProduct.productBrand;
+    this.productBrand = this.$store.state.page.uploadProduct.productBrand;
     // this.productModel = this.$store.state.page.uploadProduct.productModel;
     this.mainParams = _.join(
       _.map(this.$store.state.page.uploadProduct.mainParams, "name"),
