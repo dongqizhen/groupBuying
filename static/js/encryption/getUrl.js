@@ -5,9 +5,9 @@ var g_server = 0; //0=测试环境请求地址 1=正式环境请求地址
 
 /**
  * @description open local native app page.
- * @param {any} url 
+ * @param {any} url
  * @param {any} params string  params格式：id=" + questionTypeId + "&type=" + questionType+"     不用这种格式：{"自定义参数":"自定义值","自定义参数2":"自定义值2"}
- * @param {boolean} needCloseThisWindow 
+ * @param {boolean} needCloseThisWindow
  */
 function openNativePage(url, params, needCloseThisWindow) {
     if (g_debugmode == 0) {} else {
@@ -119,7 +119,7 @@ function openWebPage(url, params, fileName) {
 }
 /**
  * open remote web page or local web page inside app.
- * @param {any} url 
+ * @param {any} url
  * @param {any} params               地址中参数
  * @param {any} fileName             文件夹名字
  * @param {any} needCloseThisWindow  跳转后页面是否关闭
@@ -165,8 +165,8 @@ function openWebPage(url, params, fileName, needCloseThisWindow, functionName, i
 /**
  * @description  打赏功能
  * @param {"6微课堂/7广场/5维修宝"} type 模块类型
- * @param {any} id 
- * @param {any} moduleActionCode 模块标识：维修宝打赏 REPAIRWARD /维修宝评论打赏 MCOMMENTREWARD 
+ * @param {any} id
+ * @param {any} moduleActionCode 模块标识：维修宝打赏 REPAIRWARD /维修宝评论打赏 MCOMMENTREWARD
  */
 function moreOpetation(type, id, moduleActionCode) {
     if (g_debugmode == 0) {
@@ -377,7 +377,7 @@ function selectContacts(maxNumber, callBack) {
 
 
 //支付
-//orderNo 订单号 
+//orderNo 订单号
 //orderPrice 订单金额 double类型 如1.00 = 1元
 //productName 商品名称
 //productContent 商品详情
@@ -451,10 +451,10 @@ function sendCallFunction(functionName, param1, param2, param3) {
  * @_ajax
  * ? ajax  请求封装函数
  * @param {"请求类型"} type 默认：'post'
- * @param {"请求地址"} url 
- * @param {"请求数据"} data 
+ * @param {"请求地址"} url
+ * @param {"请求数据"} data
  * @param {"是否异步"} async 默认：true
- * @param {"成功回调函数"} success 
+ * @param {"成功回调函数"} success
  * @param {"失败回调函数"} error
  */
 
@@ -489,7 +489,7 @@ function _ajax(type, url, data, async, success, error) { //ajax請求
 }
 
 //支付
-//orderNo 订单号 
+//orderNo 订单号
 //orderPrice 订单金额 double类型 如1.00 = 1元
 //productName 商品名称
 //productContent 商品详情
@@ -751,7 +751,7 @@ function toData(json) {
 
 /**
  * @description 判断是安卓/ios
- * @returns {"true/false"} 
+ * @returns {"true/false"}
  */
 function isAndroid() {
     var u = navigator.userAgent,
@@ -811,8 +811,8 @@ function getPosition(funName) {
     // }
 
     // function showPosition(position) {
-    //     var lat = position.coords.latitude; //纬度 
-    //     var lag = position.coords.longitude; //经度 
+    //     var lat = position.coords.latitude; //纬度
+    //     var lag = position.coords.longitude; //经度
     //     obj['error'] = "";
     //     obj['lat'] = lat;
     //     obj['lag'] = lag;

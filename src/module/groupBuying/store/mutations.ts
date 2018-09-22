@@ -18,10 +18,14 @@ const mutations = {
     state.page.uploadProduct.productSort = productSortValue;
   },
   selectProductBrand(state, productBrandValue) {
+    console.log(productBrandValue)
     state.page.uploadProduct.productBrand = productBrandValue;
   },
   selectProductModel(state, productModelValue) {
     state.page.uploadProduct.productModel = productModelValue;
+  },
+  selectMainParam(state, mainParamValue) {
+    state.page.uploadProduct.mainParams = mainParamValue;
   }
 }
 

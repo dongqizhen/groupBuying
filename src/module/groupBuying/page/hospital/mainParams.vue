@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
     <Header :title="this.$route.name">
@@ -10,12 +9,15 @@
           <div class="selectedParams">
              <ul>
                <li v-for="item in itemSelect" :key="item.id" class="clearfix">
-                   <span class="paramValue">{{item.name}}</span><span class="deleteBtn" @click="deleteItem(item)">X</span>
+                   <span class="paramValue">{{item.name}}</span>
+                   <span class="deleteBtn" @click="deleteItem(item)">
+                       <img src="../../../../../static/images/del.png" alt="">
+                   </span>
                </li>
              </ul>
           </div>
       </div>
-      <search placeholder="请输入重要参数" isShowSave="true" v-on:valueChange="prentValueChange"></search>
+      <search placeholder="请输入重要参数" isShowSave="true" v-on:saveValue="saveParam" v-on:inputValue="getValue"></search>
       <div class="paramBox">
         <div class="pleaseSelected">请选择:<span>(企业提供的重要参数清单)</span></div>
         <div class="params">
@@ -33,16 +35,12 @@ import search from "../../components/search/search";
 import _ from "lodash";
 import { mapMutations } from "vuex";
 import { _getData } from "../../service/getData";
+import { Toast } from "vant";
 export default {
   data() {
     return {
-      params: [
-        { name: "四排", id: 1 },
-        { name: "六排", id: 2 },
-        { name: "其他相关参数", id: 3 },
-        { name: "这应嘎是一个不可知参数性质", id: 4 }
-      ],
-      currentIdx: -1,
+      params: [],
+      currentIdx: null,
       itemSelect: []
     };
   },
@@ -51,37 +49,43 @@ export default {
     search
   },
   methods: {
-    ...mapMutations(["setTransition"]),
+    ...mapMutations(["setTransition", "selectMainParam"]),
     clickSure() {
       this.setTransition("turn-off");
+      console.log(this.itemSelect);
+      if (this.itemSelect.length == 0) {
+        Toast("请选择主要参数");
+        return;
+      }
+      this.selectMainParam(this.itemSelect);
       this.$router.go(-1);
     },
-    prentValueChange(val) {
+    getValue(val) {
       console.log(val);
+      this.reqData(val);
     },
     selected(param) {
+      let changeParam = _.find(this.itemSelect, function(o) {
+        return o.id == param.id;
+      });
       if (this.itemSelect.length < 3) {
         if (
-          _.without(this.itemSelect, param).length == this.itemSelect.length
+          _.without(this.itemSelect, changeParam).length ==
+          this.itemSelect.length
         ) {
           this.itemSelect.push(param);
         } else {
-          this.itemSelect = _.without(this.itemSelect, param);
+          this.itemSelect = _.without(this.itemSelect, changeParam);
         }
-      } else if (this.itemSelect.length == 3) {
-        this.itemSelect = _.without(this.itemSelect, param);
-        this.showToastTime();
+      } else if (this.itemSelect.length === 3) {
+        this.itemSelect = _.without(this.itemSelect, changeParam);
+        if (this.itemSelect.length === 3) {
+          Toast("最多选择三个主要参数");
+        }
       }
     },
     deleteItem(item) {
       this.itemSelect = _.without(this.itemSelect, item);
-    },
-    showToastTime() {
-      const toast = this.$createToast({
-        time: 1000,
-        txt: "最多选择三个型号"
-      });
-      toast.show();
     },
     activeClass(id) {
       if (this.itemSelect) {
@@ -91,20 +95,55 @@ export default {
           }
         }
       }
+    },
+    saveParam(name) {
+      console.log(name);
+      let paramListCommon, itemSelectCommon;
+      itemSelectCommon = _.find(this.itemSelect, function(o) {
+        return o.name.toUpperCase() === name.toUpperCase();
+      });
+      if (this.params.length > 0) {
+        paramListCommon = _.find(this.params, function(o) {
+          return o.name.toUpperCase() === name.toUpperCase();
+        });
+      }
+      if (this.itemSelect.length === 3) {
+        Toast("最多选择三个主要参数");
+      } else {
+        if (!itemSelectCommon && !paramListCommon) {
+          this.itemSelect.push({ id: "", name: name });
+        } else {
+          if (!itemSelectCommon && paramListCommon) {
+            this.itemSelect.push(paramListCommon);
+          } else if (itemSelectCommon) {
+            Toast("您已选择该参数，请勿重复选择");
+          }
+        }
+      }
+    },
+    reqData(name) {
+      _getData(
+        "/server_pro/productParam!request.action",
+        {
+          method: "getList",
+          params: { name: name }
+        },
+        data => {
+          console.log(data);
+          this.params = data.paramList;
+        }
+      );
     }
   },
   mounted() {
-    _getData(
-      "/server_pro/productParam!request.action",
-      {
-        method: "getList",
-        params: { name: "" }
-      },
-      data => {
-        console.log(data);
-        this.params = data.paramList;
+    this.reqData();
+  },
+  watch: {
+    itemSelect() {
+      if (this.itemSelect.length > 3) {
+        Toast("最多选择三个主要参数");
       }
-    );
+    }
   }
 };
 </script>
@@ -161,7 +200,7 @@ export default {
             }
             .deleteBtn {
               width: 12px;
-              height: 12px;
+              //height: 12px;
               margin: 0 5px;
               color: #999;
             }
@@ -175,6 +214,7 @@ export default {
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
       border-radius: 5px;
       padding: 10px 13px;
+      min-height: 235px;
       .pleaseSelected {
         font-size: 14px;
         color: #666;

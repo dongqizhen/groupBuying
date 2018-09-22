@@ -21,17 +21,14 @@ let state : StateType = {
       }
     },
     mainBusiness: {
-      selectedMainBusiness: {
-        mainBusinessName: "",
-        mainBusinessId: ""
-      }
+      selectedMainBusiness: []
     },
     uploadProduct: {
       productSort: {},
       productBrand: {},
-      productModel: {}
-    },
-    mainParams: {}
+      productModel: {},
+      mainParams: []
+    }
   }
 };
 export default state

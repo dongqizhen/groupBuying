@@ -210,3 +210,22 @@
     .right {
         float: right;
     }
+    
+    .van-toast {
+        background-color: #666 !important;
+        min-width: 150px !important;
+        height: 46px;
+        border-radius: 4px !important;
+        font-size: 16px !important;
+        font-family: PingFangSC-Regular;
+        -webkit-border-radius: 4px !important;
+        -moz-border-radius: 4px !important;
+        -ms-border-radius: 4px !important;
+        -o-border-radius: 4px !important;
+        text-align: center;
+        width: auto;
+    }
+    
+    .van-toast--text {
+        padding: 11px !important;
+    }
