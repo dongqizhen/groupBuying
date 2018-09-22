@@ -4,25 +4,29 @@
       <router-link to="/enterpriseSeal" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
     </Header>
     <div class="content">
-      <basic-information :detailData="detailData" title="企业基本信息"></basic-information>
-      <div class="Personal_information">
-        <basic-title title="团购负责人信息" imgurl="../static/images/Personal_information.png">
-          <span slot="check">收起</span>
-        </basic-title>
-        <personal-information :read="true" :disabled="true" :data="detailData.contactList"></personal-information>
-      </div>
-      <div class="product_list">
-        <basic-title title="参加团购产品列表" imgurl="../static/images/product_list.png"></basic-title>
-        <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
-      </div>
-      <div class="products">
-        <model-scroll-nav-bar :modelData="modelData" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
-        <ul>
-          <li v-for="data in swipeData" :key="data.id">
-            <product-list :listData="data"></product-list>
-          </li>
+      <div class="scroll-list-wrap">
+        <cube-scroll>
+          <basic-information :detailData="detailData" title="企业基本信息"></basic-information>
+          <div class="Personal_information">
+            <basic-title title="团购负责人信息" imgurl="../static/images/Personal_information.png">
+              <span slot="check">收起</span>
+            </basic-title>
+            <personal-information :read="true" :disabled="true" :data="detailData.contactList"></personal-information>
+          </div>
+          <div class="product_list">
+            <basic-title title="参加团购产品列表" imgurl="../static/images/product_list.png"></basic-title>
+            <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+          </div>
+          <div class="products">
+            <model-scroll-nav-bar :modelData="modelData" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
+            <ul>
+              <li v-for="data in swipeData" :key="data.id">
+                <product-list :listData="data"></product-list>
+              </li>
 
-        </ul>
+            </ul>
+          </div>
+        </cube-scroll>
       </div>
     </div>
   </div>
@@ -80,9 +84,7 @@
 <style lang="scss" scoped>
   @import "../../../../../static/scss/_commonScss";
   .container {
-      height: 100%;
-      width: 100%;
-      position: fixed;
+      @include basic_container_style;
       /deep/ header {
           .search {
               a {
@@ -93,10 +95,6 @@
           }
       }
       .content {
-          height: calc(100% - #{$header-height});
-          padding: 10px 13px;
-          background: $base-backgroud;
-          overflow: auto;
           /deep/ .basicInformation {
               .content_box {
                   ul {
