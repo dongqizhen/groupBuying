@@ -98,6 +98,9 @@
             /deep/ .cube-scroll-nav-bar {
                 height: 100%;
                 border-radius: 5px;
+                .cube-scroll-content {
+                    padding: 0 !important;
+                }
                 .cube-scroll-nav-bar-items {
                     height: 44px;
                     display: flex;
@@ -106,13 +109,14 @@
                     .cube-scroll-nav-bar-item {
                         padding: 0;
                         margin-left: 16px;
-                        font-family: PingFangSC-Medium;
+                        font-family: PingFangSC-Regular;
                         font-size: 13px;
                         &:last-child {
                             //margin-right: 16px;
                         }
                         &.cube-scroll-nav-bar-item_active {
                             color: #019ddd;
+                            font-family: PingFangSC-Medium;
                         }
                     }
                 }

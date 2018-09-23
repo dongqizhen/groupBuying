@@ -51,251 +51,250 @@
 </template>
 
 <script>
-    import Header from "../components/header/header";
-    import ListTab from "../components/common/listTab";
-    import { mapMutations } from "vuex";
-    import { _getData } from "../service/getData";
-    import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
-    import _ from "lodash";
-    const routerLinkArr = [
-        {
-            path: "/hospitalSeal",
-            name: "医院团购报名",
-            imgurl: "../static/images/hospitalApply.png",
-            num: 50
-        },
-        {
-            path: "/enterpriseSeal",
-            name: "企业团购报名",
-            imgurl: "../static/images/companyApply.png",
-            num: 150
-        },
-        // {
-        //     path: "/myComponyGroupBuy",
-        //     name: "我的团购",
-        //     imgurl: "../static/images/myApply.png"
-        // }
-        {
-                path: "/myHospitalGroupBuy",
+import Header from "../components/header/header";
+import ListTab from "../components/common/listTab";
+import { mapMutations } from "vuex";
+import { _getData } from "../service/getData";
+import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
+import _ from "lodash";
+const routerLinkArr = [
+  {
+    path: "/hospitalSeal",
+    name: "医院团购报名",
+    imgurl: "../static/images/hospitalApply.png",
+    num: 50
+  },
+  {
+    path: "/enterpriseSeal",
+    name: "企业团购报名",
+    imgurl: "../static/images/companyApply.png",
+    num: 150
+  },
+  /* {
+                path: "/myComponyGroupBuy",
                 name: "我的团购",
                 imgurl: "../static/images/myApply.png"
-            }
-    ];
+            } */
+  {
+    path: "/myHospitalGroupBuy",
+    name: "我的团购",
+    imgurl: "../static/images/myApply.png"
+  }
+];
 
-    export default {
-        name: "index",
-        data() {
-            return {
-                routerLinkArr,
-                selectedLabel: "团购",
-                tabs: [
-                    {
-                        label: "产品"
-                    },
-                    {
-                        label: "商家"
-                    },
-                    {
-                        label: "团购"
-                    }
-                ],
-                Banneritems: [],
-                meetingList: {}
-            };
+export default {
+  name: "index",
+  data() {
+    return {
+      routerLinkArr,
+      selectedLabel: "团购",
+      tabs: [
+        {
+          label: "产品"
         },
-        components: {
-            Header,
-            ListTab,
-            Grid,
-            GridItem,
-            Badge,
-            Tab,
-            TabItem
+        {
+          label: "商家"
         },
-        methods: {
-            handleClick() {
-                this.setTransition("turn-on");
-            },
-            ...mapMutations(["setTransition"]),
-            handler() {}
-        },
-        mounted() {
-            _getData(
-                //获取轮播图
-                "/server/banner!request.action",
-                {
-                    method: "getAppBannerList",
-                    params: { type: 15 }
-                },
-                data => {
-                    this.Banneritems = data.bannerList;
-                }
-            );
-            _getData(
-                "/server_pro/groupPurchase!request.action",
-                {
-                    method: "getPageList",
-                    params: {}
-                },
-                data => {
-                    this.meetingList = _.keyBy(data.list, val => {
-                        return `${val.year}(${val.num}场)`;
-                    });
-                }
-            );
-        },
-
-        created() {
-            console.log("created");
-        },
-        activated() {
-            console.log("actived");
-        },
-        deactivated() {
-            console.log("deactived");
+        {
+          label: "团购"
         }
+      ],
+      Banneritems: [],
+      meetingList: {}
     };
+  },
+  components: {
+    Header,
+    ListTab,
+    Grid,
+    GridItem,
+    Badge,
+    Tab,
+    TabItem
+  },
+  methods: {
+    handleClick() {
+      this.setTransition("turn-on");
+    },
+    ...mapMutations(["setTransition"]),
+    handler() {}
+  },
+  mounted() {
+    _getData(
+      //获取轮播图
+      "/server/banner!request.action",
+      {
+        method: "getAppBannerList",
+        params: { type: 15 }
+      },
+      data => {
+        this.Banneritems = data.bannerList;
+      }
+    );
+    _getData(
+      "/server_pro/groupPurchase!request.action",
+      {
+        method: "getPageList",
+        params: {}
+      },
+      data => {
+        this.meetingList = _.keyBy(data.list, val => {
+          return `${val.year}(${val.num}场)`;
+        });
+      }
+    );
+  },
+
+  created() {
+    console.log("created");
+  },
+  activated() {
+    console.log("actived");
+  },
+  deactivated() {
+    console.log("deactived");
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../../static/scss/_commonScss";
-    .container {
-        @include basic_container_style;
-        /deep/ header {
-            .vux-tab-wrap {
-                height: 100%;
-                width: 204px;
-                .vux-tab {
-                    background: transparent;
-                    .vux-tab-item {
-                        font-family: PingFangSC-Regular;
-                        font-size: 15px;
-                        color: #666666;
-                        background: transparent;
-                    }
-                    .vux-tab-ink-bar {
-                        background: none !important;
-                        span {
-                            border-radius: 2px;
-                        }
-                    }
-                }
-            }
+@import "../../../../static/scss/_commonScss";
+.container {
+  @include basic_container_style;
+  /deep/ header {
+    .vux-tab-wrap {
+      height: 100%;
+      width: 204px;
+      .vux-tab {
+        background: transparent;
+        .vux-tab-item {
+          font-family: PingFangSC-Regular;
+          font-size: 15px;
+          color: #666666;
+          background: transparent;
         }
-        .content {
-            position: relative;
-            .cube-slide.banner {
-                height: 145px;
-                @include box_shadow_style;
-                .cube-slide-item {
-                    a {
-                        img {
-                            width: 100%;
-                        }
-                    }
-                }
-            }
-            .icons_box {
-                display: flex;
-                flex-wrap: nowrap;
-                justify-content: center;
-                height: 110px;
-                background: #fff;
-                margin: 10px 0;
-                box-shadow: $base-box-shadow;
-                border-radius: 5px;
-                &::before {
-                    border: none;
-                }
-
-                > a {
-                    display: flex;
-                    align-items: center;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    text-decoration: none;
-                    padding: 0;
-                    position: relative;
-                    // overflow: auto;
-                    &::after {
-                        border: none;
-                    }
-
-                    /deep/ .weui-grid__icon {
-                        margin-bottom: 5px;
-                        width: 46px;
-                        height: 46px;
-                        margin-top: 20px;
-                        img {
-                            width: 46px;
-                            height: 46px;
-                        }
-                    }
-                    .weui-grid__label {
-                        span {
-                            color: #666666;
-                            font-size: 13px;
-                        }
-                    }
-                    > span {
-                        position: absolute;
-                        background: #fb4354;
-                        height: 15px;
-                        font-family: PingFangSC-Medium;
-                        font-size: 10px;
-                        color: #ffffff;
-                        display: flex;
-                        justify-content: center;
-                        flex-wrap: nowrap;
-                        align-items: center;
-                        top: 15px;
-                        left: 50%;
-                        min-width: 68px;
-                        // width: auto;
-                        z-index: 10;
-                        padding: 0 5px;
-                        &.vux-badge {
-                            width: auto;
-                        }
-                    }
-                    &:active {
-                        background: rgba($color: #999, $alpha: 0.3);
-                    }
-                }
-            }
-            .meeting_list {
-                background: #fff;
-                box-shadow: $base-box-shadow;
-                border-radius: 5px;
-                width: 100%;
-                > h2 {
-                    height: 57px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 15px;
-                    text-align: center;
-                    color: #666666;
-                    font-family: PingFangSC-Medium;
-                    border-bottom: $border_style;
-                    span {
-                        display: block;
-                        border-top: 1px solid #cccccc;
-                        width: 20px;
-                        margin: 0 18px;
-                    }
-                }
-            }
-            .fixBox {
-                width: 57px;
-                height: 57px;
-                position: absolute;
-                bottom: 54px;
-                right: 9px;
-                background: url("../../../../static/images/floatBtn.png") no-repeat
-                    center;
-                background-size: 100% 100%;
-            }
+        .vux-tab-ink-bar {
+          background: none !important;
+          span {
+            border-radius: 2px;
+          }
         }
+      }
     }
+  }
+  .content {
+    position: relative;
+    .cube-slide.banner {
+      height: 145px;
+      @include box_shadow_style;
+      .cube-slide-item {
+        a {
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .icons_box {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      height: 110px;
+      background: #fff;
+      margin: 10px 0;
+      box-shadow: $base-box-shadow;
+      border-radius: 5px;
+      &::before {
+        border: none;
+      }
+
+      > a {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: flex-start;
+        text-decoration: none;
+        padding: 0;
+        position: relative;
+        // overflow: auto;
+        &::after {
+          border: none;
+        }
+
+        /deep/ .weui-grid__icon {
+          margin-bottom: 5px;
+          width: 46px;
+          height: 46px;
+          margin-top: 20px;
+          img {
+            width: 46px;
+            height: 46px;
+          }
+        }
+        .weui-grid__label {
+          span {
+            color: #666666;
+            font-size: 13px;
+          }
+        }
+        > span {
+          position: absolute;
+          background: #fb4354;
+          height: 15px;
+          font-family: PingFangSC-Medium;
+          font-size: 10px;
+          color: #ffffff;
+          display: flex;
+          justify-content: center;
+          flex-wrap: nowrap;
+          align-items: center;
+          top: 15px;
+          left: 50%;
+          min-width: 68px;
+          // width: auto;
+          z-index: 10;
+          padding: 0 5px;
+          &.vux-badge {
+            width: auto;
+          }
+        }
+        &:active {
+          background: rgba($color: #999, $alpha: 0.3);
+        }
+      }
+    }
+    .meeting_list {
+      background: #fff;
+      box-shadow: $base-box-shadow;
+      border-radius: 5px;
+      width: 100%;
+      > h2 {
+        height: 57px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        text-align: center;
+        color: #666666;
+        font-family: PingFangSC-Medium;
+        border-bottom: $border_style;
+        span {
+          display: block;
+          border-top: 1px solid #cccccc;
+          width: 20px;
+          margin: 0 18px;
+        }
+      }
+    }
+    .fixBox {
+      width: 57px;
+      height: 57px;
+      position: absolute;
+      bottom: 54px;
+      right: 9px;
+      background: url("../../../../static/images/floatBtn.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+  }
+}
 </style>

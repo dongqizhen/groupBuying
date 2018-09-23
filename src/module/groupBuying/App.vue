@@ -44,7 +44,7 @@
 <style lang="scss" scoped>
     #app {
         height: 100%;
-        position: relative;
+        // position: relative;
     }
 
     .turn-on-enter {
@@ -58,8 +58,8 @@
         transition: transform 0.4s ease;
     }
     /* .turn-on-enter-to{
-                                                                                                                                                                                                                                                                                                  transform: translate3d(0, 0, 0);
-                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                          transform: translate3d(0, 0, 0);
+                                                                                                                                                                                                                                                                                                                                        } */
     .turn-off-enter {
         /* transform: translate3d(-20%, 0, 0); */
     }
@@ -72,6 +72,6 @@
     }
     .turn-off-leave-active,
     .turn-on-enter-active {
-        z-index: 2;
+        z-index: 9999;
     }
 </style>

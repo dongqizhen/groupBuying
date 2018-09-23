@@ -8,7 +8,9 @@ export const _getData = (url = '', data = {}, successCallBack, errorCallBack) =>
 
     if (data.data.status.code == 200) {
         successCallBack(data.data.result)
-    } else {}
+    } else {
+        console.log(data.data.status)
+    }
 
 }).catch(err => {
     if (errorCallBack) {

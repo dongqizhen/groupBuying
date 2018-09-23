@@ -69,7 +69,9 @@ import { _getData } from "../../service/getData";
 import { mapMutations } from "vuex";
 import _ from "lodash";
 import { Toast } from "vant";
-import { JsCallNativeMethods } from "../../../../common/js/jsBridge";
+
+import { openNativeNav } from "../../components/mixin/mixin";
+
 export default {
   data() {
     return {
@@ -93,6 +95,7 @@ export default {
       responseData: "请选择地址"
     };
   },
+  mixins: [openNativeNav],
   components: {
     Header,
     basicTitle,
@@ -107,59 +110,59 @@ export default {
       this.submitData.businessId = JSON.stringify(
         this.$store.state.page.mainBusiness.selectedMainBusiness
       );
-      // if (this.submitData.groupPurchaseTypeIds == "") {
-      //   Toast({ message: "请选择团购项目", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
-      // if (this.submitData.companyName == "") {
-      //   Toast({ message: "请输入公司全称", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
-      // if (this.submitData.companyTypeId == "") {
-      //   Toast({ message: "请选择企业类型", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
-      // if (
-      //   this.$store.state.page.mainBusiness.selectedMainBusiness.length == 0
-      // ) {
-      //   Toast({ message: "请选择主营业务", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
+      if (this.submitData.groupPurchaseTypeIds == "") {
+        Toast({ message: "请选择团购项目", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.submitData.companyName == "") {
+        Toast({ message: "请输入公司全称", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.submitData.companyTypeId == "") {
+        Toast({ message: "请选择企业类型", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (
+        this.$store.state.page.mainBusiness.selectedMainBusiness.length == 0
+      ) {
+        Toast({ message: "请选择主营业务", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
       var flag = true;
       var that = this;
-      // _.each(this.$refs.person.persons, function(value, key) {
-      //   if (value.name == "") {
-      //     flag = false;
-      //     Toast({
-      //       message: "请输入负责人" + (key + 1) + "姓名",
-      //       duration: 1000
-      //     });
-      //     that.submitBtnStatus = true;
-      //     return false;
-      //   }
-      //   if (value.post == "") {
-      //     flag = false;
-      //     Toast({
-      //       message: "请输入负责人" + (key + 1) + "职务",
-      //       duration: 1000
-      //     });
-      //     that.submitBtnStatus = true;
-      //     return false;
-      //   }
-      //   if (value.phone == "") {
-      //     flag = false;
-      //     Toast({
-      //       message: "请输入负责人" + (key + 1) + "移动电话",
-      //       duration: 1000
-      //     });
-      //     that.submitBtnStatus = true;
-      //     return false;
-      //   }
-      // });
+      _.each(this.$refs.person.persons, function(value, key) {
+        if (value.name == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "姓名",
+            duration: 1000
+          });
+          that.submitBtnStatus = true;
+          return false;
+        }
+        if (value.post == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "职务",
+            duration: 1000
+          });
+          that.submitBtnStatus = true;
+          return false;
+        }
+        if (value.phone == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "移动电话",
+            duration: 1000
+          });
+          that.submitBtnStatus = true;
+          return false;
+        }
+      });
       if (flag) {
         this.submitData.contact = JSON.stringify(this.$refs.person.persons);
         this.submit();
@@ -188,18 +191,6 @@ export default {
     handleSelect(value) {
       console.log(value);
       this.submitData.groupPurchaseTypeIds = value;
-    },
-    openNative() {
-      JsCallNativeMethods(
-        "navNativePage",
-        {
-          actionName: "selectAddressPage",
-          isForResult: true
-        },
-        data => {
-          this.responseData = data.cityName;
-        }
-      );
     }
   },
   created() {
