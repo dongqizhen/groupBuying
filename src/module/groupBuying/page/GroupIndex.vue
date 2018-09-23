@@ -70,16 +70,16 @@
             imgurl: "../static/images/companyApply.png",
             num: 150
         },
-        {
-            path: "/myComponyGroupBuy",
-            name: "我的团购",
-            imgurl: "../static/images/myApply.png"
-        }
         /* {
-                path: "/myHospitalGroupBuy",
+                path: "/myComponyGroupBuy",
                 name: "我的团购",
                 imgurl: "../static/images/myApply.png"
             } */
+        {
+            path: "/myHospitalGroupBuy",
+            name: "我的团购",
+            imgurl: "../static/images/myApply.png"
+        }
     ];
 
     export default {

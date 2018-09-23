@@ -72,6 +72,11 @@ export async function JsCallNativeMethods(nativeName = 'navNativePage', params =
     );
 }
 
-export const isBackNative = () => {
 
+/**
+ * @description h5路由首页返回原生页面
+ * @param isBackNativePage 原生jsBridge注册返回方法
+ */
+export const isBackNativePage = () => {
+    window.WebViewJavascriptBridge.callHandler('isBackNativePage');
 }

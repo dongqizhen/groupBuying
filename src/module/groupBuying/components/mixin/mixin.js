@@ -1,4 +1,6 @@
 import { _getData } from '../../service/getData'
+import { JsCallNativeMethods } from '../../../../common/js/jsBridge';
+
 export const getProductList = {
     data() {
         return {
@@ -79,6 +81,57 @@ export const getProductList = {
             if (this.activeIndex >= 0) {
                 this.$refs.swipeItem[this.activeIndex].shrink();
             }
+        }
+    }
+}
+
+//打开原生自动定位功能 
+export const openNativeNav = {
+    data() {
+        return {
+            responseData: "请选择地址"
+        }
+    },
+
+    methods: {
+        openNative() {
+            JsCallNativeMethods(
+                "navNativePage", {
+                    actionName: "selectAddressPage",
+                    isForResult: true
+                },
+                data => {
+                    if (data.provinceName == data.cityName) {
+                        this.responseData = data.cityName;
+                    } else {
+                        this.responseData = `${data.provinceName}·${
+                              data.cityName
+                          }`;
+                    }
+                }
+            );
+        }
+
+    }
+}
+
+//打开原生地图页面
+
+export const ToNativeMap = {
+    methods: {
+        toNativeMapPage(value) {
+            console.log(value);
+            JsCallNativeMethods(
+                "navNativePage", {
+                    actionName: "navigationLocationPage",
+                    isForResult: false,
+                    doubleLatitude: value.lat,
+                    doubleLongitude: value.lng,
+                    title: value.address,
+                    address: value.addr || value.province
+                },
+                data => {}
+            );
         }
     }
 }
