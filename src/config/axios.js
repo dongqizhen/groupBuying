@@ -1,4 +1,4 @@
-// config axios
+// config axios https://www.jianshu.com/p/7a9fbcbb1114
 import axios from 'axios'
 
 let request = axios.create()
