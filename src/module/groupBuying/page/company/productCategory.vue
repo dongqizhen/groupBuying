@@ -1,6 +1,6 @@
 <template>
     <div class="container productCategory">
-        <Header :title="this.$route.name">
+        <Header title="选择产品分类">
             <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
@@ -175,6 +175,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$router);
     this.reqData("", "520");
   }
 };

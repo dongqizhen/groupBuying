@@ -1,6 +1,6 @@
 <template>
     <div class="container uploadProduct">
-        <Header :title="this.$route.name"></Header>
+        <Header title="上传团购产品（企业）"></Header>
         <div class="content">
           <div class="scroll-list-wrap">
             <cube-scroll ref="scroll">
@@ -27,23 +27,23 @@
                       </a>
                   </basic-title>
                     <ul>
-                        <li @click="setTransition('turn-on')">
-                            <router-link to="/productCategory">
+                        <li @click="jumpProductCateGory">
+                            <a>
                                 <span class="star">{{text.productSortText}}：</span>
                                 <cube-input :placeholder="text.sortPlaceholder" :disabled="true" v-model="submitData.productLineName">
                                     <i slot="append"></i>
                                 </cube-input>
-                            </router-link>
+                                </a>
                         </li>
-                        <li @click="setTransition('turn-on')">
-                            <router-link to="/selectBrand">
+                        <li @click="jumpSelectBrand">
+                            <!-- <router-link to="/selectBrand"> -->
+                            <a>
                                 <span class="star">{{text.productBrandText}}：</span>
                                 <cube-input :placeholder="text.brandPlaceholder" :disabled="true" v-model="productBrand.name">
                                     <i slot="append"></i>
-                                </cube-input>
-                            </router-link>
+                                </cube-input></a>
                         </li>
-                        <li @click="setTransition('turn-on')" v-if="text.show">
+                        <li @click="jumpSelectModel" v-if="text.show">
                             <router-link to='/selectModel'>
                                 <span>{{text.productModelText}}：</span>
                                 <cube-input :placeholder="text.modelPlaceholder" :disabled="true" v-model="submitData.productModel">
@@ -62,7 +62,7 @@
                                 </cube-checkbox>
                             </div>
                         </li>
-                        <li @click="setTransition('turn-on')"  v-if="!text.isShow">
+                        <li @click="jumpMainParams"  v-if="!text.isShow">
                             <router-link to="/mainParams">
                                 <span>{{text.mainParamsText}}：</span>
                                 <cube-input :placeholder="text.paramPlaceholder" :disabled="true" v-model="mainParams">
@@ -75,15 +75,16 @@
                             <group>
                                 <x-textarea :title="text.applicationText" v-model="value" :placeholder="text.appPlaceholder" autosize></x-textarea>
                             </group>
-                        </li> <li @click="setTransition('turn-on')" v-if="text.isShow">
-                          <a href="#">
+                        </li>
+                        <li v-if="text.isShow">
+                          <a>
                                 <span class="star">响应时间：</span>
                                 <cube-input class="responseTime" placeholder="请输入响应时间" v-model="responseTime">
                                     <span slot="append">小时以内</span>
                                 </cube-input></a>
                         </li>
-                          <li @click="setTransition('turn-on')" v-if="text.isShow">
-                                <a href="#">
+                          <li v-if="text.isShow">
+                                <a >
                                     <span class="star">维保类型：</span>
                                     <div class="maintanceType">
                                       <span v-for="(item,index) in types" :key="index" :class="currentIdx==index?'active':''" @click="addClass(index)">{{item.name}}</span>
@@ -125,6 +126,7 @@ import { _getData } from "../../service/getData";
 import _ from "lodash";
 import compress from "../../../../../static/js/compressImage";
 import { mapMutations } from "vuex";
+import { Toast } from "vant";
 const text = {
   productSortText: "设备分类",
   productBrandText: "设备品牌",
@@ -156,6 +158,7 @@ export default {
       productModel: [],
       mainParams: "",
       groupItemObj: "",
+      groupPurchaseId: "",
       groupPrice: "",
       current: null,
       currentIdx: null,
@@ -169,6 +172,7 @@ export default {
         // prop: "base64Value"
       },
       groupUnderWayList: [],
+      productLineId: "",
       submitData: {
         id: "",
         groupPurchaseTypeId: "",
@@ -187,6 +191,7 @@ export default {
   },
   watch: {
     groupItemObj() {
+      // this.groupPurchaseId = this.groupItemObj.id;
       switch (this.groupItemObj.code) {
         case "SBTG":
           this.text = {
@@ -319,9 +324,35 @@ export default {
     },
     selectGroupId(value) {
       console.log(value);
-      this.groupId = value;
+      this.groupPurchaseId = value;
       //this.submitData.groupPurchaseTypeIds = value;
     },
+    jumpProductCateGory() {
+      if (this.groupPurchaseId) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "productCategory",
+          query: { groupPurchaseId: this.groupPurchaseId }
+        });
+      } else {
+        Toast("请先选择团购产品类型");
+        return;
+      }
+    },
+    jumpSelectBrand() {
+      if (this.submitData.productLineName) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "selectBrand",
+          query: { productLineId: this.productLineId }
+        });
+      } else {
+        Toast("请先选择分类");
+        return;
+      }
+    },
+    jumpSelectModel() {},
+    jumpMainParams() {},
     getItemObj(itemObj) {
       console.log(itemObj);
       this.groupItemObj = itemObj;
@@ -409,6 +440,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../../../static/scss/_commonScss";
+
 .container {
   @include basic_container_style;
   /deep/ .basicTitle {
