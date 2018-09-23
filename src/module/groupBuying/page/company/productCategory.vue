@@ -19,7 +19,7 @@
                     </li>
                 </ul>
                 <ul class="search_area">
-                    <li v-for="(item,index) in search_area_arr" :key='index' :class="addClass(item.productLineId)" @click="searchCheckedHandle(item.productLineId,item)"><span>{{item.name}}</span></li>
+                    <li v-for="(item,index) in search_area_arr" :key='index' :class="addClass(item.alisaId)" @click="searchCheckedHandle(item.alisaId,item)"><span>{{item.name}}</span></li>
                 </ul>
             </div>
         </div>
@@ -57,14 +57,15 @@ export default {
       if (this.tempLastSearchValue == "") {
         if (this.itemSelect.length == 0) {
           Toast("请选择或输入产品分类");
+          return;
         } else {
-          this.selectProductSort(this.itemSelect[0]);
+          this.selectProductSort(this.itemSelect);
         }
       } else {
         if (this.searchItemSelect.length == 0) {
           //将搜索框的值传给后台
         } else {
-          this.selectProductSort(this.searchItemSelect[0]);
+          this.selectProductSort(this.searchItemSelect);
         }
       }
       this.$router.go(-1);
@@ -110,13 +111,13 @@ export default {
         }
       }
     },
-    searchCheckedHandle(productLineId, item) {
+    searchCheckedHandle(alisaId, item) {
       if (this.searchItemSelect.length < 1) {
         this.searchItemSelect.push(item);
       } else {
         if (
           _.find(this.searchItemSelect, function(o) {
-            return o.productLineId == productLineId;
+            return o.alisaId == alisaId;
           }) == item
         ) {
           this.searchItemSelect.splice(0, 1);
@@ -134,10 +135,10 @@ export default {
         }
       }
     },
-    addClass(productLineId) {
+    addClass(alisaId) {
       if (this.searchItemSelect) {
         for (const val of this.searchItemSelect) {
-          if (val.productLineId == productLineId) {
+          if (val.alisaId == alisaId) {
             return "active";
           }
         }

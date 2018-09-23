@@ -24,9 +24,9 @@ let state : StateType = {
       selectedMainBusiness: []
     },
     uploadProduct: {
-      productSort: {},
-      productBrand: {},
-      productModel: {},
+      productSort: [],
+      productBrand: [],
+      productModel: [],
       mainParams: []
     }
   }

@@ -13,7 +13,7 @@
               </cube-index-list-group>
             </cube-index-list>
            <ul class="search_area">
-              <li v-for="(item,index) in search_area_arr" :key='index' :class="addClass(item.brandId)" @click="searchCheckedHandle(item.brandId,item)"><span>{{item.name}}</span><span class="label" v-if="item.brandLabel">{{item.brandLabel}}</span></li>
+              <li v-for="(item,index) in search_area_arr" :key='index' :class="addClass(item.alisaBrandId)" @click="searchCheckedHandle(item.alisaBrandId,item)"><span>{{item.name}}</span><span class="label" v-if="item.brandLabel">{{item.brandLabel}}</span></li>
           </ul>
         </div>
     </div>
@@ -86,13 +86,13 @@ export default {
         }
       }
     },
-    searchCheckedHandle(brandId, item) {
+    searchCheckedHandle(alisaBrandId, item) {
       if (this.searchItemSelect.length < 1) {
         this.searchItemSelect.push(item);
       } else {
         if (
           _.find(this.searchItemSelect, function(o) {
-            return o.brandId == brandId;
+            return o.alisaBrandId == alisaBrandId;
           }) == item
         ) {
           this.searchItemSelect.splice(0, 1);
@@ -101,10 +101,10 @@ export default {
         }
       }
     },
-    addClass(brandId) {
+    addClass(alisaBrandId) {
       if (this.searchItemSelect.length != 0) {
         for (const val of this.searchItemSelect) {
-          if (val.brandId == brandId) {
+          if (val.alisaBrandId == alisaBrandId) {
             return "active";
           }
         }

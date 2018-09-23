@@ -26,28 +26,27 @@
                           客服
                       </a>
                   </basic-title>
-                  <div>
-                    <ul v-if="this.groupItemObj.code=='SBTG'||!this.groupItemObj">
-                        <li v-ripple @click="setTransition('turn-on')">
+                    <ul>
+                        <li @click="setTransition('turn-on')">
                             <router-link to="/productCategory">
-                                <span><img src="../../../../../static/images/star.png">设备分类：</span>
-                                <cube-input placeholder="请选择分类" :disabled="true" v-model="productSort.name">
+                                <span class="star">{{text.productSortText}}：</span>
+                                <cube-input :placeholder="text.sortPlaceholder" :disabled="true" v-model="submitData.productLineName">
                                     <i slot="append"></i>
                                 </cube-input>
                             </router-link>
                         </li>
-                        <li v-ripple @click="setTransition('turn-on')">
+                        <li @click="setTransition('turn-on')">
                             <router-link to="/selectBrand">
-                                <span><img src="../../../../../static/images/star.png">设备品牌：</span>
-                                <cube-input placeholder="请选择品牌" :disabled="true" v-model="productBrand.name">
+                                <span class="star">{{text.productBrandText}}：</span>
+                                <cube-input :placeholder="text.brandPlaceholder" :disabled="true" v-model="productBrand.name">
                                     <i slot="append"></i>
                                 </cube-input>
                             </router-link>
                         </li>
-                        <li v-ripple @click="setTransition('turn-on')">
+                        <li @click="setTransition('turn-on')" v-if="text.show">
                             <router-link to='/selectModel'>
-                                <span>型号：</span>
-                                <cube-input placeholder="默认为不限" :disabled="true" v-model="productModel.name">
+                                <span>{{text.productModelText}}：</span>
+                                <cube-input :placeholder="text.modelPlaceholder" :disabled="true" v-model="submitData.productModel">
                                  <i slot="append"></i>
                                 </cube-input>
                             </router-link>
@@ -63,29 +62,42 @@
                                 </cube-checkbox>
                             </div>
                         </li>
-                        <li v-ripple @click="setTransition('turn-on')">
+                        <li @click="setTransition('turn-on')"  v-if="!text.isShow">
                             <router-link to="/mainParams">
-                                <span>重要参数：</span>
-                                <cube-input placeholder="请选择或输入重要参数" :disabled="true" v-model="mainParams">
+                                <span>{{text.mainParamsText}}：</span>
+                                <cube-input :placeholder="text.paramPlaceholder" :disabled="true" v-model="mainParams">
                                     <i slot="append"></i>
                                 </cube-input>
                             </router-link>
                         </li>
-                        <li class="clinic">
+                        <li class="clinic"  v-if="!text.isShow">
                             <!-- <label for="textarea"></label> -->
                             <group>
-                                <x-textarea title="临床应用：" v-model="value" placeholder="为保证医院的采购质量与效率，请详细填写设备的临床用途。" autosize></x-textarea>
+                                <x-textarea :title="text.applicationText" v-model="value" :placeholder="text.appPlaceholder" autosize></x-textarea>
                             </group>
+                        </li> <li @click="setTransition('turn-on')" v-if="text.isShow">
+                          <a href="#">
+                                <span class="star">响应时间：</span>
+                                <cube-input class="responseTime" placeholder="请输入响应时间" v-model="responseTime">
+                                    <span slot="append">小时以内</span>
+                                </cube-input></a>
+                        </li>
+                          <li @click="setTransition('turn-on')" v-if="text.isShow">
+                                <a href="#">
+                                    <span class="star">维保类型：</span>
+                                    <div class="maintanceType">
+                                      <span v-for="(item,index) in types" :key="index" :class="currentIdx==index?'active':''" @click="addClass(index)">{{item.name}}</span>
+                                    </div>
+                                 </a>
                         </li>
                     </ul>
-                  </div>
               </div>
               <div class="img_upload">
                   <basic-title title="产品图片" imgurl="../static/images/imgUpload.png">
                      <span slot="select">(至少上传一张)</span>
                   </basic-title>
                   <div class="upload_container">
-                      <cube-upload ref="upload" :action="action" :simultaneous-uploads="1" :process-file="processFile" @file-submitted="fileSubmitted" @file-success="fileSuccess" @file-error="fileError" @file-removed="fileRemove"/>
+                      <cube-upload ref="upload"  v-model="action.files" :action="action" :simultaneous-uploads="1" :process-file="processFile" @files-added="addedHandler" @file-submitted="fileSubmitted" @file-success="fileSuccess" @file-error="fileError" @file-removed="fileRemove"/>
                       <span>点击上传产品图片</span>
                   </div>
               </div>
@@ -113,28 +125,55 @@ import { _getData } from "../../service/getData";
 import _ from "lodash";
 import compress from "../../../../../static/js/compressImage";
 import { mapMutations } from "vuex";
+const text = {
+  productSortText: "设备分类",
+  productBrandText: "设备品牌",
+  productModelText: "设备型号",
+  mainParamsText: "重要参数",
+  applicationText: "临床应用:",
+  sortPlaceholder: "请选择分类",
+  brandPlaceholder: "请选择品牌",
+  modelPlaceholder: "默认为不限",
+  paramPlaceholder: "请选择或输入重要参数",
+  appPlaceholder: "为保证医院的采购质量与效率，请详细填写设备的临床用途。",
+  isShow: false,
+  show: true
+};
+
+const types = [
+  { id: 0, name: "全保" },
+  { id: 1, name: "备件保" },
+  { id: 2, name: "人工保" }
+];
 export default {
   data() {
     return {
-      productSort: {},
-      productBrand: {},
-      productModel: {},
+      text,
+      types,
+      responseTime: "",
+      productSort: [],
+      productBrand: [],
+      productModel: [],
       mainParams: "",
       groupItemObj: "",
       groupPrice: "",
       current: null,
+      currentIdx: null,
       checked: true,
       value: "",
       introduce: "",
       submitBtnStatus: true,
       action: {
-        target: "http://60.195.252.86:8080/server/imageupload"
+        target: "http://60.195.252.86:8080/server/imageupload",
+        files: []
         // prop: "base64Value"
       },
       groupUnderWayList: [],
       submitData: {
         id: "",
-        groupPurchaseTypeId: ""
+        groupPurchaseTypeId: "",
+        productLineName: "",
+        productModel: ""
       }
     };
   },
@@ -146,12 +185,137 @@ export default {
     Group,
     XTextarea
   },
+  watch: {
+    groupItemObj() {
+      switch (this.groupItemObj.code) {
+        case "SBTG":
+          this.text = {
+            ...{ text },
+            ...{
+              productSortText: "设备分类",
+              productBrandText: "设备品牌",
+              productModelText: "设备型号",
+              mainParamsText: "重要参数",
+              applicationText: "临床应用:",
+              sortPlaceholder: "请选择分类",
+              brandPlaceholder: "请选择品牌",
+              modelPlaceholder: "默认为不限",
+              paramPlaceholder: "请选择或输入重要参数",
+              appPlaceholder:
+                "为保证医院的采购质量与效率，请详细填写设备的临床用途。",
+              isShow: false,
+              show: true
+            }
+          };
+          break;
+        case "HCTG":
+          this.text = {
+            ...{ text },
+            ...{
+              productSortText: "耗材分类",
+              productBrandText: "耗材品牌",
+              productModelText: "耗材型号",
+              mainParamsText: "重要规格",
+              applicationText: "临床应用:",
+              sortPlaceholder: "请选择分类",
+              brandPlaceholder: "请选择品牌",
+              modelPlaceholder: "默认为不限",
+              paramPlaceholder: "请选择或输入重要规格",
+              appPlaceholder:
+                "为保证医院的采购质量与效率，请详细填写耗材的临床用途。",
+              isShow: false,
+              show: true
+            }
+          };
+          break;
+        case "SHTG":
+          this.text = {
+            ...{ text },
+            ...{
+              productSortText: "售后分类",
+              productBrandText: "售后品牌",
+              productModelText: "售后型号",
+              mainParamsText: "重要参数",
+              applicationText: "临床应用:",
+              sortPlaceholder: "请选择分类",
+              brandPlaceholder: "请选择品牌",
+              modelPlaceholder: "默认为不限",
+              paramPlaceholder: "请输入响应时间",
+              appPlaceholder:
+                "为保证医院的采购质量与效率，请详细填写设备的临床用途。",
+              isShow: true,
+              show: true
+            }
+          };
+          break;
+        case "XXHTG":
+          this.text = {
+            ...{ text },
+            ...{
+              productSortText: "平台分类",
+              productBrandText: "平台品牌",
+              productModelText: "平台型号",
+              mainParamsText: "重要参数",
+              applicationText: "应用需求:",
+              sortPlaceholder: "请选择分类",
+              brandPlaceholder: "请选择品牌",
+              modelPlaceholder: "默认为不限",
+              paramPlaceholder: "请选择或输入重要参数",
+              appPlaceholder:
+                "为保证医院的采购质量与效率，请详细填写信息化的临床用途。",
+              isShow: false,
+              show: true
+            }
+          };
+          break;
+        case "JRTG":
+          this.text = {
+            ...{ text },
+            ...{
+              productSortText: "金融服务分类",
+              productBrandText: "金融服务商",
+              mainParamsText: "关键词",
+              applicationText: "应用方向:",
+              sortPlaceholder: "请选择分类",
+              brandPlaceholder: "请选择服务商",
+              paramPlaceholder: "请选择或输入关键词",
+              appPlaceholder:
+                "为保证医院的采购质量与效率，请详细填写融资应用方向。",
+              isShow: false,
+              show: false
+            }
+          };
+          break;
+        case "ZXTG":
+          this.text = {
+            ...{ text },
+            ...{
+              productSortText: "咨询服务分类",
+              productBrandText: "咨询服务商",
+              mainParamsText: "关键词",
+              applicationText: "应用方向:",
+              sortPlaceholder: "请选择分类",
+              brandPlaceholder: "请选择服务商",
+              paramPlaceholder: "请选择或输入关键词",
+              appPlaceholder:
+                "为保证医院的采购质量与效率，请详细填写咨询应用方向。",
+              isShow: false,
+              show: false
+            }
+          };
+          break;
+      }
+    }
+  },
   methods: {
     ...mapMutations(["setTransition"]),
     submitBtnClick() {
       this.submitBtnStatus = false;
       this.setTransition("turn-on");
       this.$router.push("/myComponyGroupBuy");
+    },
+    addClass(i) {
+      this.currentIdx = i;
     },
     selectGroupId(value) {
       console.log(value);
@@ -183,6 +347,9 @@ export default {
         next
       );
     },
+    addedHandler() {
+      console.log(this.action.files);
+    },
     fileSubmitted(file) {
       //file.base64Value = file.file.base64;
     },
@@ -193,6 +360,7 @@ export default {
     fileRemove(file) {
       console.log(3333);
       console.log(file);
+      console.log(this.action.files);
     },
     fileError() {
       console.log(111);
@@ -217,7 +385,15 @@ export default {
   },
   activated: function() {
     console.log(3);
-    this.productSort = this.$store.state.page.uploadProduct.productSort;
+    //this.productSort = this.$store.state.page.uploadProduct.productSort;
+    this.submitData.productLineName = _.join(
+      _.map(this.$store.state.page.uploadProduct.productSort, "name"),
+      ","
+    );
+    this.submitData.productModel = _.join(
+      _.map(this.$store.state.page.uploadProduct.productModel, "name"),
+      ","
+    );
     this.productBrand = this.$store.state.page.uploadProduct.productBrand;
     // this.productModel = this.$store.state.page.uploadProduct.productModel;
     this.mainParams = _.join(
@@ -309,6 +485,16 @@ export default {
               // flex-wrap: nowrap;
               width: auto;
               // word-wrap: normal;
+              &.star {
+                padding-left: 7px;
+                background: url("../../../../../static/images/star.png")
+                  no-repeat left center;
+                background-size: 7px;
+              }
+              // img {
+              //   width: 7px;
+              //   vertical-align: middle;
+              // }
             }
             > div {
               //width: calc(100% - 70px);
@@ -325,6 +511,26 @@ export default {
                 background: url("/static/images/grayarrow.png") no-repeat center;
                 background-size: 100% 100%;
                 margin-left: 3px;
+              }
+              &.maintanceType {
+                justify-content: flex-start;
+                align-items: center;
+                span {
+                  height: 29px;
+                  line-height: 29px;
+                  padding: 0 16px;
+                  font-family: PingFangSC-Regular;
+                  font-size: 14px;
+                  color: #333333;
+                  margin-right: 10px;
+                  background: rgba(142, 142, 142, 0.05);
+                  border-radius: 2px;
+                  &.active {
+                    background: rgba(1, 157, 221, 0.14);
+                    font-family: PingFangSC-Medium;
+                    color: #019ddd;
+                  }
+                }
               }
             }
           }
@@ -353,6 +559,11 @@ export default {
             flex: 1;
             &:after {
               border: none;
+            }
+            &.responseTime {
+              .cube-input-field {
+                text-align: left;
+              }
             }
             input {
               color: #999999;
@@ -454,6 +665,12 @@ export default {
                   color: #333333;
                   display: flex;
                   align-items: center;
+                  background: url("../../../../../static/images/star.png")
+                    no-repeat left center;
+                  background-size: 7px;
+                  .weui-label {
+                    margin-left: 7px;
+                  }
                 }
                 .weui-cell__bd {
                   width: 100%;

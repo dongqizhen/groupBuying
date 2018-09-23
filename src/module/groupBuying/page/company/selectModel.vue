@@ -58,17 +58,19 @@ export default {
     ...mapMutations(["setTransition", "selectProductModel"]),
     clickSure() {
       this.setTransition("turn-off");
-      if (this.itemSelect.length == 0) {
-        if (this.tempLastSearchValue == "") {
-          Toast("请选择或者输入型号");
-          return;
+      if (this.tempLastSearchValue == "") {
+        if (this.itemSelect.length == 0) {
+          this.selectProductModel([{ id: "", name: "" }]);
         } else {
-          this.saveModel(this.tempLastSearchValue);
+          this.selectProductModel(this.itemSelect);
         }
+      } else {
+        if(this.itemSelect.length == 0){
+           this.selectProductModel([{ id: "", name: this.tempLastSearchValue }]);
+        }else{
+          this.selectProductModel(this.itemSelect);
+        } 
       }
-      this.productModel.id = _.join(_.map(this.itemSelect, "id"), ",");
-      this.productModel.name = _.join(_.map(this.itemSelect, "name"), ",");
-      this.selectProductModel(this.productModel);
       this.$router.go(-1);
     },
     selectItem(item) {
@@ -88,7 +90,7 @@ export default {
         } else if (this.itemSelect.length == 3) {
           this.itemSelect = _.without(this.itemSelect, changeItem);
           if (this.itemSelect.length == 3) {
-            this.showToastTime();
+            Toast("最多选择三个型号");
           }
         }
       } else {
