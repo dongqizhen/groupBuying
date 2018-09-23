@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import { _getData } from "../../service/getData";
 export default {
   data() {

@@ -5,13 +5,16 @@
         </Header>
         <div class="content">
             <search placeholder="请输入品牌" v-on:inputValue="selectBrand"></search>
-            <cube-index-list :data="brandListData">
+            <cube-index-list :data="brandListData" v-if="this.brandListData.length!=0">
               <cube-index-list-group v-for="(group, index) in brandListData" :key="index" :group="group">
-                <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem">
-                  <div :class="['custom-item',current==item.id?'active':'']">{{item.name}} <span v-if="item.brandLabel">{{item.brandLabel}}</span></div>
+                <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem(item.brandId, item)">
+                  <div :class="['custom-item',activeClass(item.brandId)]">{{item.name}} <span v-if="item.brandLabel">{{item.brandLabel}}</span></div>
                 </cube-index-list-item>
               </cube-index-list-group>
             </cube-index-list>
+           <ul class="search_area">
+              <li v-for="(item,index) in search_area_arr" :key='index' :class="addClass(item.brandId)" @click="searchCheckedHandle(item.brandId,item)"><span>{{item.name}}</span><span class="label" v-if="item.brandLabel">{{item.brandLabel}}</span></li>
+          </ul>
         </div>
     </div>
 </template>
@@ -20,6 +23,7 @@
 import Header from "../../components/header/header";
 import search from "../../components/search/search";
 import { _getData } from "../../service/getData";
+import { Toast } from "vant";
 import { mapMutations } from "vuex";
 export default {
   data() {
@@ -27,8 +31,10 @@ export default {
       tempLastSearchValue: "",
       brandListData: [],
       current: null,
-      tempProductBrand: {},
-      productBrand: {}
+      productBrand: {},
+      search_area_arr: [],
+      searchItemSelect: [],
+      itemSelect: []
     };
   },
   components: {
@@ -40,33 +46,69 @@ export default {
     clickLink() {
       this.setTransition("turn-off");
       console.log(this.tempLastSearchValue);
-      if (this.tempProductBrand.length == 0) {
-        if (this.tempLastSearchValue != "") {
-          this.tempProductBrand = {
-            id: this.tempLastSearchValue,
-            name: this.tempLastSearchValue
-          };
-          _getData("/server/alias!request.action", {
-            method: "addAlias",
-            params: {
-              name: this.tempLastSearchValue,
-              type: 1,
-              createSource: 1
-            }
-          });
-        } else {
-          alert("请选择或输入品牌");
+      if (this.tempLastSearchValue == "") {
+        if (this.itemSelect.length == 0) {
+          Toast("请选择或输入品牌");
           return;
+        } else {
+          this.selectProductBrand(this.itemSelect[0]);
+        }
+      } else {
+        if (this.searchItemSelect.length == 0) {
+          //将搜索框的值传给后台
+        } else {
+          this.selectProductBrand(this.searchItemSelect[0]);
         }
       }
-      this.productBrand = this.tempProductBrand;
-      this.selectProductBrand(this.productBrand);
       this.$router.go(-1);
     },
-    selectItem(item) {
-      console.log(item.name);
-      this.current = item.id;
-      this.tempProductBrand = item;
+    selectItem(brandId, item) {
+      if (this.itemSelect.length < 1) {
+        this.itemSelect.push(item);
+      } else {
+        if (
+          _.find(this.itemSelect, function(o) {
+            return o.brandId == brandId;
+          }) == item
+        ) {
+          this.itemSelect.splice(0, 1);
+        } else {
+          this.itemSelect.splice(0, 1, item);
+        }
+      }
+    },
+    activeClass(brandId) {
+      if (this.itemSelect) {
+        for (const val of this.itemSelect) {
+          if (val.brandId == brandId) {
+            return "active";
+          }
+        }
+      }
+    },
+    searchCheckedHandle(brandId, item) {
+      if (this.searchItemSelect.length < 1) {
+        this.searchItemSelect.push(item);
+      } else {
+        if (
+          _.find(this.searchItemSelect, function(o) {
+            return o.brandId == brandId;
+          }) == item
+        ) {
+          this.searchItemSelect.splice(0, 1);
+        } else {
+          this.searchItemSelect.splice(0, 1, item);
+        }
+      }
+    },
+    addClass(brandId) {
+      if (this.searchItemSelect.length != 0) {
+        for (const val of this.searchItemSelect) {
+          if (val.brandId == brandId) {
+            return "active";
+          }
+        }
+      }
     },
     selectBrand(val) {
       this.reqData(val);
@@ -81,7 +123,12 @@ export default {
         },
         data => {
           console.log(data);
-          this.brandListData = data.brandList;
+          if (name) {
+            this.brandListData = [];
+            this.search_area_arr = data.brandList;
+          } else {
+            this.brandListData = data.brandList;
+          }
         }
       );
     }
@@ -108,6 +155,41 @@ export default {
   }
   .content {
     padding: 10px 13px;
+    .search_area {
+      margin-top: 10px;
+      background: #fff;
+      border-radius: 5px;
+      li {
+        height: 46px;
+        display: flex;
+        align-items: center;
+        margin-left: 13px;
+        padding-right: 8px;
+        border-bottom: 0.5px solid #f6f6f6;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #333333;
+        display: flex;
+        &.active {
+          > span:first-child {
+            color: #019ddd;
+          }
+        }
+        .label {
+          font-family: PingFangSC-Regular;
+          font-size: 11px;
+          color: #fb4354;
+          display: flex;
+          height: 16px;
+          padding: 0 3px;
+          //width: 72px;
+          align-items: center;
+          background: rgba(251, 67, 84, 0.1);
+          border-radius: 2px;
+          margin-left: 18px;
+        }
+      }
+    }
     /deep/ .cube-index-list {
       height: calc(100% - 46px);
       margin-top: 10px;
