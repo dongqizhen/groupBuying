@@ -27,7 +27,6 @@ export default {
       if (this.$router.currentRoute.path == "/") {
         isBackNativePage();
       } else {
-        console.log(this.$router.currentRoute.path);
         this.$router.go(-1);
         this.$store.commit("setTransition", "turn-off");
       }

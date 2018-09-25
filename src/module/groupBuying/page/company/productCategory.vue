@@ -1,10 +1,10 @@
 <template>
     <div class="container productCategory">
-        <Header title="选择产品分类">
+        <Header title="选择分类">
             <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
-            <search placeholder="请输入产品分类" v-on:inputValue="getValue"></search>
+            <search placeholder="请输入分类" v-on:inputValue="getValue"></search>
             <div class="Stick_container">
                 <ul class="stick_area">
                     <li v-for="(item,index) in stick_area_arr" :key='index' :class="activeClass(item.productLineId)" @click="checkedHandle(item.productLineId,item)">
@@ -50,25 +50,331 @@ export default {
     search
   },
   methods: {
-    ...mapMutations(["setTransition", "selectProductSort"]),
+    ...mapMutations([
+      "setTransition",
+      "selectSBTGProductSort",
+      "selectHCTGProductSort",
+      "selectSHTGProductSort",
+      "selectXXHTGProductSort",
+      "selectJRTGProductSort",
+      "selectZXTGProductSort"
+    ]),
     clickSure() {
       this.setTransition("turn-off");
       console.log(this.tempLastSearchValue);
+      var flag = true;
       if (this.tempLastSearchValue == "") {
         if (this.itemSelect.length == 0) {
-          Toast("请选择或输入产品分类");
+          Toast("请选择或输入分类");
           return;
         } else {
-          this.selectProductSort(this.itemSelect);
+          switch (this.$route.query.groupTypeCode) {
+            case "SBTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.SBTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.SBTG.productBrand = [];
+                this.$store.state.page.uploadProduct.SBTG.productModel = [];
+              }
+              this.selectSBTGProductSort(this.itemSelect);
+              break;
+            case "HCTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.HCTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.HCTG.productBrand = [];
+                this.$store.state.page.uploadProduct.HCTG.productModel = [];
+              }
+              this.selectHCTGProductSort(this.itemSelect);
+              break;
+            case "SHTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.SHTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.SHTG.productBrand = [];
+                this.$store.state.page.uploadProduct.SHTG.productModel = [];
+              }
+              this.selectSHTGProductSort(this.itemSelect);
+              break;
+            case "XXHTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.XXHTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+                this.$store.state.page.uploadProduct.XXHTG.productModel = [];
+              }
+              this.selectXXHTGProductSort(this.itemSelect);
+              break;
+            case "JRTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.JRTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.JRTG.productBrand = [];
+                this.$store.state.page.uploadProduct.JRTG.productModel = [];
+              }
+              this.selectJRTGProductSort(this.itemSelect);
+              break;
+            case "ZXTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.ZXTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+                this.$store.state.page.uploadProduct.ZXTG.productModel = [];
+              }
+              this.selectZXTGProductSort(this.itemSelect);
+              break;
+          }
         }
       } else {
         if (this.searchItemSelect.length == 0) {
           //将搜索框的值传给后台
+          let that = this;
+          flag = false;
+          _getData(
+            "/server/productLine!request.action",
+            {
+              method: "getProductLineByName",
+              params: {
+                name: this.tempLastSearchValue,
+                type: "6",
+                flag: "0"
+              }
+            },
+            data => {
+              console.log(data);
+              that.searchItemSelect.push(data);
+              switch (that.$route.query.groupTypeCode) {
+                case "SBTG":
+                  if (
+                    _.join(
+                      _.map(
+                        that.$store.state.page.uploadProduct.SBTG.productSort,
+                        "aliasId"
+                      ),
+                      ","
+                    ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+                  ) {
+                    that.$store.state.page.uploadProduct.SBTG.productBrand = [];
+                    that.$store.state.page.uploadProduct.SBTG.productModel = [];
+                  }
+                  that.selectSBTGProductSort(that.searchItemSelect);
+                  break;
+                case "HCTG":
+                  if (
+                    _.join(
+                      _.map(
+                        that.$store.state.page.uploadProduct.HCTG.productSort,
+                        "aliasId"
+                      ),
+                      ","
+                    ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+                  ) {
+                    that.$store.state.page.uploadProduct.HCTG.productBrand = [];
+                    that.$store.state.page.uploadProduct.HCTG.productModel = [];
+                  }
+                  that.selectHCTGProductSort(that.searchItemSelect);
+                  break;
+                case "SHTG":
+                  if (
+                    _.join(
+                      _.map(
+                        that.$store.state.page.uploadProduct.SHTG.productSort,
+                        "aliasId"
+                      ),
+                      ","
+                    ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+                  ) {
+                    that.$store.state.page.uploadProduct.SHTG.productBrand = [];
+                    that.$store.state.page.uploadProduct.SHTG.productModel = [];
+                  }
+                  that.selectSHTGProductSort(that.searchItemSelect);
+                  break;
+                case "XXHTG":
+                  if (
+                    _.join(
+                      _.map(
+                        that.$store.state.page.uploadProduct.XXHTG.productSort,
+                        "aliasId"
+                      ),
+                      ","
+                    ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+                  ) {
+                    that.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+                    that.$store.state.page.uploadProduct.XXHTG.productModel = [];
+                  }
+                  that.selectXXHTGProductSort(that.searchItemSelect);
+                  break;
+                case "JRTG":
+                  if (
+                    _.join(
+                      _.map(
+                        that.$store.state.page.uploadProduct.JRTG.productSort,
+                        "aliasId"
+                      ),
+                      ","
+                    ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+                  ) {
+                    that.$store.state.page.uploadProduct.JRTG.productBrand = [];
+                    that.$store.state.page.uploadProduct.JRTG.productModel = [];
+                  }
+                  that.selectJRTGProductSort(that.searchItemSelect);
+                  break;
+                case "ZXTG":
+                  if (
+                    _.join(
+                      _.map(
+                        that.$store.state.page.uploadProduct.ZXTG.productSort,
+                        "aliasId"
+                      ),
+                      ","
+                    ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+                  ) {
+                    that.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+                    that.$store.state.page.uploadProduct.ZXTG.productModel = [];
+                  }
+                  that.selectZXTGProductSort(that.searchItemSelect);
+                  break;
+              }
+              flag = true;
+              if (flag) {
+                this.$router.go(-1);
+              }
+            }
+          );
         } else {
-          this.selectProductSort(this.searchItemSelect);
+          switch (this.$route.query.groupTypeCode) {
+            case "SBTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.SBTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.SBTG.productBrand = [];
+                this.$store.state.page.uploadProduct.SBTG.productModel = [];
+              }
+              this.selectSBTGProductSort(this.searchItemSelect);
+              break;
+            case "HCTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.HCTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.HCTG.productBrand = [];
+                this.$store.state.page.uploadProduct.HCTG.productModel = [];
+              }
+              this.selectHCTGProductSort(this.searchItemSelect);
+              break;
+            case "SHTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.SHTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.SHTG.productBrand = [];
+                this.$store.state.page.uploadProduct.SHTG.productModel = [];
+              }
+              this.selectSHTGProductSort(this.searchItemSelect);
+              break;
+            case "XXHTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.XXHTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+                this.$store.state.page.uploadProduct.XXHTG.productModel = [];
+              }
+              this.selectXXHTGProductSort(this.searchItemSelect);
+              break;
+            case "JRTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.JRTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.JRTG.productBrand = [];
+                this.$store.state.page.uploadProduct.JRTG.productModel = [];
+              }
+              this.selectJRTGProductSort(this.searchItemSelect);
+              break;
+            case "ZXTG":
+              if (
+                _.join(
+                  _.map(
+                    this.$store.state.page.uploadProduct.ZXTG.productSort,
+                    "aliasId"
+                  ),
+                  ","
+                ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+              ) {
+                this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+                this.$store.state.page.uploadProduct.ZXTG.productModel = [];
+              }
+              this.selectZXTGProductSort(this.searchItemSelect);
+              break;
+          }
         }
       }
-      this.$router.go(-1);
+      if (flag) {
+        this.$router.go(-1);
+      }
     },
     cancelStick(item) {
       console.log(item);
@@ -146,20 +452,23 @@ export default {
     },
     getValue(value) {
       console.log(value);
-      this.reqData(value, "520");
+      this.reqData(value);
       this.searchItemSelect = [];
       this.tempLastSearchValue = value;
     },
-    reqData(name, groupId) {
+    reqData(name) {
       _getData(
         "/server_pro/groupPurchaseCompanyProduct!request.action",
         {
           method: "getProductLineListByGroupPurchaseType",
-          params: { name: name, groupPurchaseId: groupId }
+          params: {
+            name: name,
+            groupPurchaseId: this.$route.query.groupPurchaseTypeId
+          }
         },
         data => {
           console.log(data);
-          if (name == "") {
+          if (!name) {
             this.stick_area_arr = data.productLineList;
             this.general_area_arr = data.wzdProductLineList;
           } else {
@@ -175,8 +484,11 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$router);
-    this.reqData("", "520");
+    this.itemSelect = [];
+    this.reqData();
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>

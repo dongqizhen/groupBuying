@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <Header :title="this.$route.name">
+    <Header :title="title">
        <span slot="explain" class="enter" @click="clickSure">确定</span>
     </Header>
     <div class="content">
       <div class="selectedParamBox">
-          <div class="selectedText">已选参数:</div>
+          <div class="selectedText">{{selectText}}</div>
           <div class="selectedParams">
              <ul>
                <li v-for="item in itemSelect" :key="item.id" class="clearfix">
@@ -17,9 +17,9 @@
              </ul>
           </div>
       </div>
-      <search placeholder="请输入重要参数" isShowSave="true" v-on:saveValue="saveParam" v-on:inputValue="getValue"></search>
+      <search :placeholder="placeholder" isShowSave="true" v-on:saveValue="saveParam" v-on:inputValue="getValue"></search>
       <div class="paramBox">
-        <div class="pleaseSelected">请选择:<span>(企业提供的重要参数清单)</span></div>
+        <div class="pleaseSelected">请选择:<span>{{noteText}}</span></div>
         <div class="params">
           <ul class="clearfix">
             <li v-for="param in params" :key="param.id" @click="selected(param)" :class="activeClass(param.id)">{{param.name}}</li>
@@ -39,6 +39,12 @@ import { Toast } from "vant";
 export default {
   data() {
     return {
+      title: "",
+      placeholder: "",
+      toastText: "",
+      selectText: "",
+      noteText: "",
+      tempLastSearchValue: "",
       params: [],
       currentIdx: null,
       itemSelect: []
@@ -49,15 +55,39 @@ export default {
     search
   },
   methods: {
-    ...mapMutations(["setTransition", "selectMainParam"]),
+    ...mapMutations([
+      "setTransition",
+      "selectSBTGMainParam",
+      "selectHCTGMainParam",
+      "selectSHTGMainParam",
+      "selectXXHTGMainParam",
+      "selectJRTGMainParam",
+      "selectZXTGMainParam"
+    ]),
     clickSure() {
       this.setTransition("turn-off");
       console.log(this.itemSelect);
-      if (this.itemSelect.length == 0) {
-        Toast("请选择主要参数");
-        return;
+      switch (this.$route.query.groupTypeCode) {
+        case "SBTG":
+          this.selectSBTGMainParam(this.itemSelect);
+          break;
+        case "HCTG":
+          this.selectHCTGMainParam(this.itemSelect);
+          break;
+        case "SHTG":
+          this.selectSHTGMainParam(this.itemSelect);
+          break;
+        case "XXHTG":
+          this.selectXXHTGMainParam(this.itemSelect);
+          break;
+        case "JRTG":
+          this.selectJRTGMainParam(this.itemSelect);
+          break;
+        case "ZXTG":
+          this.selectZXTGMainParam(this.itemSelect);
+          break;
       }
-      this.selectMainParam(this.itemSelect);
+
       this.$router.go(-1);
     },
     getValue(val) {
@@ -80,7 +110,7 @@ export default {
       } else if (this.itemSelect.length === 3) {
         this.itemSelect = _.without(this.itemSelect, changeParam);
         if (this.itemSelect.length === 3) {
-          Toast("最多选择三个主要参数");
+          Toast(this.toastText);
         }
       }
     },
@@ -97,6 +127,7 @@ export default {
       }
     },
     saveParam(name) {
+      this.tempLastSearchValue = name;
       console.log(name);
       let paramListCommon, itemSelectCommon;
       itemSelectCommon = _.find(this.itemSelect, function(o) {
@@ -108,7 +139,7 @@ export default {
         });
       }
       if (this.itemSelect.length === 3) {
-        Toast("最多选择三个主要参数");
+        Toast(this.toastText);
       } else {
         if (!itemSelectCommon && !paramListCommon) {
           this.itemSelect.push({ id: "", name: name });
@@ -136,14 +167,40 @@ export default {
     }
   },
   mounted() {
+    if (this.$route.query.groupTypeCode == "HCTG") {
+      this.title = "填写规格";
+      this.placeholder = "请输入重要规格";
+      this.toastText = "最多选择三个重要规格";
+      this.selectText = "已选规格:";
+      this.noteText = "(企业提供的重要规格清单)";
+    } else if (
+      this.$route.query.groupTypeCode == "ZXTG" ||
+      this.$route.query.groupTypeCode == "JRTG"
+    ) {
+      this.title = "关键词";
+      this.placeholder = "请输入关键词";
+      this.toastText = "最多选择三个关键词";
+      this.selectText = "已选关键词:";
+      this.noteText = "(企业提供的关键词清单)";
+    } else {
+      this.title = "填写参数";
+      this.placeholder = "请输入重要参数";
+      this.toastText = "最多选择三个重要参数";
+      this.selectText = "已选参数:";
+      this.noteText = "(企业提供的重要参数清单)";
+    }
+    this.itemSelect = [];
     this.reqData();
   },
   watch: {
     itemSelect() {
       if (this.itemSelect.length > 3) {
-        Toast("最多选择三个主要参数");
+        Toast(this.toastText);
       }
     }
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>

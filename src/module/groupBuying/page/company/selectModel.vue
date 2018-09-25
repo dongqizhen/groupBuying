@@ -55,21 +55,97 @@ export default {
   },
   props: ["Multiple"],
   methods: {
-    ...mapMutations(["setTransition", "selectProductModel"]),
+    ...mapMutations([
+      "setTransition",
+      "selectSBTGProductModel",
+      "selectHCTGProductModel",
+      "selectSHTGProductModel",
+      "selectXXHTGProductModel",
+      "selectJRTGProductModel",
+      "selectZXTGProductModel"
+    ]),
     clickSure() {
       this.setTransition("turn-off");
       if (this.tempLastSearchValue == "") {
         if (this.itemSelect.length == 0) {
-          this.selectProductModel([{ id: "", name: "" }]);
         } else {
-          this.selectProductModel(this.itemSelect);
+          switch (this.$route.query.groupTypeCode) {
+            case "SBTG":
+              this.selectSBTGProductModel(this.itemSelect);
+              break;
+            case "HCTG":
+              this.selectHCTGProductModel(this.itemSelect);
+              break;
+            case "SHTG":
+              this.selectSHTGProductModel(this.itemSelect);
+              break;
+            case "XXHTG":
+              this.selectXXHTGProductModel(this.itemSelect);
+              break;
+            case "JRTG":
+              this.selectJRTGProductModel(this.itemSelect);
+              break;
+            case "ZXTG":
+              this.selectZXTGProductModel(this.itemSelect);
+              break;
+          }
         }
       } else {
-        if(this.itemSelect.length == 0){
-           this.selectProductModel([{ id: "", name: this.tempLastSearchValue }]);
-        }else{
-          this.selectProductModel(this.itemSelect);
-        } 
+        if (this.itemSelect.length == 0) {
+          switch (this.$route.query.groupTypeCode) {
+            case "SBTG":
+              this.selectSBTGProductModel([
+                { id: "", name: this.tempLastSearchValue }
+              ]);
+              break;
+            case "HCTG":
+              this.selectHCTGProductModel([
+                { id: "", name: this.tempLastSearchValue }
+              ]);
+              break;
+            case "SHTG":
+              this.selectSHTGProductModel([
+                { id: "", name: this.tempLastSearchValue }
+              ]);
+              break;
+            case "XXHTG":
+              this.selectXXHTGProductModel([
+                { id: "", name: this.tempLastSearchValue }
+              ]);
+              break;
+            case "JRTG":
+              this.selectJRTGProductModel([
+                { id: "", name: this.tempLastSearchValue }
+              ]);
+              break;
+            case "ZXTG":
+              this.selectZXTGProductModel([
+                { id: "", name: this.tempLastSearchValue }
+              ]);
+              break;
+          }
+        } else {
+          switch (this.$route.query.groupTypeCode) {
+            case "SBTG":
+              this.selectSBTGProductModel(this.itemSelect);
+              break;
+            case "HCTG":
+              this.selectHCTGProductModel(this.itemSelect);
+              break;
+            case "SHTG":
+              this.selectSHTGProductModel(this.itemSelect);
+              break;
+            case "XXHTG":
+              this.selectXXHTGProductModel(this.itemSelect);
+              break;
+            case "JRTG":
+              this.selectJRTGProductModel(this.itemSelect);
+              break;
+            case "ZXTG":
+              this.selectZXTGProductModel(this.itemSelect);
+              break;
+          }
+        }
       }
       this.$router.go(-1);
     },
@@ -122,7 +198,11 @@ export default {
         "/server_pro/groupPurchaseCompanyProduct!request.action",
         {
           method: "getModelListByGroupPurchaseType",
-          params: { name: name, brandId: "273", productLineId: "206" }
+          params: {
+            name: name,
+            brandId: this.$route.query.brandId,
+            productLineId: this.$route.query.productLineId
+          }
         },
         data => {
           console.log(data);
@@ -162,13 +242,14 @@ export default {
   },
   computed: {},
   mounted() {
+    this.itemSelect = [];
     this.reqData();
   },
   activated() {
     // console.log("1");
   },
   deactivated() {
-    // this.$destroy();
+    this.$destroy();
   },
   watch: {
     itemSelect() {

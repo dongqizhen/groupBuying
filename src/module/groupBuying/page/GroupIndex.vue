@@ -22,12 +22,11 @@
                     </cube-slide>
 
                     <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
-                        <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.prevent.native="setTransition('turn-on')">
+                        <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.prevent.native="clickEvent(item)">
                             <img slot="icon" :src="item.imgurl">
                             <span slot="label">{{item.name}}</span>
                             <badge :text="`已报名${item.num}家`" v-if="item.num"></badge>
                         </grid-item>
-
                     </grid>
                     <!-- <ul class="icons_box">
                         <router-link tag="li" v-for="item in routerLinkArr" :key="item.name" :to="item.path" @click.native="setTransition('turn-on')">
@@ -57,26 +56,27 @@ import { mapMutations } from "vuex";
 import { _getData } from "../service/getData";
 import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
 import _ from "lodash";
+import { Toast } from "vant";
 const routerLinkArr = [
   {
     path: "/hospitalSeal",
     name: "医院团购报名",
     imgurl: "../static/images/hospitalApply.png",
-    num: 50
+    num: ""
   },
   {
     path: "/enterpriseSeal",
     name: "企业团购报名",
     imgurl: "../static/images/companyApply.png",
-    num: 150
+    num: ""
   },
-  /* {
-                path: "/myComponyGroupBuy",
-                name: "我的团购",
-                imgurl: "../static/images/myApply.png"
-            } */
+  // {
+  //   path: "/myComponyGroupBuy",
+  //   name: "我的团购",
+  //   imgurl: "../static/images/myApply.png"
+  // }
   {
-    path: "/myHospitalGroupBuy",
+    path: "/",
     name: "我的团购",
     imgurl: "../static/images/myApply.png"
   }
@@ -113,6 +113,14 @@ export default {
     TabItem
   },
   methods: {
+    clickEvent(item) {
+      if (item.path == "/") {
+        Toast("请报名后再点击查看");
+        return;
+      } else {
+        this.setTransition("turn-on");
+      }
+    },
     handleClick() {
       this.setTransition("turn-on");
     },
@@ -143,16 +151,35 @@ export default {
         });
       }
     );
+    _getData(
+      "/server_pro/groupPurchase!request.action",
+      {
+        method: "getIsRegGroupPuchase",
+        params: {}
+      },
+      data => {
+        console.log(data);
+        this.routerLinkArr[0].num = data.hospitalNum;
+        this.routerLinkArr[1].num = data.companyNum;
+        this.routerLinkArr[2].path = data.type
+          ? data.type == "company"
+            ? "/myComponyGroupBuy"
+            : "/myHospitalGroupBuy"
+          : "/";
+      }
+    );
   },
-
+  watch: {
+    data() {}
+  },
   created() {
-    console.log("created");
+    //console.log("created");
   },
   activated() {
-    console.log("actived");
+    //console.log("actived");
   },
   deactivated() {
-    console.log("deactived");
+    //console.log("deactived");
   }
 };
 </script>

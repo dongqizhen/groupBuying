@@ -24,10 +24,42 @@ let state : StateType = {
       selectedMainBusiness: []
     },
     uploadProduct: {
-      productSort: [],
-      productBrand: [],
-      productModel: [],
-      mainParams: []
+      SBTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      HCTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      SHTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      XXHTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      JRTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      ZXTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      }
     }
   }
 };
