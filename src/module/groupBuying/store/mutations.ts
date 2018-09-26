@@ -85,6 +85,78 @@ const mutations = {
   },
   selectZXTGMainParam(state, mainParamValue) {
     state.page.uploadProduct.ZXTG.mainParams = mainParamValue;
+  },
+  SBTGProductSort(state, productSortValue) {
+    state.page.submitGroupDemand.SBTG.productSort = productSortValue;
+  },
+  HCTGProductSort(state, productSortValue) {
+    state.page.submitGroupDemand.HCTG.productSort = productSortValue;
+  },
+  SHTGProductSort(state, productSortValue) {
+    state.page.submitGroupDemand.SHTG.productSort = productSortValue;
+  },
+  XXHTGProductSort(state, productSortValue) {
+    state.page.submitGroupDemand.XXHTG.productSort = productSortValue;
+  },
+  JRTGProductSort(state, productSortValue) {
+    state.page.submitGroupDemand.JRTG.productSort = productSortValue;
+  },
+  ZXTGProductSort(state, productSortValue) {
+    state.page.submitGroupDemand.ZXTG.productSort = productSortValue;
+  },
+  SBTGProductBrand(state, productBrandValue) {
+    state.page.submitGroupDemand.SBTG.productBrand = productBrandValue;
+  },
+  HCTGProductBrand(state, productBrandValue) {
+    state.page.submitGroupDemand.HCTG.productBrand = productBrandValue;
+  },
+  SHTGProductBrand(state, productBrandValue) {
+    state.page.submitGroupDemand.SHTG.productBrand = productBrandValue;
+  },
+  XXHTGProductBrand(state, productBrandValue) {
+    state.page.submitGroupDemand.XXHTG.productBrand = productBrandValue;
+  },
+  JRTGProductBrand(state, productBrandValue) {
+    state.page.submitGroupDemand.JRTG.productBrand = productBrandValue;
+  },
+  ZXTGProductBrand(state, productBrandValue) {
+    state.page.submitGroupDemand.ZXTG.productBrand = productBrandValue;
+  },
+  SBTGProductModel(state, productModelValue) {
+    state.page.submitGroupDemand.SBTG.productModel = productModelValue;
+  },
+  HCTGProductModel(state, productModelValue) {
+    state.page.submitGroupDemand.HCTG.productModel = productModelValue;
+  },
+  SHTGProductModel(state, productModelValue) {
+    state.page.submitGroupDemand.SHTG.productModel = productModelValue;
+  },
+  XXHTGProductModel(state, productModelValue) {
+    state.page.submitGroupDemand.XXHTG.productModel = productModelValue;
+  },
+  JRTGProductModel(state, productModelValue) {
+    state.page.submitGroupDemand.JRTG.productModel = productModelValue;
+  },
+  ZXTGProductModel(state, productModelValue) {
+    state.page.submitGroupDemand.ZXTG.productModel = productModelValue;
+  },
+  SBTGMainParam(state, mainParamValue) {
+    state.page.submitGroupDemand.SBTG.mainParams = mainParamValue;
+  },
+  HCTGMainParam(state, mainParamValue) {
+    state.page.submitGroupDemand.HCTG.mainParams = mainParamValue;
+  },
+  SHTGMainParam(state, mainParamValue) {
+    state.page.submitGroupDemand.SHTG.mainParams = mainParamValue;
+  },
+  XXHTGMainParam(state, mainParamValue) {
+    state.page.submitGroupDemand.XXHTG.mainParams = mainParamValue;
+  },
+  JRTGMainParam(state, mainParamValue) {
+    state.page.submitGroupDemand.JRTG.mainParams = mainParamValue;
+  },
+  ZXTGMainParam(state, mainParamValue) {
+    state.page.submitGroupDemand.ZXTG.mainParams = mainParamValue;
   }
 }
 

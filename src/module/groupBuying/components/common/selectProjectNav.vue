@@ -27,6 +27,8 @@ export default {
   methods: {
     handleClickEvent() {},
     select(item, itemObj) {
+      console.log(item);
+      console.log(itemObj);
       if (this.MultipleSelection != undefined) {
         if (_.without(this.itemSelect, item).length == this.itemSelect.length) {
           this.itemSelect.push(item);

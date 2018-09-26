@@ -7,10 +7,10 @@
             <div class="scroll-list-wrap">
                 <scroller>
                     <basic-information :detailData="detailData" isShowArrowBox isShowCheck title="企业基本信息" buttonName="企业介绍" path="/companyProfile"></basic-information>
-          <div class="i_join_in">
-            <basic-title title="我参加的团购" imgurl='../static/images/groupBuy.png'></basic-title>
-            <list-tab v-if="Object.keys(meetingListData).length" :meetingListData="meetingListData"></list-tab>
-          </div>
+                    <div class="i_join_in">
+                      <basic-title title="我参加的团购" imgurl='../static/images/groupBuy.png'></basic-title>
+                      <list-tab v-if="Object.keys(meetingListData).length" :meetingListData="meetingListData"></list-tab>
+                    </div>
                 </scroller>
             </div>
         </div>

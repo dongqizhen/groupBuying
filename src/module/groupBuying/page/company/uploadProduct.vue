@@ -158,7 +158,7 @@ export default {
           console.log(data);
         }
       );
-      //this.$router.push("/myComponyGroupBuy");
+      this.$router.push("/myComponyGroupBuy");
     },
     selectGroupId(value) {
       this.submitData.groupPurchaseTypeId = value;

@@ -60,6 +60,44 @@ let state : StateType = {
         productModel: [],
         mainParams: []
       }
+    },
+    submitGroupDemand: {
+      SBTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      HCTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      SHTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      XXHTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      JRTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      },
+      ZXTG: {
+        productSort: [],
+        productBrand: [],
+        productModel: [],
+        mainParams: []
+      }
     }
   }
 };

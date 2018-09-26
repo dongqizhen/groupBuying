@@ -197,6 +197,7 @@ export default {
   created() {
     console.log("created");
   },
+  mounted() {},
   activated() {
     this.companyTypeName = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeName;
     this.mainBusinessName = _.join(

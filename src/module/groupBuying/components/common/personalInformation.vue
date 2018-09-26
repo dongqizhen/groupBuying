@@ -10,35 +10,35 @@
       </h2>
       <ul>
         <li>
-          <span v-if="read">
-            <i v-if="isShowStar">*</i>姓名
+          <span v-if="read" :class="read?'disabled':''">
+            <i v-if="isShowStar"></i>姓名
           </span>
           <span v-else>
-            <i v-if="isShowStar">*</i>姓名：
+            <i v-if="isShowStar"></i>姓名：
           </span>
           <cube-input class="ipt_box" required v-model.trim="itemPerson.name" placeholder="请输入姓名" :disabled='disabled'></cube-input>
         </li>
         <li>
-          <span v-if="read">
-            <i v-if="isShowStar">*</i>职务</span>
+          <span v-if="read" :class="read?'disabled':''">
+            <i v-if="isShowStar"></i>职务</span>
           <span v-else>
-            <i v-if="isShowStar">*</i>职务：</span>
+            <i v-if="isShowStar"></i>职务：</span>
           <cube-input class="ipt_box" v-model.trim="itemPerson.post" placeholder="请输入职务" :disabled='disabled'></cube-input>
         </li>
         <li>
-          <span v-if="read">
-            <i v-if="isShowStar">*</i>移动电话</span>
+          <span v-if="read" :class="read?'disabled':''">
+            <i v-if="isShowStar"></i>移动电话</span>
           <span v-else>
-            <i v-if="isShowStar">*</i>移动电话：</span>
+            <i v-if="isShowStar"></i>移动电话：</span>
           <cube-input class="ipt_box" type="number" v-model.number.trim="itemPerson.phone" placeholder="请输入手机号码" :disabled='disabled' :maxlength="11"></cube-input>
         </li>
         <li>
-          <span v-if="read">固定电话</span>
+          <span v-if="read" :class="read?'disabled':''">固定电话</span>
           <span v-else>固定电话：</span>
           <cube-input class="ipt_box" type="number" v-model.trim="itemPerson.telphone" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
         </li>
         <li>
-          <span v-if="read">微信号</span>
+          <span v-if="read" :class="read?'disabled':''">微信号</span>
           <span v-else>微信号：</span>
           <cube-input class="ipt_box" v-model.trim="itemPerson.wxCode" placeholder="请输入微信号" :disabled='disabled'></cube-input>
         </li>
@@ -152,15 +152,20 @@ export default {
         font-family: PingFangSC-Regular;
         font-size: 14px;
         color: #333;
+        &.disabled {
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #999999;
+        }
         i {
-          font-size: 16px;
-          //width: 10px;
-          color: #f11f1f;
+          width: 7px;
           display: flex;
           justify-content: center;
-          margin-right: 4px;
           align-items: center;
           font-family: PingFangSC-Regular;
+          background: url("../../../../../static/images/star.png") no-repeat
+            left center;
+          background-size: 7px;
         }
       }
       /deep/ .ipt_box {

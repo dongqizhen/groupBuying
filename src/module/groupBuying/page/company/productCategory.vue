@@ -57,7 +57,13 @@ export default {
       "selectSHTGProductSort",
       "selectXXHTGProductSort",
       "selectJRTGProductSort",
-      "selectZXTGProductSort"
+      "selectZXTGProductSort",
+      "SBTGProductSort",
+      "HCTGProductSort",
+      "SHTGProductSort",
+      "XXHTGProductSort",
+      "JRTGProductSort",
+      "ZXTGProductSort"
     ]),
     clickSure() {
       this.setTransition("turn-off");
@@ -82,7 +88,12 @@ export default {
                 this.$store.state.page.uploadProduct.SBTG.productBrand = [];
                 this.$store.state.page.uploadProduct.SBTG.productModel = [];
               }
-              this.selectSBTGProductSort(this.itemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectSBTGProductSort(this.itemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.SBTGProductSort(this.itemSelect);
+              }
+
               break;
             case "HCTG":
               if (
@@ -97,7 +108,12 @@ export default {
                 this.$store.state.page.uploadProduct.HCTG.productBrand = [];
                 this.$store.state.page.uploadProduct.HCTG.productModel = [];
               }
-              this.selectHCTGProductSort(this.itemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectHCTGProductSort(this.itemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.HCTGProductSort(this.itemSelect);
+              }
+
               break;
             case "SHTG":
               if (
@@ -112,7 +128,11 @@ export default {
                 this.$store.state.page.uploadProduct.SHTG.productBrand = [];
                 this.$store.state.page.uploadProduct.SHTG.productModel = [];
               }
-              this.selectSHTGProductSort(this.itemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectSHTGProductSort(this.itemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.SHTGProductSort(this.itemSelect);
+              }
               break;
             case "XXHTG":
               if (
@@ -127,7 +147,11 @@ export default {
                 this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
                 this.$store.state.page.uploadProduct.XXHTG.productModel = [];
               }
-              this.selectXXHTGProductSort(this.itemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectXXHTGProductSort(this.itemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.XXHTGProductSort(this.itemSelect);
+              }
               break;
             case "JRTG":
               if (
@@ -142,7 +166,11 @@ export default {
                 this.$store.state.page.uploadProduct.JRTG.productBrand = [];
                 this.$store.state.page.uploadProduct.JRTG.productModel = [];
               }
-              this.selectJRTGProductSort(this.itemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectJRTGProductSort(this.itemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.JRTGProductSort(this.itemSelect);
+              }
               break;
             case "ZXTG":
               if (
@@ -157,7 +185,11 @@ export default {
                 this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
                 this.$store.state.page.uploadProduct.ZXTG.productModel = [];
               }
-              this.selectZXTGProductSort(this.itemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectZXTGProductSort(this.itemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.ZXTGProductSort(this.itemSelect);
+              }
               break;
           }
         }
@@ -193,7 +225,12 @@ export default {
                     that.$store.state.page.uploadProduct.SBTG.productBrand = [];
                     that.$store.state.page.uploadProduct.SBTG.productModel = [];
                   }
-                  that.selectSBTGProductSort(that.searchItemSelect);
+                  if (that.$route.query.page == "uploadProduct") {
+                    that.selectSBTGProductSort(that.searchItemSelect);
+                  } else if (that.$route.query.page == "submitGroupDemand") {
+                    that.SBTGProductSort(that.searchItemSelect);
+                  }
+
                   break;
                 case "HCTG":
                   if (
@@ -208,7 +245,12 @@ export default {
                     that.$store.state.page.uploadProduct.HCTG.productBrand = [];
                     that.$store.state.page.uploadProduct.HCTG.productModel = [];
                   }
-                  that.selectHCTGProductSort(that.searchItemSelect);
+                  if (that.$route.query.page == "uploadProduct") {
+                    that.selectHCTGProductSort(that.searchItemSelect);
+                  } else if (that.$route.query.page == "submitGroupDemand") {
+                    that.HCTGProductSort(that.searchItemSelect);
+                  }
+
                   break;
                 case "SHTG":
                   if (
@@ -223,7 +265,12 @@ export default {
                     that.$store.state.page.uploadProduct.SHTG.productBrand = [];
                     that.$store.state.page.uploadProduct.SHTG.productModel = [];
                   }
-                  that.selectSHTGProductSort(that.searchItemSelect);
+                  if (that.$route.query.page == "uploadProduct") {
+                    this.selectSHTGProductSort(this.itemSelect);
+                  } else if (that.$route.query.page == "submitGroupDemand") {
+                    that.SHTGProductSort(that.searchItemSelect);
+                  }
+
                   break;
                 case "XXHTG":
                   if (
@@ -238,7 +285,12 @@ export default {
                     that.$store.state.page.uploadProduct.XXHTG.productBrand = [];
                     that.$store.state.page.uploadProduct.XXHTG.productModel = [];
                   }
-                  that.selectXXHTGProductSort(that.searchItemSelect);
+                  if (that.$route.query.page == "uploadProduct") {
+                    that.selectXXHTGProductSort(that.searchItemSelect);
+                  } else if (that.$route.query.page == "submitGroupDemand") {
+                    that.XXHTGProductSort(that.searchItemSelect);
+                  }
+
                   break;
                 case "JRTG":
                   if (
@@ -253,7 +305,12 @@ export default {
                     that.$store.state.page.uploadProduct.JRTG.productBrand = [];
                     that.$store.state.page.uploadProduct.JRTG.productModel = [];
                   }
-                  that.selectJRTGProductSort(that.searchItemSelect);
+                  if (that.$route.query.page == "uploadProduct") {
+                    that.selectJRTGProductSort(that.searchItemSelect);
+                  } else if (that.$route.query.page == "submitGroupDemand") {
+                    that.JRTGProductSort(that.searchItemSelect);
+                  }
+
                   break;
                 case "ZXTG":
                   if (
@@ -268,7 +325,12 @@ export default {
                     that.$store.state.page.uploadProduct.ZXTG.productBrand = [];
                     that.$store.state.page.uploadProduct.ZXTG.productModel = [];
                   }
-                  that.selectZXTGProductSort(that.searchItemSelect);
+                  if (that.$route.query.page == "uploadProduct") {
+                    that.selectZXTGProductSort(that.searchItemSelect);
+                  } else if (that.$route.query.page == "submitGroupDemand") {
+                    that.ZXTGProductSort(that.searchItemSelect);
+                  }
+
                   break;
               }
               flag = true;
@@ -292,7 +354,12 @@ export default {
                 this.$store.state.page.uploadProduct.SBTG.productBrand = [];
                 this.$store.state.page.uploadProduct.SBTG.productModel = [];
               }
-              this.selectSBTGProductSort(this.searchItemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectSBTGProductSort(this.searchItemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.SBTGProductSort(this.searchItemSelect);
+              }
+
               break;
             case "HCTG":
               if (
@@ -307,7 +374,12 @@ export default {
                 this.$store.state.page.uploadProduct.HCTG.productBrand = [];
                 this.$store.state.page.uploadProduct.HCTG.productModel = [];
               }
-              this.selectHCTGProductSort(this.searchItemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectHCTGProductSort(this.searchItemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.HCTGProductSort(this.searchItemSelect);
+              }
+
               break;
             case "SHTG":
               if (
@@ -322,7 +394,12 @@ export default {
                 this.$store.state.page.uploadProduct.SHTG.productBrand = [];
                 this.$store.state.page.uploadProduct.SHTG.productModel = [];
               }
-              this.selectSHTGProductSort(this.searchItemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectSHTGProductSort(this.searchItemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.SHTGProductSort(this.searchItemSelect);
+              }
+
               break;
             case "XXHTG":
               if (
@@ -337,7 +414,12 @@ export default {
                 this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
                 this.$store.state.page.uploadProduct.XXHTG.productModel = [];
               }
-              this.selectXXHTGProductSort(this.searchItemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectXXHTGProductSort(this.searchItemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.XXHTGProductSort(this.searchItemSelect);
+              }
+
               break;
             case "JRTG":
               if (
@@ -352,7 +434,12 @@ export default {
                 this.$store.state.page.uploadProduct.JRTG.productBrand = [];
                 this.$store.state.page.uploadProduct.JRTG.productModel = [];
               }
-              this.selectJRTGProductSort(this.searchItemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectJRTGProductSort(this.searchItemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.JRTGProductSort(this.searchItemSelect);
+              }
+
               break;
             case "ZXTG":
               if (
@@ -367,13 +454,137 @@ export default {
                 this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
                 this.$store.state.page.uploadProduct.ZXTG.productModel = [];
               }
-              this.selectZXTGProductSort(this.searchItemSelect);
+              if (this.$route.query.page == "uploadProduct") {
+                this.selectZXTGProductSort(this.searchItemSelect);
+              } else if (this.$route.query.page == "submitGroupDemand") {
+                this.ZXTGProductSort(this.searchItemSelect);
+              }
+
               break;
           }
         }
       }
       if (flag) {
         this.$router.go(-1);
+      }
+    },
+    switchFun(arr) {
+      switch (this.$route.query.groupTypeCode) {
+        case "SBTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.SBTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.SBTG.productBrand = [];
+            this.$store.state.page.uploadProduct.SBTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectSBTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.SBTGProductSort(this.itemSelect);
+          }
+          break;
+        case "HCTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.HCTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.HCTG.productBrand = [];
+            this.$store.state.page.uploadProduct.HCTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectHCTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.HCTGProductSort(this.itemSelect);
+          }
+
+          break;
+        case "SHTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.SHTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.SHTG.productBrand = [];
+            this.$store.state.page.uploadProduct.SHTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectSHTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.SHTGProductSort(this.itemSelect);
+          }
+          break;
+        case "XXHTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.XXHTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+            this.$store.state.page.uploadProduct.XXHTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectXXHTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.XXHTGProductSort(this.itemSelect);
+          }
+          break;
+        case "JRTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.JRTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.JRTG.productBrand = [];
+            this.$store.state.page.uploadProduct.JRTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectJRTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.JRTGProductSort(this.itemSelect);
+          }
+          break;
+        case "ZXTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.ZXTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+            this.$store.state.page.uploadProduct.ZXTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectZXTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.ZXTGProductSort(this.itemSelect);
+          }
+          break;
       }
     },
     cancelStick(item) {

@@ -308,7 +308,8 @@ export default {
           path: "productCategory",
           query: {
             groupPurchaseTypeId: this.groupType.id,
-            groupTypeCode: this.groupType.code
+            groupTypeCode: this.groupType.code,
+            page: "uploadProduct"
           }
         });
       } else {
@@ -323,7 +324,8 @@ export default {
           path: "selectBrand",
           query: {
             productLineId: this.info.productLineId,
-            groupTypeCode: this.groupType.code
+            groupTypeCode: this.groupType.code,
+            page: "uploadProduct"
           }
         });
       } else {
@@ -339,7 +341,8 @@ export default {
           query: {
             brandId: this.info.brandId,
             productLineId: this.info.productLineId,
-            groupTypeCode: this.groupType.code
+            groupTypeCode: this.groupType.code,
+            page: "uploadProduct"
           }
         });
       } else {
@@ -353,7 +356,8 @@ export default {
         this.$router.push({
           path: "mainParams",
           query: {
-            groupTypeCode: this.groupType.code
+            groupTypeCode: this.groupType.code,
+            page: "uploadProduct"
           }
         });
       } else {
@@ -413,7 +417,9 @@ export default {
           _.map(this.$store.state.page.uploadProduct.SBTG.mainParams, "name"),
           ","
         );
-        this.info.params = this.$store.state.page.uploadProduct.SBTG.mainParams;
+        this.info.params = JSON.stringify(
+          this.$store.state.page.uploadProduct.SBTG.mainParams
+        );
         break;
       case "HCTG":
         this.info.productLineName = _.join(
