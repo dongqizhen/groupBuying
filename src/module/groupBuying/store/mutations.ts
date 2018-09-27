@@ -5,6 +5,9 @@ const mutations = {
   setTransition(state, states) {
     state.states = states;
   },
+  setUserType(state, type) {
+    state.userType = type;
+  },
   setDetailsPageData(state, val) {
     state.page.detailsPageData = val;
   },
@@ -157,6 +160,24 @@ const mutations = {
   },
   ZXTGMainParam(state, mainParamValue) {
     state.page.submitGroupDemand.ZXTG.mainParams = mainParamValue;
+  },
+  SBTGPredictTime(state, predictTimeValue) {
+    state.page.submitGroupDemand.SBTG.predictTime = predictTimeValue;
+  },
+  HCTGPredictTime(state, predictTimeValue) {
+    state.page.submitGroupDemand.HCTG.predictTime = predictTimeValue;
+  },
+  SHTGPredictTime(state, predictTimeValue) {
+    state.page.submitGroupDemand.SHTG.predictTime = predictTimeValue;
+  },
+  XXHTGPredictTime(state, predictTimeValue) {
+    state.page.submitGroupDemand.XXHTG.predictTime = predictTimeValue;
+  },
+  JRTGPredictTime(state, predictTimeValue) {
+    state.page.submitGroupDemand.JRTG.predictTime = predictTimeValue;
+  },
+  ZXTGPredictTime(state, predictTimeValue) {
+    state.page.submitGroupDemand.ZXTG.predictTime = predictTimeValue;
   }
 }
 

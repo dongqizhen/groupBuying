@@ -8,13 +8,14 @@
                       <i slot="append"></i>
                     </cube-input>
                 </a>
+
             </li>
             <li class="number" v-if="this.groupType.code != 'JRTG'">
                 <group>
                     <x-number :title="infoText.numText"  v-model="info.num" :min="1" fillable></x-number>
                 </group>
                 <p>
-                    本次团购,{{info.productLineName}}设备已累计申报<span>{{demandNum}}</span>台,历史累计申报共<span>{{histroyTotalDemandNum}}</span>台
+                    本次团购,{{info.productLineName}}{{infoText.typeText}}已累计申报<span>{{demandNum}}</span>{{infoText.unitText}},历史累计申报共<span>{{histroyTotalDemandNum}}</span>{{infoText.unitText}}
                 </p>
             </li>
             <li class="price">
@@ -25,7 +26,7 @@
                   <div class="unit">万元</div>
                 </div>
                 <p>
-                    本次团购,{{info.productLineName}}设备已累计申报<span>{{demandNum}}</span>台,历史累计申报共<span>{{totalPrice}}</span>台
+                    本次团购,{{info.productLineName}}{{infoText.typeText}}已累计申报<span>{{demandNum}}</span>{{infoText.unitText}},{{infoText.countText}}为<span>{{totalPrice}}</span>万元
                 </p>
             </li>
             <li class="clinic" v-if="!infoText.show">
@@ -125,7 +126,7 @@
                  <li >
               <a>
                     <span class="star">该设备每天检查量：</span>
-                    <cube-input class="responseTime" placeholder="请填写每天病人数量" v-model="info.responseTime">
+                    <cube-input class="responseTime" placeholder="请填写每天病人数量" v-model="info.deviceCheckNum">
                         <span slot="append">人</span>
                     </cube-input>
                     </a>
@@ -153,7 +154,7 @@
                 <li @click="jumpMainParams" v-if="!infoText.show">
                     <a>
                         <span>{{infoText.mainParamsText}}</span>
-                        <cube-input :placeholder="infoText.paramPlaceholder" :disabled="true" v-model="info.params">
+                        <cube-input :placeholder="infoText.paramPlaceholder" :disabled="true" v-model="info.mainParamsName">
                               <i slot="append"></i>
                         </cube-input>
                     </a>
@@ -161,7 +162,7 @@
                 <li @click="jumpPredictTime">
                     <a>
                         <span>{{infoText.loadTimeText}}</span>
-                        <cube-input :placeholder="infoText.loadTimePlaceholder" :disabled="true" v-model="info.loadTime">
+                        <cube-input :placeholder="infoText.loadTimePlaceholder" :disabled="true" v-model="info.showLoadTime">
                               <i slot="append"></i>
                         </cube-input>
                     </a>
@@ -190,6 +191,9 @@ const infos = [
   {
     code: "SBTG",
     text: {
+      typeText: "设备",
+      unitText: "台",
+      countText: "总预算",
       productSortText: "设备分类:",
       productBrandText: "设备品牌:",
       productModelText: "设备型号:",
@@ -230,12 +234,16 @@ const infos = [
       mainParamsName: "",
       params: "", //重要参数
       loadTime: "", //预计时间
+      showLoadTime: "",
       introduce: "" //采购需求说明
     }
   },
   {
     code: "HCTG",
     text: {
+      typeText: "耗材",
+      unitText: "单",
+      countText: "总预算",
       productSortText: "耗材分类:",
       productBrandText: "耗材品牌:",
       productModelText: "耗材型号:",
@@ -282,11 +290,14 @@ const infos = [
   {
     code: "SHTG",
     text: {
+      typeText: "设备",
+      unitText: "台",
+      countText: "总维修预算",
       productSortText: "设备分类:",
       productBrandText: "设备品牌:",
       productModelText: "设备型号:",
       numText: "设备台数:",
-      hopePriceText: "维修预算(总价):",
+      hopePriceText: "维修预算总价:",
       installTimeText: "设备安装日期:",
       deviceCheckNumText: "该设备每天检查量:",
       responseTimeText: "响应时间:",
@@ -319,7 +330,7 @@ const infos = [
       modelName: "",
       modelId: "",
       otherModelName: "",
-      num: "", //设备台数
+      num: 1, //设备台数
       price: "", //维修预算价格
       installTime: "", //安装日期
       loadTime: "", //维修时间
@@ -332,6 +343,9 @@ const infos = [
   {
     code: "XXHTG",
     text: {
+      typeText: "信息化",
+      unitText: "单",
+      countText: "总预算",
       productSortText: "平台分类:",
       productBrandText: "平台品牌:",
       productModelText: "平台型号:",
@@ -378,6 +392,9 @@ const infos = [
   {
     code: "JRTG",
     text: {
+      typeText: "金融",
+      unitText: "单",
+      countText: "总融资金额",
       productSortText: "金融分类:",
       productBrandText: "金融服务商:",
       hopePriceText: "预计融资金额:",
@@ -416,6 +433,9 @@ const infos = [
   {
     code: "ZXTG",
     text: {
+      typeText: "咨询",
+      unitText: "次",
+      countText: "总咨询预算",
       productSortText: "咨询服务分类:",
       productBrandText: "咨询服务商:",
       numText: "需求数量:",
@@ -465,7 +485,8 @@ export default {
       info: infos[0].value,
       demandNum: "",
       histroyTotalDemandNum: "",
-      totalPrice: ""
+      totalPrice: "",
+      loadTimeObj: {}
     };
   },
   methods: {
@@ -475,18 +496,23 @@ export default {
       this.info.maintenanceType = this.types[i].id;
     },
     jumpProductCateGory() {
-      if (this.groupType.code) {
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "productCategory",
-          query: {
-            groupPurchaseTypeId: this.groupType.id,
-            groupTypeCode: this.groupType.code,
-            page: "submitGroupDemand"
-          }
-        });
+      if (this.groupPurchaseId) {
+        if (this.groupType.code) {
+          this.setTransition("turn-on");
+          this.$router.push({
+            path: "productCategory",
+            query: {
+              groupPurchaseTypeId: this.groupType.id,
+              groupTypeCode: this.groupType.code,
+              page: "submitGroupDemand"
+            }
+          });
+        } else {
+          Toast("请先选择需求类型");
+          return;
+        }
       } else {
-        Toast("请先选择团购需求类型");
+        Toast("请先选择团购大会");
         return;
       }
     },
@@ -534,11 +560,25 @@ export default {
           }
         });
       } else {
-        Toast("请先选择团购产品类型");
+        Toast("请先选择团购需求类型");
         return;
       }
     },
-    jumpPredictTime() {},
+    jumpPredictTime() {
+      if (this.groupType.code) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "perdictTime",
+          query: {
+            groupTypeCode: this.groupType.code,
+            page: "submitGroupDemand"
+          }
+        });
+      } else {
+        Toast("请先选择团购需求类型");
+        return;
+      }
+    },
     jumpInstallTime() {}
   },
   components: {
@@ -618,6 +658,13 @@ export default {
         this.info.params = JSON.stringify(
           this.$store.state.page.submitGroupDemand.SBTG.mainParams
         );
+        this.info.loadTime = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.SBTG.predictTime
+        );
+        this.info.showLoadTime =
+          JSON.parse(this.info.loadTime).year +
+          "年" +
+          JSON.parse(this.info.loadTime).quarter;
         break;
       case "HCTG":
         this.info.productLineName = _.join(
@@ -683,7 +730,16 @@ export default {
           ),
           ","
         );
-        this.info.params = this.$store.state.page.submitGroupDemand.HCTG.mainParams;
+        this.info.params = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.HCTG.mainParams
+        );
+        this.info.loadTime = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.HCTG.predictTime
+        );
+        this.info.showLoadTime =
+          JSON.parse(this.info.loadTime).year +
+          "年" +
+          JSON.parse(this.info.loadTime).quarter;
         break;
       case "SHTG":
         this.info.productLineName = _.join(
@@ -749,7 +805,16 @@ export default {
           ),
           ","
         );
-        this.info.params = this.$store.state.page.submitGroupDemand.SHTG.mainParams;
+        this.info.params = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.SHTG.mainParams
+        );
+        this.info.loadTime = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.SHTG.predictTime
+        );
+        this.info.showLoadTime =
+          JSON.parse(this.info.loadTime).year +
+          "年" +
+          JSON.parse(this.info.loadTime).quarter;
         break;
       case "XXHTG":
         this.info.productLineName = _.join(
@@ -815,7 +880,16 @@ export default {
           ),
           ","
         );
-        this.info.params = this.$store.state.page.submitGroupDemand.XXHTG.mainParams;
+        this.info.params = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.XXHTG.mainParams
+        );
+        this.info.loadTime = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.XXHTG.predictTime
+        );
+        this.info.showLoadTime =
+          JSON.parse(this.info.loadTime).year +
+          "年" +
+          JSON.parse(this.info.loadTime).quarter;
         break;
       case "JRTG":
         this.info.productLineName = _.join(
@@ -881,7 +955,16 @@ export default {
           ),
           ","
         );
-        this.info.params = this.$store.state.page.submitGroupDemand.JRTG.mainParams;
+        this.info.params = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.JRTG.mainParams
+        );
+        this.info.loadTime = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.JRTG.predictTime
+        );
+        this.info.showLoadTime =
+          JSON.parse(this.info.loadTime).year +
+          "年" +
+          JSON.parse(this.info.loadTime).quarter;
         break;
       case "ZXTG":
         this.info.productLineName = _.join(
@@ -947,7 +1030,16 @@ export default {
           ),
           ","
         );
-        this.info.params = this.$store.state.page.submitGroupDemand.ZXTG.mainParams;
+        this.info.params = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.ZXTG.mainParams
+        );
+        this.info.loadTime = JSON.stringify(
+          this.$store.state.page.submitGroupDemand.ZXTG.predictTime
+        );
+        this.info.showLoadTime =
+          JSON.parse(this.info.loadTime).year +
+          "年" +
+          JSON.parse(this.info.loadTime).quarter;
         break;
     }
     _getData(
@@ -962,9 +1054,9 @@ export default {
         }
       },
       data => {
-        console.log("====================================");
-        console.log(data);
-        console.log("====================================");
+        this.demandNum = data.demandNum;
+        this.histroyTotalDemandNum = data.histroyTotalDemandNum;
+        this.totalPrice = data.totalPrice;
       }
     );
   },

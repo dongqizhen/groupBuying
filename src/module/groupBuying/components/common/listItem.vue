@@ -65,7 +65,8 @@ export default {
   },
   props: ["dataValue", "disabled", "index", "isActive"],
   created() {
-    //console.log(this.dataValue);
+    // console.log(this.type);
+    // console.log(this.dataValue);
   },
   computed: {
     addClass() {

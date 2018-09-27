@@ -55,13 +55,13 @@ export default {
       submitData: {
         id: "",
         hospitalId: "16",
-        groupPurchaseId: "5",
-        groupPurchaseTypeId: "15",
-        productLineId: "456",
-        productLineName: "产品线名称",
-        brandId: "456",
-        modelId: "0",
-        num: "10",
+        groupPurchaseId: "",
+        groupPurchaseTypeId: "",
+        productLineId: "",
+        productLineName: "",
+        brandId: "",
+        modelId: "",
+        num: "",
         application: "请详细填写设备的临床用途",
         loadTime: "2018年第四季度",
         price: "10",
@@ -126,6 +126,7 @@ export default {
       this.submitData.groupPurchaseId = this.groupUnderWayList[v].id;
     },
     submitBtnClick() {
+      console.log(this.$refs.groupDemandWriteInfo.info);
       _getData(
         "/server_pro/groupPurchaseHospital!request.action",
         {
@@ -137,7 +138,7 @@ export default {
         }
       );
       //this.submitBtnStatus = false;
-      //this.$router.push("myHospitalGroupBuy");
+      this.$router.push("myHospitalGroupBuy");
     },
     ...mapMutations(["setTransition"])
   },

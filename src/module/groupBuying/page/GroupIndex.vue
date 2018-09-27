@@ -113,6 +113,7 @@ export default {
     TabItem
   },
   methods: {
+    ...mapMutations(["setTransition", "setUserType"]),
     clickEvent(item) {
       if (item.path == "/") {
         Toast("请报名后再点击查看");
@@ -124,7 +125,6 @@ export default {
     handleClick() {
       this.setTransition("turn-on");
     },
-    ...mapMutations(["setTransition"]),
     handler() {}
   },
   mounted() {
@@ -159,6 +159,7 @@ export default {
       },
       data => {
         console.log(data);
+        this.setUserType(data.type);
         this.routerLinkArr[0].num = data.hospitalNum;
         this.routerLinkArr[1].num = data.companyNum;
         this.routerLinkArr[2].path = data.type

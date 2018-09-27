@@ -1,8 +1,9 @@
 interface StateType {
   count : Number,
   states : String,
-  API_HOST : Object
-  page : Object
+  API_HOST : Object,
+  page : Object,
+  userType : String
 }
 
 console.log();
@@ -12,6 +13,7 @@ let state : StateType = {
   count: 1,
   states: "turn-on", //控制路由返回
   API_HOST: process.env.API_HOST,
+  userType: "",
   page: {
     detailsPageData: {},
     typeOfEnterprise: {
@@ -66,37 +68,43 @@ let state : StateType = {
         productSort: [],
         productBrand: [],
         productModel: [],
-        mainParams: []
+        mainParams: [],
+        predictTime: {}
       },
       HCTG: {
         productSort: [],
         productBrand: [],
         productModel: [],
-        mainParams: []
+        mainParams: [],
+        predictTime: {}
       },
       SHTG: {
         productSort: [],
         productBrand: [],
         productModel: [],
-        mainParams: []
+        mainParams: [],
+        predictTime: {}
       },
       XXHTG: {
         productSort: [],
         productBrand: [],
         productModel: [],
-        mainParams: []
+        mainParams: [],
+        predictTime: {}
       },
       JRTG: {
         productSort: [],
         productBrand: [],
         productModel: [],
-        mainParams: []
+        mainParams: [],
+        predictTime: {}
       },
       ZXTG: {
         productSort: [],
         productBrand: [],
         productModel: [],
-        mainParams: []
+        mainParams: [],
+        predictTime: {}
       }
     }
   }

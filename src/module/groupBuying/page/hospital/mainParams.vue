@@ -62,29 +62,61 @@ export default {
       "selectSHTGMainParam",
       "selectXXHTGMainParam",
       "selectJRTGMainParam",
-      "selectZXTGMainParam"
+      "selectZXTGMainParam",
+      "SBTGMainParam",
+      "HCTGMainParam",
+      "SHTGMainParam",
+      "XXHTGMainParam",
+      "JRTGMainParam",
+      "ZXTGMainParam"
     ]),
     clickSure() {
       this.setTransition("turn-off");
       console.log(this.itemSelect);
       switch (this.$route.query.groupTypeCode) {
         case "SBTG":
-          this.selectSBTGMainParam(this.itemSelect);
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectSBTGMainParam(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.SBTGMainParam(this.itemSelect);
+          }
+
           break;
         case "HCTG":
-          this.selectHCTGMainParam(this.itemSelect);
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectHCTGMainParam(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.HCTGMainParam(this.itemSelect);
+          }
+
           break;
         case "SHTG":
-          this.selectSHTGMainParam(this.itemSelect);
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectSHTGMainParam(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.SHTGMainParam(this.itemSelect);
+          }
           break;
         case "XXHTG":
-          this.selectXXHTGMainParam(this.itemSelect);
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectXXHTGMainParam(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.XXHTGMainParam(this.itemSelect);
+          }
           break;
         case "JRTG":
-          this.selectJRTGMainParam(this.itemSelect);
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectJRTGMainParam(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.JRTGMainParam(this.itemSelect);
+          }
           break;
         case "ZXTG":
-          this.selectZXTGMainParam(this.itemSelect);
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectZXTGMainParam(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.ZXTGMainParam(this.itemSelect);
+          }
           break;
       }
 
