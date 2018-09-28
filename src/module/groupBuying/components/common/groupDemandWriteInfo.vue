@@ -497,7 +497,7 @@ export default {
     },
     jumpProductCateGory() {
       if (this.groupPurchaseId) {
-        if (this.groupType.code) {
+        if (this.groupPurchaseTypeId) {
           this.setTransition("turn-on");
           this.$router.push({
             path: "productCategory",
@@ -550,7 +550,7 @@ export default {
       }
     },
     jumpMainParams() {
-      if (this.groupType.code) {
+      if (this.groupPurchaseTypeId) {
         this.setTransition("turn-on");
         this.$router.push({
           path: "mainParams",
@@ -565,7 +565,7 @@ export default {
       }
     },
     jumpPredictTime() {
-      if (this.groupType.code) {
+      if (this.groupPurchaseTypeId) {
         this.setTransition("turn-on");
         this.$router.push({
           path: "perdictTime",
@@ -588,7 +588,7 @@ export default {
     XNumber,
     CellBox
   },
-  props: ["groupType", "groupPurchaseId"],
+  props: ["groupType", "groupPurchaseId", "groupPurchaseTypeId"],
   activated() {
     switch (this.groupType.code) {
       case "SBTG":

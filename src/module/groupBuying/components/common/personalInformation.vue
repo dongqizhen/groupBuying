@@ -30,7 +30,7 @@
             <i v-if="isShowStar"></i>移动电话</span>
           <span v-else>
             <i v-if="isShowStar"></i>移动电话：</span>
-          <cube-input class="ipt_box" type="number" v-model.number.trim="itemPerson.phone" placeholder="请输入手机号码" :disabled='disabled' :maxlength="11"></cube-input>
+          <cube-input class="ipt_box" type="tel" v-model.number.trim="itemPerson.phone" placeholder="请输入手机号码" :disabled='disabled' :maxlength="11"></cube-input>
         </li>
         <li>
           <span v-if="read" :class="read?'disabled':''">固定电话</span>

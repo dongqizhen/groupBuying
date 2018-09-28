@@ -15,11 +15,11 @@
               <span slot="select">(必填题)</span>
             </basic-title>
             <ul>
-              <li v-ripple>
+              <li>
                 <span>公司名称：</span>
                 <cube-input class="name" v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
               </li>
-              <li v-ripple>
+              <li>
                 <router-link to='/typeOfEnterprise' @click.native="setTransition('turn-on')">
                   <span>企业类型：</span>
                   <div>
@@ -28,7 +28,7 @@
                   </div>
                 </router-link>
               </li>
-              <li v-ripple>
+              <li>
                 <router-link to="/mainBusiness" @click.native="setTransition('turn-on')">
                   <span>主营业务：</span>
                   <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusinessName">
@@ -37,7 +37,7 @@
                 </router-link>
 
               </li>
-              <li v-ripple @click="openNative">
+              <li @click="openNative">
                 <span>地址：</span>
                 <cube-input :placeholder="responseData" :disabled="true">
                   <i slot="append"></i>
@@ -134,15 +134,14 @@ export default {
       //   return;
       // }
       var flag = true;
-      var that = this;
-      // _.each(this.$refs.person.persons, function(value, key) {
+      // _.each(this.$refs.person.persons, (value, key)=> {
       //   if (value.name == "") {
       //     flag = false;
       //     Toast({
       //       message: "请输入负责人" + (key + 1) + "姓名",
       //       duration: 1000
       //     });
-      //     that.submitBtnStatus = true;
+      //     this.submitBtnStatus = true;
       //     return false;
       //   }
       //   if (value.post == "") {
@@ -151,7 +150,7 @@ export default {
       //       message: "请输入负责人" + (key + 1) + "职务",
       //       duration: 1000
       //     });
-      //     that.submitBtnStatus = true;
+      //     this.submitBtnStatus = true;
       //     return false;
       //   }
       //   if (value.phone == "") {
@@ -160,7 +159,7 @@ export default {
       //       message: "请输入负责人" + (key + 1) + "移动电话",
       //       duration: 1000
       //     });
-      //     that.submitBtnStatus = true;
+      //     this.submitBtnStatus = true;
       //     return false;
       //   }
       // });

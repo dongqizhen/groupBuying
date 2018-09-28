@@ -2,12 +2,6 @@
     <div class="selectProjectNav">
         <ul class="nav">
             <li v-for="item in items" :key="item.id" @click="select(item.id,item)" :class="activeClass(item.id)">{{item.name}}</li>
-            <!-- <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
-                <li class="active">设备团购</li>
-            </touch-ripple>
-            <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
-                <li @click="handleClickEvent">设备团购</li>
-            </touch-ripple> -->
         </ul>
     </div>
 </template>
@@ -23,9 +17,7 @@ export default {
     };
   },
   props: ["MultipleSelection"],
-
   methods: {
-    handleClickEvent() {},
     select(item, itemObj) {
       console.log(item);
       console.log(itemObj);
@@ -68,8 +60,16 @@ export default {
       data => {
         console.log(data);
         this.items = data;
+        this.itemSelect.push(data[0].id);
       }
     );
+  },
+  watch: {
+    itemSelect() {
+      console.log(this.itemSelect);
+      this.$emit("select-value", this.itemSelect.join(","));
+      this.$emit("selectObj", this.items[0]);
+    }
   }
 };
 </script>

@@ -23,7 +23,7 @@ export default {
       selectedLabel: ""
     };
   },
-  props: ["DATA_MAP"],
+  props: ["DATA_MAP", "selectedId"],
   methods: {
     changeHandler(label) {
       console.log(label);
@@ -34,19 +34,16 @@ export default {
       });
     }
   },
-  components: {},
-  created() {},
-  mounted() {},
-  computed: {},
   watch: {
     selectedLabel(newV) {
       console.log(newV);
     },
     DATA_MAP() {
       console.log(this.DATA_MAP);
+      console.log(this.selectedId);
       const genTabLabels = Object.values(this.DATA_MAP).map((label, index) => {
         console.log(label.name, index);
-        if (index == 0) {
+        if (this.selectedId == label.id) {
           this.selectedLabel = label.name;
         }
         return {
@@ -57,6 +54,10 @@ export default {
       this.tabs = genTabLabels;
     }
   },
+  components: {},
+  created() {},
+  mounted() {},
+  computed: {},
   activated() {},
   deactivated() {
     // this.$destroy();

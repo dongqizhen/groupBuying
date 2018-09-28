@@ -1,24 +1,24 @@
 <template>
     <div class="container">
-        <Header title="团购分类"></Header>
+        <Header :title="title"></Header>
         <div class="content">
-            <scroll-tab :DATA_MAP="DATA_MAP" v-on:selectLabel="selectLabel">
+            <scroll-tab :DATA_MAP="DATA_MAP" :selectedId="selectedId" v-on:selectLabel="selectLabel">
                 <h2 slot="title" class="title">
                     <span>品牌</span>
-                    <span>团购数量(台)</span>
-                    <span>市场保有率</span>
+                    <span>团购数量({{numberUnit}})</span>
+                    <span v-if="isRate">市场保有率</span>
                 </h2>
                 <ul slot="right-panel-container">
-                    <router-link tag="li" :to="{ path: 'groupInventory', query: { groupInventoryID: val.id }}" v-for="(val, index) in scrollData" :key="index" @click.native="setTransition('turn-on')">
+                    <router-link tag="li" :to="{ path: 'groupInventory', query: { groupPurchaseId:groupPurchaseId,groupPurchaseTypeId:groupPurchaseTypeId,productLineId:selectedId,brandId:val.id}}" v-for="(val, index) in scrollData" :key="index" @click.native="setTransition('turn-on')">
                         <span>{{val.name}}</span>
                         <span>{{val.num}}</span>
-                        <span>{{val.markRate}}</span>
+                        <span v-if="isRate">{{val.markRate}}</span>
                     </router-link>
                 </ul>
                 <h2 slot="count" class="title countNum">
                     <span>总计</span>
-                    <span>22</span>
-                    <span></span>
+                    <span>{{totalNum}}</span>
+                    <span v-if="isRate"></span>
                 </h2>
             </scroll-tab>
         </div>
@@ -31,17 +31,35 @@ import scrollTab from "../../components/scrollTab/scrollTab";
 import { mapMutations } from "vuex";
 import { _getData } from "../../service/getData";
 import _ from "lodash";
-const DATA_MAP = {};
 export default {
   data() {
     return {
       scrollData: [],
-      DATA_MAP,
+      DATA_MAP: [],
       selectedLabel: "",
-      selectedId: ""
+      selectedId: "",
+      totalNum: "",
+      title: "",
+      groupPurchaseId: "",
+      groupPurchaseTypeId: "",
+      numberUnit: "台",
+      isRate: ""
     };
   },
   created() {
+    this.title = this.$route.query.groupPurchaseTypeName + "分类";
+    this.groupPurchaseTypeId = this.$route.query.groupPurchaseTypeId;
+    this.groupPurchaseId = this.$route.query.groupPurchaseId;
+    if (
+      this.$route.query.groupPurchaseTypeName == "设备团购" ||
+      this.$route.query.groupPurchaseTypeName == "售后团购"
+    ) {
+      this.numberUnit = "台";
+      this.isRate = true;
+    } else {
+      this.numberUnit = "单";
+      this.isRate = false;
+    }
     _getData(
       "/server_pro/groupPurchaseCompanyProduct!request.action",
       {
@@ -54,17 +72,31 @@ export default {
       data => {
         console.log(data);
         this.DATA_MAP = data.list;
-        this.selectedLabel = data.list[0].name;
-        // this.selectedId = data.list[0].id;
+        if (this.$route.query.productLineId) {
+          var selectTabArr = _.find(data.list, o => {
+            return o.id == this.$route.query.productLineId;
+          });
+          this.selectedLabel = selectTabArr.name;
+          this.selectedId = selectTabArr.id;
+          this.totalNum = selectTabArr.totalNum;
+        } else {
+          this.selectedLabel = data.list[0].name;
+          this.selectedId = data.list[0].id;
+          this.totalNum = data.list[0].totalNum;
+        }
       }
     );
   },
   methods: {
     ...mapMutations(["setTransition"]),
     selectLabel(label) {
-      this.scrollData = _.find(this.DATA_MAP, o => {
+      var selectValue = _.find(this.DATA_MAP, o => {
         return o.name === label;
-      }).brandList;
+      });
+      this.selectedId = selectValue.id;
+      this.scrollData = selectValue.brandList;
+      this.totalNum = selectValue.totalNum;
+      console.log(this.selectedId);
     }
   },
   components: {
@@ -79,10 +111,13 @@ export default {
       this.scrollData = _.find(this.DATA_MAP, o => {
         return o.name === this.selectedLabel;
       }).brandList;
-    }
+    },
+    totalNum() {}
   },
   activated() {},
-  deactivated() {}
+  deactivated() {
+    this.$destroy();
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -103,7 +138,7 @@ export default {
 
           &.countNum {
             border-bottom: none;
-
+            border-top: $border_style;
             span {
               font-family: PingFangSC-Medium;
               font-size: 14px;
@@ -120,7 +155,8 @@ export default {
           }
         }
         .cube-scroll-wrapper {
-          height: calc(100% - 42px);
+          height: auto;
+          max-height: calc(100% - 42px);
           .cube-scroll-content {
             min-height: calc(100% +1px);
           }

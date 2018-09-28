@@ -22,7 +22,7 @@
                 <basic-title :title="title" imgurl="/static/images/basicInformation.png">
                     <span slot="select">(必填项)</span>
                 </basic-title>
-                <group-demand-write-info ref="groupDemandWriteInfo" :groupPurchaseId="this.submitData.groupPurchaseId" :groupType="this.groupItemObj"></group-demand-write-info>
+                <group-demand-write-info ref="groupDemandWriteInfo" :groupPurchaseId="this.submitData.groupPurchaseId" :groupType="this.groupItemObj" :groupPurchaseTypeId="submitData.groupPurchaseTypeId"></group-demand-write-info>
             </div>
             <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购需求表</x-button>
             <x-button v-else type="primary" show-loading>提交中</x-button>
@@ -115,7 +115,9 @@ export default {
   },
   methods: {
     handleSelect(value) {
+      console.log("-------------");
       console.log(value);
+      this.submitData.groupPurchaseTypeId = value;
     },
     getItemObj(val) {
       this.groupItemObj = val;
@@ -142,11 +144,7 @@ export default {
     },
     ...mapMutations(["setTransition"])
   },
-  created: function() {
-    // console.log(1);
-  },
   mounted: function() {
-    console.log(2);
     _getData(
       "/server_pro/groupPurchase!request.action",
       {
@@ -159,13 +157,8 @@ export default {
       }
     );
   },
-  activated: function() {
-    // console.log(3);
-    //this.productSort = this.$store.state.page.uploadProduct.productSort;
-  },
-  deactivated: function() {
-    // console.log(4);
-  },
+  activated: function() {},
+  deactivated: function() {},
   watch: {
     groupItemObj() {
       switch (this.groupItemObj.code) {

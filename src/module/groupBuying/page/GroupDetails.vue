@@ -92,7 +92,8 @@ export default {
       groupBrandList: [],
       productLineList: [],
       totalNum: "",
-      enterBrandList: []
+      enterBrandList: [],
+      groupPurchaseTypeName: ""
     };
   },
   components: {
@@ -103,12 +104,16 @@ export default {
   methods: {
     ...mapMutations(["setTransition"]),
     jumpToGroupDemand(val) {
+      console.log(val);
       if (this.$store.state.userType == "company") {
         this.setTransition("turn-on");
-        this.$router.push({
-          path: "groupDemand",
-          query: { groupID: val.id }
-        });
+        // this.$router.push({
+        //   path: "groupDemand",
+        //   query: {
+        //     groupPurchaseId: this.$route.query.id,
+        //     groupPurchaseTypeId: val.id
+        //   }
+        // });
       } else {
         Toast("只有企业用户才能查看");
         return;
@@ -121,7 +126,8 @@ export default {
         path: "groupClassification",
         query: {
           groupPurchaseTypeId: this.currentGroupId,
-          groupPurchaseId: this.$route.query.id
+          groupPurchaseId: this.$route.query.id,
+          groupPurchaseTypeName: this.groupPurchaseTypeName
         }
       });
       // } else {
@@ -138,7 +144,8 @@ export default {
         query: {
           groupPurchaseTypeId: this.currentGroupId,
           groupPurchaseId: this.$route.query.id,
-          productLineId: val.id
+          productLineId: val.id,
+          groupPurchaseTypeName: this.groupPurchaseTypeName
         }
       });
       // } else {
@@ -150,6 +157,7 @@ export default {
       console.log(group);
       this.currentGroupId = group.id;
       this.totalNum = group.totalNum;
+      this.groupPurchaseTypeName = group.name;
     }
   },
   mounted() {
@@ -175,6 +183,7 @@ export default {
         this.groupList = data.groupList;
         this.currentGroupId = data.groupList[0].id;
         this.totalNum = data.groupList[0].totalNum;
+        this.groupPurchaseTypeName = data.groupList[0].name;
         this.groupBrandList = data.groupPurchaseBrandList;
         this.productLineList = data.productLineList;
       }
