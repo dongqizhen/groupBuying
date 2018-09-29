@@ -9,7 +9,7 @@
                     <span slot="select">(必选项)</span>
                 </basic-title>
                 <div class="list_box">
-                    <list-item v-for="(item,index) in groupUnderWayList" :isActive="current===index?true:false" v-on:changeIdx="idx" :index="index" :key="item.id" :dataValue="item" :disabled="true"></list-item>
+                    <list-item v-for="(item,index) in groupUnderWayList" :isActive="current===index?true:false" v-on:changeIdx="getIndex" :index="index" :key="item.id" :dataValue="item" :disabled="true"></list-item>
                 </div>
             </div>
             <div class="groupType">
@@ -114,19 +114,7 @@ export default {
     groupDemandWriteInfo
   },
   methods: {
-    handleSelect(value) {
-      console.log("-------------");
-      console.log(value);
-      this.submitData.groupPurchaseTypeId = value;
-    },
-    getItemObj(val) {
-      this.groupItemObj = val;
-    },
-    idx(v) {
-      console.log(v);
-      this.current = v;
-      this.submitData.groupPurchaseId = this.groupUnderWayList[v].id;
-    },
+    ...mapMutations(["setTransition"]),
     submitBtnClick() {
       console.log(this.$refs.groupDemandWriteInfo.info);
       _getData(
@@ -142,23 +130,17 @@ export default {
       //this.submitBtnStatus = false;
       this.$router.push("myHospitalGroupBuy");
     },
-    ...mapMutations(["setTransition"])
+    handleSelect(value) {
+      this.submitData.groupPurchaseTypeId = value;
+    },
+    getItemObj(val) {
+      this.groupItemObj = val;
+    },
+    getIndex(index) {
+      this.current = index;
+      this.submitData.groupPurchaseId = this.groupUnderWayList[index].id;
+    }
   },
-  mounted: function() {
-    _getData(
-      "/server_pro/groupPurchase!request.action",
-      {
-        method: "getUnderWayGroupPurchaseList",
-        params: {}
-      },
-      data => {
-        console.log(data);
-        this.groupUnderWayList = data.groupPurchaseList;
-      }
-    );
-  },
-  activated: function() {},
-  deactivated: function() {},
   watch: {
     groupItemObj() {
       switch (this.groupItemObj.code) {
@@ -185,7 +167,22 @@ export default {
           break;
       }
     }
-  }
+  },
+  mounted: function() {
+    _getData(
+      "/server_pro/groupPurchase!request.action",
+      {
+        method: "getUnderWayGroupPurchaseList",
+        params: {}
+      },
+      data => {
+        console.log("正在报名的团购大会：", data);
+        this.groupUnderWayList = data.groupPurchaseList;
+      }
+    );
+  },
+  activated: function() {},
+  deactivated: function() {}
 };
 </script>
 

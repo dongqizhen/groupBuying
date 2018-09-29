@@ -20,20 +20,13 @@
                             </a>
                         </cube-slide-item>
                     </cube-slide>
-
                     <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
-                        <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.prevent.native="clickEvent(item)">
+                        <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.prevent.native="handleClick(item)">
                             <img slot="icon" :src="item.imgurl">
                             <span slot="label">{{item.name}}</span>
                             <badge :text="`已报名${item.num}家`" v-if="item.num"></badge>
                         </grid-item>
                     </grid>
-                    <!-- <ul class="icons_box">
-                        <router-link tag="li" v-for="item in routerLinkArr" :key="item.name" :to="item.path" @click.native="setTransition('turn-on')">
-                            <a><img :src="item.imgurl" alt=""></a>
-                            <span>{{item.name}}</span>
-                        </router-link>
-                    </ul> -->
                     <div class="meeting_list">
                         <h2>
                             <span></span>
@@ -70,11 +63,6 @@ const routerLinkArr = [
     imgurl: "../static/images/companyApply.png",
     num: ""
   },
-  // {
-  //   path: "/myComponyGroupBuy",
-  //   name: "我的团购",
-  //   imgurl: "../static/images/myApply.png"
-  // }
   {
     path: "/",
     name: "我的团购",
@@ -114,18 +102,18 @@ export default {
   },
   methods: {
     ...mapMutations(["setTransition", "setUserType"]),
-    clickEvent(item) {
+    handleClick(item) {
       if (item.path == "/") {
-        Toast("请报名后再点击查看");
+        Toast({ message: "请报名后再点击查看", duration: 1000 });
         return;
       } else {
         this.setTransition("turn-on");
       }
     },
-    handleClick() {
-      this.setTransition("turn-on");
-    },
     handler() {}
+  },
+  watch: {
+    data() {}
   },
   mounted() {
     _getData(
@@ -140,6 +128,7 @@ export default {
       }
     );
     _getData(
+      //获取团购大会列表
       "/server_pro/groupPurchase!request.action",
       {
         method: "getPageList",
@@ -152,13 +141,14 @@ export default {
       }
     );
     _getData(
+      //获取用户类型(企业或医院)
       "/server_pro/groupPurchase!request.action",
       {
         method: "getIsRegGroupPuchase",
         params: {}
       },
       data => {
-        console.log(data);
+        //console.log("获取的用户类型：",data);
         this.setUserType(data.type);
         this.routerLinkArr[0].num = data.hospitalNum;
         this.routerLinkArr[1].num = data.companyNum;
@@ -170,18 +160,9 @@ export default {
       }
     );
   },
-  watch: {
-    data() {}
-  },
-  created() {
-    //console.log("created");
-  },
-  activated() {
-    //console.log("actived");
-  },
-  deactivated() {
-    //console.log("deactived");
-  }
+  created() {},
+  activated() {},
+  deactivated() {}
 };
 </script>
 

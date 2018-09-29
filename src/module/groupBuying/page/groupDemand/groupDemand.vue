@@ -1,6 +1,6 @@
 <template>
     <div class="container groupDemand">
-        <Header :title='title'></Header>
+        <Header :title="`${title}需求`"></Header>
         <div class="content">
             <scroll-tab :DATA_MAP="DATA_MAP" :selectedId="selectedId" v-on:selectLabel="selectLabel">
                 <div slot="right-panel-container">
@@ -11,7 +11,7 @@
                     </h2>
                     <div class="cancelTop">
                       <ul>
-                        <li>
+                        <li @click="selectItem({provinceName:'全国',demondNum:totalNum})">
                           <span>全国总计</span>
                           <span>{{totalNum}}</span>
                           <span></span>
@@ -55,7 +55,7 @@ export default {
       selectedId: "",
       selectedLabel: "",
       totalNum: "",
-      title: "团购需求",
+      title: "",
       wzdProvinceList: [],
       provinceList: []
     };
@@ -67,30 +67,40 @@ export default {
   methods: {
     ...mapMutations(["setTransition"]),
     selectItem(item) {
+      //console.log(item);
       this.$router.push({
         path: "groupDemandDetails",
-        query: { id: item.value }
+        query: {
+          productLineId: this.selectedId,
+          productLineName: this.selectedLabel.substring(
+            0,
+            this.selectedLabel.indexOf("(")
+          ),
+          provinceId: item.provinceId,
+          provinceName: item.provinceName,
+          totalNum: item.demondNum,
+          title: this.title,
+          groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
+          groupPurchaseId: this.$route.query.groupPurchaseId
+        }
       });
       this.setTransition("turn-on");
     },
     cancelTop(val) {
-      console.log(val);
       this.setTopFun(val.id, 0);
     },
     sureTop(val) {
-      console.log(val);
       this.setTopFun(val.id, 1);
     },
     selectLabel(val) {
       var selectValue = _.find(this.DATA_MAP, o => {
         return o.name === val;
       });
-      console.log(selectValue);
+      this.selectedLabel = val;
       this.selectedId = selectValue.id;
       this.provinceList = selectValue.provinceList;
       this.wzdProvinceList = selectValue.wzdProvinceList;
       this.totalNum = selectValue.totalNum;
-      console.log(this.selectedId);
     },
     reqData() {
       _getData(
@@ -103,8 +113,9 @@ export default {
           }
         },
         data => {
-          console.log(data);
+          console.log("团购需求数据:", data);
           this.DATA_MAP = data.list;
+          this.title = data.title;
           if (this.selectedId) {
             var selectTabArr = _.find(data.list, o => {
               return o.id == this.selectedId;
@@ -137,7 +148,6 @@ export default {
           }
         },
         data => {
-          console.log(data);
           this.reqData();
         }
       );
@@ -149,8 +159,6 @@ export default {
   watch: {
     selectedLabel() {},
     DATA_MAP() {
-      console.log(this.DATA_MAP);
-      console.log(this.selectedLabel);
       this.wzdProvinceList = _.find(this.DATA_MAP, o => {
         return o.name === this.selectedLabel;
       }).wzdProvinceList;
@@ -158,7 +166,11 @@ export default {
         return o.name === this.selectedLabel;
       }).provinceList;
     },
-    totalNum() {}
+    totalNum() {},
+    title() {}
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>
@@ -198,6 +210,7 @@ export default {
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #333333;
+                    height: 100%;
                     &:first-child {
                       flex: 1;
                       justify-content: flex-start;
@@ -208,11 +221,11 @@ export default {
                     }
                     &:last-child {
                       flex: 0.7;
-                      padding-right: 15px;
                       justify-content: flex-end;
                       a {
                         text-decoration: none;
                         font-size: 12px;
+                        padding-right: 15px;
                         color: #999999;
                       }
                     }

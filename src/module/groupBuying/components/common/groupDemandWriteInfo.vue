@@ -491,9 +491,9 @@ export default {
   },
   methods: {
     ...mapMutations(["setTransition"]),
-    addClass(i) {
-      this.currentIdx = i;
-      this.info.maintenanceType = this.types[i].id;
+    addClass(index) {
+      this.currentIdx = index;
+      this.info.maintenanceType = this.types[index].id;
     },
     jumpProductCateGory() {
       if (this.groupPurchaseId) {
@@ -589,6 +589,18 @@ export default {
     CellBox
   },
   props: ["groupType", "groupPurchaseId", "groupPurchaseTypeId"],
+  watch: {
+    groupType() {
+      console.log("选择的团购类型：", this.groupType);
+      for (var i = 0; i < this.infos.length; i++) {
+        if (this.infos[i].code == this.groupType.code) {
+          this.infoText = this.infos[i].text;
+          this.info = this.infos[i].value;
+        }
+      }
+    },
+    groupPurchaseId() {}
+  },
   activated() {
     switch (this.groupType.code) {
       case "SBTG":
@@ -1059,21 +1071,6 @@ export default {
         this.totalPrice = data.totalPrice;
       }
     );
-  },
-  watch: {
-    groupType() {
-      console.log(this.groupType);
-      for (var i = 0; i < this.infos.length; i++) {
-        if (this.infos[i].code == this.groupType.code) {
-          this.infoText = this.infos[i].text;
-          this.info = this.infos[i].value;
-        }
-      }
-    },
-    groupPurchaseId() {
-      console.log(111111111111);
-      console.log(this.groupPurchaseId);
-    }
   }
 };
 </script>

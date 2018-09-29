@@ -26,7 +26,6 @@ export default {
   props: ["DATA_MAP", "selectedId"],
   methods: {
     changeHandler(label) {
-      console.log(label);
       this.$emit("selectLabel", label);
       this.$nextTick(() => {
         this.$refs.scroll.scrollTo(0, 0);
@@ -35,14 +34,9 @@ export default {
     }
   },
   watch: {
-    selectedLabel(newV) {
-      console.log(newV);
-    },
+    selectedLabel(newV) {},
     DATA_MAP() {
-      console.log(this.DATA_MAP);
-      console.log(this.selectedId);
       const genTabLabels = Object.values(this.DATA_MAP).map((label, index) => {
-        console.log(label.name, index);
         if (this.selectedId == label.id) {
           this.selectedLabel = label.name;
         }
@@ -50,7 +44,6 @@ export default {
           label: label.name
         };
       });
-      console.log(genTabLabels);
       this.tabs = genTabLabels;
     }
   },

@@ -19,8 +19,6 @@ export default {
   props: ["MultipleSelection"],
   methods: {
     select(item, itemObj) {
-      console.log(item);
-      console.log(itemObj);
       if (this.MultipleSelection != undefined) {
         if (_.without(this.itemSelect, item).length == this.itemSelect.length) {
           this.itemSelect.push(item);
@@ -50,7 +48,6 @@ export default {
     }
   },
   created() {
-    console.log(this.MultipleSelection);
     _getData(
       "/server/basedata!request.action",
       {
@@ -58,18 +55,13 @@ export default {
         params: { code: "TGDHLX" }
       },
       data => {
-        console.log(data);
+        console.log("团购类型:", data);
         this.items = data;
         this.itemSelect.push(data[0].id);
+        this.$emit("select-value", this.itemSelect.join(","));
+        this.$emit("selectObj", this.items[0]);
       }
     );
-  },
-  watch: {
-    itemSelect() {
-      console.log(this.itemSelect);
-      this.$emit("select-value", this.itemSelect.join(","));
-      this.$emit("selectObj", this.items[0]);
-    }
   }
 };
 </script>

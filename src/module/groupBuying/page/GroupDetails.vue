@@ -107,13 +107,13 @@ export default {
       console.log(val);
       if (this.$store.state.userType == "company") {
         this.setTransition("turn-on");
-        // this.$router.push({
-        //   path: "groupDemand",
-        //   query: {
-        //     groupPurchaseId: this.$route.query.id,
-        //     groupPurchaseTypeId: val.id
-        //   }
-        // });
+        this.$router.push({
+          path: "groupDemand",
+          query: {
+            groupPurchaseId: this.$route.query.id,
+            groupPurchaseTypeId: val.id
+          }
+        });
       } else {
         Toast("只有企业用户才能查看");
         return;

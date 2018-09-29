@@ -9,7 +9,6 @@
         <div class="tab-slide-container">
             <cube-slide ref="slide" :loop="false" :initial-index="initialIndex" :auto-play="false" :show-dots="false" :options="slideOptions" @scroll="scroll" @change="changePage">
                 <cube-slide-item v-for="(item,key) in meetingListData" :key="key">
-
                     <list-item v-for="(val,index) in item.underwayList" :key="`underwayList_${index}`" :dataValue="val" ></list-item>
                     <list-item v-for="(val,index) in item.beginList" :key="`beginList_${index}`" :dataValue="val" ></list-item>
                     <list-item v-for="(val,index) in item.theEndList" :key="`theEndList_${index}`" :dataValue="val"></list-item>
@@ -58,7 +57,7 @@ export default {
     },
     changePage(current) {
       this.ScrollListSelectedLabel = this.listTabs[current].label;
-      console.log(current);
+      //console.log(current);
     },
     findIndex(ary, fn) {
       if (ary.findIndex) {
@@ -97,7 +96,7 @@ export default {
   },
   watch: {
     meetingListData: function(val, oldVal) {
-      console.log(val);
+      //console.log(val);
     }
   },
   created() {
@@ -105,7 +104,7 @@ export default {
     this.ScrollListSelectedLabel = this.listTabsData[0].label;
   },
   mounted() {
-    console.log(this.meetingListData);
+    //console.log(this.meetingListData);
   }
 };
 </script>
