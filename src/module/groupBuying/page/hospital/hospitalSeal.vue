@@ -64,11 +64,11 @@ export default {
       submitData: {
         id: "",
         hospitalName: "",
-        address: "",
-        lat: "", //纬度
-        lng: "", //经度
-        province: "",
-        city: "",
+        address: "河南省舞钢市",
+        lat: "36", //纬度
+        lng: "26", //经度
+        province: "河南省",
+        city: "舞钢市",
         introduce: "",
         groupPurchaseTypeIds: "",
         contact: ""
@@ -87,64 +87,59 @@ export default {
   },
   methods: {
     submitBtnClick() {
-      // if (!this.submitData.groupPurchaseTypeIds) {
-      //   Toast({ message: "请选择团购项目", duration: 1000 });
-      //   return;
-      // }
-      // if (!this.submitData.hospitalName) {
-      //   Toast({ message: "请输入医院名称", duration: 1000 });
-      //   return;
-      // }
-
-      // _.each(this.$refs.person.persons, (value, key) => {
-      // if (value.name == "") {
-      //   flag = false;
-      //   Toast({
-      //     message: "请输入负责人" + (key + 1) + "的姓名",
-      //     duration: 1000
-      //   });
-      //   this.submitBtnStatus = true;
-      //   return false;
-      // }
-      // if (value.post == "") {
-      //   flag = false;
-      //   Toast({
-      //     message: "请输入负责人" + (key + 1) + "的职务",
-      //     duration: 1000
-      //   });
-      //   this.submitBtnStatus = true;
-      //   return false;
-      // }
-      // if (value.phone == "") {
-      //   flag = false;
-      //   Toast({
-      //     message: "请输入负责人" + (key + 1) + "的移动电话",
-      //     duration: 1000
-      //   });
-      //   this.submitBtnStatus = true;
-      //   return false;
-      // } else if (!this.$util.isphone(value.phone)) {
-      //   flag = false;
-      //   Toast({
-      //     message: "请输入负责人" + (key + 1) + "的正确的移动电话",
-      //     duration: 1000
-      //   });
-      //   this.submitBtnStatus = true;
-      //   return false;
-      // }
-      // });
       this.submitBtnStatus = false;
-      console.log(this.$refs.person.persons);
-      this.submitData.contact = JSON.stringify(this.$refs.person.persons);
-      console.log(this.submitData);
-      // this.submit();
-      this.submitBtnStatus = true;
-      this.$router.push({
-        path: "registrationSuccess",
-        query: {
-          //hospitalNum: data.hospitalNum
+      if (!this.submitData.groupPurchaseTypeIds) {
+        Toast({ message: "请选择团购项目", duration: 1000 });
+        return;
+      }
+      if (!this.submitData.hospitalName) {
+        Toast({ message: "请输入医院名称", duration: 1000 });
+        return;
+      }
+      var flag = true;
+      _.each(this.$refs.person.persons, (value, key) => {
+        if (value.name == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "的姓名",
+            duration: 1000
+          });
+          this.submitBtnStatus = true;
+          return false;
+        }
+        if (value.post == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "的职务",
+            duration: 1000
+          });
+          this.submitBtnStatus = true;
+          return false;
+        }
+        if (value.phone == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "的移动电话",
+            duration: 1000
+          });
+          this.submitBtnStatus = true;
+          return false;
+        } else if (!this.$util.isphone(value.phone)) {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "的正确的移动电话",
+            duration: 1000
+          });
+          this.submitBtnStatus = true;
+          return false;
         }
       });
+      if (flag) {
+        this.submitData.contact = JSON.stringify(this.$refs.person.persons);
+        console.log(this.submitData);
+        this.submit();
+        this.submitBtnStatus = true;
+      }
     },
     submit() {
       _getData(
@@ -155,12 +150,12 @@ export default {
         },
         data => {
           console.log(data);
-          // this.$router.push({
-          //   path: "registrationSuccess",
-          //   query: {
-          //     hospitalNum: data.hospitalNum
-          //   }
-          // });
+          this.$router.push({
+            path: "registrationSuccess",
+            query: {
+              hospitalNum: data.hospitalNum
+            }
+          });
         }
       );
     },
@@ -169,15 +164,9 @@ export default {
       this.submitData.groupPurchaseTypeIds = value;
     }
   },
-  created() {
-    console.log("created");
-  },
-  activated() {
-    console.log("active");
-  },
-  deactivated() {
-    console.log("disactived");
-  }
+  created() {},
+  activated() {},
+  deactivated() {}
 };
 </script>
 

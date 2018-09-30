@@ -81,13 +81,13 @@ export default {
       submitData: {
         id: "",
         companyName: "",
-        address: "",
-        lat: "",
-        lng: "",
+        address: "河南省舞钢市",
+        lat: "23",
+        lng: "36",
         introduce: "",
         groupPurchaseTypeIds: "",
-        province: "",
-        city: "",
+        province: "河南省",
+        city: "舞钢市",
         companyTypeId: "",
         businessId: "",
         contact: ""
@@ -107,63 +107,62 @@ export default {
     submitBtnClick() {
       this.setTransition("turn-on");
       this.submitBtnStatus = false;
-      this.submitData.companyTypeId = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeId;
-      this.submitData.businessId = JSON.stringify(
-        this.$store.state.page.mainBusiness.selectedMainBusiness
-      );
-      // if (this.submitData.groupPurchaseTypeIds == "") {
-      //   Toast({ message: "请选择团购项目", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
-      // if (this.submitData.companyName == "") {
-      //   Toast({ message: "请输入公司全称", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
-      // if (this.submitData.companyTypeId == "") {
-      //   Toast({ message: "请选择企业类型", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
-      // if (
-      //   this.$store.state.page.mainBusiness.selectedMainBusiness.length == 0
-      // ) {
-      //   Toast({ message: "请选择主营业务", duration: 1000 });
-      //   this.submitBtnStatus = true;
-      //   return;
-      // }
+      if (this.submitData.groupPurchaseTypeIds == "") {
+        Toast({ message: "请选择团购项目", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.submitData.companyName == "") {
+        Toast({ message: "请输入公司全称", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.submitData.companyTypeId == "") {
+        Toast({ message: "请选择企业类型", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (
+        this.$store.state.page.mainBusiness.selectedMainBusiness.length == 0
+      ) {
+        Toast({ message: "请选择主营业务", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
       var flag = true;
-      // _.each(this.$refs.person.persons, (value, key)=> {
-      //   if (value.name == "") {
-      //     flag = false;
-      //     Toast({
-      //       message: "请输入负责人" + (key + 1) + "姓名",
-      //       duration: 1000
-      //     });
-      //     this.submitBtnStatus = true;
-      //     return false;
-      //   }
-      //   if (value.post == "") {
-      //     flag = false;
-      //     Toast({
-      //       message: "请输入负责人" + (key + 1) + "职务",
-      //       duration: 1000
-      //     });
-      //     this.submitBtnStatus = true;
-      //     return false;
-      //   }
-      //   if (value.phone == "") {
-      //     flag = false;
-      //     Toast({
-      //       message: "请输入负责人" + (key + 1) + "移动电话",
-      //       duration: 1000
-      //     });
-      //     this.submitBtnStatus = true;
-      //     return false;
-      //   }
-      // });
+      _.each(this.$refs.person.persons, (value, key) => {
+        if (value.name == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "姓名",
+            duration: 1000
+          });
+          this.submitBtnStatus = true;
+          return false;
+        }
+        if (value.post == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "职务",
+            duration: 1000
+          });
+          this.submitBtnStatus = true;
+          return false;
+        }
+        if (value.phone == "") {
+          flag = false;
+          Toast({
+            message: "请输入负责人" + (key + 1) + "移动电话",
+            duration: 1000
+          });
+          this.submitBtnStatus = true;
+          return false;
+        }
+      });
       if (flag) {
+        this.submitData.businessId = JSON.stringify(
+          this.$store.state.page.mainBusiness.selectedMainBusiness
+        );
         this.submitData.contact = JSON.stringify(this.$refs.person.persons);
         this.submit();
         this.submitBtnStatus = true;
@@ -193,20 +192,17 @@ export default {
       this.submitData.groupPurchaseTypeIds = value;
     }
   },
-  created() {
-    console.log("created");
-  },
+  created() {},
   mounted() {},
   activated() {
     this.companyTypeName = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeName;
+    this.submitData.companyTypeId = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeId;
     this.mainBusinessName = _.join(
       _.map(this.$store.state.page.mainBusiness.selectedMainBusiness, "name"),
       ","
     );
   },
-  deactivated() {
-    // this.$destroy();
-  }
+  deactivated() {}
 };
 </script>
 
