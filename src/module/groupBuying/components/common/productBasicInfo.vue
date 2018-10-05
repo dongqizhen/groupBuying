@@ -367,322 +367,341 @@ export default {
     }
   },
   activated() {
-    switch (this.groupType.code) {
-      case "SBTG":
-        this.info.productLineName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SBTG.productSort, "name"),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SBTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SBTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SBTG.productBrand, "name"),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SBTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SBTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SBTG.productModel, "name"),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(this.$store.state.page.uploadProduct.SBTG.productModel, "id"),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SBTG.mainParams, "name"),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.uploadProduct.SBTG.mainParams
-        );
-        break;
-      case "HCTG":
-        this.info.productLineName = _.join(
-          _.map(this.$store.state.page.uploadProduct.HCTG.productSort, "name"),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.HCTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.HCTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(this.$store.state.page.uploadProduct.HCTG.productBrand, "name"),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.HCTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.HCTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(this.$store.state.page.uploadProduct.HCTG.productModel, "name"),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(this.$store.state.page.uploadProduct.HCTG.productModel, "id"),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(this.$store.state.page.uploadProduct.HCTG.mainParams, "name"),
-          ","
-        );
-        this.info.params = this.$store.state.page.uploadProduct.HCTG.mainParams;
-        break;
-      case "SHTG":
-        this.info.productLineName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SHTG.productSort, "name"),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SHTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SHTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SHTG.productBrand, "name"),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SHTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.SHTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SHTG.productModel, "name"),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(this.$store.state.page.uploadProduct.SHTG.productModel, "id"),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(this.$store.state.page.uploadProduct.SHTG.mainParams, "name"),
-          ","
-        );
-        this.info.params = this.$store.state.page.uploadProduct.SHTG.mainParams;
-        break;
-      case "XXHTG":
-        this.info.productLineName = _.join(
-          _.map(this.$store.state.page.uploadProduct.XXHTG.productSort, "name"),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.XXHTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.XXHTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.XXHTG.productBrand,
-            "name"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.XXHTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.XXHTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.XXHTG.productModel,
-            "name"
-          ),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(this.$store.state.page.uploadProduct.XXHTG.productModel, "id"),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(this.$store.state.page.uploadProduct.XXHTG.mainParams, "name"),
-          ","
-        );
-        this.info.params = this.$store.state.page.uploadProduct.XXHTG.mainParams;
-        break;
-      case "JRTG":
-        this.info.productLineName = _.join(
-          _.map(this.$store.state.page.uploadProduct.JRTG.productSort, "name"),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.JRTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.JRTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(this.$store.state.page.uploadProduct.JRTG.productBrand, "name"),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.JRTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.JRTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(this.$store.state.page.uploadProduct.JRTG.productModel, "name"),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(this.$store.state.page.uploadProduct.JRTG.productModel, "id"),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(this.$store.state.page.uploadProduct.JRTG.mainParams, "name"),
-          ","
-        );
-        this.info.params = this.$store.state.page.uploadProduct.JRTG.mainParams;
-        break;
-      case "ZXTG":
-        this.info.productLineName = _.join(
-          _.map(this.$store.state.page.uploadProduct.ZXTG.productSort, "name"),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.ZXTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.ZXTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(this.$store.state.page.uploadProduct.ZXTG.productBrand, "name"),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.ZXTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.uploadProduct.ZXTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(this.$store.state.page.uploadProduct.ZXTG.productModel, "name"),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(this.$store.state.page.uploadProduct.ZXTG.productModel, "id"),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(this.$store.state.page.uploadProduct.ZXTG.mainParams, "name"),
-          ","
-        );
-        this.info.params = this.$store.state.page.uploadProduct.ZXTG.mainParams;
-        break;
+    console.log(this.groupType.code);
+    if (this.groupType.code) {
+      this.info.productLineName = _.join(
+        _.map(
+          this.$store.state.page.uploadProduct[this.groupType.code].productSort,
+          this.$store.state.page.uploadProduct[this.groupType.code]
+            .productSort[0].aliasName
+            ? "aliasName"
+            : "productLineName"
+        ),
+        ","
+      );
+      this.info.productLineId = _.join(
+        _.map(
+          this.$store.state.page.uploadProduct[this.groupType.code].productSort,
+          "productLineId"
+        ),
+        ","
+      );
+      this.info.aliasProductLineId = _.join(
+        _.map(
+          this.$store.state.page.uploadProduct[this.groupType.code].productSort,
+          "aliasId"
+        ),
+        ","
+      );
+      this.info.brandName = _.join(
+        _.map(
+          this.$store.state.page.uploadProduct[this.groupType.code]
+            .productBrand,
+          this.$store.state.page.uploadProduct[this.groupType.code]
+            .productBrand[0].aliasName
+            ? "aliasName"
+            : "brandName"
+        ),
+        ","
+      );
+      this.info.productBrandId = _.join(
+        _.map(
+          this.$store.state.page.uploadProduct[this.groupType.code]
+            .productBrand,
+          "brandId"
+        ),
+        ","
+      );
+      this.info.aliasProductBrandId = _.join(
+        _.map(
+          this.$store.state.page.uploadProduct[this.groupType.code]
+            .productBrand,
+          "aliasId"
+        ),
+        ","
+      );
     }
+
+    // switch (this.groupType.code) {
+    //   case "SBTG":
+    //     this.info.modelName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SBTG.productModel, "name"),
+    //       ","
+    //     );
+    //     this.info.modelId = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SBTG.productModel, "id"),
+    //       ","
+    //     );
+    //     this.info.mainParamsName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SBTG.mainParams, "name"),
+    //       ","
+    //     );
+    //     this.info.params = JSON.stringify(
+    //       this.$store.state.page.uploadProduct.SBTG.mainParams
+    //     );
+    //     break;
+    //   case "HCTG":
+    //     this.info.productLineName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.HCTG.productSort, "name"),
+    //       ","
+    //     );
+    //     this.info.productLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.HCTG.productSort,
+    //         "productLineId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasProductLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.HCTG.productSort,
+    //         "aliasId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.brandName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.HCTG.productBrand, "name"),
+    //       ","
+    //     );
+    //     this.info.brandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.HCTG.productBrand,
+    //         "brandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasBrandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.HCTG.productBrand,
+    //         "alisaBrandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.modelName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.HCTG.productModel, "name"),
+    //       ","
+    //     );
+    //     this.info.modelId = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.HCTG.productModel, "id"),
+    //       ","
+    //     );
+    //     this.info.mainParamsName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.HCTG.mainParams, "name"),
+    //       ","
+    //     );
+    //     this.info.params = this.$store.state.page.uploadProduct.HCTG.mainParams;
+    //     break;
+    //   case "SHTG":
+    //     this.info.productLineName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SHTG.productSort, "name"),
+    //       ","
+    //     );
+    //     this.info.productLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.SHTG.productSort,
+    //         "productLineId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasProductLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.SHTG.productSort,
+    //         "aliasId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.brandName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SHTG.productBrand, "name"),
+    //       ","
+    //     );
+    //     this.info.brandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.SHTG.productBrand,
+    //         "brandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasBrandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.SHTG.productBrand,
+    //         "alisaBrandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.modelName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SHTG.productModel, "name"),
+    //       ","
+    //     );
+    //     this.info.modelId = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SHTG.productModel, "id"),
+    //       ","
+    //     );
+    //     this.info.mainParamsName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.SHTG.mainParams, "name"),
+    //       ","
+    //     );
+    //     this.info.params = this.$store.state.page.uploadProduct.SHTG.mainParams;
+    //     break;
+    //   case "XXHTG":
+    //     this.info.productLineName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.XXHTG.productSort, "name"),
+    //       ","
+    //     );
+    //     this.info.productLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.XXHTG.productSort,
+    //         "productLineId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasProductLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.XXHTG.productSort,
+    //         "aliasId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.brandName = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.XXHTG.productBrand,
+    //         "name"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.brandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.XXHTG.productBrand,
+    //         "brandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasBrandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.XXHTG.productBrand,
+    //         "alisaBrandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.modelName = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.XXHTG.productModel,
+    //         "name"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.modelId = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.XXHTG.productModel, "id"),
+    //       ","
+    //     );
+    //     this.info.mainParamsName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.XXHTG.mainParams, "name"),
+    //       ","
+    //     );
+    //     this.info.params = this.$store.state.page.uploadProduct.XXHTG.mainParams;
+    //     break;
+    //   case "JRTG":
+    //     this.info.productLineName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.JRTG.productSort, "name"),
+    //       ","
+    //     );
+    //     this.info.productLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.JRTG.productSort,
+    //         "productLineId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasProductLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.JRTG.productSort,
+    //         "aliasId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.brandName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.JRTG.productBrand, "name"),
+    //       ","
+    //     );
+    //     this.info.brandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.JRTG.productBrand,
+    //         "brandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasBrandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.JRTG.productBrand,
+    //         "alisaBrandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.modelName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.JRTG.productModel, "name"),
+    //       ","
+    //     );
+    //     this.info.modelId = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.JRTG.productModel, "id"),
+    //       ","
+    //     );
+    //     this.info.mainParamsName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.JRTG.mainParams, "name"),
+    //       ","
+    //     );
+    //     this.info.params = this.$store.state.page.uploadProduct.JRTG.mainParams;
+    //     break;
+    //   case "ZXTG":
+    //     this.info.productLineName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.ZXTG.productSort, "name"),
+    //       ","
+    //     );
+    //     this.info.productLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.ZXTG.productSort,
+    //         "productLineId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasProductLineId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.ZXTG.productSort,
+    //         "aliasId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.brandName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.ZXTG.productBrand, "name"),
+    //       ","
+    //     );
+    //     this.info.brandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.ZXTG.productBrand,
+    //         "brandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.aliasBrandId = _.join(
+    //       _.map(
+    //         this.$store.state.page.uploadProduct.ZXTG.productBrand,
+    //         "alisaBrandId"
+    //       ),
+    //       ","
+    //     );
+    //     this.info.modelName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.ZXTG.productModel, "name"),
+    //       ","
+    //     );
+    //     this.info.modelId = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.ZXTG.productModel, "id"),
+    //       ","
+    //     );
+    //     this.info.mainParamsName = _.join(
+    //       _.map(this.$store.state.page.uploadProduct.ZXTG.mainParams, "name"),
+    //       ","
+    //     );
+    //     this.info.params = this.$store.state.page.uploadProduct.ZXTG.mainParams;
+    //     break;
+    // }
   },
   watch: {
     groupType() {

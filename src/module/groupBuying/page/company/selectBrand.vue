@@ -1,20 +1,24 @@
 <template>
     <div class="container selectBrand">
         <Header :title="this.$route.query.groupTypeCode=='ZXTG'||this.$route.query.groupTypeCode=='JRTG'?'选择服务商':'选择品牌'">
-            <span slot="explain" class="enter" @click="clickLink">确定</span>
+            <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
             <search :placeholder="this.$route.query.groupTypeCode=='ZXTG'||this.$route.query.groupTypeCode=='JRTG'?'请输入服务商':'请输入品牌'" v-on:inputValue="selectBrand"></search>
             <cube-index-list :data="brandListData" v-if="this.brandListData.length!=0">
               <cube-index-list-group v-for="(group, index) in brandListData" :key="index" :group="group">
-                <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem(item.brandId, item)">
-                  <div :class="['custom-item',activeClass(item.brandId)]">{{item.name}} <span v-if="item.brandLabel">{{item.brandLabel}}</span></div>
+                <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem(item.aliasId, item)">
+                  <div :class="['custom-item',activeClass(item.aliasId)]">{{item.brandName}} <span v-if="item.brandLabel">{{item.brandLabel}}</span></div>
                 </cube-index-list-item>
               </cube-index-list-group>
             </cube-index-list>
-           <ul class="search_area">
-              <li v-for="(item,index) in search_area_arr" :key='index' :class="addClass(item.alisaBrandId)" @click="searchCheckedHandle(item.alisaBrandId,item)"><span>{{item.name}}</span><span class="label" v-if="item.brandLabel">{{item.brandLabel}}</span></li>
-          </ul>
+            <div class="scroll-list-wrap">
+              <cube-scroll ref="scroll" :data="search_area_arr">
+                <ul class="search_area">
+                  <li v-for="(item,index) in search_area_arr" :key='index' :class="activeClass(item.aliasId)" @click="selectItem(item.aliasId,item)"><span>{{item.brandName}}</span><span class="label" v-if="item.brandLabel">{{item.brandLabel}}</span></li>
+                </ul>
+              </cube-scroll>
+            </div>
         </div>
     </div>
 </template>
@@ -33,8 +37,9 @@ export default {
       current: null,
       productBrand: {},
       search_area_arr: [],
-      searchItemSelect: [],
-      itemSelect: []
+      itemSelect: [],
+      page: "",
+      groupTypeCode: ""
     };
   },
   components: {
@@ -51,73 +56,108 @@ export default {
       "selectJRTGProductBrand",
       "selectZXTGProductBrand"
     ]),
-    clickLink() {
+    clickSure() {
       this.setTransition("turn-off");
-      console.log(this.tempLastSearchValue);
-      console.log(this.itemSelect);
-      console.log(this.searchItemSelect);
-
+      var flag = true;
       if (this.tempLastSearchValue == "") {
         if (this.itemSelect.length == 0) {
           Toast("请选择或输入品牌");
           return;
-        } else {
-          switch (this.$route.query.groupTypeCode) {
-            case "SBTG":
-              this.selectSBTGProductBrand(this.itemSelect);
-              break;
-            case "HCTG":
-              this.selectHCTGProductBrand(this.itemSelect);
-              break;
-            case "SHTG":
-              this.selectSHTGProductBrand(this.itemSelect);
-              break;
-            case "XXHTG":
-              this.selectXXHTGProductBrand(this.itemSelect);
-              break;
-            case "JRTG":
-              this.selectJRTGProductBrand(this.itemSelect);
-              break;
-            case "ZXTG":
-              this.selectZXTGProductBrand(this.itemSelect);
-              break;
-          }
         }
       } else {
-        if (this.searchItemSelect.length == 0) {
-          //将搜索框的值传给后台
-        } else {
-          switch (this.$route.query.groupTypeCode) {
-            case "SBTG":
-              this.selectSBTGProductBrand(this.searchItemSelect);
-              break;
-            case "HCTG":
-              this.selectHCTGProductBrand(this.searchItemSelect);
-              break;
-            case "SHTG":
-              this.selectSHTGProductBrand(this.searchItemSelect);
-              break;
-            case "XXHTG":
-              this.selectXXHTGProductBrand(this.searchItemSelect);
-              break;
-            case "JRTG":
-              this.selectJRTGProductBrand(this.searchItemSelect);
-              break;
-            case "ZXTG":
-              this.selectZXTGProductBrand(this.searchItemSelect);
-              break;
-          }
+        if (this.itemSelect.length == 0) {
+          flag = false;
+          _getData(
+            "/server/productLine!request.action",
+            {
+              method: "getProductLineByName",
+              params: {
+                name: this.tempLastSearchValue,
+                type: "6",
+                flag: "1"
+              }
+            },
+            data => {
+              console.log(data);
+              if (this.itemSelect.length == 0) {
+                this.itemSelect.push(data);
+              } else {
+                this.itemSelect.splice(0, 1, data);
+              }
+              flag = true;
+              if (flag) {
+                this.$router.go(-1);
+              }
+            }
+          );
         }
       }
-      this.$router.go(-1);
+      if (
+        _.join(
+          _.map(
+            this.$store.state.page[this.page][this.groupTypeCode].productBrand,
+            "aliasId"
+          ),
+          ","
+        ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+      ) {
+        this.$store.state.page[this.page][this.groupTypeCode].productModel = [];
+      }
+      switch (this.groupTypeCode) {
+        case "SBTG":
+          if (this.page == "uploadProduct") {
+            this.selectSBTGProductBrand(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.SBTGProductBrand(this.itemSelect);
+          }
+          break;
+        case "HCTG":
+          if (this.page == "uploadProduct") {
+            this.selectHCTGProductBrand(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.HCTGProductBrand(this.itemSelect);
+          }
+          break;
+        case "SHTG":
+          if (this.page == "uploadProduct") {
+            this.selectSHTGProductBrand(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.SHTGProductBrand(this.itemSelect);
+          }
+          break;
+        case "XXHTG":
+          if (this.page == "uploadProduct") {
+            this.selectXXHTGProductBrand(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.XXHTGProductBrand(this.itemSelect);
+          }
+          break;
+        case "JRTG":
+          if (this.page == "uploadProduct") {
+            this.selectJRTGProductBrand(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.JRTGProductBrand(this.itemSelect);
+          }
+          break;
+        case "ZXTG":
+          if (this.page == "uploadProduct") {
+            this.selectZXTGProductBrand(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.ZXTGProductBrand(this.itemSelect);
+          }
+          break;
+      }
+      if (flag) {
+        this.$router.go(-1);
+      }
     },
-    selectItem(brandId, item) {
+    selectItem(aliasId, item) {
       if (this.itemSelect.length < 1) {
         this.itemSelect.push(item);
       } else {
         if (
           _.find(this.itemSelect, function(o) {
-            return o.brandId == brandId;
+            return o.aliasId == aliasId;
           }) == item
         ) {
           this.itemSelect.splice(0, 1);
@@ -126,40 +166,17 @@ export default {
         }
       }
     },
-    activeClass(brandId) {
+    activeClass(aliasId) {
       if (this.itemSelect) {
         for (const val of this.itemSelect) {
-          if (val.brandId == brandId) {
-            return "active";
-          }
-        }
-      }
-    },
-    searchCheckedHandle(alisaBrandId, item) {
-      if (this.searchItemSelect.length < 1) {
-        this.searchItemSelect.push(item);
-      } else {
-        if (
-          _.find(this.searchItemSelect, function(o) {
-            return o.alisaBrandId == alisaBrandId;
-          }) == item
-        ) {
-          this.searchItemSelect.splice(0, 1);
-        } else {
-          this.searchItemSelect.splice(0, 1, item);
-        }
-      }
-    },
-    addClass(alisaBrandId) {
-      if (this.searchItemSelect.length != 0) {
-        for (const val of this.searchItemSelect) {
-          if (val.alisaBrandId == alisaBrandId) {
+          if (val.aliasId == aliasId) {
             return "active";
           }
         }
       }
     },
     selectBrand(val) {
+      this.itemSelect = [];
       this.reqData(val);
       this.tempLastSearchValue = val;
     },
@@ -183,6 +200,8 @@ export default {
     }
   },
   mounted() {
+    this.groupTypeCode = this.$route.query.groupTypeCode;
+    this.page = this.$route.query.page;
     this.reqData();
   },
   deactivated() {
@@ -207,38 +226,47 @@ export default {
   }
   .content {
     padding: 10px 13px;
-    .search_area {
+    /deep/ .scroll-list-wrap {
+      height: calc(100% - 46px);
       margin-top: 10px;
-      background: #fff;
-      border-radius: 5px;
-      li {
-        height: 46px;
-        display: flex;
-        align-items: center;
-        margin-left: 13px;
-        padding-right: 8px;
-        border-bottom: 0.5px solid #f6f6f6;
-        font-family: PingFangSC-Regular;
-        font-size: 14px;
-        color: #333333;
-        display: flex;
-        &.active {
-          > span:first-child {
-            color: #019ddd;
+      @include box_shadow_style;
+      .cube-scroll-wrapper {
+        .cube-scroll-content {
+          min-height: calc(100% + 1px);
+          padding: 0 0 0 13px;
+          .cube-scroll-list-wrapper {
+            ul {
+              li {
+                height: 46px;
+                display: flex;
+                align-items: center;
+                padding-right: 8px;
+                border-bottom: 0.5px solid #f6f6f6;
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: #333333;
+                display: flex;
+                &.active {
+                  > span:first-child {
+                    color: #019ddd;
+                  }
+                }
+                .label {
+                  font-family: PingFangSC-Regular;
+                  font-size: 11px;
+                  color: #fb4354;
+                  display: flex;
+                  height: 16px;
+                  padding: 0 3px;
+                  //width: 72px;
+                  align-items: center;
+                  background: rgba(251, 67, 84, 0.1);
+                  border-radius: 2px;
+                  margin-left: 18px;
+                }
+              }
+            }
           }
-        }
-        .label {
-          font-family: PingFangSC-Regular;
-          font-size: 11px;
-          color: #fb4354;
-          display: flex;
-          height: 16px;
-          padding: 0 3px;
-          //width: 72px;
-          align-items: center;
-          background: rgba(251, 67, 84, 0.1);
-          border-radius: 2px;
-          margin-left: 18px;
         }
       }
     }
