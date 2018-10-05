@@ -44,6 +44,22 @@ Util.prototype.toData = json => {
     }
 }
 
+/**
+ * @description 判断是安卓/ios
+ * @returns {"true/false"} 
+ */
+Util.prototype.isAndroid = () => {
+    var u = navigator.userAgent,
+        flag = true;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
+    //解决fastClick与iscroll插件的冲突
+    if (isAndroid) {
+        return true;
+    } else if (isiOS) {
+        return false;
+    }
+}
 
 export default new Util()

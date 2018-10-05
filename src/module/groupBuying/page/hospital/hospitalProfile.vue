@@ -5,18 +5,20 @@
         </Header>
         <div class="content">
             <div class="scroll-list-wrap">
-                <cube-scroll>
+                <cube-scroll ref="scroll">
                     <basic-information type="hospital" :detailData="detailData" title="医院基本信息" isShowCheck></basic-information>
                     <div class="Personal_information">
                         <basic-title title="团购负责人信息" imgurl="../static/images/Personal_information.png">
-                            <span slot="check">收起</span>
+                            <span slot="check" @click="packUp" v-if="isShowBtn">{{btnText!=0?'展开':'收起'}}</span>
                         </basic-title>
-                        <personal-information :read="true" :disabled="true" :data="detailData.contactList"></personal-information>
+
+                        <personal-information :read="true" :disabled="true" :data="detailData.contactList" ref="Personal_information"></personal-information>
+
                     </div>
                     <div class="hospitalDetails">
                         <basic-title title="医院详细介绍" imgurl="../static/images/hospitalDetails.png"></basic-title>
                         <div class="main_content">
-                            2007年聚通达诞生于北京中关村，是国家和中关村高新技术企业。2016年7月挂牌新三板，证券代码837883。聚通达现有员工300余人，50%以上为专业研发团队。
+                            {{detailData.introduce}}
                         </div>
                     </div>
                     <div class="product_list">
@@ -44,11 +46,16 @@
     import { _getData } from "../../service/getData";
     import budgetCount from "../../components/common/budgetCount";
     import demandList from "../../components/common/demandList";
+
     export default {
         data() {
             return {
                 detailData: {},
-                disabled: true
+                disabled: true,
+                isRequested: false,
+                isShowBtn: false,
+                btnText: 0,
+                parentHeight: ""
             };
         },
         components: {
@@ -62,7 +69,28 @@
             budgetCount,
             demandList
         },
-        methods: { ...mapMutations(["setTransition"]) },
+        methods: {
+            ...mapMutations(["setTransition"]),
+            packUp() {
+                const childHeight = this.$refs.Personal_information.$el
+                    .childNodes[0].clientHeight;
+
+                if (this.btnText == 0) {
+                    this.btnText = 1;
+
+                    this.$refs.Personal_information.$el.style.height =
+                        childHeight + "px";
+                } else {
+                    this.btnText = 0;
+                    this.$refs.Personal_information.$el.style.height =
+                        this.parentHeight + "px";
+                }
+                // console.log(this.$refs.scroll);
+                setTimeout(() => {
+                    this.$refs.scroll.refresh();
+                }, 300);
+            }
+        },
         created() {
             _getData(
                 "/server_pro/groupPurchaseHospital!request.action",
@@ -71,11 +99,23 @@
                     params: { id: "1" }
                 },
                 data => {
+                    this.isRequested = true;
                     console.log(data);
                     this.detailData = data;
                     console.log(this.detailData);
+                    if (data.contactList.length > 1) {
+                        this.isShowBtn = true;
+                    }
                 }
             );
+        },
+        mounted() {
+            setTimeout(() => {
+                this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
+
+                this.$refs.Personal_information.$el.style.height =
+                    this.parentHeight + "px";
+            }, 300);
         }
     };
 </script>
@@ -115,6 +155,8 @@
             .Personal_information {
                 @include box_shadow_style;
                 margin-top: 10px;
+                overflow: hidden;
+                height: auto;
                 /deep/ .basicTitle {
                     h2 {
                         span {
@@ -123,6 +165,10 @@
                             font-family: PingFangSC-Regular;
                         }
                     }
+                }
+                /deep/ .personalInformation {
+                    height: auto;
+                    transition: height 0.3s;
                 }
             }
             .hospitalDetails {
