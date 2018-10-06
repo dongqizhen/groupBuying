@@ -74,12 +74,17 @@ export default {
     ]),
     clickSure() {
       this.setTransition("turn-off");
-      console.log(this.tempLastSearchValue);
       var flag = true;
+      console.log(this.itemSelect);
       if (this.tempLastSearchValue == "") {
         if (this.itemSelect.length == 0) {
           Toast("请选择或输入分类");
           return;
+        } else {
+          if (this.itemSelect[0].aliasId == "") {
+            Toast("请选择或输入分类");
+            return;
+          }
         }
       } else {
         if (this.itemSelect.length == 0) {
@@ -109,19 +114,6 @@ export default {
           );
         }
       }
-      console.log(
-        this.$store.state.page[this.page][this.groupTypeCode].productSort
-      );
-      console.log(this.itemSelect);
-      console.log(
-        _.join(
-          _.map(
-            this.$store.state.page[this.page][this.groupTypeCode].productSort,
-            "aliasId"
-          ),
-          ","
-        ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
-      );
       if (
         _.join(
           _.map(
@@ -131,53 +123,61 @@ export default {
           ","
         ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
       ) {
-        this.$store.state.page[this.page][this.groupTypeCode].productBrand = [];
+        this.$store.state.page[this.page][this.groupTypeCode].productBrand = [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ];
         this.$store.state.page[this.page][this.groupTypeCode].productModel = [];
       }
-      // switch (this.groupTypeCode) {
-      //   case "SBTG":
-      //     if (this.page == "uploadProduct") {
-      //       this.selectSBTGProductSort(this.itemSelect);
-      //     } else if (this.page == "submitGroupDemand") {
-      //       this.SBTGProductSort(this.itemSelect);
-      //     }
-      //     break;
-      //   case "HCTG":
-      //     if (this.page == "uploadProduct") {
-      //       this.selectHCTGProductSort(this.itemSelect);
-      //     } else if (this.page == "submitGroupDemand") {
-      //       this.HCTGProductSort(this.itemSelect);
-      //     }
-      //     break;
-      //   case "SHTG":
-      //     if (this.page == "uploadProduct") {
-      //       this.selectSHTGProductSort(this.itemSelect);
-      //     } else if (this.page == "submitGroupDemand") {
-      //       this.SHTGProductSort(this.itemSelect);
-      //     }
-      //     break;
-      //   case "XXHTG":
-      //     if (this.page == "uploadProduct") {
-      //       this.selectXXHTGProductSort(this.itemSelect);
-      //     } else if (this.page == "submitGroupDemand") {
-      //       this.XXHTGProductSort(this.itemSelect);
-      //     }
-      //     break;
-      //   case "JRTG":
-      //     if (this.page == "uploadProduct") {
-      //       this.selectJRTGProductSort(this.itemSelect);
-      //     } else if (this.page == "submitGroupDemand") {
-      //       this.JRTGProductSort(this.itemSelect);
-      //     }
-      //     break;
-      //   case "ZXTG":
-      //     if (this.page == "uploadProduct") {
-      //       this.selectZXTGProductSort(this.itemSelect);
-      //     } else if (this.page == "submitGroupDemand") {
-      //       this.ZXTGProductSort(this.itemSelect);
-      //     }
-      //     break;
-      // }
+      switch (this.groupTypeCode) {
+        case "SBTG":
+          if (this.page == "uploadProduct") {
+            this.selectSBTGProductSort(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.SBTGProductSort(this.itemSelect);
+          }
+          break;
+        case "HCTG":
+          if (this.page == "uploadProduct") {
+            this.selectHCTGProductSort(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.HCTGProductSort(this.itemSelect);
+          }
+          break;
+        case "SHTG":
+          if (this.page == "uploadProduct") {
+            this.selectSHTGProductSort(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.SHTGProductSort(this.itemSelect);
+          }
+          break;
+        case "XXHTG":
+          if (this.page == "uploadProduct") {
+            this.selectXXHTGProductSort(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.XXHTGProductSort(this.itemSelect);
+          }
+          break;
+        case "JRTG":
+          if (this.page == "uploadProduct") {
+            this.selectJRTGProductSort(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.JRTGProductSort(this.itemSelect);
+          }
+          break;
+        case "ZXTG":
+          if (this.page == "uploadProduct") {
+            this.selectZXTGProductSort(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.ZXTGProductSort(this.itemSelect);
+          }
+          break;
+      }
       if (flag) {
         this.$router.go(-1);
       }
@@ -208,7 +208,6 @@ export default {
       );
     },
     checkedHandle(aliasId, item) {
-      console.log(this.itemSelect);
       if (this.itemSelect.length < 1) {
         this.itemSelect.push(item);
       } else {
@@ -233,7 +232,6 @@ export default {
       }
     },
     getValue(value) {
-      console.log(value);
       this.itemSelect = [];
       this.reqData(value);
       this.tempLastSearchValue = value;
@@ -249,7 +247,6 @@ export default {
           }
         },
         data => {
-          console.log(data);
           if (!name) {
             this.stick_area_arr = data.productLineList;
             this.general_area_arr = data.wzdProductLineList;
@@ -270,9 +267,7 @@ export default {
     this.page = this.$route.query.page;
     this.reqData();
     if (this.page == "uploadProduct") {
-      this.itemSelect = this.$store.state.page[this.page][
-        this.groupTypeCode
-      ].productSort;
+      this.itemSelect = this.$route.query.vuexSelectValue;
     }
   },
   deactivated() {

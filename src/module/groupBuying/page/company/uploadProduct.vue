@@ -33,7 +33,7 @@
                      <span slot="select">(至少上传一张)</span>
                   </basic-title>
                   <div class="upload_container">
-                      <cube-upload ref="upload"  v-model="action.files" :action="action" :simultaneous-uploads="3" :process-file="processFile" @files-added="addedHandler"  @file-removed="fileRemove"/>
+                      <cube-upload ref="upload"  v-model="action.files" :action="action" :simultaneous-uploads="3"  @files-added="addedHandler"  @file-removed="fileRemove"/>
                       <span>点击上传产品图片</span>
                   </div>
               </div>
@@ -69,6 +69,7 @@ export default {
     return {
       groupItemObj: {},
       current: null,
+      toastText: "",
       submitBtnStatus: true,
       action: {
         target: "http://60.195.252.86:8080/server/imageupload",
@@ -109,43 +110,63 @@ export default {
     ...mapMutations(["setTransition"]),
     submitBtnClick() {
       console.log(this.$refs.basicInfo.info);
-      // this.submitBtnStatus = false;
+      this.submitBtnStatus = false;
       this.setTransition("turn-on");
-      // if (!this.submitData.groupPurchaseId) {
-      //   Toast("请选择团购大会");
-      //   return;
-      // }
-      // if (!this.submitData.groupPurchaseTypeId) {
-      //   Toast("请选择团购类型");
-      //   return;
-      // }
-      // if (!this.submitData.productLineId) {
-      //   Toast("请选择分类");
-      //   return;
-      // }
-      // if (!this.submitData.brandId) {
-      //   Toast("请选择品牌");
-      //   return;
-      // }
-      // if (!this.submitData.application) {
-      //   Toast("请填写临床应用");
-      //   return;
-      // }
-      // if (this.action.files.length == 0) {
-      //   Toast("至少上传一张图片");
-      //   return;
-      // }
-      // this.submitData.imageUrl = _.join(
-      //   _.map(
-      //     _.map(this.action.files, function(o) {
-      //       return o.response.result.imageList[0];
-      //     }),
-      //     function(item) {
-      //       return item.imageurl;
-      //     }
-      //   ),
-      //   ","
-      // );
+      if (!this.submitData.groupPurchaseId) {
+        Toast({ message: "请选择团购大会", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (!this.submitData.groupPurchaseTypeId) {
+        Toast({ message: "请选择团购类型", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.$refs.basicInfo.info.productLineId == "") {
+        Toast({ message: "请选择分类", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.$refs.basicInfo.info.brandId == "") {
+        Toast({ message: "请选择品牌", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      if (this.groupItemObj.code != "SHTG") {
+        if (this.$refs.basicInfo.info.application == "") {
+          Toast({ message: this.toastText, duration: 1000 });
+          this.submitBtnStatus = true;
+          return;
+        }
+      }
+      if (this.groupItemObj.code == "SHTG") {
+        if (this.$refs.basicInfo.info.responseTime == "") {
+          Toast({ message: "请输入响应时间", duration: 1000 });
+          this.submitBtnStatus = true;
+          return;
+        }
+        if (this.$refs.basicInfo.info.maintanceTypeId === "") {
+          Toast({ message: "请选择维保类型", duration: 1000 });
+          this.submitBtnStatus = true;
+          return;
+        }
+      }
+      if (this.action.files.length == 0) {
+        Toast({ message: "至少上传一张图片", duration: 1000 });
+        this.submitBtnStatus = true;
+        return;
+      }
+      this.submitData.imageUrl = _.join(
+        _.map(
+          _.map(this.action.files, function(o) {
+            return o.response.result.imageList[0];
+          }),
+          function(item) {
+            return item.imageurl;
+          }
+        ),
+        ","
+      );
       this.submitData = { ...this.submitData, ...this.$refs.basicInfo.info };
       console.log(this.submitData);
       _getData(
@@ -156,9 +177,10 @@ export default {
         },
         data => {
           console.log(data);
+          this.submitBtnStatus = true;
+          this.$router.push("/myComponyGroupBuy");
         }
       );
-      this.$router.push("/myComponyGroupBuy");
     },
     selectGroupId(value) {
       this.submitData.groupPurchaseTypeId = value;
@@ -173,21 +195,22 @@ export default {
       this.current = v;
       this.submitData.groupPurchaseId = this.groupUnderWayList[v].id;
     },
-    processFile(file, next) {
-      compress(
-        file,
-        {
-          compress: {
-            width: 1600,
-            height: 1600,
-            quality: 0.5
-          }
-        },
-        next
-      );
-    },
-    addedHandler() {
+    addedHandler(files) {
       //图片上传需要判断是否重复
+      if (this.action.files.length != 0) {
+        if (
+          _.find(this.action.files, o => {
+            return o.name == files[0].name;
+          })
+        ) {
+          Toast({ message: "该文件已上传,请勿重复上传", duration: 1000 });
+          this.$refs.upload.removeFile(
+            _.find(this.action.files, o => {
+              return o.name == files[0].name;
+            })
+          );
+        }
+      }
     },
     fileRemove(file) {
       console.log(this.action.files);
@@ -210,7 +233,28 @@ export default {
   activated: function() {},
   deactivated: function() {},
   watch: {
-    groupItemObj() {}
+    groupItemObj() {
+      switch (this.groupItemObj.code) {
+        case "SBTG":
+          this.toastText = "请填写临床应用";
+          break;
+        case "HCTG":
+          this.toastText = "请填写临床应用";
+          break;
+        case "SHTG":
+          this.toastText = "请填写临床应用";
+          break;
+        case "XXHTG":
+          this.toastText = "请填写应用需求";
+          break;
+        case "JRTG":
+          this.toastText = "请填写应用方向";
+          break;
+        case "ZXTG":
+          this.toastText = "请填写应用方向";
+          break;
+      }
+    }
   }
 };
 </script>
@@ -269,211 +313,6 @@ export default {
           }
         }
       }
-      // ul {
-      //   padding-left: 13px;
-      //   padding-bottom: 1px;
-      //   li {
-      //     display: flex;
-      //     justify-content: flex-start;
-      //     align-items: center;
-      //     height: 47px;
-      //     border-bottom: 0.5px solid #f6f6f6;
-      //     a {
-      //       display: flex;
-      //       justify-content: flex-start;
-      //       align-items: center;
-      //       text-decoration: none;
-      //       width: 100%;
-      //       span {
-      //         font-family: PingFangSC-Regular;
-      //         font-size: 14px;
-      //         color: #333333;
-      //         float: left;
-      //         width: auto;
-      //         &.star {
-      //           padding-left: 7px;
-      //           background: url("../../../../../static/images/star.png")
-      //             no-repeat left center;
-      //           background-size: 7px;
-      //         }
-      //       }
-      //       > div {
-      //         display: flex;
-      //         justify-content: flex-end;
-      //         padding-right: 13px;
-      //         font-family: PingFangSC-Regular;
-      //         font-size: 14px;
-      //         color: #999999;
-      //         i {
-      //           display: flex;
-      //           height: 14px;
-      //           width: 8px;
-      //           background: url("../../../../../static/images/grayarrow.png")
-      //             no-repeat center;
-      //           background-size: 100% 100%;
-      //           margin-left: 3px;
-      //         }
-      //         &.maintanceType {
-      //           justify-content: flex-start;
-      //           align-items: center;
-      //           span {
-      //             height: 29px;
-      //             line-height: 29px;
-      //             padding: 0 16px;
-      //             font-family: PingFangSC-Regular;
-      //             font-size: 14px;
-      //             color: #333333;
-      //             margin-right: 10px;
-      //             background: rgba(142, 142, 142, 0.05);
-      //             border-radius: 2px;
-      //             &.active {
-      //               background: rgba(1, 157, 221, 0.14);
-      //               font-family: PingFangSC-Medium;
-      //               color: #019ddd;
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-      //     /deep/ .cube-input {
-      //       flex: 1;
-      //       &:after {
-      //         border: none;
-      //       }
-      //       &.responseTime {
-      //         .cube-input-field {
-      //           text-align: left;
-      //         }
-      //       }
-      //       input {
-      //         color: #999999;
-      //         font-family: PingFangSC-Regular;
-      //         font-size: 14px;
-      //         padding-left: 0;
-      //         text-align: right;
-      //       }
-      //     }
-      //     &.price {
-      //       .check_box {
-      //         height: 100%;
-      //       }
-      //       /deep/ .cube-input {
-      //         padding-right: 16px;
-      //         > .cube-input-append {
-      //           font-family: PingFangSC-Regular;
-      //           font-size: 14px;
-      //           color: #333333;
-      //         }
-      //       }
-      //       /deep/ .cube-checkbox {
-      //         padding-right: 0;
-      //         display: flex;
-      //         align-items: center;
-      //         padding-left: 0px;
-      //         height: 100%;
-      //         &:active {
-      //           // background: rgba($color: #999, $alpha: 0.3);
-      //         }
-      //         .cube-checkbox-wrap {
-      //           display: flex;
-      //           align-items: center;
-      //           padding: 0;
-      //           padding-left: 16px;
-      //           border-left: 0.5px solid rgba(153, 153, 153, 0.31);
-      //           height: 16px;
-      //           .cube-checkbox-ui {
-      //             height: 14px;
-      //             width: 14px;
-      //             margin-right: 4px;
-      //             margin-top: 3px;
-      //             &:before {
-      //               display: initial;
-      //             }
-      //             .cubeic-right {
-      //               i {
-      //                 color: #019ddd;
-      //               }
-      //             }
-      //           }
-      //           .cube-checkbox-label {
-      //             font-family: PingFangSC-Medium;
-      //             font-size: 14px;
-      //             color: #666666;
-      //           }
-      //         }
-      //         &.cube-checkbox_checked {
-      //           .cube-checkbox-ui {
-      //             height: 14px;
-      //             width: 14px;
-      //             margin-right: 4px;
-      //             margin-top: 3px;
-      //             &:before {
-      //               display: initial;
-      //             }
-      //             .cubeic-right {
-      //               height: 14px;
-      //               width: 14px;
-      //               color: #019ddd;
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-      //     &.clinic {
-      //       height: auto;
-      //       border-bottom: none;
-      //       //margin-bottom: 10px;
-      //       > div {
-      //         width: 100%;
-      //       }
-      //       /deep/ .weui-cells {
-      //         margin-top: 0;
-      //         width: 100%;
-      //         &:before {
-      //           border-top: 0;
-      //         }
-      //         &:after {
-      //           border-bottom: 0;
-      //         }
-      //         .weui-cell {
-      //           display: flex;
-      //           flex-direction: column;
-      //           padding: 0;
-      //           .weui-cell__hd {
-      //             height: 43px;
-      //             font-family: PingFangSC-Regular;
-      //             font-size: 14px;
-      //             color: #333333;
-      //             display: flex;
-      //             align-items: center;
-      //             background: url("../../../../../static/images/star.png")
-      //               no-repeat left center;
-      //             background-size: 7px;
-      //             .weui-label {
-      //               margin-left: 7px;
-      //             }
-      //           }
-      //           .weui-cell__bd {
-      //             width: 100%;
-      //             min-height: 40px;
-      //             textarea::-webkit-input-placeholder {
-      //               font-family: PingFangSC-Regular;
-      //               font-size: 14px;
-      //               color: #cccccc;
-      //             }
-      //             textarea {
-      //               // height: 45px !important;
-      //               color: #999;
-      //               font-family: PingFangSC-Regular;
-      //               font-size: 14px;
-      //               margin-bottom: 12px;
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
     }
     .img_upload {
       @include box_shadow_style;

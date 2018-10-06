@@ -27,81 +27,261 @@ let state : StateType = {
     },
     uploadProduct: {
       SBTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: []
       },
       HCTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: []
       },
       SHTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: []
       },
       XXHTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: []
       },
       JRTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: []
       },
       ZXTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: []
       }
     },
     submitGroupDemand: {
       SBTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: [],
         predictTime: {}
       },
       HCTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: [],
         predictTime: {}
       },
       SHTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: [],
         predictTime: {}
       },
       XXHTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: [],
         predictTime: {}
       },
       JRTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: [],
         predictTime: {}
       },
       ZXTG: {
-        productSort: [],
-        productBrand: [],
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productBrand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
         productModel: [],
         mainParams: [],
         predictTime: {}

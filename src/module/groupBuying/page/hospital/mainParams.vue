@@ -80,7 +80,6 @@ export default {
           } else if (this.$route.query.page == "submitGroupDemand") {
             this.SBTGMainParam(this.itemSelect);
           }
-
           break;
         case "HCTG":
           if (this.$route.query.page == "uploadProduct") {
@@ -88,7 +87,6 @@ export default {
           } else if (this.$route.query.page == "submitGroupDemand") {
             this.HCTGMainParam(this.itemSelect);
           }
-
           break;
         case "SHTG":
           if (this.$route.query.page == "uploadProduct") {
@@ -119,7 +117,6 @@ export default {
           }
           break;
       }
-
       this.$router.go(-1);
     },
     getValue(val) {
@@ -174,7 +171,7 @@ export default {
         Toast(this.toastText);
       } else {
         if (!itemSelectCommon && !paramListCommon) {
-          this.itemSelect.push({ id: "", name: name });
+          this.itemSelect.push({ name: name });
         } else {
           if (!itemSelectCommon && paramListCommon) {
             this.itemSelect.push(paramListCommon);
@@ -198,7 +195,7 @@ export default {
       );
     }
   },
-  mounted() {
+  activated() {
     if (this.$route.query.groupTypeCode == "HCTG") {
       this.title = "填写规格";
       this.placeholder = "请输入重要规格";
@@ -221,7 +218,7 @@ export default {
       this.selectText = "已选参数:";
       this.noteText = "(企业提供的重要参数清单)";
     }
-    this.itemSelect = [];
+    this.itemSelect = this.$route.query.vuexSelectValue;
     this.reqData();
   },
   watch: {
@@ -232,7 +229,7 @@ export default {
     }
   },
   deactivated() {
-    this.$destroy();
+    //this.$destroy();
   }
 };
 </script>
