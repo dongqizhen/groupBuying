@@ -1,25 +1,27 @@
 <template>
     <div class="container productCategory">
-        <Header :title="this.$route.name">
+        <Header title="选择分类">
             <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
-            <search placeholder="请输入产品分类" v-on:inputValue="getValue"></search>
+            <search placeholder="请输入分类" v-on:inputValue="getValue"></search>
             <div class="Stick_container">
                 <ul class="stick_area">
-                    <li v-for="(item,index) in stick_area_arr" :key='index' :class="activeClass(item.productLineId)" @click="checkedHandle(item.productLineId,item)">
+                    <li v-for="(item,index) in stick_area_arr" :key='index' :class="activeClass(item.aliasId)" @click="checkedHandle(item.aliasId,item)">
                         <span>{{item.name}}</span>
                         <span @click.stop="cancelStick(item)">取消置顶</span>
                     </li>
                 </ul>
                 <ul class="general_area">
-                    <li v-for="(item,index) in general_area_arr" :key='index' :class="activeClass(item.productLineId)"  @click="checkedHandle(item.productLineId,item)">
+                    <li v-for="(item,index) in general_area_arr" :key='index' :class="activeClass(item.aliasId)"  @click="checkedHandle(item.aliasId,item)">
                         <span>{{item.name}}</span>
                         <span @click.stop="Stick(item)">置顶</span>
                     </li>
                 </ul>
                 <ul class="search_area">
-                    <li v-for="(item,index) in search_area_arr" :key='index' :class="addClass(item.alisaId)" @click="searchCheckedHandle(item.alisaId,item)"><span>{{item.name}}</span></li>
+                    <li v-for="(item,index) in search_area_arr" :key='index' :class="activeClass(item.alisaId)" @click="checkedHandle(item.alisaId,item)">
+                        <span>{{item.name}}</span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -50,25 +52,542 @@ export default {
     search
   },
   methods: {
-    ...mapMutations(["setTransition", "selectProductSort"]),
+    ...mapMutations([
+      "setTransition",
+      "selectSBTGProductSort",
+      "selectHCTGProductSort",
+      "selectSHTGProductSort",
+      "selectXXHTGProductSort",
+      "selectJRTGProductSort",
+      "selectZXTGProductSort",
+      "SBTGProductSort",
+      "HCTGProductSort",
+      "SHTGProductSort",
+      "XXHTGProductSort",
+      "JRTGProductSort",
+      "ZXTGProductSort"
+    ]),
     clickSure() {
       this.setTransition("turn-off");
       console.log(this.tempLastSearchValue);
-      if (this.tempLastSearchValue == "") {
-        if (this.itemSelect.length == 0) {
-          Toast("请选择或输入产品分类");
-          return;
-        } else {
-          this.selectProductSort(this.itemSelect);
-        }
-      } else {
-        if (this.searchItemSelect.length == 0) {
-          //将搜索框的值传给后台
-        } else {
-          this.selectProductSort(this.searchItemSelect);
-        }
+      // var flag = true;
+      // if (this.tempLastSearchValue == "") {
+      //   if (this.itemSelect.length == 0) {
+      //     Toast("请选择或输入分类");
+      //     return;
+      //   } else {
+      //     switch (this.$route.query.groupTypeCode) {
+      //       case "SBTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.SBTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.SBTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.SBTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectSBTGProductSort(this.itemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.SBTGProductSort(this.itemSelect);
+      //         }
+
+      //         break;
+      //       case "HCTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.HCTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.HCTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.HCTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectHCTGProductSort(this.itemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.HCTGProductSort(this.itemSelect);
+      //         }
+
+      //         break;
+      //       case "SHTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.SHTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.SHTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.SHTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectSHTGProductSort(this.itemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.SHTGProductSort(this.itemSelect);
+      //         }
+      //         break;
+      //       case "XXHTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.XXHTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.XXHTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectXXHTGProductSort(this.itemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.XXHTGProductSort(this.itemSelect);
+      //         }
+      //         break;
+      //       case "JRTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.JRTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.JRTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.JRTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectJRTGProductSort(this.itemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.JRTGProductSort(this.itemSelect);
+      //         }
+      //         break;
+      //       case "ZXTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.ZXTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.ZXTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectZXTGProductSort(this.itemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.ZXTGProductSort(this.itemSelect);
+      //         }
+      //         break;
+      //     }
+      //   }
+      // } else {
+      //   if (this.searchItemSelect.length == 0) {
+      //     //将搜索框的值传给后台
+      //     let that = this;
+      //     flag = false;
+      //     _getData(
+      //       "/server/productLine!request.action",
+      //       {
+      //         method: "getProductLineByName",
+      //         params: {
+      //           name: this.tempLastSearchValue,
+      //           type: "6",
+      //           flag: "0"
+      //         }
+      //       },
+      //       data => {
+      //         console.log(data);
+      //         this.searchItemSelect.push(data);
+      //         switch (this.$route.query.groupTypeCode) {
+      //           case "SBTG":
+      //             if (
+      //               _.join(
+      //                 _.map(
+      //                   this.$store.state.page.uploadProduct.SBTG.productSort,
+      //                   "aliasId"
+      //                 ),
+      //                 ","
+      //               ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+      //             ) {
+      //               that.$store.state.page.uploadProduct.SBTG.productBrand = [];
+      //               that.$store.state.page.uploadProduct.SBTG.productModel = [];
+      //             }
+      //             if (that.$route.query.page == "uploadProduct") {
+      //               that.selectSBTGProductSort(that.searchItemSelect);
+      //             } else if (that.$route.query.page == "submitGroupDemand") {
+      //               that.SBTGProductSort(that.searchItemSelect);
+      //             }
+
+      //             break;
+      //           case "HCTG":
+      //             if (
+      //               _.join(
+      //                 _.map(
+      //                   that.$store.state.page.uploadProduct.HCTG.productSort,
+      //                   "aliasId"
+      //                 ),
+      //                 ","
+      //               ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+      //             ) {
+      //               that.$store.state.page.uploadProduct.HCTG.productBrand = [];
+      //               that.$store.state.page.uploadProduct.HCTG.productModel = [];
+      //             }
+      //             if (that.$route.query.page == "uploadProduct") {
+      //               that.selectHCTGProductSort(that.searchItemSelect);
+      //             } else if (that.$route.query.page == "submitGroupDemand") {
+      //               that.HCTGProductSort(that.searchItemSelect);
+      //             }
+
+      //             break;
+      //           case "SHTG":
+      //             if (
+      //               _.join(
+      //                 _.map(
+      //                   that.$store.state.page.uploadProduct.SHTG.productSort,
+      //                   "aliasId"
+      //                 ),
+      //                 ","
+      //               ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+      //             ) {
+      //               that.$store.state.page.uploadProduct.SHTG.productBrand = [];
+      //               that.$store.state.page.uploadProduct.SHTG.productModel = [];
+      //             }
+      //             if (that.$route.query.page == "uploadProduct") {
+      //               this.selectSHTGProductSort(this.itemSelect);
+      //             } else if (that.$route.query.page == "submitGroupDemand") {
+      //               that.SHTGProductSort(that.searchItemSelect);
+      //             }
+
+      //             break;
+      //           case "XXHTG":
+      //             if (
+      //               _.join(
+      //                 _.map(
+      //                   that.$store.state.page.uploadProduct.XXHTG.productSort,
+      //                   "aliasId"
+      //                 ),
+      //                 ","
+      //               ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+      //             ) {
+      //               that.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+      //               that.$store.state.page.uploadProduct.XXHTG.productModel = [];
+      //             }
+      //             if (that.$route.query.page == "uploadProduct") {
+      //               that.selectXXHTGProductSort(that.searchItemSelect);
+      //             } else if (that.$route.query.page == "submitGroupDemand") {
+      //               that.XXHTGProductSort(that.searchItemSelect);
+      //             }
+
+      //             break;
+      //           case "JRTG":
+      //             if (
+      //               _.join(
+      //                 _.map(
+      //                   that.$store.state.page.uploadProduct.JRTG.productSort,
+      //                   "aliasId"
+      //                 ),
+      //                 ","
+      //               ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+      //             ) {
+      //               that.$store.state.page.uploadProduct.JRTG.productBrand = [];
+      //               that.$store.state.page.uploadProduct.JRTG.productModel = [];
+      //             }
+      //             if (that.$route.query.page == "uploadProduct") {
+      //               that.selectJRTGProductSort(that.searchItemSelect);
+      //             } else if (that.$route.query.page == "submitGroupDemand") {
+      //               that.JRTGProductSort(that.searchItemSelect);
+      //             }
+
+      //             break;
+      //           case "ZXTG":
+      //             if (
+      //               _.join(
+      //                 _.map(
+      //                   that.$store.state.page.uploadProduct.ZXTG.productSort,
+      //                   "aliasId"
+      //                 ),
+      //                 ","
+      //               ) != _.join(_.map(that.searchItemSelect, "aliasId"), ",")
+      //             ) {
+      //               that.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+      //               that.$store.state.page.uploadProduct.ZXTG.productModel = [];
+      //             }
+      //             if (that.$route.query.page == "uploadProduct") {
+      //               that.selectZXTGProductSort(that.searchItemSelect);
+      //             } else if (that.$route.query.page == "submitGroupDemand") {
+      //               that.ZXTGProductSort(that.searchItemSelect);
+      //             }
+
+      //             break;
+      //         }
+      //         flag = true;
+      //         if (flag) {
+      //           this.$router.go(-1);
+      //         }
+      //       }
+      //     );
+      //   } else {
+      //     switch (this.$route.query.groupTypeCode) {
+      //       case "SBTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.SBTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.SBTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.SBTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectSBTGProductSort(this.searchItemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.SBTGProductSort(this.searchItemSelect);
+      //         }
+
+      //         break;
+      //       case "HCTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.HCTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.HCTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.HCTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectHCTGProductSort(this.searchItemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.HCTGProductSort(this.searchItemSelect);
+      //         }
+
+      //         break;
+      //       case "SHTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.SHTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.SHTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.SHTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectSHTGProductSort(this.searchItemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.SHTGProductSort(this.searchItemSelect);
+      //         }
+
+      //         break;
+      //       case "XXHTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.XXHTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.XXHTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectXXHTGProductSort(this.searchItemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.XXHTGProductSort(this.searchItemSelect);
+      //         }
+
+      //         break;
+      //       case "JRTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.JRTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.JRTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.JRTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectJRTGProductSort(this.searchItemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.JRTGProductSort(this.searchItemSelect);
+      //         }
+
+      //         break;
+      //       case "ZXTG":
+      //         if (
+      //           _.join(
+      //             _.map(
+      //               this.$store.state.page.uploadProduct.ZXTG.productSort,
+      //               "aliasId"
+      //             ),
+      //             ","
+      //           ) != _.join(_.map(this.searchItemSelect, "aliasId"), ",")
+      //         ) {
+      //           this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+      //           this.$store.state.page.uploadProduct.ZXTG.productModel = [];
+      //         }
+      //         if (this.$route.query.page == "uploadProduct") {
+      //           this.selectZXTGProductSort(this.searchItemSelect);
+      //         } else if (this.$route.query.page == "submitGroupDemand") {
+      //           this.ZXTGProductSort(this.searchItemSelect);
+      //         }
+
+      //         break;
+      //     }
+      //   }
+      // }
+      // if (flag) {
+      //   this.$router.go(-1);
+      // }
+    },
+    switchFun(arr) {
+      switch (this.$route.query.groupTypeCode) {
+        case "SBTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.SBTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.SBTG.productBrand = [];
+            this.$store.state.page.uploadProduct.SBTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectSBTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.SBTGProductSort(this.itemSelect);
+          }
+          break;
+        case "HCTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.HCTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.HCTG.productBrand = [];
+            this.$store.state.page.uploadProduct.HCTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectHCTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.HCTGProductSort(this.itemSelect);
+          }
+
+          break;
+        case "SHTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.SHTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.SHTG.productBrand = [];
+            this.$store.state.page.uploadProduct.SHTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectSHTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.SHTGProductSort(this.itemSelect);
+          }
+          break;
+        case "XXHTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.XXHTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.XXHTG.productBrand = [];
+            this.$store.state.page.uploadProduct.XXHTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectXXHTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.XXHTGProductSort(this.itemSelect);
+          }
+          break;
+        case "JRTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.JRTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.JRTG.productBrand = [];
+            this.$store.state.page.uploadProduct.JRTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectJRTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.JRTGProductSort(this.itemSelect);
+          }
+          break;
+        case "ZXTG":
+          if (
+            _.join(
+              _.map(
+                this.$store.state.page.uploadProduct.ZXTG.productSort,
+                "aliasId"
+              ),
+              ","
+            ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+          ) {
+            this.$store.state.page.uploadProduct.ZXTG.productBrand = [];
+            this.$store.state.page.uploadProduct.ZXTG.productModel = [];
+          }
+          if (this.$route.query.page == "uploadProduct") {
+            this.selectZXTGProductSort(this.itemSelect);
+          } else if (this.$route.query.page == "submitGroupDemand") {
+            this.ZXTGProductSort(this.itemSelect);
+          }
+          break;
       }
-      this.$router.go(-1);
     },
     cancelStick(item) {
       console.log(item);
@@ -96,13 +615,13 @@ export default {
         data => {}
       );
     },
-    checkedHandle(productLineId, item) {
+    checkedHandle(aliasId, item) {
       if (this.itemSelect.length < 1) {
         this.itemSelect.push(item);
       } else {
         if (
           _.find(this.itemSelect, function(o) {
-            return o.productLineId == productLineId;
+            return o.aliasId == aliasId;
           }) == item
         ) {
           this.itemSelect.splice(0, 1);
@@ -111,34 +630,10 @@ export default {
         }
       }
     },
-    searchCheckedHandle(alisaId, item) {
-      if (this.searchItemSelect.length < 1) {
-        this.searchItemSelect.push(item);
-      } else {
-        if (
-          _.find(this.searchItemSelect, function(o) {
-            return o.alisaId == alisaId;
-          }) == item
-        ) {
-          this.searchItemSelect.splice(0, 1);
-        } else {
-          this.searchItemSelect.splice(0, 1, item);
-        }
-      }
-    },
-    activeClass(productLineId) {
+    activeClass(aliasId) {
       if (this.itemSelect) {
         for (const val of this.itemSelect) {
-          if (val.productLineId == productLineId) {
-            return "active";
-          }
-        }
-      }
-    },
-    addClass(alisaId) {
-      if (this.searchItemSelect) {
-        for (const val of this.searchItemSelect) {
-          if (val.alisaId == alisaId) {
+          if (val.alisaId == aliasId) {
             return "active";
           }
         }
@@ -146,20 +641,23 @@ export default {
     },
     getValue(value) {
       console.log(value);
-      this.reqData(value, "520");
-      this.searchItemSelect = [];
+      this.itemSelect = [];
+      this.reqData(value);
       this.tempLastSearchValue = value;
     },
-    reqData(name, groupId) {
+    reqData(name) {
       _getData(
         "/server_pro/groupPurchaseCompanyProduct!request.action",
         {
           method: "getProductLineListByGroupPurchaseType",
-          params: { name: name, groupPurchaseId: groupId }
+          params: {
+            name: name,
+            groupPurchaseId: this.$route.query.groupPurchaseTypeId
+          }
         },
         data => {
           console.log(data);
-          if (name == "") {
+          if (!name) {
             this.stick_area_arr = data.productLineList;
             this.general_area_arr = data.wzdProductLineList;
           } else {
@@ -175,7 +673,10 @@ export default {
     }
   },
   mounted() {
-    this.reqData("", "520");
+    this.reqData();
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>

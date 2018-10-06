@@ -5,51 +5,115 @@
       <span slot="explain" class="enter" @click="enterClick">确定</span>
     </Header>
     <div class="content">
-      <ul>
-        <li>
-          <div class="year">2018年:</div>
-          <div class="time clearfix">
-            <span v-for="(time,index) in times" :key="index" :class="[nowDate>=index?'disabledStyle':'',cur===index && nowDate < index?'active':'']" @click="changeCurrent(index)">{{time}}</span>
-          </div>
-        </li>
-        <li>
-          <div class="year">2019年:</div>
-          <div class="time clearfix">
-            <span>第一季度</span>
-            <span>第二季度</span>
-            <span>第三季度</span>
-            <span>第四季度</span>
-          </div>
-        </li>
-      </ul>
+      <div class="scroll-list-wrap">
+          <cube-scroll ref="scroll">
+            <ul>
+              <li v-for="(item,index) in items" :key="index">
+              <div class="year">{{index}}:</div>
+              <div class="time clearfix">
+                  <span v-for="itemObj in item" :key="itemObj.flag" :class="[itemObj.outTime==0?'disabledStyle':'',current===itemObj.flag && itemObj.outTime==1?'active':'']" @click="changeCurrent(itemObj)">{{itemObj.quarter}}</span>
+              </div>
+              </li>
+            </ul>
+          </cube-scroll>
+      </div>
     </div>
   </div>
 
 </template>
 <script>
 import Header from "../../components/header/header";
+import { _getData } from "../../service/getData";
 import { mapMutations } from "vuex";
+import { Toast } from "vant";
 export default {
   data() {
     return {
-      cur: -1,
-      nowDate: 1,
-      times: ["第一季度", "第二季度", "第三季度", "第四季度"]
+      current: null,
+      selectValue: "",
+      items: []
     };
   },
   components: {
     Header
   },
-
   methods: {
-    ...mapMutations(["setTransition"]),
-    changeCurrent(index) {
-      this.cur = index;
+    ...mapMutations([
+      "setTransition",
+      "SBTGPredictTime",
+      "HCTGPredictTime",
+      "SHTGPredictTime",
+      "XXHTGPredictTime",
+      "JRTGPredictTime",
+      "ZXTGPredictTime"
+    ]),
+    changeCurrent(obj) {
+      console.log(obj);
+      if (obj.outTime == 1) {
+        this.current = obj.flag;
+        this.selectValue = obj;
+      }
     },
     enterClick() {
-      this.setTransition("turn-off");
-      this.$router.go(-1);
+      console.log(this.selectValue);
+      if (this.selectValue) {
+        switch (this.$route.query.groupTypeCode) {
+          case "SBTG":
+            if (this.$route.query.page == "submitGroupDemand") {
+              this.SBTGPredictTime(this.selectValue);
+            }
+            break;
+          case "HCTG":
+            if (this.$route.query.page == "submitGroupDemand") {
+              this.HCTGPredictTime(this.selectValue);
+            }
+            break;
+          case "SHTG":
+            if (this.$route.query.page == "submitGroupDemand") {
+              this.SHTGPredictTime(this.selectValue);
+            }
+            break;
+          case "XXHTG":
+            if (this.$route.query.page == "submitGroupDemand") {
+              this.XXHTGPredictTime(this.selectValue);
+            }
+            break;
+          case "JRTG":
+            if (this.$route.query.page == "submitGroupDemand") {
+              this.JRTGPredictTime(this.selectValue);
+            }
+            break;
+          case "ZXTG":
+            if (this.$route.query.page == "submitGroupDemand") {
+              this.ZXTGPredictTime(this.selectValue);
+            }
+            break;
+        }
+        this.setTransition("turn-off");
+        this.$router.go(-1);
+      } else {
+        Toast("请选择装机时间");
+        return;
+      }
     }
+  },
+  mounted() {
+    _getData(
+      "/server_pro/groupPurchaseCompanyProduct!request.action",
+      {
+        method: "getPreloadingTimeList",
+        params: {}
+      },
+      data => {
+        console.log("====================================");
+        console.log(data);
+        console.log("====================================");
+        this.items = data;
+      }
+    );
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>

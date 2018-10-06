@@ -25,7 +25,7 @@
                         <basic-title title="团购需求列表" imgurl="../static/images/product_list.png"></basic-title>
                         <type-scroll-nav-bar></type-scroll-nav-bar>
                         <budget-count></budget-count>
-                        <demand-list></demand-list>
+                        <demand-list pageName="hospitalProfile"></demand-list>
                     </div>
                 </cube-scroll>
             </div>

@@ -2,12 +2,6 @@
     <div class="selectProjectNav">
         <ul class="nav">
             <li v-for="item in items" :key="item.id" @click="select(item.id,item)" :class="activeClass(item.id)">{{item.name}}</li>
-            <!-- <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
-                <li class="active">设备团购</li>
-            </touch-ripple>
-            <touch-ripple :speed="1" :opacity="0.3" color="#ccc" transition="ease">
-                <li @click="handleClickEvent">设备团购</li>
-            </touch-ripple> -->
         </ul>
     </div>
 </template>
@@ -23,9 +17,7 @@ export default {
     };
   },
   props: ["MultipleSelection"],
-
   methods: {
-    handleClickEvent() {},
     select(item, itemObj) {
       if (this.MultipleSelection != undefined) {
         if (_.without(this.itemSelect, item).length == this.itemSelect.length) {
@@ -56,7 +48,6 @@ export default {
     }
   },
   created() {
-    console.log(this.MultipleSelection);
     _getData(
       "/server/basedata!request.action",
       {
@@ -64,8 +55,11 @@ export default {
         params: { code: "TGDHLX" }
       },
       data => {
-        console.log(data);
+        console.log("团购类型:", data);
         this.items = data;
+        this.itemSelect.push(data[0].id);
+        this.$emit("select-value", this.itemSelect.join(","));
+        this.$emit("selectObj", this.items[0]);
       }
     );
   }

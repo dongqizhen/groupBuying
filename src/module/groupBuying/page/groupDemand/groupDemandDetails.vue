@@ -1,40 +1,31 @@
 <template>
     <div class="container groupDemandDetails">
-        <Header :title='title'></Header>
+        <Header :title='this.$route.query.title'></Header>
         <div class="content">
-            <select-path-nav></select-path-nav>
-            <div class="table_container">
-                <h2>
-                    <span>品牌</span>
-                    <span>总数(台)</span>
-                    <p>
-                        <span>首选
-                            <i></i>
-                        </span>
-                        <span>次选
-                            <i></i>
-                        </span>
-                        <span>再选
-                            <i></i>
-                        </span>
-                    </p>
-
-                </h2>
-                <ul>
-
-                    <router-link to="GroupRequireDetails" tag="li" @click.native="setTransition('turn-on')">
-                        <a>
-                            <span>GE</span>
-                            <span>10</span>
-                            <p>
-                                <span>20</span>
-                                <span>30</span>
-                                <span>40</span>
-                            </p>
-                        </a>
-                    </router-link>
-
-                </ul>
+            <div class="scroll-list-wrap">
+                <cube-scroll ref="scroll">
+                    <select-path-nav :productLineName="this.$route.query.productLineName" :unit="this.unit" :provinceName="this.$route.query.provinceName" :totalNum="this.$route.query.totalNum"></select-path-nav>
+                    <div class="table_container">
+                        <h2>
+                            <span>品牌</span>
+                            <span @click="clickEvent('total')">总数<i :class="totalNum%2<0?'':(totalNum%2==1?'low':'high')"></i></span>
+                            <span @click="clickEvent('first')" v-if="flag">首选<i :class="firstNum%2<0?'':(firstNum%2==1?'low':'high')"></i></span>
+                            <span @click="clickEvent('second')" v-if="flag">次选<i :class="secondNum%2<0?'':(secondNum%2==1?'low':'high')"></i></span>
+                            <span @click="clickEvent('third')" v-if="flag">再选<i :class="thirdNum%2<0?'':(thirdNum%2==1?'low':'high')"></i></span>
+                        </h2>
+                        <ul>
+                            <router-link :to="{ path: 'groupEquipment', query: { brandId: item.brandId ,title:$route.query.title,productLineName:$route.query.productLineName ,unit:unit,provinceName:$route.query.provinceName, totalNum:item.total,brandName:item.brandName}}" tag="li" v-for="(item,index) in list" :key="index" @click.native="setTransition('turn-on')">
+                                <a>
+                                    <span>{{item.brandName}}</span>
+                                    <span>{{item.total}}</span>
+                                    <span v-if="flag">{{item.first}}</span>
+                                    <span v-if="flag">{{item.second}}</span>
+                                    <span v-if="flag">{{item.third}}</span>
+                                </a>
+                            </router-link>
+                        </ul>
+                    </div>
+                </cube-scroll>
             </div>
         </div>
     </div>
@@ -44,10 +35,17 @@
     import Header from "../../components/header/header";
     import selectPathNav from "../../components/common/selectPathNav";
     import { mapMutations } from "vuex";
+    import { _getData } from "../../service/getData";
     export default {
         data() {
             return {
-                title: "设备团购需求"
+                list: [],
+                totalNum: 0,
+                firstNum: -1,
+                secondNum: -1,
+                thirdNum: -1,
+                unit: "",
+                flag: ""
             };
         },
         components: {
@@ -55,7 +53,103 @@
             selectPathNav
         },
         methods: {
-            ...mapMutations(["setTransition"])
+            ...mapMutations(["setTransition"]),
+            clickEvent(param) {
+                switch (param) {
+                    case "total":
+                        this.firstNum = -1;
+                        this.secondNum = -1;
+                        this.thirdNum = -1;
+                        this.totalNum = this.totalNum + 1;
+                        if (this.totalNum % 2 == 0) {
+                            this.reqData("total", 0);
+                        } else {
+                            this.reqData("total", 1);
+                        }
+                        break;
+                    case "first":
+                        this.totalNum = -1;
+                        this.secondNum = -1;
+                        this.thirdNum = -1;
+                        this.firstNum = this.firstNum + 1;
+                        if (this.firstNum % 2 == 0) {
+                            this.reqData("first", 0);
+                        } else {
+                            this.reqData("first", 1);
+                        }
+                        break;
+                    case "second":
+                        this.firstNum = -1;
+                        this.totalNum = -1;
+                        this.thirdNum = -1;
+                        this.secondNum = this.secondNum + 1;
+                        if (this.secondNum % 2 == 0) {
+                            this.reqData("second", 0);
+                        } else {
+                            this.reqData("second", 1);
+                        }
+                        break;
+                    case "third":
+                        this.firstNum = -1;
+                        this.secondNum = -1;
+                        this.totalNum = -1;
+                        this.thirdNum = this.thirdNum + 1;
+                        if (this.thirdNum % 2 == 0) {
+                            this.reqData("third", 0);
+                        } else {
+                            this.reqData("third", 1);
+                        }
+                        break;
+                }
+            },
+            reqData(sortName, sortType) {
+                _getData(
+                    "/server_pro/groupPurchaseHospital!request.action",
+                    {
+                        method: "getBrandListByProvince",
+                        params: {
+                            groupPurchaseTypeId: this.$route.query
+                                .groupPurchaseTypeId,
+                            groupPurchaseId: this.$route.query.groupPurchaseId,
+                            productLineId: this.$route.query.productLineId,
+                            provinceId: this.$route.query.provinceId,
+                            sortName: sortName,
+                            sortType: sortType
+                        }
+                    },
+                    data => {
+                        console.log(data);
+                        this.list = data.list;
+                        this.flag = data.flag;
+                    }
+                );
+            }
+        },
+        created() {
+            this.reqData();
+            switch (this.$route.query.title) {
+                case "设备团购":
+                    this.unit = "台";
+                    break;
+                case "耗材团购":
+                    this.unit = "单";
+                    break;
+                case "售后团购":
+                    this.unit = "台";
+                    break;
+                case "信息化团购":
+                    this.unit = "台";
+                    break;
+                case "金融团购":
+                    this.unit = "台";
+                    break;
+                case "咨询团购":
+                    this.unit = "单";
+                    break;
+            }
+        },
+        deactivated() {
+            this.$destroy();
         }
     };
 </script>
@@ -80,18 +174,24 @@
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        &:first-child {
-                            width: 90px;
-                        }
-                        &:nth-child(2) {
-                            width: 60px;
-                        }
-                    }
-                    p {
                         flex: 1;
-                        display: flex;
-                        span {
-                            flex: 1;
+                        i {
+                            width: 10px;
+                            height: 12px;
+                            margin-left: 2px;
+                            background: url("../../../../../static/images/sort.png")
+                                no-repeat;
+                            background-size: 10px 12px;
+                            &.high {
+                                background: url("../../../../../static/images/sort-high.png")
+                                    no-repeat;
+                                background-size: 10px 12px;
+                            }
+                            &.low {
+                                background: url("../../../../../static/images/sort-low.png")
+                                    no-repeat;
+                                background-size: 10px 12px;
+                            }
                         }
                     }
                 }
@@ -121,30 +221,21 @@
                                 word-break: break-all;
                                 padding: 0 5px;
                                 line-height: 18px;
+                                flex: 1;
                                 &:first-child {
-                                    width: 90px;
+                                    color: #999999;
                                 }
                                 &:nth-child(2) {
-                                    width: 60px;
                                     color: #333333;
                                 }
-                            }
-                            p {
-                                flex: 1;
-                                display: flex;
-
-                                span {
-                                    flex: 1;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
+                                &:nth-child(3) {
+                                    color: #fb4354;
+                                }
+                                &:nth-child(4) {
                                     color: #f5a623;
-                                    &:first-child {
-                                        color: #fb4354;
-                                    }
-                                    &:last-child {
-                                        color: #7ed321;
-                                    }
+                                }
+                                &:nth-child(5) {
+                                    color: #7ed321;
                                 }
                             }
                         }

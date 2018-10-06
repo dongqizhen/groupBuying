@@ -1,10 +1,10 @@
 <template>
     <div class="container selectBrand">
-        <Header :title="this.$route.name">
+        <Header :title="this.$route.query.groupTypeCode=='ZXTG'||this.$route.query.groupTypeCode=='JRTG'?'选择服务商':'选择品牌'">
             <span slot="explain" class="enter" @click="clickLink">确定</span>
         </Header>
         <div class="content">
-            <search placeholder="请输入品牌" v-on:inputValue="selectBrand"></search>
+            <search :placeholder="this.$route.query.groupTypeCode=='ZXTG'||this.$route.query.groupTypeCode=='JRTG'?'请输入服务商':'请输入品牌'" v-on:inputValue="selectBrand"></search>
             <cube-index-list :data="brandListData" v-if="this.brandListData.length!=0">
               <cube-index-list-group v-for="(group, index) in brandListData" :key="index" :group="group">
                 <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem(item.brandId, item)">
@@ -42,22 +42,71 @@ export default {
     search
   },
   methods: {
-    ...mapMutations(["setTransition", "selectProductBrand"]),
+    ...mapMutations([
+      "setTransition",
+      "selectSBTGProductBrand",
+      "selectHCTGProductBrand",
+      "selectSHTGProductBrand",
+      "selectXXHTGProductBrand",
+      "selectJRTGProductBrand",
+      "selectZXTGProductBrand"
+    ]),
     clickLink() {
       this.setTransition("turn-off");
       console.log(this.tempLastSearchValue);
+      console.log(this.itemSelect);
+      console.log(this.searchItemSelect);
+
       if (this.tempLastSearchValue == "") {
         if (this.itemSelect.length == 0) {
           Toast("请选择或输入品牌");
           return;
         } else {
-          this.selectProductBrand(this.itemSelect[0]);
+          switch (this.$route.query.groupTypeCode) {
+            case "SBTG":
+              this.selectSBTGProductBrand(this.itemSelect);
+              break;
+            case "HCTG":
+              this.selectHCTGProductBrand(this.itemSelect);
+              break;
+            case "SHTG":
+              this.selectSHTGProductBrand(this.itemSelect);
+              break;
+            case "XXHTG":
+              this.selectXXHTGProductBrand(this.itemSelect);
+              break;
+            case "JRTG":
+              this.selectJRTGProductBrand(this.itemSelect);
+              break;
+            case "ZXTG":
+              this.selectZXTGProductBrand(this.itemSelect);
+              break;
+          }
         }
       } else {
         if (this.searchItemSelect.length == 0) {
           //将搜索框的值传给后台
         } else {
-          this.selectProductBrand(this.searchItemSelect[0]);
+          switch (this.$route.query.groupTypeCode) {
+            case "SBTG":
+              this.selectSBTGProductBrand(this.searchItemSelect);
+              break;
+            case "HCTG":
+              this.selectHCTGProductBrand(this.searchItemSelect);
+              break;
+            case "SHTG":
+              this.selectSHTGProductBrand(this.searchItemSelect);
+              break;
+            case "XXHTG":
+              this.selectXXHTGProductBrand(this.searchItemSelect);
+              break;
+            case "JRTG":
+              this.selectJRTGProductBrand(this.searchItemSelect);
+              break;
+            case "ZXTG":
+              this.selectZXTGProductBrand(this.searchItemSelect);
+              break;
+          }
         }
       }
       this.$router.go(-1);
@@ -119,7 +168,7 @@ export default {
         "/server_pro/groupPurchaseCompanyProduct!request.action",
         {
           method: "getBrandListByGroupPurchaseType",
-          params: { name: name, productLineId: "264" }
+          params: { name: name, productLineId: this.$route.query.productLineId }
         },
         data => {
           console.log(data);
@@ -135,6 +184,9 @@ export default {
   },
   mounted() {
     this.reqData();
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>

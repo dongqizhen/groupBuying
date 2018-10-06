@@ -19,7 +19,7 @@
                         <div class="commonLeft">临床应用</div>
                         <div class="commonRight clinicalDescription">{{data.application}}</div>
                     </div>
-                    <div class="common param">
+                    <div class="common param" v-if="params.length!=0">
                         <div class="commonLeft">参数</div>
                         <div class="commonRight paramVal">
                             <ul>
@@ -33,209 +33,242 @@
                     <div class="proInfo">{{data.introduce}}</div>
                 </div>
             </scroller>
-
-            <footer-menu></footer-menu>
+            <footer-menu :isStore="isStore" v-on:selectedLabel="selectLabel"></footer-menu>
         </div>
     </div>
 </template>
 
 <script>
-    import Header from "../../components/header/header";
-    import footerMenu from "../../components/common/footerMenu";
-    import { _getData } from "../../service/getData";
-    export default {
-        data() {
-            return {
-                Banneritems: [
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide01.png"
-                    },
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide02.png"
-                    },
-                    {
-                        url: "http://www.didichuxing.com/",
-                        image:
-                            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png"
-                    }
-                ],
-                params: [
-                    { paramName: "四排" },
-                    { paramName: "六排" },
-                    { paramName: "六排八排" }
-                    /* { paramName: "六排六排" },
-                                                                                                                                      { paramName: "八排" } */
-                ],
-                data: {}
-            };
+import Header from "../../components/header/header";
+import footerMenu from "../../components/common/footerMenu";
+import { _getData } from "../../service/getData";
+import { mapMutations } from "vuex";
+export default {
+  data() {
+    return {
+      Banneritems: [
+        {
+          url: "http://www.didichuxing.com/",
+          image:
+            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide01.png"
         },
-        components: {
-            Header,
-            footerMenu
+        {
+          url: "http://www.didichuxing.com/",
+          image:
+            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide02.png"
         },
-        methods: {},
-        created() {
-            _getData(
-                "/server_pro/groupPurchaseCompanyProduct!request.action",
-                {
-                    method: "getGroupPurchaseCompanyProductDetail",
-
-                    params: { id: "4" }
-                },
-                data => {
-                    console.log(data);
-                    this.data = data;
-                }
-            );
+        {
+          url: "http://www.didichuxing.com/",
+          image:
+            "//webapp.didistatic.com/static/webapp/shield/cube-ui-examples-slide03.png"
         }
+      ],
+      params: [
+        { paramName: "四排" },
+        { paramName: "六排" },
+        { paramName: "六排八排" }
+      ],
+      data: {},
+      isStore: ""
     };
+  },
+  components: {
+    Header,
+    footerMenu
+  },
+  methods: {
+    ...mapMutations["setTranstion"],
+    selectLabel(obj) {
+      console.log(obj);
+      switch (obj.label) {
+        case "查看商家":
+          break;
+        case "私信商家":
+          break;
+        case "收藏":
+          _getData(
+            "/server_pro/dianzan!request.action",
+            {
+              method: "addOrDeleteFavorite_v27",
+              params: {
+                id: this.$route.query.productID,
+                type: 20,
+                controlflag: obj.num % 2, //1表示取消，0表示添加（传的是现在的状态）
+                smallType: "" //未知
+              }
+            },
+            data => {
+              console.log(data);
+            }
+          );
+          break;
+        case "加入我的团购需求表":
+          break;
+      }
+    }
+  },
+  created() {
+    _getData(
+      "/server_pro/groupPurchaseCompanyProduct!request.action",
+      {
+        method: "getGroupPurchaseCompanyProductDetail",
+        params: { id: this.$route.query.productID }
+      },
+      data => {
+        console.log(data);
+        this.data = data;
+        this.params = data.param;
+        // this.isStore = true;
+      }
+    );
+  },
+  watch: {
+    isStore() {}
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../../../static/scss/_commonScss.scss";
-    .container {
-        @include basic_container_style;
-        background: #fff;
-        /deep/ #header {
-            border: none;
-        }
-        .content {
-            background: #fff;
-            /deep/ ._v-container {
-                background: #f6f6f6;
-                height: calc(100% - 48px) !important;
-            }
-            .banner {
-                width: 100%;
-                height: 353px;
-                margin-bottom: 10px;
-            }
-            .proBaseInfo {
-                background-color: #fff;
-                height: 92px;
-                padding: 10px 13px 10px 7px;
-                margin-bottom: 10px;
-                .tagTypeBox {
-                    height: 100%;
-                    float: left;
-                }
-                .tagType {
-                    display: block;
-                    background: #f56a23;
-                    border-radius: 1px;
-                    color: #fff;
-                    font-family: PingFangSC-Regular;
-                    width: 40px;
-                    height: 18px;
-                    line-height: 18px;
-                    font-size: 14px;
-                    text-align: center;
-                    margin-right: 7px;
-                    margin-top: 2px;
-                }
-                .prolineAndBrandAndModel {
-                    font-size: 18px;
-                    color: #333;
-                    min-height: 54px;
-                    font-family: PingFangSC-Medium;
-                    line-height: 24px;
-                }
-                .proPrice {
-                    font-size: 20px;
-                    color: #fb4354;
-                    float: right;
-                    font-family: PingFangSC-Medium;
-
-                    .currency {
-                        color: #fb4354;
-                        font-size: 13px;
-                        font-family: PingFangSC-Medium;
-                        margin-right: 2px;
-                    }
-                    .priceUnit {
-                        font-size: 12px;
-                        color: #999;
-                        font-family: PingFangSC-Medium;
-                    }
-                }
-            }
-            .proParam {
-                width: 100%;
-                margin-bottom: 10px;
-                background-color: #fff;
-                .common {
-                    display: flex;
-                    padding: 0 13px;
-                    align-items: center;
-                    justify-content: space-between;
-                    min-height: 46px;
-                    .commonLeft {
-                        flex-basis: 89px;
-                        font-size: 14px;
-                        color: #999;
-                        font-family: PingFangSC-Regular;
-                    }
-                    .commonRight {
-                        flex-basis: 260px;
-                    }
-                }
-                .clinicalApplication {
-                    border-bottom: $border_style;
-                    min-height: 46px;
-                    .clinicalDescription {
-                        font-size: 14px;
-                        color: #333;
-                        line-height: 18px;
-                        font-family: PingFangSC-Regular;
-                    }
-                }
-                .paramVal {
-                    ul {
-                        display: flex;
-                        width: 100%;
-                        justify-content: flex-start;
-                        flex-wrap: wrap;
-                        li {
-                            padding: 0 16px;
-                            background-color: #ebebeb;
-                            border-radius: 2px;
-                            font-size: 13px;
-                            color: #333;
-                            height: 19px;
-                            line-height: 19px;
-                            margin: 5px 0;
-                            margin-right: 10px;
-                            font-family: PingFangSC-Regular;
-                        }
-                    }
-                }
-            }
-            .proDetail {
-                width: 100%;
-                background-color: #fff;
-                margin-bottom: 56px;
-                h2 {
-                    height: 46px;
-                    line-height: 46px;
-                    padding: 0 13px;
-                    font-size: 14px;
-                    color: #333;
-                    border-bottom: $border_style;
-                    font-family: PingFangSC-Medium;
-                }
-                .proInfo {
-                    font-family: PingFangSC-Regular;
-                    padding: 13px;
-                    line-height: 18px;
-                    font-size: 14px;
-                    color: #333333;
-                    box-shadow: 0.5px 1px 2px 0.5px rgba(0, 0, 0, 0.1);
-                }
-            }
-        }
+@import "../../../../../static/scss/_commonScss.scss";
+.container {
+  @include basic_container_style;
+  background: #fff;
+  /deep/ #header {
+    border: none;
+  }
+  .content {
+    background: #fff;
+    /deep/ ._v-container {
+      background: #f6f6f6;
+      height: calc(100% - 48px) !important;
     }
+    .banner {
+      width: 100%;
+      height: 353px;
+      margin-bottom: 10px;
+    }
+    .proBaseInfo {
+      background-color: #fff;
+      height: 92px;
+      padding: 10px 13px 10px 7px;
+      margin-bottom: 10px;
+      .tagTypeBox {
+        height: 100%;
+        float: left;
+      }
+      .tagType {
+        display: block;
+        background: #f56a23;
+        border-radius: 1px;
+        color: #fff;
+        font-family: PingFangSC-Regular;
+        width: 40px;
+        height: 18px;
+        line-height: 18px;
+        font-size: 14px;
+        text-align: center;
+        margin-right: 7px;
+        margin-top: 2px;
+      }
+      .prolineAndBrandAndModel {
+        font-size: 18px;
+        color: #333;
+        min-height: 54px;
+        font-family: PingFangSC-Medium;
+        line-height: 24px;
+      }
+      .proPrice {
+        font-size: 20px;
+        color: #fb4354;
+        float: right;
+        font-family: PingFangSC-Medium;
+
+        .currency {
+          color: #fb4354;
+          font-size: 13px;
+          font-family: PingFangSC-Medium;
+          margin-right: 2px;
+        }
+        .priceUnit {
+          font-size: 12px;
+          color: #999;
+          font-family: PingFangSC-Medium;
+        }
+      }
+    }
+    .proParam {
+      width: 100%;
+      margin-bottom: 10px;
+      background-color: #fff;
+      .common {
+        display: flex;
+        padding: 0 13px;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 46px;
+        .commonLeft {
+          flex-basis: 89px;
+          font-size: 14px;
+          color: #999;
+          font-family: PingFangSC-Regular;
+        }
+        .commonRight {
+          flex-basis: 260px;
+        }
+      }
+      .clinicalApplication {
+        border-bottom: $border_style;
+        min-height: 46px;
+        .clinicalDescription {
+          font-size: 14px;
+          color: #333;
+          line-height: 18px;
+          font-family: PingFangSC-Regular;
+        }
+      }
+      .paramVal {
+        ul {
+          display: flex;
+          width: 100%;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          li {
+            padding: 0 16px;
+            background-color: #ebebeb;
+            border-radius: 2px;
+            font-size: 13px;
+            color: #333;
+            height: 19px;
+            line-height: 19px;
+            margin: 5px 0;
+            margin-right: 10px;
+            font-family: PingFangSC-Regular;
+          }
+        }
+      }
+    }
+    .proDetail {
+      width: 100%;
+      background-color: #fff;
+      margin-bottom: 56px;
+      h2 {
+        height: 46px;
+        line-height: 46px;
+        padding: 0 13px;
+        font-size: 14px;
+        color: #333;
+        border-bottom: $border_style;
+        font-family: PingFangSC-Medium;
+      }
+      .proInfo {
+        font-family: PingFangSC-Regular;
+        padding: 13px;
+        line-height: 18px;
+        font-size: 14px;
+        color: #333333;
+        box-shadow: 0.5px 1px 2px 0.5px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
 </style>

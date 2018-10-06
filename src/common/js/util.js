@@ -22,14 +22,15 @@ Util.prototype.isemail = function(arg) {
     }
     // 是否为手机号
 Util.prototype.isphone = function(arg) {
-    const str = arg[1]
-    return new Promise(function(resolve, reject) {
-        if (/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/.test(str)) {
-            resolve(true)
-        } else {
-            reject(new Error(''))
-        }
-    })
+    // return new Promise(function(resolve, reject) {
+    if (/^1[3-9]\d{9}$/.test(arg)) {
+        // resolve(true)
+        return true;
+    } else {
+        // reject(new Error(''))
+        return false;
+    }
+    // })
 }
 const g_encrypt = 1;
 
