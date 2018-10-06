@@ -14,7 +14,8 @@ import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css'
 //import "../../../static/css/cube-ui/cube-ui.scss"
 import {
-    connectWebViewJavascriptBridge
+    connectWebViewJavascriptBridge,
+    setupWebViewJavascriptBridge
 } from '../../common/js/jsBridge'
 import {
     SwipeCell
@@ -98,31 +99,39 @@ const initVueApp = () => {
 }
 
 // 第一连接时初始化bridage
-new connectWebViewJavascriptBridge(function(bridge) {
+if (Util.isAndroid()) {
+    new connectWebViewJavascriptBridge(function(bridge) {
 
-    initVueApp()
+        initVueApp()
 
-    bridge.init(function(message, responseCallback) {
-        console.log('JS got a message', message);
-        var data = {
-            'Javascript Responds': '测试中文!'
-        };
-        console.log('JS responding with', data);
-        responseCallback(data);
+        bridge.init(function(message, responseCallback) {
+            console.log('JS got a message', message);
+            var data = {
+                'Javascript Responds': '测试中文!'
+            };
+            console.log('JS responding with', data);
+            responseCallback(data);
+        });
+        // 注册一个"functionInJs",
+        bridge.registerHandler("functionInJs", function(data, responseCallback) {
+
+            bridge.callHandler(
+                "Log", {
+                    param: JSON.stringify({
+                        data: "1111111111"
+                    })
+                },
+                function(responseData) {
+                    responseCallback(responseData);
+                }
+            );
+
+        });
+    })
+} else {
+    new setupWebViewJavascriptBridge(function(bridge) {
+        initVueApp(); // vue 实例
+        //window.WebViewJavascriptBridge.callHandler('isBackNativePage');
+
     });
-    // 注册一个"functionInJs",
-    bridge.registerHandler("functionInJs", function(data, responseCallback) {
-
-        bridge.callHandler(
-            "Log", {
-                param: JSON.stringify({
-                    data: "1111111111"
-                })
-            },
-            function(responseData) {
-                responseCallback(responseData);
-            }
-        );
-
-    });
-})
+}

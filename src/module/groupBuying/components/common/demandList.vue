@@ -1,14 +1,14 @@
 <template>
     <div class="demandList">
         <div class="common productSort">
-            <span>产品分类</span>
+            <span>{{keyWords()}}分类</span>
             <span class="value">CT类</span>
             <span class="taiNumber">
                 <b>5</b>
                 <a>台</a>
             </span>
         </div>
-        <div class="common hopeBrand">
+        <div class="common hopeBrand" v-if="this.$route.query.title=='设备团购' ||this.$route.query.title=='耗材团购' || pageName=='hospitalProfile'">
             <ul>
                 <li>
                     <span>
@@ -44,7 +44,23 @@
                 </li>
             </ul>
         </div>
+        <div v-if="this.$route.query.title=='售后团购'">
+            <div class="common productSort"><span>设备品牌</span>
+                <span class="value">GE</span></div>
+            <div class="common productSort model">
+                <span>设备型号</span>
+                <ul>
+                    <li>ATS5000</li>
+                    <li>IC697BEM731</li>
+                </ul>
+            </div>
+        </div>
+        <div v-if="this.$route.query.title=='金融团购'">
+            <div class="common productSort"><span>金融服务商</span>
+                <span class="value">GE</span>
+            </div>
 
+        </div>
     </div>
 </template>
 <script>
@@ -52,7 +68,28 @@
         data() {
             return {};
         },
-        components: {}
+        components: {},
+        props: ["pageName"],
+        methods: {
+            keyWords() {
+                switch (this.$route.query.title) {
+                    case "设备团购":
+                        return "设备";
+                    case "售后团购":
+                        return "设备";
+                    case "咨询团购":
+                        return "咨询";
+                    case "金融团购":
+                        return "金融";
+                    case "信息化团购":
+                        return "平台";
+                    case "耗材团购":
+                        return "耗材";
+                    default:
+                        return "产品";
+                }
+            }
+        }
     };
 </script>
 <style lang="scss" scoped>
@@ -61,7 +98,7 @@
         .common {
             width: 100%;
             padding: 0 13px;
-            border-bottom: 0.5px solid #f6f6f6;
+            border-bottom: $border_style;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -113,6 +150,24 @@
                     color: #999999;
                     margin-bottom: 2px;
                     text-decoration: none;
+                }
+            }
+            &.model {
+                ul {
+                    display: flex;
+                    justify-content: flex-start;
+                    flex: 1;
+                    li {
+                        background: rgba(142, 142, 142, 0.05);
+                        border-radius: 2px;
+                        height: 19px;
+                        font-family: PingFangSC-Regular;
+                        font-size: 12px;
+                        color: #666666;
+                        padding: 0 10px;
+                        line-height: 19px;
+                        margin-right: 10px;
+                    }
                 }
             }
         }

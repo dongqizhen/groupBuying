@@ -1,4 +1,5 @@
 export const connectWebViewJavascriptBridge = callback => {
+    //Android
     if (window.WebViewJavascriptBridge) {
         callback(WebViewJavascriptBridge)
     } else {
@@ -10,11 +11,13 @@ export const connectWebViewJavascriptBridge = callback => {
             false
         );
     }
+
+
 }
 
 
 // ios
-function setupWebViewJavascriptBridge(callback) {
+export function setupWebViewJavascriptBridge(callback) {
     if (window.WebViewJavascriptBridge) {
         return callback(WebViewJavascriptBridge);
     }
@@ -29,10 +32,12 @@ function setupWebViewJavascriptBridge(callback) {
     setTimeout(function() {
         document.documentElement.removeChild(WVJBIframe)
     }, 0)
-};
-setupWebViewJavascriptBridge(function(bridge) {
-    //initVueApp(); // vue 实例
-});
+}
+/* setupWebViewJavascriptBridge(function(bridge) {
+    //  initVueApp(); // vue 实例
+    window.WebViewJavascriptBridge.callHandler('isBackNativePage');
+
+}); */
 
 
 
