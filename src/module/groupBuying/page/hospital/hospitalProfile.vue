@@ -96,7 +96,7 @@
                 "/server_pro/groupPurchaseHospital!request.action",
                 {
                     method: "getAppGroupPurchaseHospitalInfo",
-                    params: { id: "1" }
+                    params: { id: 1 }
                 },
                 data => {
                     this.isRequested = true;

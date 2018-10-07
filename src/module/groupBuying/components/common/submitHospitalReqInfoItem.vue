@@ -2,22 +2,22 @@
 <template>
   <div class="submitHospitalInfo">
     <hos-man-attention :result="result">
-      <span slot="hospitalName" class="hospital">{{result.hospital}}</span>
+      <span slot="hospitalName" class="hospital">{{result.hospitalName}}</span>
     </hos-man-attention>
-    <demand-list></demand-list>
+    <demand-list :data="result"></demand-list>
     <div class="common addressAndBudget">
       <div class="address">
         <img src="../../../../../static/images/site.png">
         <span>地址</span>
-        <span>山东省济南市</span>
+        <span>{{result.addr}}</span>
       </div>
       <div class="budget" :style="{display:this.$route.query.title=='金融团购'?'none':''}">
         <img src="../../../../../static/images/budget.png">
-        <span>5台预算总计</span>
-        <span class="moneyCount">2000万</span>
+        <span>{{result.num}}台预算总计</span>
+        <span class="moneyCount">{{result.price}}万</span>
       </div>
     </div>
-    <router-link to="/hospitalProfile" @click.native="clickLink">
+    <router-link :to="{path:'hospitalProfile',query:{id:result.id}}" @click.native="clickLink">
       <div class="otherRequire">
         <span>该院其他团购需求</span>
         <img src="../../../../../static/images/rightArrow.png">
@@ -41,6 +41,9 @@
       components: {
           hosManAttention,
           demandList
+      },
+      computed: {
+          getUserInfo() {}
       }
   };
 </script>
@@ -166,7 +169,12 @@
       .addressAndBudget {
           border-bottom: 0.5px solid #e9e9e9;
           padding: 12px 13px;
+          display: flex;
+          justify-content: flex-start;
           .address {
+              width: 176px;
+              /* display: flex;
+                                justify-content: flex-start; */
               img {
                   width: 10.8px;
                   height: 14px;
@@ -180,12 +188,17 @@
                   &:last-child {
                       font-family: PingFangSC-Medium;
                       color: #333;
-
-                      margin-left: 10px;
+                      width: 121px;
+                      display: inline-block;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      margin-left: 8px;
                   }
               }
           }
           .budget {
+              width: 147px;
               img {
                   width: 14px;
                   height: 14px;

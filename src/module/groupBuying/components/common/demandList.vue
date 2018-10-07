@@ -2,9 +2,9 @@
     <div class="demandList">
         <div class="common productSort">
             <span>{{keyWords()}}分类</span>
-            <span class="value">CT类</span>
+            <span class="value">{{data.productLineName}}</span>
             <span class="taiNumber">
-                <b>5</b>
+                <b>{{data.num}}</b>
                 <a>台</a>
             </span>
         </div>
@@ -16,9 +16,9 @@
                         <span>首选</span>
                     </span>
                     <span class="brandAndModel">
-                        <span class="brand">GE</span>
-                        <span class="model">ATS5000</span>
-                        <span class="model">1C697BEM731</span>
+                        <span class="brand">{{data.brandList[0].brandName}}</span>
+                        <span class="model" v-for="(val,index) in data.brandList[0].modelList" :key="index">{{val.modelName}}</span>
+
                     </span>
                 </li>
                 <li>
@@ -27,9 +27,9 @@
                         <span>次选</span>
                     </span>
                     <span class="brandAndModel">
-                        <span class="brand">飞利浦</span>
-                        <span class="model">飞895645</span>
-                        <span class="model">飞利浦14526</span>
+                        <span class="brand">{{data.brandList[1].brandName}}</span>
+                        <span class="model" v-for="(val,index) in data.brandList[1].modelList" :key="index">{{val.modelName}}</span>
+
                     </span>
                 </li>
                 <li>
@@ -38,8 +38,8 @@
                         <span>再选</span>
                     </span>
                     <span class="brandAndModel">
-                        <span class="brand">西门子</span>
-                        <span class="model">edge</span>
+                        <span class="brand">{{data.brandList[2].brandName}}</span>
+                        <span class="model" v-for="(val,index) in data.brandList[2].modelList" :key="index">{{val.modelName}}</span>
                     </span>
                 </li>
             </ul>
@@ -69,7 +69,7 @@
             return {};
         },
         components: {},
-        props: ["pageName"],
+        props: ["pageName", "data"],
         methods: {
             keyWords() {
                 switch (this.$route.query.title) {
@@ -89,6 +89,9 @@
                         return "产品";
                 }
             }
+        },
+        mounted() {
+            console.log(this.data);
         }
     };
 </script>

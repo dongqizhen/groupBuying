@@ -182,12 +182,16 @@
                   console.log(data);
                   this.groupList = data.groupList;
                   this.currentGroupId = data.groupList[0].id;
-                  console.log(this.currentGroupId);
                   this.totalNum = data.groupList[0].totalNum;
                   this.groupPurchaseTypeName = data.groupList[0].name;
                   this.groupBrandList = data.groupPurchaseBrandList;
                   this.productLineList = data.productLineList;
-                  // this.groupInventoryList = this.productLineList;
+                  this.groupInventoryList = _.find(this.productLineList, o => {
+                      return o[this.currentGroupId];
+                  })[this.currentGroupId];
+                  this.enterBrandList = _.find(this.groupBrandList, o => {
+                      return o[this.currentGroupId];
+                  })[this.currentGroupId];
               }
           );
       },

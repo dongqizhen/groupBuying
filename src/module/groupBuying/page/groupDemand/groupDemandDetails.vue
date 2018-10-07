@@ -14,7 +14,17 @@
                             <span @click="clickEvent('third')" v-if="flag">再选<i :class="thirdNum%2<0?'':(thirdNum%2==1?'low':'high')"></i></span>
                         </h2>
                         <ul>
-                            <router-link :to="{ path: 'groupEquipment', query: { brandId: item.brandId ,title:$route.query.title,productLineName:$route.query.productLineName ,unit:unit,provinceName:$route.query.provinceName, totalNum:item.total,brandName:item.brandName}}" tag="li" v-for="(item,index) in list" :key="index" @click.native="setTransition('turn-on')">
+                            <router-link :to="{ path: 'groupEquipment', query: { 
+                                    brandId: item.brandId ,
+                                    title:$route.query.title,
+                                    productLineName:$route.query.productLineName ,
+                                    unit:unit,provinceName:$route.query.provinceName, totalNum:item.total,
+                                    brandName:item.brandName,
+                                    groupPurchaseId:$route.query.groupPurchaseId,
+                                    groupPurchaseTypeId:$route.query.groupPurchaseTypeId,
+                                    productLineId:$route.query.productLineId,
+                                    provinceId:$route.query.provinceId
+                                }}" tag="li" v-for="(item,index) in list" :key="index" @click.native="setTransition('turn-on')">
                                 <a>
                                     <span>{{item.brandName}}</span>
                                     <span>{{item.total}}</span>

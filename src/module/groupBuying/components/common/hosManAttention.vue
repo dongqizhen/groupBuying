@@ -1,9 +1,9 @@
 <template>
   <div class="hosManAttention">
     <div class="leftBox">
-      <img :src="result.imgUrl" alt="">
+      <img :src="result.userImageUrl" alt="">
       <div class="nameAndHospital">
-        <span class="name">{{result.name}}</span>
+        <span class="name">{{result.userName}}</span>
         <slot name="hospitalName"></slot>
       </div>
     </div>
