@@ -54,7 +54,17 @@ export default {
       "selectSHTGProductBrand",
       "selectXXHTGProductBrand",
       "selectJRTGProductBrand",
-      "selectZXTGProductBrand"
+      "selectZXTGProductBrand",
+      "SBTGProductBrandFirst",
+      "SBTGProductBrandSecond",
+      "SBTGProductBrandThird",
+      "HCTGProductBrandFirst",
+      "HCTGProductBrandSecond",
+      "HCTGProductBrandThird",
+      "SHTGProductBrand",
+      "xxHTGProductBrand",
+      "JRTGProductBrand",
+      "ZXTGProductBrand"
     ]),
     clickSure() {
       this.setTransition("turn-off");
@@ -113,14 +123,26 @@ export default {
           if (this.page == "uploadProduct") {
             this.selectSBTGProductBrand(this.itemSelect);
           } else if (this.page == "submitGroupDemand") {
-            this.SBTGProductBrand(this.itemSelect);
+            if (this.$route.query.type == 0) {
+              this.SBTGProductBrandFirst(this.itemSelect);
+            } else if (this.$route.query.type == 1) {
+              this.SBTGProductBrandSecond(this.itemSelect);
+            } else {
+              this.SBTGProductBrandThird(this.itemSelect);
+            }
           }
           break;
         case "HCTG":
           if (this.page == "uploadProduct") {
             this.selectHCTGProductBrand(this.itemSelect);
           } else if (this.page == "submitGroupDemand") {
-            this.HCTGProductBrand(this.itemSelect);
+            if (this.$route.query.type == 0) {
+              this.HCTGProductBrandFirst(this.itemSelect);
+            } else if (this.$route.query.type == 1) {
+              this.HCTGProductBrandSecond(this.itemSelect);
+            } else {
+              this.HCTGProductBrandThird(this.itemSelect);
+            }
           }
           break;
         case "SHTG":
@@ -208,9 +230,7 @@ export default {
     this.groupTypeCode = this.$route.query.groupTypeCode;
     this.page = this.$route.query.page;
     this.reqData();
-    if (this.page == "uploadProduct") {
-      this.itemSelect = this.$route.query.vuexSelectValue;
-    }
+    this.itemSelect = this.$route.query.vuexSelectValue;
   },
   deactivated() {
     this.$destroy();

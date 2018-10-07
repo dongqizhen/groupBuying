@@ -107,11 +107,23 @@ const mutations = {
   ZXTGProductSort(state, productSortValue) {
     state.page.submitGroupDemand.ZXTG.productSort = productSortValue;
   },
-  SBTGProductBrand(state, productBrandValue) {
-    state.page.submitGroupDemand.SBTG.productBrand = productBrandValue;
+  SBTGProductBrandFirst(state, productBrandValue) {
+    state.page.submitGroupDemand.SBTG.productBrandFirst = productBrandValue;
   },
-  HCTGProductBrand(state, productBrandValue) {
-    state.page.submitGroupDemand.HCTG.productBrand = productBrandValue;
+  SBTGProductBrandSecond(state, productBrandValue) {
+    state.page.submitGroupDemand.SBTG.productBrandSecond = productBrandValue;
+  },
+  SBTGProductBrandThird(state, productBrandValue) {
+    state.page.submitGroupDemand.SBTG.productBrandThird = productBrandValue;
+  },
+  HCTGProductBrandFirst(state, productBrandValue) {
+    state.page.submitGroupDemand.HCTG.productBrandFirst = productBrandValue;
+  },
+  HCTGProductBrandSecond(state, productBrandValue) {
+    state.page.submitGroupDemand.HCTG.productBrandSecond = productBrandValue;
+  },
+  HCTGProductBrandThird(state, productBrandValue) {
+    state.page.submitGroupDemand.HCTG.productBrandThird = productBrandValue;
   },
   SHTGProductBrand(state, productBrandValue) {
     state.page.submitGroupDemand.SHTG.productBrand = productBrandValue;
@@ -125,11 +137,23 @@ const mutations = {
   ZXTGProductBrand(state, productBrandValue) {
     state.page.submitGroupDemand.ZXTG.productBrand = productBrandValue;
   },
-  SBTGProductModel(state, productModelValue) {
-    state.page.submitGroupDemand.SBTG.productModel = productModelValue;
+  SBTGProductModelFirst(state, productModelValue) {
+    state.page.submitGroupDemand.SBTG.productModelFirst = productModelValue;
   },
-  HCTGProductModel(state, productModelValue) {
-    state.page.submitGroupDemand.HCTG.productModel = productModelValue;
+  SBTGProductModelSecond(state, productModelValue) {
+    state.page.submitGroupDemand.SBTG.productModelSecond = productModelValue;
+  },
+  SBTGProductModelThird(state, productModelValue) {
+    state.page.submitGroupDemand.SBTG.productModelThird = productModelValue;
+  },
+  HCTGProductModelFirst(state, productModelValue) {
+    state.page.submitGroupDemand.HCTG.productModelFirst = productModelValue;
+  },
+  HCTGProductModelSecond(state, productModelValue) {
+    state.page.submitGroupDemand.HCTG.productModelSecond = productModelValue;
+  },
+  HCTGProductModelThird(state, productModelValue) {
+    state.page.submitGroupDemand.HCTG.productModelThird = productModelValue;
   },
   SHTGProductModel(state, productModelValue) {
     state.page.submitGroupDemand.SHTG.productModel = productModelValue;

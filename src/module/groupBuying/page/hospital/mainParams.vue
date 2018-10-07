@@ -171,7 +171,7 @@ export default {
         Toast(this.toastText);
       } else {
         if (!itemSelectCommon && !paramListCommon) {
-          this.itemSelect.push({ name: name });
+          this.itemSelect.push({ id: "", name: name });
         } else {
           if (!itemSelectCommon && paramListCommon) {
             this.itemSelect.push(paramListCommon);

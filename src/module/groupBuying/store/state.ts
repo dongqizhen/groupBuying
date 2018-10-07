@@ -163,7 +163,7 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        productBrandFirst: [
           {
             aliasId: "",
             aliasName: "",
@@ -172,20 +172,32 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
+        productBrandSecond: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        productBrandThird: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        productModelFirst: [],
+        productModelSecond: [],
+        productModelThird: [],
         mainParams: [],
         predictTime: {}
       },
       HCTG: {
-        productSort: [
-          {
-            aliasId: "",
-            aliasName: "",
-            productLineId: "",
-            productLineName: ""
-          }
-        ],
-        productBrand: [
+        productBrandFirst: [
           {
             aliasId: "",
             aliasName: "",
@@ -194,7 +206,27 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
+        productBrandSecond: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        productBrandThird: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        productModelFirst: [],
+        productModelSecond: [],
+        productModelThird: [],
         mainParams: [],
         predictTime: {}
       },
@@ -216,7 +248,9 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
+        productModelFirst: [],
+        productModelSecond: [],
+        productModelThird: [],
         mainParams: [],
         predictTime: {}
       },

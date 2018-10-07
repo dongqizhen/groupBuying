@@ -266,9 +266,7 @@ export default {
     this.groupTypeCode = this.$route.query.groupTypeCode;
     this.page = this.$route.query.page;
     this.reqData();
-    if (this.page == "uploadProduct") {
-      this.itemSelect = this.$route.query.vuexSelectValue;
-    }
+    this.itemSelect = this.$route.query.vuexSelectValue;
   },
   deactivated() {
     this.$destroy();
@@ -344,9 +342,6 @@ export default {
           align-items: center;
           border-radius: 7px;
           padding: 0 5px;
-          /*  &:active {
-                                                                                                                                                                                                                                                                    background: rgba($color: #999, $alpha: 0.3);
-                                                                                                                                                                                                                                                                } */
         }
       }
       .general_area {
@@ -359,9 +354,6 @@ export default {
           align-items: center;
           border-radius: 7px;
           padding: 0 5px;
-          /* &:active {
-                                                                                                                                                                                                                                                                    background: rgba($color: #999, $alpha: 0.3);
-                                                                                                                                                                                                                                                                } */
         }
       }
     }

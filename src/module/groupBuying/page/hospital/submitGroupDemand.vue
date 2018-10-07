@@ -5,7 +5,7 @@
             <div class="scroll-list-wrap">
             <cube-scroll ref="scroll">
             <div class="selectGroupMeeting">
-                <basic-title title="选择团购大会" imgurl="/static/images/groupBuy.png">
+                <basic-title title="选择团购大会" imgurl="../static/images/groupBuy.png">
                     <span slot="select">(必选项)</span>
                 </basic-title>
                 <div class="list_box">
@@ -13,13 +13,13 @@
                 </div>
             </div>
             <div class="groupType">
-                <basic-title title="团购需求类型" imgurl="/static/images/selectproject.png">
+                <basic-title title="团购需求类型" imgurl="../static/images/selectproject.png">
                     <span slot="select">(必选项)</span>
                 </basic-title>
                 <select-project-nav v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
             </div>
             <div class="productBasicInfromation">
-                <basic-title :title="title" imgurl="/static/images/basicInformation.png">
+                <basic-title :title="title" imgurl="../static/images/basicInformation.png">
                     <span slot="select">(必填项)</span>
                 </basic-title>
                 <group-demand-write-info ref="groupDemandWriteInfo" :groupPurchaseId="this.submitData.groupPurchaseId" :groupType="this.groupItemObj" :groupPurchaseTypeId="submitData.groupPurchaseTypeId"></group-demand-write-info>

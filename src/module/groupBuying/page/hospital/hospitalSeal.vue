@@ -90,10 +90,12 @@ export default {
       this.submitBtnStatus = false;
       if (!this.submitData.groupPurchaseTypeIds) {
         Toast({ message: "请选择团购项目", duration: 1000 });
+        this.submitBtnStatus = true;
         return;
       }
       if (!this.submitData.hospitalName) {
         Toast({ message: "请输入医院名称", duration: 1000 });
+        this.submitBtnStatus = true;
         return;
       }
       var flag = true;

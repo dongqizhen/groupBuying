@@ -6,10 +6,11 @@
         <div class="right_box">
             <p>
                 <span>￥</span>
-                {{listData.price}}.00
+                {{listData.price}}
                 <span class="groupbuy">团购价</span>
             </p>
-            <span>{{listData.productLineName}}/{{listData.brandName}}/{{listData.modelName}}</span>
+            <span>{{listData.name}}</span>
+            <!-- <span>{{listData.productLineName}}/{{listData.brandName}}/{{listData.modelName}}</span> -->
         </div>
     </div>
 </template>

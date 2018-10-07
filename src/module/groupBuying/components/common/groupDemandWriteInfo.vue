@@ -52,64 +52,68 @@
         <div class="selectBrand" v-if="infoText.isShow">
             <basic-title title='首选' imgurl='../../../../../static/images/selected-first.png'>
                 <span slot="select">(必填)</span>
-                <span slot="check">清空</span>
+                <span slot="check" @click.stop="clear(0)">清空</span>
             </basic-title>
             <ul>
-                <li @click="setTransition('turn-on')">
-                    <router-link to="/selectBrand">
+                <li @click="jumpToBrand(0)">
+                    <a>
                     <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandName">
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandFirstName">
                             <i slot="append"></i>
                         </cube-input>
-                    </router-link>
+                    </a>
                 </li>
-                <li @click="setTransition('turn-on')">
-                    <router-link to="/selectBrand">
+                <li @click="jumpToModel(0)">
+                    <a>
                         <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :disabled="true" v-model="info.productModelName">
+                        <cube-input placeholder="请选择型号" Multiple :disabled="true" v-model="info.productModelFirstName">
                             <i slot="append"></i>
                         </cube-input>
-                    </router-link>
+                    </a>
                 </li>
             </ul>
             <basic-title title='次选' imgurl='../../../../../static/images/selected-second.png'>
-                <span slot="check">清空</span>
+                <span slot="check" @click.stop="clear(1)">清空</span>
             </basic-title>
             <ul>
-                <li v-ripple @click="setTransition('turn-on')">
-                    <router-link to="/selectBrand">
+                <li @click="jumpToBrand(1)">
+                    <a>
                     <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandName">
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandSecondName">
                             <i slot="append"></i>
                         </cube-input>
-                    </router-link>
+                    </a>
                 </li>
-                <li v-ripple @click="setTransition('turn-on')">
-                    <router-link to="/selectModel">
+                <li @click="jumpToModel(1)">
+                    <a>
                         <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :disabled="true" v-model="info.productModelName">
+                        <cube-input placeholder="请选择型号" :disabled="true" v-model="info.productModelSecondName">
                               <i slot="append"></i>
                         </cube-input>
-                    </router-link>
+                    </a>
                 </li>
             </ul>
-            <basic-title title='再选' imgurl='../../../../../static/images/selected-three.png'></basic-title>
+            <basic-title title='再选' imgurl='../../../../../static/images/selected-three.png'>
+            <span slot="check" @click.stop="clear(2)">清空</span></basic-title>
             <ul>
-                <li v-ripple @click="setTransition('turn-on')">
-                    <router-link to="/selectBrand">
+                <li @click="jumpToBrand(2)">
+                    <a>
                     <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandName">
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandThirdName">
                               <i slot="append"></i>
                         </cube-input>
-                    </router-link>
+                    </a>
                 </li>
-                <li v-ripple @click="setTransition('turn-on')">
-                    <router-link to="/selectModel">
+                <li @click="jumpToModel(2)">
+                    <a>
                         <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :disabled="true" v-model="info.productModelName">
+                        <cube-input placeholder="请选择型号" :disabled="true">
+                            <span slot="prepend">
+                                <span v-for="(item,index) in info.modelListThird" :key="index">{{item.name}}</span>
+                            </span>
                             <i slot="append"></i>
                         </cube-input>
-                    </router-link>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -216,17 +220,24 @@ const infos = [
       isModel: false
     },
     value: {
-      productLineName: "呼吸类",
+      productLineName: "",
       productLineId: "",
       productLineAliasId: "",
       otherProductLineName: "",
+      productBrandFirstName: "",
+      productBrandSecondName: "",
+      productBrandThirdName: "",
       brandName: "",
       brandId: "",
+      brandFirstId: "",
+      brandSecondId: "",
+      brandThirdId: "",
       otherBrandName: "",
       brandAliasId: "",
       brandList: "",
       modelName: "",
       modelId: "",
+      modelListThird: [],
       otherModelName: "",
       num: 1, //需求数量
       price: "", //期望价格
@@ -490,7 +501,19 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setTransition"]),
+    ...mapMutations([
+      "setTransition",
+      "SBTGProductBrandFirst",
+      "SBTGProductBrandSecond",
+      "SBTGProductBrandThird",
+      "HCTGProductBrandFirst",
+      "HCTGProductBrandSecond",
+      "HCTGProductBrandThird",
+      "SHTGProductBrand",
+      "xxHTGProductBrand",
+      "JRTGProductBrand",
+      "ZXTGProductBrand"
+    ]),
     addClass(index) {
       this.currentIdx = index;
       this.info.maintenanceType = this.types[index].id;
@@ -504,7 +527,10 @@ export default {
             query: {
               groupPurchaseTypeId: this.groupType.id,
               groupTypeCode: this.groupType.code,
-              page: "submitGroupDemand"
+              page: "submitGroupDemand",
+              vuexSelectValue: this.$store.state.page.submitGroupDemand[
+                this.groupType.code
+              ].productSort
             }
           });
         } else {
@@ -516,6 +542,113 @@ export default {
         return;
       }
     },
+    clear(index) {
+      console.log(index);
+      if (index == 0) {
+        this.SBTGProductBrandFirst([
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ]);
+        this.info.productBrandFirstName = "";
+        this.SBTGProductModelFirst([]);
+      } else if (index == 1) {
+        this.$store.state.page.submitGroupDemand[
+          this.groupType.code
+        ].productBrandSecond = [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ];
+        this.$store.state.page.submitGroupDemand[
+          this.groupType.code
+        ].productModelSecond = [];
+      } else {
+        this.$store.state.page.submitGroupDemand[
+          this.groupType.code
+        ].productBrandThird = [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ];
+        this.$store.state.page.submitGroupDemand[
+          this.groupType.code
+        ].productModelThird = [];
+      }
+    },
+    jumpToBrand(index) {
+      console.log(index);
+      if (index == 0) {
+        var productBrand = "productBrandFirst";
+      } else if (index == 1) {
+        var productBrand = "productBrandSecond";
+      } else {
+        var productBrand = "productBrandThird";
+      }
+      if (this.info.productLineId) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "selectBrand",
+          query: {
+            productLineId: this.info.productLineId,
+            groupTypeCode: this.groupType.code,
+            page: "submitGroupDemand",
+            type: index,
+            vuexSelectValue: this.$store.state.page.submitGroupDemand[
+              this.groupType.code
+            ][productBrand]
+          }
+        });
+      } else {
+        Toast({ message: "请先选择分类", duration: 1000 });
+        return;
+      }
+    },
+    jumpToModel(index) {
+      console.log(index);
+      if (index == 0) {
+        var productModel = "productModelFirst";
+        var brandId = this.info.brandFirstId;
+      } else if (index == 1) {
+        var productModel = "productModelSecond";
+        var brandId = this.info.brandSecondId;
+      } else {
+        var productModel = "productModelThird";
+        var brandId = this.info.brandThirdId;
+      }
+      if (brandId) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "selectModel",
+          query: {
+            productLineId: this.info.productLineId,
+            brandId: brandId,
+            groupTypeCode: this.groupType.code,
+            page: "submitGroupDemand",
+            type: index,
+            isMultiple: true,
+            vuexSelectValue: this.$store.state.page.submitGroupDemand[
+              this.groupType.code
+            ][productModel]
+          }
+        });
+      } else {
+        Toast({ message: "请先选择品牌", duration: 1000 });
+        return;
+      }
+    },
     jumpSelectBrand() {
       if (this.info.productLineId) {
         this.setTransition("turn-on");
@@ -524,7 +657,10 @@ export default {
           query: {
             productLineId: this.info.productLineId,
             groupTypeCode: this.groupType.code,
-            page: "submitGroupDemand"
+            page: "submitGroupDemand",
+            vuexSelectValue: this.$store.state.page.submitGroupDemand[
+              this.groupType.code
+            ].productBrand
           }
         });
       } else {
@@ -541,7 +677,10 @@ export default {
             brandId: this.info.brandId,
             productLineId: this.info.productLineId,
             groupTypeCode: this.groupType.code,
-            page: "submitGroupDemand"
+            page: "submitGroupDemand",
+            vuexSelectValue: this.$store.state.page.submitGroupDemand[
+              this.groupType.code
+            ].productModel
           }
         });
       } else {
@@ -602,457 +741,128 @@ export default {
     groupPurchaseId() {}
   },
   activated() {
-    switch (this.groupType.code) {
-      case "SBTG":
-        this.info.productLineName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productSort,
-            "name"
-          ),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productBrand,
-            "name"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productModel,
-            "name"
-          ),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.productModel,
-            "id"
-          ),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SBTG.mainParams,
-            "name"
-          ),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.SBTG.mainParams
-        );
-        this.info.loadTime = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.SBTG.predictTime
-        );
-        this.info.showLoadTime =
-          JSON.parse(this.info.loadTime).year +
-          "年" +
-          JSON.parse(this.info.loadTime).quarter;
-        break;
-      case "HCTG":
-        this.info.productLineName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productSort,
-            "name"
-          ),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productBrand,
-            "name"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productModel,
-            "name"
-          ),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.productModel,
-            "id"
-          ),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.HCTG.mainParams,
-            "name"
-          ),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.HCTG.mainParams
-        );
-        this.info.loadTime = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.HCTG.predictTime
-        );
-        this.info.showLoadTime =
-          JSON.parse(this.info.loadTime).year +
-          "年" +
-          JSON.parse(this.info.loadTime).quarter;
-        break;
-      case "SHTG":
-        this.info.productLineName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productSort,
-            "name"
-          ),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productBrand,
-            "name"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productModel,
-            "name"
-          ),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.productModel,
-            "id"
-          ),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.SHTG.mainParams,
-            "name"
-          ),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.SHTG.mainParams
-        );
-        this.info.loadTime = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.SHTG.predictTime
-        );
-        this.info.showLoadTime =
-          JSON.parse(this.info.loadTime).year +
-          "年" +
-          JSON.parse(this.info.loadTime).quarter;
-        break;
-      case "XXHTG":
-        this.info.productLineName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productSort,
-            "name"
-          ),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productBrand,
-            "name"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productModel,
-            "name"
-          ),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.productModel,
-            "id"
-          ),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.XXHTG.mainParams,
-            "name"
-          ),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.XXHTG.mainParams
-        );
-        this.info.loadTime = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.XXHTG.predictTime
-        );
-        this.info.showLoadTime =
-          JSON.parse(this.info.loadTime).year +
-          "年" +
-          JSON.parse(this.info.loadTime).quarter;
-        break;
-      case "JRTG":
-        this.info.productLineName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productSort,
-            "name"
-          ),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productBrand,
-            "name"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productModel,
-            "name"
-          ),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.productModel,
-            "id"
-          ),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.JRTG.mainParams,
-            "name"
-          ),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.JRTG.mainParams
-        );
-        this.info.loadTime = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.JRTG.predictTime
-        );
-        this.info.showLoadTime =
-          JSON.parse(this.info.loadTime).year +
-          "年" +
-          JSON.parse(this.info.loadTime).quarter;
-        break;
-      case "ZXTG":
-        this.info.productLineName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productSort,
-            "name"
-          ),
-          ","
-        );
-        this.info.productLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productSort,
-            "productLineId"
-          ),
-          ","
-        );
-        this.info.aliasProductLineId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productSort,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productBrand,
-            "name"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.aliasBrandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productBrand,
-            "alisaBrandId"
-          ),
-          ","
-        );
-        this.info.modelName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productModel,
-            "name"
-          ),
-          ","
-        );
-        this.info.modelId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.productModel,
-            "id"
-          ),
-          ","
-        );
-        this.info.mainParamsName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand.ZXTG.mainParams,
-            "name"
-          ),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.ZXTG.mainParams
-        );
-        this.info.loadTime = JSON.stringify(
-          this.$store.state.page.submitGroupDemand.ZXTG.predictTime
-        );
-        this.info.showLoadTime =
-          JSON.parse(this.info.loadTime).year +
-          "年" +
-          JSON.parse(this.info.loadTime).quarter;
-        break;
+    if (this.groupType.code) {
+      this.info.productLineName = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productSort,
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productSort[0].aliasName
+            ? "aliasName"
+            : "productLineName"
+        ),
+        ","
+      );
+      this.info.productLineId = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productSort,
+          "productLineId"
+        ),
+        ","
+      );
+      this.info.aliasProductLineId = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productSort,
+          "aliasId"
+        ),
+        ","
+      );
+      this.info.productBrandFirstName = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandFirst,
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandFirst[0].aliasName
+            ? "aliasName"
+            : "brandName"
+        ),
+        ","
+      );
+      this.info.productBrandSecondName = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandSecond,
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandSecond[0].aliasName
+            ? "aliasName"
+            : "brandName"
+        ),
+        ","
+      );
+      this.info.productBrandThirdName = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandThird,
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandThird[0].aliasName
+            ? "aliasName"
+            : "brandName"
+        ),
+        ","
+      );
+      this.info.brandFirstId = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandFirst,
+          "brandId"
+        ),
+        ","
+      );
+      this.info.brandSecondId = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandSecond,
+          "brandId"
+        ),
+        ","
+      );
+      this.info.brandThirdId = _.join(
+        _.map(
+          this.$store.state.page.submitGroupDemand[this.groupType.code]
+            .productBrandThird,
+          "brandId"
+        ),
+        ","
+      );
+      this.info.modelListThird = this.$store.state.page.submitGroupDemand[
+        this.groupType.code
+      ].productModelThird;
+      // this.info.aliasBrandId = _.join(
+      //   _.map(
+      //     this.$store.state.page.submitGroupDemand[this.groupType.code]
+      //       .productBrand,
+      //     "aliasId"
+      //   ),
+      //   ","
+      // );
+      // this.info.modelName = _.join(
+      //   _.map(
+      //     this.$store.state.page.submitGroupDemand[this.groupType.code]
+      //       .productModel,
+      //     "name"
+      //   ),
+      //   ","
+      // );
+      // this.info.modelId = _.join(
+      //   _.map(
+      //     this.$store.state.page.submitGroupDemand[this.groupType.code]
+      //       .productModel,
+      //     "id"
+      //   ),
+      //   ","
+      // );
+      // this.info.mainParamsName = _.join(
+      //   _.map(
+      //     this.$store.state.page.submitGroupDemand[this.groupType.code].mainParams,
+      //     "name"
+      //   ),
+      //   ","
+      // );
+      // this.info.params = JSON.stringify(
+      //   this.$store.state.page.submitGroupDemand[this.groupType.code].mainParams
+      // );
     }
     _getData(
       "/server_pro/groupPurchaseHospital!request.action",

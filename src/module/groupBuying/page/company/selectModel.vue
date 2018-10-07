@@ -4,7 +4,7 @@
             <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
-            <div class="selected" v-if="Multiple">
+            <div class="selected" v-if="this.Multiple">
                 <h2>已选型号:</h2>
                 <ul>
                     <li v-for="item in itemSelect" :key="item.id" :class="checked?'disabled':''">
@@ -13,10 +13,10 @@
                     </li>
                 </ul>
             </div>
-            <cube-checkbox v-model="checked" v-if="Multiple">
+            <cube-checkbox v-model="checked" v-if="this.Multiple">
                 不了解产品型号，请厂家根据我院临床需求推荐
             </cube-checkbox>
-            <search placeholder="请输入型号" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
+            <search placeholder="请输入型号" isShowSave="true" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
             <div class="Model_container">
                 <h2>请选择：<span>(企业提供的型号清单)</span></h2>
                 <cube-index-list :data="modelData">
@@ -48,14 +48,14 @@ export default {
       modelData,
       itemSelect: [],
       groupTypeCode: "",
-      page: ""
+      page: "",
+      Multiple: ""
     };
   },
   components: {
     Header,
     search
   },
-  props: ["Multiple"],
   methods: {
     ...mapMutations([
       "setTransition",
@@ -64,7 +64,17 @@ export default {
       "selectSHTGProductModel",
       "selectXXHTGProductModel",
       "selectJRTGProductModel",
-      "selectZXTGProductModel"
+      "selectZXTGProductModel",
+      "SBTGProductModelFirst",
+      "SBTGProductModelSecond",
+      "SBTGProductModelThird",
+      "HCTGProductModelFirst",
+      "HCTGProductModelSecond",
+      "HCTGProductModelThird",
+      "SHTGProductModel",
+      "xxHTGProductModel",
+      "JRTGProductModel",
+      "ZXTGProductModel"
     ]),
     clickSure() {
       this.setTransition("turn-off");
@@ -78,14 +88,26 @@ export default {
           if (this.page == "uploadProduct") {
             this.selectSBTGProductModel(this.itemSelect);
           } else if (this.page == "submitGroupDemand") {
-            this.SBTGProductModel(this.itemSelect);
+            if (this.$route.query.type == 0) {
+              this.SBTGProductModelFirst(this.itemSelect);
+            } else if (this.$route.query.type == 1) {
+              this.SBTGProductModelSecond(this.itemSelect);
+            } else {
+              this.SBTGProductModelThird(this.itemSelect);
+            }
           }
           break;
         case "HCTG":
           if (this.page == "uploadProduct") {
             this.selectHCTGProductModel(this.itemSelect);
           } else if (this.page == "submitGroupDemand") {
-            this.HCTGProductModel(this.itemSelect);
+            if (this.$route.query.type == 0) {
+              this.HCTGProductModelFirst(this.itemSelect);
+            } else if (this.$route.query.type == 1) {
+              this.HCTGProductModelSecond(this.itemSelect);
+            } else {
+              this.HCTGProductModelThird(this.itemSelect);
+            }
           }
           break;
         case "SHTG":
@@ -164,7 +186,9 @@ export default {
       this.itemSelect = _.without(this.itemSelect, item);
     },
     selectModel(name) {
-      this.itemSelect = [];
+      if (!this.Multiple) {
+        this.itemSelect = [];
+      }
       this.reqData(name);
       this.tempLastSearchValue = name;
     },
@@ -183,11 +207,12 @@ export default {
         Toast("最多选择三个型号");
       } else {
         if (!itemSelectCommon && !modelListCommon) {
-          this.itemSelect.push({ name: name });
+          this.itemSelect.push({ id: "", name: name });
         } else {
           if (!itemSelectCommon && modelListCommon) {
             this.itemSelect.push(modelListCommon);
           } else if (itemSelectCommon) {
+            Toast({ message: "已选型号,请勿重复", duration: 1000 });
           }
         }
       }
@@ -213,10 +238,10 @@ export default {
   mounted() {
     this.groupTypeCode = this.$route.query.groupTypeCode;
     this.page = this.$route.query.page;
+    this.Multiple = this.$route.query.isMultiple;
     this.reqData();
-    if (this.page == "uploadProduct") {
-      this.itemSelect = this.$route.query.vuexSelectValue;
-    }
+    this.itemSelect = this.$route.query.vuexSelectValue;
+    console.log(this.itemSelect);
   },
   deactivated() {
     this.$destroy();
