@@ -46,7 +46,9 @@ export default {
       productModel: { id: "", name: "" },
       checked: false,
       modelData,
-      itemSelect: []
+      itemSelect: [],
+      groupTypeCode: "",
+      page: ""
     };
   },
   components: {
@@ -66,86 +68,54 @@ export default {
     ]),
     clickSure() {
       this.setTransition("turn-off");
-      if (this.tempLastSearchValue == "") {
-        if (this.itemSelect.length == 0) {
-        } else {
-          switch (this.$route.query.groupTypeCode) {
-            case "SBTG":
-              this.selectSBTGProductModel(this.itemSelect);
-              break;
-            case "HCTG":
-              this.selectHCTGProductModel(this.itemSelect);
-              break;
-            case "SHTG":
-              this.selectSHTGProductModel(this.itemSelect);
-              break;
-            case "XXHTG":
-              this.selectXXHTGProductModel(this.itemSelect);
-              break;
-            case "JRTG":
-              this.selectJRTGProductModel(this.itemSelect);
-              break;
-            case "ZXTG":
-              this.selectZXTGProductModel(this.itemSelect);
-              break;
-          }
+      if (this.itemSelect.length == 0) {
+        if (this.tempLastSearchValue != "") {
+          this.itemSelect.push({ name: this.tempLastSearchValue });
         }
-      } else {
-        if (this.itemSelect.length == 0) {
-          switch (this.$route.query.groupTypeCode) {
-            case "SBTG":
-              this.selectSBTGProductModel([
-                { id: "", name: this.tempLastSearchValue }
-              ]);
-              break;
-            case "HCTG":
-              this.selectHCTGProductModel([
-                { id: "", name: this.tempLastSearchValue }
-              ]);
-              break;
-            case "SHTG":
-              this.selectSHTGProductModel([
-                { id: "", name: this.tempLastSearchValue }
-              ]);
-              break;
-            case "XXHTG":
-              this.selectXXHTGProductModel([
-                { id: "", name: this.tempLastSearchValue }
-              ]);
-              break;
-            case "JRTG":
-              this.selectJRTGProductModel([
-                { id: "", name: this.tempLastSearchValue }
-              ]);
-              break;
-            case "ZXTG":
-              this.selectZXTGProductModel([
-                { id: "", name: this.tempLastSearchValue }
-              ]);
-              break;
+      }
+      switch (this.groupTypeCode) {
+        case "SBTG":
+          if (this.page == "uploadProduct") {
+            this.selectSBTGProductModel(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.SBTGProductModel(this.itemSelect);
           }
-        } else {
-          switch (this.$route.query.groupTypeCode) {
-            case "SBTG":
-              this.selectSBTGProductModel(this.itemSelect);
-              break;
-            case "HCTG":
-              this.selectHCTGProductModel(this.itemSelect);
-              break;
-            case "SHTG":
-              this.selectSHTGProductModel(this.itemSelect);
-              break;
-            case "XXHTG":
-              this.selectXXHTGProductModel(this.itemSelect);
-              break;
-            case "JRTG":
-              this.selectJRTGProductModel(this.itemSelect);
-              break;
-            case "ZXTG":
-              this.selectZXTGProductModel(this.itemSelect);
-              break;
+          break;
+        case "HCTG":
+          if (this.page == "uploadProduct") {
+            this.selectHCTGProductModel(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.HCTGProductModel(this.itemSelect);
           }
-        }
+          break;
+        case "SHTG":
+          if (this.page == "uploadProduct") {
+            this.selectSHTGProductModel(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.SHTGProductModel(this.itemSelect);
+          }
+          break;
+        case "XXHTG":
+          if (this.page == "uploadProduct") {
+            this.selectXXHTGProductModel(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.XXHTGProductModel(this.itemSelect);
+          }
+          break;
+        case "JRTG":
+          if (this.page == "uploadProduct") {
+            this.selectJRTGProductModel(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.JRTGProductModel(this.itemSelect);
+          }
+          break;
+        case "ZXTG":
+          if (this.page == "uploadProduct") {
+            this.selectZXTGProductModel(this.itemSelect);
+          } else if (this.page == "submitGroupDemand") {
+            this.ZXTGProductModel(this.itemSelect);
+          }
+          break;
       }
       this.$router.go(-1);
     },
@@ -181,7 +151,7 @@ export default {
         }
       }
     },
-    addClass: function(id) {
+    addClass(id) {
       if (this.itemSelect) {
         for (const val of this.itemSelect) {
           if (val.id == id) {
@@ -192,23 +162,6 @@ export default {
     },
     deleteItem(item) {
       this.itemSelect = _.without(this.itemSelect, item);
-    },
-    reqData(name) {
-      _getData(
-        "/server_pro/groupPurchaseCompanyProduct!request.action",
-        {
-          method: "getModelListByGroupPurchaseType",
-          params: {
-            name: name,
-            brandId: this.$route.query.brandId,
-            productLineId: this.$route.query.productLineId
-          }
-        },
-        data => {
-          console.log(data);
-          this.modelData = data.modelList;
-        }
-      );
     },
     selectModel(name) {
       this.itemSelect = [];
@@ -230,7 +183,7 @@ export default {
         Toast("最多选择三个型号");
       } else {
         if (!itemSelectCommon && !modelListCommon) {
-          this.itemSelect.push({ id: "", name: name });
+          this.itemSelect.push({ name: name });
         } else {
           if (!itemSelectCommon && modelListCommon) {
             this.itemSelect.push(modelListCommon);
@@ -238,15 +191,32 @@ export default {
           }
         }
       }
+    },
+    reqData(name) {
+      _getData(
+        "/server_pro/groupPurchaseCompanyProduct!request.action",
+        {
+          method: "getModelListByGroupPurchaseType",
+          params: {
+            name: name,
+            brandId: this.$route.query.brandId,
+            productLineId: this.$route.query.productLineId
+          }
+        },
+        data => {
+          console.log(data);
+          this.modelData = data.modelList;
+        }
+      );
     }
   },
-  computed: {},
   mounted() {
-    this.itemSelect = [];
+    this.groupTypeCode = this.$route.query.groupTypeCode;
+    this.page = this.$route.query.page;
     this.reqData();
-  },
-  activated() {
-    // console.log("1");
+    if (this.page == "uploadProduct") {
+      this.itemSelect = this.$route.query.vuexSelectValue;
+    }
   },
   deactivated() {
     this.$destroy();

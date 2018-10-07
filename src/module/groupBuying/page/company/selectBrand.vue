@@ -63,6 +63,11 @@ export default {
         if (this.itemSelect.length == 0) {
           Toast("请选择或输入品牌");
           return;
+        } else {
+          if (this.itemSelect[0].aliasId == "") {
+            Toast("请选择或输入品牌");
+            return;
+          }
         }
       } else {
         if (this.itemSelect.length == 0) {
@@ -203,6 +208,9 @@ export default {
     this.groupTypeCode = this.$route.query.groupTypeCode;
     this.page = this.$route.query.page;
     this.reqData();
+    if (this.page == "uploadProduct") {
+      this.itemSelect = this.$route.query.vuexSelectValue;
+    }
   },
   deactivated() {
     this.$destroy();

@@ -25,6 +25,9 @@ export default {
     save() {
       this.$emit("saveValue", this.value);
     }
+  },
+  deactivated() {
+    this.value = "";
   }
 };
 </script>
