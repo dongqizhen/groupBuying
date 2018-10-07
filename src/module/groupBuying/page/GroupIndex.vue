@@ -1,45 +1,45 @@
 <template>
 
-  <div class="container">
-    <Header :isSearchHide="true">
-      <tab slot="mainTitle" :line-width="2" custom-bar-width="20px" active-color="#019DDD" default-color="#666">
-        <tab-item v-for="(item, index) in tabs" @on-item-click="handler" :key="index" :selected="index==2?true:false">{{item.label}}</tab-item>
-      </tab>
-      <!-- <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle" @change="tabBarChange">
+    <div class="container">
+        <Header :isSearchHide="true">
+            <tab slot="mainTitle" :line-width="2" custom-bar-width="20px" active-color="#019DDD" default-color="#666">
+                <tab-item v-for="(item, index) in tabs" @on-item-click="handler" :key="index" :selected="index==2?true:false">{{item.label}}</tab-item>
+            </tab>
+            <!-- <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle" @change="tabBarChange">
                 <cube-tab v-for="(item, index) in tabs" :label="item.label" :key="index">
                 </cube-tab>
             </cube-tab-bar> -->
-    </Header>
-    <div class="content">
-      <div class="scroll-list-wrap">
-        <scroller>
-          <cube-slide ref="slide" :data="Banneritems" class="banner">
-            <cube-slide-item v-for="(item, index) in Banneritems" :key="index">
-              <a :href="item.url">
-                <img :src="item.img">
-              </a>
-            </cube-slide-item>
-          </cube-slide>
-          <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
-            <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.prevent.native="handleClick(item)">
-              <img slot="icon" :src="item.imgurl">
-              <span slot="label">{{item.name}}</span>
-              <badge :text="`已报名${item.num}家`" v-if="item.num"></badge>
-            </grid-item>
-          </grid>
-          <div class="meeting_list">
-            <h2>
-              <span></span>
-              团购大会列表
-              <span></span>
-            </h2>
-            <list-tab v-if="Object.keys(meetingList).length" :meetingListData="meetingList"></list-tab>
-          </div>
-        </scroller>
-      </div>
-      <div class="fixBox"></div>
+        </Header>
+        <div class="content">
+            <div class="scroll-list-wrap">
+                <scroller>
+                    <cube-slide ref="slide" :data="Banneritems" class="banner">
+                        <cube-slide-item v-for="(item, index) in Banneritems" :key="index">
+                            <a :href="item.url">
+                                <img :src="item.img">
+                            </a>
+                        </cube-slide-item>
+                    </cube-slide>
+                    <grid :show-lr-borders="false" :show-vertical-dividers="false" class="icons_box">
+                        <grid-item :link="{ path: item.path}" v-for="item in routerLinkArr" :key="item.name" @click.prevent.native="handleClick(item)">
+                            <img slot="icon" :src="item.imgurl">
+                            <span slot="label">{{item.name}}</span>
+                            <badge :text="`已报名${item.num}家`" v-if="item.num"></badge>
+                        </grid-item>
+                    </grid>
+                    <div class="meeting_list">
+                        <h2>
+                            <span></span>
+                            团购大会列表
+                            <span></span>
+                        </h2>
+                        <list-tab v-if="Object.keys(meetingList).length" :meetingListData="meetingList"></list-tab>
+                    </div>
+                </scroller>
+            </div>
+            <div class="fixBox"></div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>

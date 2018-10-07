@@ -22,10 +22,16 @@
                         </div>
                     </div>
                     <div class="product_list">
-                        <basic-title title="团购需求列表" imgurl="../static/images/product_list.png"></basic-title>
-                        <type-scroll-nav-bar></type-scroll-nav-bar>
-                        <budget-count></budget-count>
-                        <demand-list pageName="hospitalProfile"></demand-list>
+                        <div class="list_container">
+                            <basic-title title="团购需求列表" imgurl="../static/images/product_list.png"></basic-title>
+                            <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+                        </div>
+
+                        <div v-for="(val,index) in demandListData" :key="index" class="demandList-container">
+                            <budget-count :demandListData="val" :slectedTypeKeyWord="slectedTypeKeyWord"></budget-count>
+                            <demand-list pageName="hospitalProfile" :data="val" :slectedTypeKeyWord="slectedTypeKeyWord"></demand-list>
+                        </div>
+
                     </div>
                 </cube-scroll>
             </div>
@@ -46,16 +52,20 @@
     import { _getData } from "../../service/getData";
     import budgetCount from "../../components/common/budgetCount";
     import demandList from "../../components/common/demandList";
-
+    import _ from "lodash";
     export default {
         data() {
             return {
+                list: [],
+                demandListData: {},
                 detailData: {},
                 disabled: true,
                 isRequested: false,
                 isShowBtn: false,
                 btnText: 0,
-                parentHeight: ""
+                parentHeight: "",
+                typeData: [],
+                slectedTypeKeyWord: ""
             };
         },
         components: {
@@ -89,14 +99,20 @@
                 setTimeout(() => {
                     this.$refs.scroll.refresh();
                 }, 300);
+            },
+            TypeNavChange(val) {
+                console.log(val, this.list);
+                this.slectedTypeKeyWord = val;
+                this.demandListData = _.find(this.list, { name: val }).demandList;
+                console.log(this.demandListData);
             }
         },
-        created() {
+        activated() {
             _getData(
                 "/server_pro/groupPurchaseHospital!request.action",
                 {
                     method: "getAppGroupPurchaseHospitalInfo",
-                    params: { id: 1 }
+                    params: { id: this.$route.query.id }
                 },
                 data => {
                     this.isRequested = true;
@@ -106,6 +122,22 @@
                     if (data.contactList.length > 1) {
                         this.isShowBtn = true;
                     }
+                }
+            );
+            _getData(
+                "/server_pro/groupPurchaseHospital!request.action",
+                {
+                    method: "getDemandListByHospitalId",
+
+                    params: { hospitalId: this.$route.query.id }
+                },
+                data => {
+                    console.log(data);
+                    this.list = data.list;
+                    this.demandListData = data.list[0].demandList;
+                    this.typeData = _.map(data.list, "name");
+                    this.slectedTypeKeyWord = this.typeData[0];
+                    console.log(this.typeData);
                 }
             );
         },
@@ -184,7 +216,15 @@
             }
             .product_list {
                 @include box_shadow_style;
+                background: #f6f6f6;
                 margin-top: 10px;
+                .list_container {
+                    @include box_shadow_style;
+                }
+                .demandList-container {
+                    @include box_shadow_style;
+                    margin-top: 10px;
+                }
             }
         }
     }

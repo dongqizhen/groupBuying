@@ -8,7 +8,7 @@
                 <a>台</a>
             </span>
         </div>
-        <div class="common hopeBrand" v-if="this.$route.query.title=='设备团购' ||this.$route.query.title=='耗材团购' || pageName=='hospitalProfile'">
+        <div class="common hopeBrand" v-if="slectedTypeKeyWord=='设备团购' ||slectedTypeKeyWord=='耗材团购'">
             <ul>
                 <li>
                     <span>
@@ -44,20 +44,19 @@
                 </li>
             </ul>
         </div>
-        <div v-if="this.$route.query.title=='售后团购'">
-            <div class="common productSort"><span>设备品牌</span>
-                <span class="value">GE</span></div>
+        <div v-if="slectedTypeKeyWord=='售后团购' || slectedTypeKeyWord=='信息化团购'">
+            <div class="common productSort"><span>{{keyWords()}}品牌</span>
+                <span class="value">{{data.brandName}}</span></div>
             <div class="common productSort model">
-                <span>设备型号</span>
+                <span>{{keyWords()}}型号</span>
                 <ul>
-                    <li>ATS5000</li>
-                    <li>IC697BEM731</li>
+                    <li v-for="(val,index) in data.modeList" :key="index">{{val}}</li>
                 </ul>
             </div>
         </div>
-        <div v-if="this.$route.query.title=='金融团购'">
-            <div class="common productSort"><span>金融服务商</span>
-                <span class="value">GE</span>
+        <div v-if="slectedTypeKeyWord=='金融团购' || slectedTypeKeyWord=='咨询团购'">
+            <div class="common productSort"><span>{{keyWords()}}服务商</span>
+                <span class="value">{{data.brandName}}</span>
             </div>
 
         </div>
@@ -69,10 +68,10 @@
             return {};
         },
         components: {},
-        props: ["pageName", "data"],
+        props: ["pageName", "data", "slectedTypeKeyWord"],
         methods: {
             keyWords() {
-                switch (this.$route.query.title) {
+                switch (this.slectedTypeKeyWord) {
                     case "设备团购":
                         return "设备";
                     case "售后团购":
@@ -127,8 +126,11 @@
             @extend %value;
             height: 50px;
             .value {
+                display: inline-block;
+                height: 100%;
                 font-size: 16px;
                 // font-weight: 600;
+                line-height: 50px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
