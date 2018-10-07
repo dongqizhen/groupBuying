@@ -127,7 +127,7 @@ export const ToNativeMap = {
                     isForResult: false,
                     doubleLatitude: value.lat,
                     doubleLongitude: value.lng,
-                    title: value.address,
+                    title: value.address || value.hospitalName,
                     address: value.addr || value.province
                 },
                 data => {}
