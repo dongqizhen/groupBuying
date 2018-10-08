@@ -62,7 +62,7 @@ export default {
       "HCTGProductBrandSecond",
       "HCTGProductBrandThird",
       "SHTGProductBrand",
-      "xxHTGProductBrand",
+      "XXHTGProductBrand",
       "JRTGProductBrand",
       "ZXTGProductBrand"
     ]),
@@ -254,6 +254,7 @@ export default {
   }
   .content {
     padding: 10px 13px;
+    overflow: hidden;
     /deep/ .scroll-list-wrap {
       height: calc(100% - 46px);
       margin-top: 10px;

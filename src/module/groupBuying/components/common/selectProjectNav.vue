@@ -16,7 +16,7 @@ export default {
       itemSelect: []
     };
   },
-  props: ["MultipleSelection"],
+  props: ["MultipleSelection", "editSelectValue", "come"],
   methods: {
     select(item, itemObj) {
       if (this.MultipleSelection != undefined) {
@@ -56,12 +56,29 @@ export default {
       },
       data => {
         console.log("团购类型:", data);
+        console.log(this.editSelectValue);
         this.items = data;
-        this.itemSelect.push(data[0].id);
-        this.$emit("select-value", this.itemSelect.join(","));
-        this.$emit("selectObj", this.items[0]);
+        if (this.come == 1) {
+        } else {
+          this.itemSelect.push(data[0].id);
+          this.$emit("select-value", this.itemSelect.join(","));
+          this.$emit("selectObj", this.items[0]);
+        }
       }
     );
+  },
+  watch: {
+    editSelectValue() {
+      console.log(this.editSelectValue);
+      this.itemSelect.push(this.editSelectValue);
+      this.$emit("select-value", this.itemSelect.join(","));
+      this.$emit(
+        "selectObj",
+        _.find(this.items, o => {
+          return o.id == this.editSelectValue;
+        })
+      );
+    }
   }
 };
 </script>

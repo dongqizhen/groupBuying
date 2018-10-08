@@ -72,15 +72,21 @@ export default {
       "HCTGProductModelSecond",
       "HCTGProductModelThird",
       "SHTGProductModel",
-      "xxHTGProductModel",
+      "XXHTGProductModel",
       "JRTGProductModel",
       "ZXTGProductModel"
     ]),
     clickSure() {
       this.setTransition("turn-off");
-      if (this.itemSelect.length == 0) {
-        if (this.tempLastSearchValue != "") {
-          this.itemSelect.push({ name: this.tempLastSearchValue });
+      if (!this.Multiple) {
+        if (this.itemSelect.length == 0) {
+          if (this.tempLastSearchValue != "") {
+            this.itemSelect.push({ name: this.tempLastSearchValue });
+          }
+        }
+      } else {
+        if (this.checked) {
+          this.itemSelect = [];
         }
       }
       switch (this.groupTypeCode) {

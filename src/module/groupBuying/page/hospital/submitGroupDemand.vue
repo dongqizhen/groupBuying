@@ -16,7 +16,7 @@
                 <basic-title title="团购需求类型" imgurl="../static/images/selectproject.png">
                     <span slot="select">(必选项)</span>
                 </basic-title>
-                <select-project-nav v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
+                <select-project-nav :editSelectValue="editSelectId" :come="editSelectId?'1':''"  v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
             </div>
             <div class="productBasicInfromation">
                 <basic-title :title="title" imgurl="../static/images/basicInformation.png">
@@ -43,10 +43,19 @@ import compress from "../../../../../static/js/compressImage";
 import { mapMutations } from "vuex";
 import { _getData } from "../../service/getData";
 import _ from "lodash";
+import { Toast } from "vant";
 export default {
   data() {
     return {
-      title: "设备团购需求详情",
+      title: "",
+      toastBrandText: "",
+      toastPriceText: "",
+      toastApplicationText: "",
+      toastNumPriceText: "",
+      toastParamText: "",
+      toastIntroduceText: "",
+      toastPredictTimeText: "",
+      editSelectId: "",
       groupItemObj: {},
       productSort: {},
       current: null,
@@ -54,51 +63,23 @@ export default {
       groupUnderWayList: [],
       submitData: {
         id: "",
-        hospitalId: "16",
+        hospitalId: "",
         groupPurchaseId: "",
         groupPurchaseTypeId: "",
-        productLineId: "",
-        productLineName: "",
-        brandId: "",
-        modelId: "",
+        productLine: "",
+        brand: "",
+        brandList: [],
+        modelList: [],
         num: "",
-        application: "请详细填写设备的临床用途",
-        loadTime: "2018年第四季度",
-        price: "10",
-        introduce: "采购需求说明",
-        installTime: "2018-09-21",
-        deviceCheckNum: "100",
-        responseTime: "24",
-        maintenanceType: "1",
-        params: '[{"id":"1","name":"八排"},{"id":"","name":"自定义"}]',
-        productLineAliasId: "产品线别名id",
-        otherProductLineName: "手填产品线名称",
-        brandAliasId: "品牌别名id",
-        otherBrandName: "手填品牌",
-        otherModelName: "手填型号",
-        brandList: [
-          {
-            demandId: "8",
-            brandId: "2",
-            model: "3",
-            brandName: "飞利浦",
-            type: "0"
-          },
-          {
-            demandId: "8",
-            brandId: "2",
-            model: "3",
-            brandName: "西门子",
-            type: "1"
-          },
-          {
-            demandId: "8",
-            brandId: "2",
-            model: "3",
-            brandName: "GE",
-            type: "2"
-          }
-        ]
+        application: "",
+        loadTime: "",
+        price: "",
+        introduce: "",
+        installTime: "",
+        deviceCheckNum: "",
+        responseTime: "",
+        maintenanceType: "",
+        params: ""
       }
     };
   },
@@ -117,18 +98,126 @@ export default {
     ...mapMutations(["setTransition"]),
     submitBtnClick() {
       console.log(this.$refs.groupDemandWriteInfo.info);
-      _getData(
-        "/server_pro/groupPurchaseHospital!request.action",
-        {
-          method: "addOrUpdateGroupPurchaseHospitalDemand",
-          params: this.submitData
-        },
-        data => {
-          console.log(data);
+      if (this.$refs.groupDemandWriteInfo.info.productLineId == "") {
+        Toast({ message: "请选择分类", duration: 1000 });
+        return;
+      }
+      if (this.$refs.groupDemandWriteInfo.info.price == "") {
+        Toast({ message: this.toastPriceText, duration: 1000 });
+        return;
+      } else {
+        if (
+          !/^[0-9]+(.[0-9])?$/.test(this.$refs.groupDemandWriteInfo.info.price)
+        ) {
+          Toast({ message: this.toastNumPriceText, duration: 1000 });
+          return;
         }
-      );
+      }
+      if (this.$refs.groupDemandWriteInfo.info.application == "") {
+        Toast({ message: this.toastApplicationText, duration: 1000 });
+        return;
+      }
+      if (
+        this.groupItemObj.code == "SBTG" ||
+        this.groupItemObj.code == "HCTG"
+      ) {
+        this.submitData.brandList = [];
+        var brandFirst = {},
+          brandSecond = {},
+          brandThird = {};
+        if (this.$refs.groupDemandWriteInfo.info.brandFirstId) {
+          brandFirst = {
+            brandId: this.$refs.groupDemandWriteInfo.info.brandFirstId,
+            brandName: this.$refs.groupDemandWriteInfo.info
+              .productBrandFirstName,
+            model: this.$refs.groupDemandWriteInfo.info.modelListFirst
+          };
+        }
+        if (this.$refs.groupDemandWriteInfo.info.brandSecondId) {
+          brandSecond = {
+            brandId: this.$refs.groupDemandWriteInfo.info.brandSecondId,
+            brandName: this.$refs.groupDemandWriteInfo.info
+              .productBrandSecondName,
+            model: this.$refs.groupDemandWriteInfo.info.modelListSecond
+          };
+        }
+        if (this.$refs.groupDemandWriteInfo.info.brandThirdId) {
+          brandThird = {
+            brandId: this.$refs.groupDemandWriteInfo.info.brandThirdId,
+            brandName: this.$refs.groupDemandWriteInfo.info
+              .productBrandThirdName,
+            model: this.$refs.groupDemandWriteInfo.info.modelListThird
+          };
+        }
+        if (Object.keys(brandFirst).length != 0) {
+          this.submitData.brandList.push(brandFirst);
+        }
+        if (Object.keys(brandSecond).length != 0) {
+          this.submitData.brandList.push(brandSecond);
+        }
+        if (Object.keys(brandThird).length != 0) {
+          this.submitData.brandList.push(brandThird);
+        }
+        if (this.submitData.brandList.length == 0) {
+          Toast({ message: "至少选择或填写一个品牌", duration: 1000 });
+          return;
+        }
+      }
+      if (
+        this.groupItemObj.code != "SBTG" &&
+        this.groupItemObj.code != "HCTG"
+      ) {
+        if (this.$refs.groupDemandWriteInfo.info.brandId == "") {
+          Toast({ message: this.toastBrandText, duration: 1000 });
+          return;
+        }
+      }
+      if (this.groupItemObj.code == "SHTG") {
+        if (this.$refs.groupDemandWriteInfo.info.installTime == "") {
+          Toast({ message: "请选择安装日期", duration: 1000 });
+          return;
+        }
+        if (this.$refs.groupDemandWriteInfo.info.deviceCheckNum == "") {
+          Toast({ message: "请填写每天检查量", duration: 1000 });
+          return;
+        }
+        if (this.$refs.groupDemandWriteInfo.info.responseTime == "") {
+          Toast({ message: "请填写响应时间", duration: 1000 });
+          return;
+        }
+        if (this.$refs.groupDemandWriteInfo.info.maintenanceType == "") {
+          Toast({ message: "请选择维保类型", duration: 1000 });
+          return;
+        }
+      }
+      if (this.$refs.groupDemandWriteInfo.info.params == "") {
+        Toast({ message: this.toastParamText, duration: 1000 });
+        return;
+      }
+      if (this.$refs.groupDemandWriteInfo.info.loadTime == "") {
+        Toast({ message: this.toastPredictTimeText, duration: 1000 });
+        return;
+      }
+      if (this.$refs.groupDemandWriteInfo.info.introduce == "") {
+        Toast({ message: this.toastIntroduceText, duration: 1000 });
+        return;
+      }
+      console.log(this.submitData);
+      this.submitData = {
+        ...this.submitData,
+        ...this.$refs.groupDemandWriteInfo.info
+      };
+      // _getData(
+      //   "/server_pro/groupPurchaseHospital!request.action",
+      //   {
+      //     method: "addOrUpdateGroupPurchaseHospitalDemand",
+      //     params: this.submitData
+      //   },
+      //   data => {
+      //     console.log(data);this.$router.push("myHospitalGroupBuy");
+      //   }
+      // );
       //this.submitBtnStatus = false;
-      this.$router.push("myHospitalGroupBuy");
     },
     handleSelect(value) {
       this.submitData.groupPurchaseTypeId = value;
@@ -146,24 +235,67 @@ export default {
       switch (this.groupItemObj.code) {
         case "SBTG":
           this.title = "设备团购需求详情";
+          this.toastApplicationText = "请输入应用需求";
+          this.toastPriceText = "请填写期望采购价格";
+          this.toastNumPriceText = "期望价格只能为数字";
+          this.toastParamText = "请选择或输入重要参数";
+          this.toastPredictTimeText = "请选择预装机时间";
+          this.toastIntroduceText = "请填写采购需求说明";
           break;
         case "HCTG":
           this.title = "耗材团购需求详情";
+          this.toastApplicationText = "请输入应用需求";
+          this.toastPriceText = "请填写期望采购价格";
+          this.toastNumPriceText = "期望价格只能为数字";
+          this.toastParamText = "请选择或输入重要规格";
+          this.toastPredictTimeText = "请选择预计需求时间";
+          this.toastIntroduceText = "请填写采购需求说明";
           break;
         case "SHTG":
           this.title = "售后团购需求详情";
+          this.toastBrandText = "请选择品牌";
+          this.toastPriceText = "请填写维修预算";
+          this.toastNumPriceText = "维修预算只能为数字";
+          this.toastIntroduceText = "请填写备注信息";
+          this.toastPredictTimeText = "请选择维修时间";
           break;
         case "XXHTG":
           this.title = "信息化团购需求详情";
+          this.toastBrandText = "请选择品牌";
+          this.toastApplicationText = "请输入应用需求";
+          this.toastPriceText = "请填写期望采购价格";
+          this.toastNumPriceText = "期望价格只能为数字";
+          this.toastParamText = "请选择或输入重要参数";
+          this.toastPredictTimeText = "请选择预装机时间";
+          this.toastIntroduceText = "请填写采购需求说明";
           break;
         case "JRTG":
           this.title = "金融团购需求详情";
+          this.toastBrandText = "请选择服务商";
+          this.toastApplicationText = "请输入应用方向";
+          this.toastPriceText = "请填写融资金额";
+          this.toastNumPriceText = "融资金额只能为数字";
+          this.toastParamText = "请选择或输入关键词";
+          this.toastPredictTimeText = "请选择预计融资时间";
+          this.toastIntroduceText = "请填写采购需求说明";
           break;
         case "ZXTG":
           this.title = "咨询团购需求详情";
+          this.toastBrandText = "请选择服务商";
+          this.toastApplicationText = "请输入应用方向";
+          this.toastPriceText = "请填写期望采购价格";
+          this.toastNumPriceText = "期望价格只能为数字";
+          this.toastParamText = "请选择或输入关键词";
+          this.toastPredictTimeText = "请选择预计咨询时间";
+          this.toastIntroduceText = "请填写采购需求说明";
           break;
         default:
-          this.title = "设备团购需求详情";
+          this.toastApplicationText = "设备团购需求详情";
+          this.toastPriceText = "请填写期望采购价格";
+          this.toastNumPriceText = "期望价格只能为数字";
+          this.toastParamText = "请选择或输入重要参数";
+          this.toastPredictTimeText = "请选择预装机时间";
+          this.toastIntroduceText = "请填写采购需求说明";
           break;
       }
     }
@@ -180,6 +312,19 @@ export default {
         this.groupUnderWayList = data.groupPurchaseList;
       }
     );
+    if (this.$route.query.groupPurchaseTypeId) {
+      _getData(
+        "/server_pro/groupPurchaseHospital!request.action",
+        {
+          method: "getGroupPurchaseHospitalDemandInfo",
+          params: { id: "38" }
+        },
+        data => {
+          console.log("提交的需求详情：", data);
+          this.editSelectId = data.groupPurchaseTypeId;
+        }
+      );
+    }
   },
   activated: function() {},
   deactivated: function() {}

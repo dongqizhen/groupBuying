@@ -197,6 +197,14 @@ let state : StateType = {
         predictTime: {}
       },
       HCTG: {
+        productSort: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
         productBrandFirst: [
           {
             aliasId: "",
