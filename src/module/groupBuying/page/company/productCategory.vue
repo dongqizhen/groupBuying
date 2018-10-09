@@ -133,6 +133,52 @@ export default {
           }
         ];
         this.$store.state.page[this.page][this.groupTypeCode].productModel = [];
+        if (this.page == "submitGroupDemand") {
+          if (this.groupTypeCode == "SBTG" || this.groupTypeCode == "HCTG") {
+            this.$store.state.page[this.page][
+              this.groupTypeCode
+            ].productBrandFirst = [
+              {
+                aliasId: "",
+                aliasName: "",
+                brandId: "",
+                brandLabel: "",
+                brandName: ""
+              }
+            ];
+            this.$store.state.page[this.page][
+              this.groupTypeCode
+            ].productBrandSecond = [
+              {
+                aliasId: "",
+                aliasName: "",
+                brandId: "",
+                brandLabel: "",
+                brandName: ""
+              }
+            ];
+            this.$store.state.page[this.page][
+              this.groupTypeCode
+            ].productBrandThird = [
+              {
+                aliasId: "",
+                aliasName: "",
+                brandId: "",
+                brandLabel: "",
+                brandName: ""
+              }
+            ];
+            this.$store.state.page[this.page][
+              this.groupTypeCode
+            ].productModelFirst = [];
+            this.$store.state.page[this.page][
+              this.groupTypeCode
+            ].productModelSecond = [];
+            this.$store.state.page[this.page][
+              this.groupTypeCode
+            ].productModelThird = [];
+          }
+        }
       }
       switch (this.groupTypeCode) {
         case "SBTG":

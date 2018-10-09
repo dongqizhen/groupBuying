@@ -242,6 +242,9 @@ const infos = [
       brandFirstId: "", //判断用
       brandSecondId: "", //判断用
       brandThirdId: "", //判断用
+      aliasBrandFirstId: "",
+      aliasBrandSecondId: "",
+      aliasBrandThirdId: "",
       modelListFirst: [], //首选型号显示用
       modelListSecond: [], //次选型号显示用
       modelListThird: [], //再选型号显示用
@@ -291,6 +294,9 @@ const infos = [
       brandFirstId: "",
       brandSecondId: "",
       brandThirdId: "",
+      aliasBrandFirstId: "",
+      aliasBrandSecondId: "",
+      aliasBrandThirdId: "",
       brandList: [],
       modelListFirst: [],
       modelListSecond: [],
@@ -856,7 +862,31 @@ export default {
           _.map(
             this.$store.state.page.submitGroupDemand[this.groupType.code]
               .productBrandThird,
-            "brandId"
+            "aliasId"
+          ),
+          ","
+        );
+        this.info.aliasBrandFirstId = _.join(
+          _.map(
+            this.$store.state.page.submitGroupDemand[this.groupType.code]
+              .productBrandFirst,
+            "aliasId"
+          ),
+          ","
+        );
+        this.info.aliasBrandSecondId = _.join(
+          _.map(
+            this.$store.state.page.submitGroupDemand[this.groupType.code]
+              .productBrandSecond,
+            "aliasId"
+          ),
+          ","
+        );
+        this.info.aliasBrandThirdId = _.join(
+          _.map(
+            this.$store.state.page.submitGroupDemand[this.groupType.code]
+              .productBrandThird,
+            "aliasId"
           ),
           ","
         );

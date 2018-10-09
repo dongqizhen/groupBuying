@@ -132,6 +132,7 @@ export default {
         if (this.$refs.groupDemandWriteInfo.info.brandFirstId) {
           brandFirst = {
             brandId: this.$refs.groupDemandWriteInfo.info.brandFirstId,
+            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandFirstId,
             brandName: this.$refs.groupDemandWriteInfo.info
               .productBrandFirstName,
             model: this.$refs.groupDemandWriteInfo.info.modelListFirst
@@ -140,6 +141,7 @@ export default {
         if (this.$refs.groupDemandWriteInfo.info.brandSecondId) {
           brandSecond = {
             brandId: this.$refs.groupDemandWriteInfo.info.brandSecondId,
+            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandSecondId,
             brandName: this.$refs.groupDemandWriteInfo.info
               .productBrandSecondName,
             model: this.$refs.groupDemandWriteInfo.info.modelListSecond
@@ -148,6 +150,7 @@ export default {
         if (this.$refs.groupDemandWriteInfo.info.brandThirdId) {
           brandThird = {
             brandId: this.$refs.groupDemandWriteInfo.info.brandThirdId,
+            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandThirdId,
             brandName: this.$refs.groupDemandWriteInfo.info
               .productBrandThirdName,
             model: this.$refs.groupDemandWriteInfo.info.modelListThird
