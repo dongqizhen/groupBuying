@@ -29,6 +29,7 @@
     }
   },
   "dependencies": {
+    "autosize": "^4.0.2",
     "axios": "^0.18.0",
     "better-scroll": "^1.12.4",
     "cssnano": "^3.10.0",

@@ -1,16 +1,16 @@
 <template>
-    <div class="hosManAttention">
+    <div class="hosManAttention" v-if="hackReset">
         <div class="leftBox">
             <div v-lazy-container="{ selector: 'img' }">
-                <img :data-src="result.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="">
+                <img :data-src="newResult.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="">
             </div>
             <div class="nameAndHospital">
-                <span class="name">{{result.userName}}</span>
+                <span class="name">{{newResult.userName || newResult.username}}</span>
                 <slot name="hospitalName"></slot>
             </div>
         </div>
         <div class="rightBox">
-            <attention-btn :isFollw="result.isFollw"></attention-btn>
+            <attention-btn :isFollw="newResult.isFollw"></attention-btn>
         </div>
     </div>
 </template>
@@ -18,11 +18,27 @@
     import attentionBtn from "./attentionBtn";
     export default {
         data() {
-            return {};
+            return {
+                newResult: {},
+                hackReset: false
+            };
         },
         props: ["result"],
         components: {
             attentionBtn
+        },
+        mounted() {
+            console.log(this.result);
+        },
+        watch: {
+            result(newResult) {
+                this.newResult = newResult;
+                console.log(newResult);
+                this.$nextTick(() => {
+                    this.hackReset = true;
+                });
+                this.hackReset = false;
+            }
         }
     };
 </script>
@@ -50,7 +66,7 @@
         }
         .name {
             font-family: PingFangSC-Medium;
-            font-size: 13px;
+            font-size: 14px;
             color: #333;
         }
         .hospital {

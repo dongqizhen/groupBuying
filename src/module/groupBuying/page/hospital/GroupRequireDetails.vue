@@ -4,59 +4,46 @@
     <div class="content">
       <div class="scroll-list-wrap">
         <cube-scroll ref="scroll">
-          <man-hospital-info class="hospitalAttention" :result="result"></man-hospital-info>
+          <man-hospital-info class="hospitalAttention" :result="resultData"></man-hospital-info>
 
           <!-- <budget-count></budget-count> -->
           <!--设备团购、耗材团购-->
-          <div v-if="true" class="intention">
+          <div v-if="$route.query.title=='设备团购' || $route.query.title=='耗材团购'" class="intention">
 
             <div class="common productSort">
               <span>产品分类</span>
-              <span class="value">贞观类</span>
+              <span class="value">{{resultData.productLineName}}</span>
             </div>
             <div class="common  number">
               <div class="requireNumber">
                 <span>需求数量</span>
-                <span class="value">10件</span>
+                <span class="value">{{resultData.num}}件</span>
               </div>
               <div class="infoCount">
-                本次团购,CT类设备已累计申报<span>98</span>台,历史累计申报共<span>275</span>台。
+                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
               </div>
             </div>
             <div class="common hopePrice">
               <div>
                 <span>期望采购总价</span>
-                <span class="value">2000万</span>
+                <span class="value">{{resultData.price}}万</span>
               </div>
 
               <div class="infoCount">
-                本次团购，CT类设备已累计申报<span>98</span>台，总预算为<span>1200</span>万元。
+                本次团购，CT类设备已累计申报<span>{{resultData.demandNum}}</span>台，总预算为<span>{{resultData.totalPrice}}</span>万元。
               </div>
             </div>
             <div class="common hopeBrand">
               <ul>
-                <li>
+                <li v-for="(val,index) in resultData.brandList" :key="index">
                   <span>
-                    <img src="../../../../../static/images/selected-first.png">
-                    <span>首选</span>
+                    <img :src="index==0?'../static/images/selected-first.png':(index==1?'../static/images/selected-second.png':'../static/images/selected-three.png')">
+                    <span>{{index==0?"首选":(index==1?'次选':'再选')}}</span>
                   </span>
                   <span class="value">
-                    <span class="brand">GE</span>
+                    <span class="brand">{{val.brandName}}</span>
+                    <span class="model" v-for="(item,ind) in val.modelList" :key="ind">{{item.modelName}}</span>
                   </span>
-                </li>
-                <li>
-                  <span>
-                    <img src="../../../../../static/images/selected-second.png">
-                    <span>次选</span>
-                  </span>
-                  <span class="value"><span class="brand">飞利浦</span></span>
-                </li>
-                <li>
-                  <span>
-                    <img src="../../../../../static/images/selected-three.png">
-                    <span>再选</span>
-                  </span>
-                  <span class="value"><span class="brand">西门子</span><span class="model">midid</span><span class="model">midid</span></span>
                 </li>
               </ul>
             </div>
@@ -64,97 +51,97 @@
               <span>重要参数</span>
               <span class="paramVal">
                 <ul>
-                  <li v-for="itemParam in params" :key="itemParam.paramName">{{itemParam.paramName}}</li>
+                  <li v-for="itemParam in resultData.paramList" :key="itemParam.paramName">{{itemParam.paramName}}</li>
                 </ul>
               </span>
             </div>
             <div class="common perdictTime">
               <span>预计装机时间</span>
-              <span class="value">2018年第三季度</span>
+              <span class="value">{{resultData.loadTime}}</span>
             </div>
             <div class="common demandIntroduce">
               <span>本院采购需求说明</span>
-              <span class="value">需要来医院介绍产品特性</span>
+              <span class="value">{{resultData.introduce}}</span>
             </div>
           </div>
 
           <!--售后团购-->
-          <div class="afterSever">
+          <div class="afterSever" v-if="$route.query.title=='售后团购'">
             <div class="box equipmentSortAndBrandAndModel">
               <!-- <budget-count></budget-count> -->
               <div class="common productSort">
                 <span>设备种类</span>
-                <span class="value">CT类</span>
+                <span class="value">{{resultData.productLineName}}</span>
               </div>
               <div class="common productSort">
                 <span>设备品牌</span>
-                <span class="value">GE</span>
+                <span class="value">{{resultData.brandName}}</span>
               </div>
               <div class="common productSort">
                 <span>设备型号</span>
-                <span class="value">loga 9</span>
+                <span class="value">{{model()}}</span>
               </div>
             </div>
             <div class="box equipmentBasicInfo">
               <div class="common hopePrice">
                 <div>
                   <span>设备台数</span>
-                  <span class="value">10台</span>
+                  <span class="value">{{resultData.num}}台</span>
                 </div>
 
                 <div class="infoCount">
-                  本次团购,CT类设备已累计申报<span>98</span>台,历史累计申报共<span>275</span>台。
+                  本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
                 </div>
               </div>
               <div class="common hopePrice">
                 <div>
                   <span>维修预算(总价)</span>
-                  <span class="value">2000万</span>
+                  <span class="value">{{resultData.price}}万</span>
                 </div>
 
                 <div class="infoCount">
-                  本次团购，CT类设备已累计申报<span>98</span>台，总维修预算为<span>1200</span>万元
+                  本次团购，CT类设备已累计申报<span>{{resultData.demandNum}}</span>台，总维修预算为<span>{{resultData.totalPrice}}</span>万元
                 </div>
               </div>
               <div class="common">
                 <span>维修时间</span>
-                <span class="value">2018年第三季度</span>
+                <span class="value">{{resultData.loadTime}}</span>
               </div>
               <div class="common">
                 <span>设备安装日期</span>
-                <span class="value">2017-08-15</span>
+                <span class="value">{{resultData.installTime}}</span>
               </div>
               <div class="common">
                 <span>该设备每天检查量</span>
-                <span class="value">200人</span>
+                <span class="value">{{resultData.deviceCheckNum}}人</span>
               </div>
               <div class="common">
                 <span>响应时间</span>
-                <span class="value">10小时以内</span>
+                <span class="value">{{resultData.responseTime}}</span>
               </div>
             </div>
             <div class="box maintenanceSort">
               <div class="common">
                 <span>维保类型</span>
-                <span class="value">全保</span>
+                <span class="value">{{resultData.maintenanceType==0?'全保':(resultData.maintenanceType==1?'备件保':'人工保')}}</span>
               </div>
               <div class="common">
                 <span>备注信息</span>
-                <span class="value">这里是备注信息，10小时以内</span>
+                <span class="value">{{resultData.introduce}}</span>
               </div>
             </div>
           </div>
 
           <!-- 咨询团购、金融团购-->
-          <div class="counsel">
+          <div class="counsel" v-if="$route.query.title=='咨询团购' || $route.query.title=='金融团购'">
             <div class="common hopePrice">
               <div>
                 <span>咨询分类</span>
-                <span class="value">CT类</span>
+                <span class="value">{{resultData.productLineName}}</span>
               </div>
 
               <div class="infoCount">
-                本次团购,CT类设备已累计申报<span>98</span>台,历史累计申报共<span>275</span>台。
+                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
               </div>
             </div>
             <div class="common productSort">
@@ -164,89 +151,89 @@
             <div class="common hopePrice">
               <div>
                 <span>期望采购总价</span>
-                <span class="value">2000万</span>
+                <span class="value">{{resultData.price}}万</span>
               </div>
 
               <div class="infoCount">
-                本次团购,CT类设备已累计申报<span>98</span>次,历史累计申报共<span>1200</span>万元。
+                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>次,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
               </div>
             </div>
             <div class="common productSort">
               <span>咨询服务商</span>
-              <span class="value">GE</span>
+              <span class="value">{{resultData.brandName}}</span>
             </div>
             <div class="common param">
               <span>关键词</span>
               <span class="paramVal">
                 <ul>
-                  <li v-for="itemParam in params" :key="itemParam.paramName">{{itemParam.paramName}}</li>
+                  <li v-for="itemParam in resultData.paramList" :key="itemParam.paramName">{{itemParam.paramName}}</li>
                 </ul>
               </span>
             </div>
             <div class="common productSort">
               <span>预计咨询时间</span>
-              <span class="value">GE</span>
+              <span class="value">{{resultData.loadTime}}</span>
             </div>
             <div class="common productSort">
               <span>本院采购需求说明</span>
-              <span class="value">需要来医院介绍产品特性</span>
+              <span class="value">{{resultData.introduce}}</span>
             </div>
           </div>
 
           <!-- 信息化团购 -->
-          <div class="counsel">
+          <div class="counsel" v-if="$route.query.title=='信息化团购'">
             <div class="common productSort">
               <span>平台分类</span>
-              <span class="value">CT类</span>
+              <span class="value">{{resultData.productLineName}}</span>
             </div>
             <div class="common hopePrice">
               <div>
                 <span>需求数量</span>
-                <span class="value">10台</span>
+                <span class="value">{{resultData.num}}台</span>
               </div>
 
               <div class="infoCount">
-                本次团购,CT类设备已累计申报<span>98</span>台,历史累计申报共<span>275</span>台。
+                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
               </div>
             </div>
 
             <div class="common hopePrice">
               <div>
                 <span>期望采购总价</span>
-                <span class="value">2000万</span>
+                <span class="value">{{resultData.price}}万</span>
               </div>
 
               <div class="infoCount">
-                本次团购,CT类设备已累计申报<span>98</span>次,历史累计申报共<span>1200</span>万元。
+                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>次,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
               </div>
             </div>
             <div class="common productSort">
               <span>信息化品牌</span>
-              <span class="value">GE</span>
+              <span class="value">{{resultData.brandName}}</span>
             </div>
             <div class="common productSort">
               <span>信息化应用需求</span>
-              <span class="value">这里显示信息化应用需求</span>
+              <span class="value">{{resultData.application}}</span>
             </div>
             <div class="common productSort">
               <span>信息化型号</span>
-              <span class="value">LOGIQ C9, LOGIQ e, LoGIQ 8</span>
+              <span class="value">{{model()}}</span>
             </div>
             <div class="common param">
               <span>重要参数</span>
               <span class="paramVal">
                 <ul>
-                  <li v-for="itemParam in params" :key="itemParam.paramName">{{itemParam.paramName}}</li>
+                  <li v-for="itemParam in resultData.paramList" :key="itemParam.paramName">{{itemParam.paramName}}</li>
                 </ul>
               </span>
             </div>
             <div class="common productSort">
               <span>预计咨询时间</span>
-              <span class="value">GE</span>
+              <span class="value">{{resultData.loadTime}}</span>
             </div>
             <div class="common productSort">
               <span>本院采购需求说明</span>
-              <span class="value">需要来医院介绍产品特性</span>
+              <span class="value">{{resultData.introduce}}</span>
             </div>
           </div>
           <comment></comment>
@@ -265,23 +252,13 @@
   import manHospitalInfo from "../../components/common/manHospitalInfo";
   import requireDetailItem from "../../components/common/requireDetailItem";
   import budgetCount from "../../components/common/budgetCount";
+  import { _getData } from "../../service/getData";
+  import _ from "lodash";
+
   export default {
       data() {
           return {
-              params: [
-                  { paramName: "四排" },
-                  { paramName: "六排" },
-                  { paramName: "六排八排" }
-                  /* { paramName: "六排六排" },
-                                                                                                                                                                                                                                                { paramName: "八排" } */
-              ],
-              result: {
-                  imgUrl: "../../../../../static/images/add.png",
-                  name: "张工",
-                  hospital: "山东省立医院",
-                  address: "山东省济南市",
-                  introduce: "这是一所山东省立医院，归属山东省政府管理规划"
-              }
+              resultData: {}
           };
       },
       components: {
@@ -300,7 +277,23 @@
                           key: "设备"
                       };
               }
+          },
+          model() {
+              return _.join(this.resultData.modelList, ",");
           }
+      },
+      activated() {
+          _getData(
+              "/server_pro/groupPurchaseHospital!request.action",
+              {
+                  method: "getGroupPurchaseHospitalDemandInfo",
+                  params: { id: this.$route.query.id }
+              },
+              data => {
+                  console.log(data);
+                  this.resultData = data;
+              }
+          );
       }
   };
 </script>
@@ -314,6 +307,11 @@
           .hospitalAttention {
               /deep/ .leftBox {
                   padding: 10px 0 10px 18px;
+              }
+          }
+          /deep/ .cube-scroll-wrapper {
+              .cube-scroll-content {
+                  padding-bottom: 0 !important;
               }
           }
           .common {
@@ -360,6 +358,7 @@
               .infoCount {
                   width: 336px;
                   line-height: 21px;
+                  display: flex;
                   background-color: rgba(244, 133, 75, 0.1);
                   font-family: PingFangSC-Regular;
                   font-size: 11px;
@@ -368,8 +367,10 @@
                   border-top-right-radius: 10.5px;
                   border-bottom-right-radius: 10.5px;
                   margin-bottom: 13px;
+                  justify-content: flex-start;
                   span {
                       color: #fb5665;
+                      display: inline-block;
                   }
               }
           }

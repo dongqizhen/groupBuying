@@ -2,9 +2,8 @@
     <div class="submitComment">
 
         <div class="footer">
-            <group>
-                <x-textarea v-model="Textareavalue" placeholder="发表评论" :height="34" class="ipt-box" autosize></x-textarea>
-            </group>
+            <div class="textBox"><textarea id="txt" placeholder="发表评论" rows='1'></textarea></div>
+
             <!-- <textarea-autosize
   placeholder="发表评论"
   ref="someName"
@@ -19,6 +18,7 @@
 <script>
     import VueTextareaAutosize from "vue-textarea-autosize";
     import { Group, XTextarea, XNumber, CellBox } from "vux";
+    import autosize from "autosize";
     export default {
         data() {
             return {
@@ -31,6 +31,9 @@
             XTextarea,
             XNumber,
             CellBox
+        },
+        mounted() {
+            autosize(document.querySelector("textarea"));
         }
     };
 </script>
@@ -51,15 +54,7 @@
         justify-content: space-between;
         margin: 0 auto;
         min-height: 52px;
-        /* .footer {
-                                                width: 281px;
-                                                border: $border_style;
-                                                border-radius: 20px;
-                                                // padding: 0px 13px;
-                                                background: #f5f5f5;
-                                                display: flex;
-                                                align-items: center;
-                                            } */
+
         .footer {
             // width: 280px;
             height: auto;
@@ -69,6 +64,32 @@
             > div {
                 width: 100%;
             }
+            .textBox {
+                min-height: 34px;
+                padding: 4px 0;
+                background: #f5f5f5;
+                border-radius: 34px;
+                width: 281px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                textarea::-webkit-input-placeholder {
+                    font-family: PingFangSC-Regular;
+                    font-size: 14px;
+                    color: #cccccc;
+                }
+                > textarea {
+                    width: 241px;
+                    height: 18px;
+                    background: #f5f5f5;
+                    line-height: 18px;
+                    color: #999;
+                    //  margin-top: 11px;
+                    max-height: 72px;
+                }
+            }
+
             /deep/ .weui-cells {
                 margin-top: 0;
                 width: 100%;
