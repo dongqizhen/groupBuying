@@ -41,7 +41,7 @@
     };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     #app {
         height: 100%;
         // position: relative;
@@ -58,8 +58,8 @@
         transition: transform 0.4s ease;
     }
     /* .turn-on-enter-to{
-                                                                                                                                                                                                                                                                                                                                          transform: translate3d(0, 0, 0);
-                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                              transform: translate3d(0, 0, 0);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
     .turn-off-enter {
         /* transform: translate3d(-20%, 0, 0); */
     }
@@ -73,5 +73,47 @@
     .turn-off-leave-active,
     .turn-on-enter-active {
         z-index: 9999;
+    }
+    .cube-dialog {
+        .cube-popup-container {
+            .cube-dialog-main {
+                width: 280px;
+                min-height: 115px;
+                border-radius: 5px;
+                .cube-dialog-confirm {
+                    min-height: 115px;
+                    display: flex;
+                    flex-direction: column;
+                    .cube-dialog-btns {
+                        height: 44px;
+                        a {
+                            text-decoration: none;
+                            padding: 0;
+                            display: flex;
+                            height: 100%;
+                            justify-content: center;
+                            align-items: center;
+                            font-family: PingFangSC-Medium;
+                            font-size: 14px;
+                            color: #666666;
+                            &.cube-dialog-btn_highlight {
+                                color: #019ddd;
+                            }
+                        }
+                    }
+                    .cube-dialog-content {
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        .cube-dialog-content-def {
+                            font-family: PingFangSC-Regular;
+                            font-size: 18px;
+                            color: #030303;
+                        }
+                    }
+                }
+            }
+        }
     }
 </style>

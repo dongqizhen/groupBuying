@@ -12,12 +12,11 @@ export const connectWebViewJavascriptBridge = callback => {
         );
     }
 
-
 }
 
 
 // ios
-export function setupWebViewJavascriptBridge(callback) {
+export const setupWebViewJavascriptBridge = (callback) => {
     if (window.WebViewJavascriptBridge) {
         return callback(WebViewJavascriptBridge);
     }
@@ -33,11 +32,8 @@ export function setupWebViewJavascriptBridge(callback) {
         document.documentElement.removeChild(WVJBIframe)
     }, 0)
 }
-/* setupWebViewJavascriptBridge(function(bridge) {
-    //  initVueApp(); // vue 实例
-    window.WebViewJavascriptBridge.callHandler('isBackNativePage');
 
-}); */
+
 
 
 

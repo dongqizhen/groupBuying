@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Header title="医院介绍">
-            <router-link to="/enterpriseSeal" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
+            <router-link to="/hospitalSeal" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
         </Header>
         <div class="content">
             <div class="scroll-list-wrap">
@@ -27,7 +27,7 @@
                             <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
                         </div>
 
-                        <div v-for="(val,index) in demandListData" :key="index" class="demandList-container">
+                        <div v-for="(val,index) in demandListData" :key="index" class="demandList-container" @click="handleClick(val.id,slectedTypeKeyWord)">
                             <budget-count :demandListData="val" :slectedTypeKeyWord="slectedTypeKeyWord"></budget-count>
                             <demand-list pageName="hospitalProfile" :data="val" :slectedTypeKeyWord="slectedTypeKeyWord"></demand-list>
                         </div>
@@ -96,6 +96,7 @@
                         this.parentHeight + "px";
                 }
                 // console.log(this.$refs.scroll);
+
                 setTimeout(() => {
                     this.$refs.scroll.refresh();
                 }, 300);
@@ -105,9 +106,17 @@
                 this.slectedTypeKeyWord = val;
                 this.demandListData = _.find(this.list, { name: val }).demandList;
                 console.log(this.demandListData);
+            },
+            handleClick(id, key) {
+                this.setTransition("turn-on");
+                this.$router.push({
+                    path: "GroupRequireDetails",
+                    query: { id: id, title: key }
+                });
             }
         },
-        activated() {
+        activated() {},
+        mounted() {
             _getData(
                 "/server_pro/groupPurchaseHospital!request.action",
                 {
@@ -140,8 +149,7 @@
                     console.log(this.typeData);
                 }
             );
-        },
-        mounted() {
+
             setTimeout(() => {
                 this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
 

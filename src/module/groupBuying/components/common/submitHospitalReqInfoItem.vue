@@ -1,6 +1,6 @@
 
 <template>
-    <div class="submitHospitalInfo">
+    <div class="submitHospitalInfo" @click="handleClick(result.id)">
         <hos-man-attention :result="result">
             <span slot="hospitalName" class="hospital">{{result.hospitalName}}</span>
         </hos-man-attention>
@@ -17,7 +17,7 @@
                 <span class="moneyCount">{{result.price}}万</span>
             </div>
         </div>
-        <router-link :to="{path:'hospitalProfile',query:{id:result.id}}" @click.native="clickLink">
+        <router-link :to="{path:'hospitalProfile',query:{id:result.id}}" @click.native.stop="clickLink">
             <div class="otherRequire">
                 <span>该院其他团购需求</span>
                 <img src="../../../../../static/images/rightArrow.png">
@@ -35,6 +35,13 @@
         },
         methods: {
             clickLink() {
+                this.$store.commit("setTransition", "turn-on");
+            },
+            handleClick(id) {
+                this.$router.push({
+                    path: "GroupRequireDetails",
+                    query: { id: id }
+                });
                 this.$store.commit("setTransition", "turn-on");
             }
         },
@@ -176,7 +183,7 @@
             .address {
                 width: 176px;
                 /* display: flex;
-                                                            justify-content: flex-start; */
+                                                                        justify-content: flex-start; */
                 img {
                     width: 10.8px;
                     height: 14px;

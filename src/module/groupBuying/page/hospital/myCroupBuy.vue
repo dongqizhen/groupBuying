@@ -11,7 +11,7 @@
           </basic-information>
           <div class="i_join_in">
             <basic-title title="我参加的团购" imgurl='../static/images/groupBuy.png'></basic-title>
-            <list-tab></list-tab>
+            <list-tab v-if="Object.keys(meetingListData).length" :meetingListData="meetingListData"></list-tab>
           </div>
 
         </scroller>
@@ -35,7 +35,8 @@
       data() {
           return {
               detailData: {},
-              isDisabled: true
+              isDisabled: true,
+              meetingListData: {}
           };
       },
       components: {
@@ -65,14 +66,17 @@
               }
           );
           _getData(
-              "/server_pro/groupPurchase!request.action",
+              "/server_pro/groupPurchaseHospital!request.action",
               {
-                  method: "getGroupPurchaseInfoHospital",
+                  method: "getMyGroupPurchaseHospital",
 
-                  params: { id: "5" }
+                  params: { groupPurchaseHospitalId: "1" }
               },
               data => {
                   console.log(data);
+                  this.meetingListData = _.keyBy(data.list, val => {
+                      return `${val.year}(${val.num}场)`;
+                  });
               }
           );
       }

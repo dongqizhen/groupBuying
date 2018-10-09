@@ -1,22 +1,22 @@
 <template>
     <div class="container demandTable">
         <Header title="需求清单">
-            <router-link to="/uploadedProducts" slot="explain" @click.native="setTransition('turn-on')">上传</router-link>
+            <router-link to="/submitGroupDemand" slot="explain" @click.native="setTransition('turn-on')">上传</router-link>
         </Header>
         <div class="content">
-            <div class="scroll-list-wrap">
-                <scroller>
+            <div class="scroll-list-wrap" v-if="hasNet">
+                <scroller v-if="hasData">
                     <cube-swipe>
                         <transition-group name="swipe" tag="ul">
-                            <router-link tag="li" class="swipe-item-wrapper" v-for="(data,index) in swipeData" :key="data.item.id" to="/demandTableDetaile" @click.native="setTransition('turn-on')">
+                            <router-link tag="li" class="swipe-item-wrapper" v-for="(data,index) in swipeData" :key="data.id" to="/demandTableDetaile" @click.native="setTransition('turn-on')">
                                 <a>
                                     <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive">
-                                        <div @click="onItemClick(data.item, index)" class="item-inner">
+                                        <div @click="onItemClick(data, index)" class="item-inner">
                                             <div class="icon">
                                                 <img width="42" height="42" src="../../../../../static/images/word.png">
                                             </div>
                                             <div class="text">
-                                                <h2 class="item-name" v-html="data.item.name"></h2>
+                                                <h2 class="item-name" v-html="data.fileName"></h2>
 
                                             </div>
                                         </div>
@@ -26,7 +26,9 @@
                         </transition-group>
                     </cube-swipe>
                 </scroller>
+                <no-data v-else></no-data>
             </div>
+            <no-net v-else v-on:refresh="getData"></no-net>
         </div>
     </div>
 </template>
@@ -35,140 +37,28 @@
     import Header from "../../components/header/header";
     import { _getData } from "../../service/getData";
     import { mapMutations } from "vuex";
+    import noData from "../../components/noData/noData";
+    import noNet from "../../components/noNet/noNet.vue";
+
     export default {
         data() {
             return {
-                swipeData: [
-                    {
-                        item: {
-                            id: "3646653877",
-                            name:
-                                "2018中国非公立医疗机构第二届团购大会2018中国非公立医疗",
-                            desc: "伤感：歌词再狠，也抵不过现实伤人",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/MhQ4bJBPt3Yt5icXyBGNhyPJnE9O51CqaN72iaDgvFmDKaia12UFhU5uQ/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "1789676645",
-                            name: "2018中国非公立医疗机构第二届团购大会",
-                            desc: "『武侠配乐』快意恩仇江湖情",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/8KfvDey9cibtZ5xkWxRic6vhXgdPic3wnB7reibI4pdPQBCP8u57uqcjsQ/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    },
-                    {
-                        item: {
-                            id: "3649034125",
-                            name: "念葳蕊",
-                            desc: "江海迦：热恋后哼一首歌为自己悲悯的歌",
-                            imgurl:
-                                "http://p.qpic.cn/music_cover/jXFicBvicUcfIWSoCNT1OrbAoHG2fqqnrJVnGV4iaLCapWUpCKqbmAicJg/600?n=1"
-                        }
-                    }
-                ],
+                swipeData: [],
                 btns: [
                     {
                         action: "delete",
                         text: "删除",
                         color: "#FB4354"
                     }
-                ]
+                ],
+                hasData: true,
+                hasNet: true
             };
         },
         components: {
-            Header
+            Header,
+            noData,
+            noNet
         },
         created() {
             this.activeIndex = -1;
@@ -177,17 +67,7 @@
             this.$destroy();
         },
         activated() {
-            _getData(
-                "/server_pro/groupPurchaseHospital!request.action",
-                {
-                    method: "getDemandListByHospitalId",
-
-                    params: { hospitalId: this.$route.query.id }
-                },
-                data => {
-                    console.log(data);
-                }
-            );
+            this.getData();
         },
         methods: {
             ...mapMutations(["setTransition"]),
@@ -201,7 +81,14 @@
                         active: 0,
                         data: [{ content: "删除" }],
                         onSelect: () => {
+                            console.log(index);
+                            this.deleteHospitalPurchaseFile(
+                                this.swipeData[index].id
+                            );
                             this.swipeData.splice(index, 1);
+                            if (this.swipeData.length <= 0) {
+                                this.hasData = false;
+                            }
                         }
                     }).show();
                 } else {
@@ -217,6 +104,42 @@
                     activeItem.shrink();
                 }
                 this.activeIndex = index;
+            },
+            deleteHospitalPurchaseFile(id) {
+                console.log(id);
+                _getData(
+                    "/server_pro/hospitalPurchaseFile!request.action",
+                    {
+                        method: "deleteHospitalPurchaseFile",
+
+                        params: { id: id }
+                    },
+                    data => {}
+                );
+            },
+            getData() {
+                _getData(
+                    "/server_pro/hospitalPurchaseFile!request.action",
+                    {
+                        method: "getPageList",
+
+                        params: {
+                            groupPurchaseHospitalId: this.$route.query.id,
+                            currentPage: 1,
+                            countPerPage: ""
+                        }
+                    },
+                    data => {
+                        console.log(data);
+                        this.hasNet = true;
+                        this.swipeData = data.list;
+                        this.hasData = data.list.length > 0;
+                        console.log(this.hasData);
+                    },
+                    err => {
+                        this.hasNet = false;
+                    }
+                );
             }
         }
     };
