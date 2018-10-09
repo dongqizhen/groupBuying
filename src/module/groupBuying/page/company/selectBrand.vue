@@ -119,6 +119,54 @@ export default {
         this.$store.state.page[this.page][this.groupTypeCode].productModel = [];
       }
       if (this.page == "submitGroupDemand") {
+        if (this.groupTypeCode == "SBTG" || this.groupTypeCode == "HCTG") {
+          if (this.$route.query.type == 0) {
+            if (
+              _.join(
+                _.map(
+                  this.$store.state.page[this.page][this.groupTypeCode]
+                    .productBrandFirst,
+                  "aliasId"
+                ),
+                ","
+              ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+            ) {
+              this.$store.state.page[this.page][
+                this.groupTypeCode
+              ].productModelFirst = [];
+            }
+          } else if (this.$route.query.type == 1) {
+            if (
+              _.join(
+                _.map(
+                  this.$store.state.page[this.page][this.groupTypeCode]
+                    .productBrandSecond,
+                  "aliasId"
+                ),
+                ","
+              ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+            ) {
+              this.$store.state.page[this.page][
+                this.groupTypeCode
+              ].productModelSecond = [];
+            }
+          } else if (this.$route.query.type == 2) {
+            if (
+              _.join(
+                _.map(
+                  this.$store.state.page[this.page][this.groupTypeCode]
+                    .productBrandThird,
+                  "aliasId"
+                ),
+                ","
+              ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
+            ) {
+              this.$store.state.page[this.page][
+                this.groupTypeCode
+              ].productModelThird = [];
+            }
+          }
+        }
       }
       switch (this.groupTypeCode) {
         case "SBTG":

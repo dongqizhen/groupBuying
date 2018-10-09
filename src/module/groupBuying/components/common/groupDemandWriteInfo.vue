@@ -522,16 +522,6 @@ export default {
       "JRTGProductModel",
       "ZXTGProductModel"
     ]),
-    // confirmHandle(value, index) {
-    //   console.log(value);
-    //   console.log(index);
-    // },
-    // cancelHandle() {
-    //   this.show = false;
-    // },
-    // changeHandle(picker, values) {
-    //   console.log(picker.getValues());
-    // },
     showDatePicker() {
       if (!this.datePicker) {
         this.datePicker = this.$createDatePicker({
