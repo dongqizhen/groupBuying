@@ -40,7 +40,7 @@
             handleClick(id) {
                 this.$router.push({
                     path: "GroupRequireDetails",
-                    query: { id: id }
+                    query: { id: id, title: this.$route.query.title }
                 });
                 this.$store.commit("setTransition", "turn-on");
             }
@@ -183,7 +183,7 @@
             .address {
                 width: 176px;
                 /* display: flex;
-                                                                        justify-content: flex-start; */
+                                                                            justify-content: flex-start; */
                 img {
                     width: 10.8px;
                     height: 14px;

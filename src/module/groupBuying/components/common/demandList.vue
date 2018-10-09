@@ -10,18 +10,17 @@
         </div>
         <div class="common hopeBrand" v-if="slectedTypeKeyWord=='设备团购' ||slectedTypeKeyWord=='耗材团购'">
             <ul>
-                <li>
+                <li v-for="(val,index) in data.brandList" :key="index">
                     <span>
-                        <img src="../../../../../static/images/selected-first.png">
-                        <span>首选</span>
+                        <img :src="index==0?'../static/images/selected-first.png':(index==1?'../static/images/selected-second.png':'../static/images/selected-three.png')">
+                        <span>{{index==0?"首选":(index==1?'次选':'再选')}}</span>
                     </span>
                     <span class="brandAndModel">
-                        <span class="brand">{{data.brandList[0].brandName}}</span>
-                        <span class="model" v-for="(val,index) in data.brandList[0].modelList" :key="index">{{val.modelName}}</span>
-
+                        <span class="brand">{{val.brandName}}</span>
+                        <span class="model" v-for="(item,ind) in val.modelList" :key="ind">{{item.modelName}}</span>
                     </span>
                 </li>
-                <li>
+                <!-- <li>
                     <span>
                         <img src="../../../../../static/images/selected-second.png">
                         <span>次选</span>
@@ -41,7 +40,7 @@
                         <span class="brand">{{data.brandList[2].brandName}}</span>
                         <span class="model" v-for="(val,index) in data.brandList[2].modelList" :key="index">{{val.modelName}}</span>
                     </span>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div v-if="slectedTypeKeyWord=='售后团购' || slectedTypeKeyWord=='信息化团购'">

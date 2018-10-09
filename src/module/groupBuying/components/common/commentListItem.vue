@@ -151,10 +151,11 @@
               margin-bottom: 14px;
               li {
                   font-size: 14px;
-                  color: #151515;
+                  color: #2a2a2a;
                   line-height: 20px;
                   margin-bottom: 7px;
                   word-break: break-all;
+                  font-family: PingFangSC-Regular;
                   &:last-child {
                       margin-bottom: 0;
                   }
