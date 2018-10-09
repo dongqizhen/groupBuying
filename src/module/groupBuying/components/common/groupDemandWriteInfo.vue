@@ -131,14 +131,8 @@
             <li @click="jumpInstallTime">
               <a>
                   <span>设备安装日期:</span>
-                  <van-button @click="show = true;">请选择安装日期</van-button>
-                  <van-popup v-model="show" position="bottom" :overlay="false" @confirm="confirm"
-          @cancel="cancel">
-                     <van-datetime-picker v-model="currentDate" type="date"/>
-                  </van-popup>
-
-                  <!-- <cube-button @click="showDatePicker">请选择安装日期</cube-button> -->
-                  <!-- <cube-input placeholder="请选择安装日期" :disabled="true" v-model="info.installTime"  @click="showDatePicker">
+                  <cube-button @click="showDatePicker" :class="info.installTime.indexOf('-')!=-1?'valueStyle':''">{{info.installTime}}</cube-button>
+                  <!-- <cube-input placeholder="请选择安装日期" :readonly="true" v-model="info.installTime"  @click="showDatePicker">
                     <i slot="append"></i>
                   </cube-input> -->
               </a>
@@ -350,7 +344,7 @@ const infos = [
       modelList: [], //显示、上传
       num: 1, //设备台数
       price: "", //维修预算价格
-      installTime: "", //安装日期
+      installTime: "请选择安装日期", //安装日期
       loadTime: "", //维修时间
       deviceCheckNum: "", //每天检查量
       responseTime: "", //响应时间
@@ -522,11 +516,34 @@ export default {
       "JRTGProductModel",
       "ZXTGProductModel"
     ]),
-    confirm() {
-      console.log(getValues());
+    // confirmHandle(value, index) {
+    //   console.log(value);
+    //   console.log(index);
+    // },
+    // cancelHandle() {
+    //   this.show = false;
+    // },
+    // changeHandle(picker, values) {
+    //   console.log(picker.getValues());
+    // },
+    showDatePicker() {
+      if (!this.datePicker) {
+        this.datePicker = this.$createDatePicker({
+          min: new Date(2016, 0, 1),
+          max: new Date(2025, 11, 31),
+          value: new Date(),
+          onSelect: this.selectHandle,
+          onCancel: this.cancelHandle
+        });
+      }
+      this.datePicker.show();
     },
-    cancel() {
-      this.show = false;
+    selectHandle(date, selectedVal, selectedText) {
+      console.log(selectedVal);
+      this.info.installTime = selectedVal.join("-");
+    },
+    cancelHandle() {
+      // this.info.installTime = selectedVal.join("-");
     },
     addClass(index) {
       this.currentIdx = index;
@@ -951,11 +968,18 @@ export default {
           float: left;
           width: auto;
         }
-        /deep/ .van-popup--bottom {
-          height: 300px;
-          padding-right: 0;
-          .van-picker {
-            width: 100%;
+        /deep/ .cube-btn {
+          flex: 1;
+          background-color: #fff;
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #cccccc;
+          text-align: right;
+          margin-right: 13px;
+          background: url("/static/images/grayarrow.png") no-repeat center right;
+          background-size: 8px 14px;
+          &.valueStyle {
+            color: #999;
           }
         }
         > div {
