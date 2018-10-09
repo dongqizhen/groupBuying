@@ -118,6 +118,8 @@ export default {
       ) {
         this.$store.state.page[this.page][this.groupTypeCode].productModel = [];
       }
+      if (this.page == "submitGroupDemand") {
+      }
       switch (this.groupTypeCode) {
         case "SBTG":
           if (this.page == "uploadProduct") {

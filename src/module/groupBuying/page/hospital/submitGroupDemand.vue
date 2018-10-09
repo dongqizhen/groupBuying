@@ -63,7 +63,7 @@ export default {
       groupUnderWayList: [],
       submitData: {
         id: "",
-        hospitalId: "",
+        hospitalId: "1",
         groupPurchaseId: "",
         groupPurchaseTypeId: "",
         productLine: "",
@@ -101,6 +101,10 @@ export default {
       if (this.$refs.groupDemandWriteInfo.info.productLineId == "") {
         Toast({ message: "请选择分类", duration: 1000 });
         return;
+      } else {
+        this.$refs.groupDemandWriteInfo.info.productLine = JSON.stringify(
+          this.$refs.groupDemandWriteInfo.info.productLine
+        );
       }
       if (this.$refs.groupDemandWriteInfo.info.price == "") {
         Toast({ message: this.toastPriceText, duration: 1000 });
@@ -128,6 +132,7 @@ export default {
         if (this.$refs.groupDemandWriteInfo.info.brandFirstId) {
           brandFirst = {
             brandId: this.$refs.groupDemandWriteInfo.info.brandFirstId,
+            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandFirstId,
             brandName: this.$refs.groupDemandWriteInfo.info
               .productBrandFirstName,
             model: this.$refs.groupDemandWriteInfo.info.modelListFirst
@@ -136,6 +141,7 @@ export default {
         if (this.$refs.groupDemandWriteInfo.info.brandSecondId) {
           brandSecond = {
             brandId: this.$refs.groupDemandWriteInfo.info.brandSecondId,
+            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandSecondId,
             brandName: this.$refs.groupDemandWriteInfo.info
               .productBrandSecondName,
             model: this.$refs.groupDemandWriteInfo.info.modelListSecond
@@ -144,6 +150,7 @@ export default {
         if (this.$refs.groupDemandWriteInfo.info.brandThirdId) {
           brandThird = {
             brandId: this.$refs.groupDemandWriteInfo.info.brandThirdId,
+            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandThirdId,
             brandName: this.$refs.groupDemandWriteInfo.info
               .productBrandThirdName,
             model: this.$refs.groupDemandWriteInfo.info.modelListThird
@@ -161,6 +168,10 @@ export default {
         if (this.submitData.brandList.length == 0) {
           Toast({ message: "至少选择或填写一个品牌", duration: 1000 });
           return;
+        } else {
+          this.$refs.groupDemandWriteInfo.info.brandList = JSON.stringify(
+            this.submitData.brandList
+          );
         }
       }
       if (
@@ -170,10 +181,24 @@ export default {
         if (this.$refs.groupDemandWriteInfo.info.brandId == "") {
           Toast({ message: this.toastBrandText, duration: 1000 });
           return;
+        } else {
+          this.$refs.groupDemandWriteInfo.info.brand = JSON.stringify(
+            this.$refs.groupDemandWriteInfo.info.brand
+          );
         }
       }
+      if (
+        this.groupItemObj.code == "SHTG" ||
+        this.groupItemObj.code == "XXHTG"
+      ) {
+        this.$refs.groupDemandWriteInfo.info.modelList = JSON.stringify(
+          this.$refs.groupDemandWriteInfo.info.modelList
+        );
+      }
       if (this.groupItemObj.code == "SHTG") {
-        if (this.$refs.groupDemandWriteInfo.info.installTime == "") {
+        if (
+          this.$refs.groupDemandWriteInfo.info.installTime == "请选择安装日期"
+        ) {
           Toast({ message: "请选择安装日期", duration: 1000 });
           return;
         }
@@ -185,7 +210,7 @@ export default {
           Toast({ message: "请填写响应时间", duration: 1000 });
           return;
         }
-        if (this.$refs.groupDemandWriteInfo.info.maintenanceType == "") {
+        if (this.$refs.groupDemandWriteInfo.info.maintenanceType === "") {
           Toast({ message: "请选择维保类型", duration: 1000 });
           return;
         }
@@ -202,21 +227,22 @@ export default {
         Toast({ message: this.toastIntroduceText, duration: 1000 });
         return;
       }
-      console.log(this.submitData);
       this.submitData = {
         ...this.submitData,
         ...this.$refs.groupDemandWriteInfo.info
       };
-      // _getData(
-      //   "/server_pro/groupPurchaseHospital!request.action",
-      //   {
-      //     method: "addOrUpdateGroupPurchaseHospitalDemand",
-      //     params: this.submitData
-      //   },
-      //   data => {
-      //     console.log(data);this.$router.push("myHospitalGroupBuy");
-      //   }
-      // );
+      console.log(this.submitData);
+      _getData(
+        "/server_pro/groupPurchaseHospital!request.action",
+        {
+          method: "addOrUpdateGroupPurchaseHospitalDemand",
+          params: this.submitData
+        },
+        data => {
+          console.log(data);
+          this.$router.push("myHospitalGroupBuy");
+        }
+      );
       //this.submitBtnStatus = false;
     },
     handleSelect(value) {
