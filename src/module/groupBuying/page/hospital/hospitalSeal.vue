@@ -8,7 +8,7 @@
                         <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
                             <span slot="select">(必选项，多选)</span>
                         </basic-title>
-                        <select-project-nav v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
+                        <select-project-nav :editSelectValue="editSelectId" :come="editSelectId?'1':''" v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
                     </div>
                     <div class="company_basic_information">
                         <basic-title title="医院基本信息" imgurl="../static/images/basicInformation.png">
@@ -21,7 +21,7 @@
                             </li>
                             <li @click="openNative">
                                 <span>地址：</span>
-                                <cube-input :placeholder="responseData" :disabled="true">
+                                <cube-input placeholder="请选择地址" :disabled="true" v-model="responseData">
                                     <i slot="append"></i>
                                 </cube-input>
                             </li>
@@ -32,7 +32,7 @@
                             <span slot="select">(
                                 <i>*</i>为必填项)</span>
                         </basic-title>
-                        <personal-information ref="person" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
+                        <personal-information ref="person" :data="contact" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
                     </div>
                     <div class="hospitalIntroduce">
                         <basic-title title="医院详情介绍" imgurl='../static/images/hospitalDetails.png'></basic-title>
@@ -60,20 +60,31 @@ import { Toast } from "vant";
 export default {
   data() {
     return {
+      editSelectId: "",
+      contact: [
+        {
+          id: "",
+          name: "",
+          post: "",
+          phone: "",
+          telphone: "",
+          wxCode: ""
+        }
+      ],
       submitBtnStatus: true,
       submitData: {
         id: "",
         hospitalName: "",
-        address: "河南省舞钢市",
-        lat: "36", //纬度
-        lng: "26", //经度
-        province: "河南省",
-        city: "舞钢市",
+        address: "北京市",
+        lat: "39.944193", //纬度
+        lng: "116.375416", //经度
+        province: "北京市",
+        city: "北京市",
         introduce: "",
-        groupPurchaseTypeIds: "",
+        groupPurchaseTypeId: "",
         contact: ""
       },
-      responseData: "请选择地址"
+      responseData: ""
     };
   },
   mixins: [openNativeNav],
@@ -87,8 +98,9 @@ export default {
   },
   methods: {
     submitBtnClick() {
+      console.log(this.$refs.person.persons);
       this.submitBtnStatus = false;
-      if (!this.submitData.groupPurchaseTypeIds) {
+      if (!this.submitData.groupPurchaseTypeId) {
         Toast({ message: "请选择团购项目", duration: 1000 });
         this.submitBtnStatus = true;
         return;
@@ -163,10 +175,31 @@ export default {
     },
     handleSelect(value) {
       console.log(value);
-      this.submitData.groupPurchaseTypeIds = value;
+      this.submitData.groupPurchaseTypeId = value;
     }
   },
-  created() {},
+  created() {
+    if (this.$route.query.id) {
+      _getData(
+        "/server_pro/groupPurchaseHospital!request.action",
+        {
+          method: "getAppGroupPurchaseHospitalInfo",
+          params: {
+            id: this.$route.query.id
+          }
+        },
+        data => {
+          console.log("获取的报名详情", data);
+          this.submitData.id = data.id;
+          this.contact = data.contactList;
+          this.submitData.hospitalName = data.hospitalName;
+          this.responseData = data.address;
+          this.submitData.introduce = data.introduce;
+          this.editSelectId = data.groupPurchaseTypeId;
+        }
+      );
+    }
+  },
   activated() {},
   deactivated() {}
 };

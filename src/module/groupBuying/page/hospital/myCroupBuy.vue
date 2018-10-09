@@ -25,103 +25,103 @@
 </template>
 
 <script>
-  import Header from "../../components/header/header";
-  import basicInformation from "../../components/common/basicInformation";
-  import listTab from "../../components/common/listTab";
-  import basicTitle from "../../components/common/basicTitle";
-  import { mapMutations } from "vuex";
-  import { _getData } from "../../service/getData";
-  export default {
-      data() {
-          return {
-              detailData: {},
-              isDisabled: true,
-              meetingListData: {}
-          };
+import Header from "../../components/header/header";
+import basicInformation from "../../components/common/basicInformation";
+import listTab from "../../components/common/listTab";
+import basicTitle from "../../components/common/basicTitle";
+import { mapMutations } from "vuex";
+import { _getData } from "../../service/getData";
+export default {
+  data() {
+    return {
+      detailData: {},
+      isDisabled: true,
+      meetingListData: {}
+    };
+  },
+  components: {
+    Header,
+    basicInformation,
+    listTab,
+    basicTitle
+  },
+  methods: {
+    ...mapMutations(["setTransition"]),
+    submitBtnClick() {
+      this.setTransition("turn-on");
+      this.$router.push("/submitGroupDemand");
+    }
+  },
+  created() {
+    _getData(
+      "/server_pro/groupPurchaseHospital!request.action",
+      {
+        method: "getAppGroupPurchaseHospitalInfo",
+        params: { id: this.$route.query.id }
       },
-      components: {
-          Header,
-          basicInformation,
-          listTab,
-          basicTitle
-      },
-      methods: {
-          ...mapMutations(["setTransition"]),
-          submitBtnClick() {
-              this.setTransition("turn-on");
-              this.$router.push("/submitGroupDemand");
-          }
-      },
-      created() {
-          _getData(
-              "/server_pro/groupPurchaseHospital!request.action",
-              {
-                  method: "getAppGroupPurchaseHospitalInfo",
-                  params: { id: "1" }
-              },
-              data => {
-                  this.detailData = data;
-                  this.isDisabled = data.review == 1 ? false : true;
-                  console.log(this.detailData);
-              }
-          );
-          _getData(
-              "/server_pro/groupPurchaseHospital!request.action",
-              {
-                  method: "getMyGroupPurchaseHospital",
-
-                  params: { groupPurchaseHospitalId: "1" }
-              },
-              data => {
-                  console.log(data);
-                  this.meetingListData = _.keyBy(data.list, val => {
-                      return `${val.year}(${val.num}场)`;
-                  });
-              }
-          );
+      data => {
+        this.detailData = data;
+        this.isDisabled = data.review == 1 ? false : true;
+        console.log(this.detailData);
       }
-  };
+    );
+    _getData(
+      "/server_pro/groupPurchaseHospital!request.action",
+      {
+        method: "getMyGroupPurchaseHospital",
+
+        params: { groupPurchaseHospitalId: "1" }
+      },
+      data => {
+        console.log(data);
+        this.meetingListData = _.keyBy(data.list, val => {
+          return `${val.year}(${val.num}场)`;
+        });
+      }
+    );
+  }
+};
 </script>
 
 <style lang="scss"  scoped>
-  @import "../../../../../static/scss/_commonScss";
-  .container {
-      @include basic_container_style;
-      .content {
-          /deep/ .scroll-list-wrap {
-              height: calc(100% - 60px);
-          }
-          .i_join_in {
-              @include box_shadow_style;
-              margin-top: 10px;
-              /deep/ .basicTitle {
-                  h2 {
-                      border: none;
-                  }
-              }
-          }
-          .btn_container {
-              background: #fff;
-              height: 60px;
-              padding: 0 13px;
-              display: flex;
-              align-items: center;
-              /deep/ .weui-btn {
-                  background: #019ddd;
-                  font-family: PingFangSC-Regular;
-                  font-size: 16px;
-                  //margin-top: 10px;
-                  height: 50px;
-                  border-radius: 6px;
-                  color: #fff;
-                  &.end {
-                      background: #cccccc;
-                      &:after {
-                          border: none;
-                      }
-                  }
-              }
-          }
+@import "../../../../../static/scss/_commonScss";
+.container {
+  @include basic_container_style;
+  .content {
+    /deep/ .scroll-list-wrap {
+      height: calc(100% - 60px);
+    }
+    .i_join_in {
+      @include box_shadow_style;
+      margin-top: 10px;
+      /deep/ .basicTitle {
+        h2 {
+          border: none;
+        }
       }
+    }
+    .btn_container {
+      background: #fff;
+      height: 60px;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      /deep/ .weui-btn {
+        background: #019ddd;
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        //margin-top: 10px;
+        height: 50px;
+        border-radius: 6px;
+        color: #fff;
+        &.end {
+          background: #cccccc;
+          &:after {
+            border: none;
+          }
+        }
+      }
+    }
   }
+}
 </style>

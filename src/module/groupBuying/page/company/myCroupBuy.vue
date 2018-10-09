@@ -43,7 +43,7 @@ export default {
       "/server_pro/groupPurchaseCompany!request.action",
       {
         method: "getGroupPurchaseCompanyDetail",
-        params: { id: "1" }
+        params: { id: this.$route.query.id }
       },
       data => {
         console.log(data);
@@ -55,7 +55,7 @@ export default {
       "/server_pro/groupPurchaseCompany!request.action",
       {
         method: "getMyGroupPurchaseCompany",
-        params: { companyId: "1" }
+        params: { companyId: this.$route.query.id }
       },
       data => {
         console.log(data);

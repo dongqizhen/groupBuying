@@ -213,8 +213,8 @@
     
     .van-toast {
         background-color: #666 !important;
-        min-width: 150px !important;
-        height: 46px;
+        min-width: 160px !important;
+        min-height: 46px;
         border-radius: 4px !important;
         font-size: 16px !important;
         font-family: PingFangSC-Regular;

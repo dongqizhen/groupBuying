@@ -35,7 +35,7 @@
         <li>
           <span v-if="read" :class="read?'disabled':''">固定电话</span>
           <span v-else>固定电话：</span>
-          <cube-input class="ipt_box" type="number" v-model.trim="itemPerson.telphone" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
+          <cube-input class="ipt_box" v-model.trim="itemPerson.telphone" placeholder="请输入固定电话" :disabled='disabled'></cube-input>
         </li>
         <li>
           <span v-if="read" :class="read?'disabled':''">微信号</span>

@@ -8,7 +8,7 @@
             <basic-title title="请选择团购项目" imgurl="../static/images/selectproject.png">
               <span slot="select">(必选项，多选)</span>
             </basic-title>
-            <select-project-nav v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
+            <select-project-nav :editSelectValue="editSelectId" :come="editSelectId?'1':''" v-on:select-value="handleSelect" MultipleSelection></select-project-nav>
           </div>
           <div class="company_basic_information">
             <basic-title title="企业基本信息" imgurl="../static/images/basicInformation.png">
@@ -39,7 +39,7 @@
               </li>
               <li @click="openNative">
                 <span>地址：</span>
-                <cube-input :placeholder="responseData" :disabled="true">
+                <cube-input placeholder="请选择地址" :disabled="true" v-model="responseData">
                   <i slot="append"></i>
                 </cube-input>
               </li>
@@ -50,7 +50,7 @@
               <span slot="select">(
                 <i>*</i>为必填项)</span>
             </basic-title>
-            <personal-information ref="person" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
+            <personal-information ref="person" :data="contact" :disabled="false" :isShowStar='true' isShowAddBtn></personal-information>
           </div>
           <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交报名表</x-button>
           <x-button v-else type="primary" show-loading>提交中</x-button>
@@ -75,24 +75,35 @@ import { openNativeNav } from "../../components/mixin/mixin";
 export default {
   data() {
     return {
+      editSelectId: "",
+      contact: [
+        {
+          id: "",
+          name: "",
+          post: "",
+          phone: "",
+          telphone: "",
+          wxCode: ""
+        }
+      ],
       companyTypeName: "",
       mainBusinessName: "",
       submitBtnStatus: true,
       submitData: {
         id: "",
         companyName: "",
-        address: "河南省舞钢市",
-        lat: "23",
-        lng: "36",
+        address: "北京市",
+        lat: "39.944193", //纬度
+        lng: "116.375416", //经度
         introduce: "",
         groupPurchaseTypeIds: "",
-        province: "河南省",
-        city: "舞钢市",
+        province: "北京市",
+        city: "北京市",
         companyTypeId: "",
         businessId: "",
         contact: ""
       },
-      responseData: "请选择地址"
+      responseData: ""
     };
   },
   mixins: [openNativeNav],
@@ -192,7 +203,29 @@ export default {
       this.submitData.groupPurchaseTypeIds = value;
     }
   },
-  created() {},
+  created() {
+    if (this.$route.query.id) {
+      _getData(
+        "/server_pro/groupPurchaseCompany!request.action",
+        {
+          method: "getGroupPurchaseCompanyDetail",
+          params: {
+            id: this.$route.query.id
+          }
+        },
+        data => {
+          console.log("获取的报名详情", data);
+          this.submitData.id = data.id;
+          this.contact = data.contactList;
+          this.companyTypeName = data.companyTypeName;
+          this.submitData.companyName = data.companyName;
+          this.responseData = data.address;
+          this.submitData.introduce = data.introduce;
+          this.editSelectId = data.groupPurchaseTypeId;
+        }
+      );
+    }
+  },
   mounted() {},
   activated() {
     this.companyTypeName = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeName;

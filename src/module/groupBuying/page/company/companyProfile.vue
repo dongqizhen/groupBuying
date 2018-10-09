@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="企业介绍">
-      <!-- <router-link :to="{path:'enterpriseSeal',query:{come:2}}" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link> -->
+      <router-link :to="{path:'enterpriseSeal',query:{id:$route.query.id}}" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
     </Header>
     <div class="content">
       <div class="scroll-list-wrap">
@@ -13,11 +13,11 @@
             </basic-title>
             <personal-information :read="true" :disabled="true" :data="detailData.contactList"></personal-information>
           </div>
-          <div class="product_list">
+          <div class="product_list" v-if="groupPurchaseTypeList.length!=0">
             <basic-title title="参加团购产品列表" imgurl="../static/images/product_list.png"></basic-title>
             <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
           </div>
-          <div class="products">
+          <div class="products" v-if="groupPurchaseTypeList.length!=0">
             <model-scroll-nav-bar :modelData="modelData" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
             <ul>
               <li v-for="data in swipeData" :key="data.id">
@@ -69,7 +69,7 @@ export default {
       "/server_pro/groupPurchaseCompany!request.action",
       {
         method: "getGroupPurchaseCompanyDetail",
-        params: { id: "1" }
+        params: { id: this.$route.query.id }
       },
       data => {
         console.log(data);

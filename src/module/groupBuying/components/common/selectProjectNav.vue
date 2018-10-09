@@ -34,6 +34,7 @@ export default {
           }
         }
       }
+      console.log(this.itemSelect);
       this.$emit("select-value", this.itemSelect.join(","));
       this.$emit("selectObj", itemObj);
     },
@@ -57,6 +58,7 @@ export default {
       data => {
         console.log("团购类型:", data);
         console.log(this.editSelectValue);
+        console.log(this.come);
         this.items = data;
         if (this.come == 1) {
         } else {
@@ -70,14 +72,17 @@ export default {
   watch: {
     editSelectValue() {
       console.log(this.editSelectValue);
-      this.itemSelect.push(this.editSelectValue);
+      this.itemSelect = this.editSelectValue.split(",").map(Number);
+      console.log(this.itemSelect);
       this.$emit("select-value", this.itemSelect.join(","));
-      this.$emit(
-        "selectObj",
-        _.find(this.items, o => {
-          return o.id == this.editSelectValue;
-        })
-      );
+      if (this.itemSelect.length == 1) {
+        this.$emit(
+          "selectObj",
+          _.find(this.items, o => {
+            return o.id == this.itemSelect[0];
+          })
+        );
+      }
     }
   }
 };

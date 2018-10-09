@@ -6,11 +6,13 @@
     <div class="content">
       <cube-scroll>
         <div class="wrapper_box">
-          <div class="common" v-for="(value,key,index) in companyTypeList" :key="index">
-            <h2>{{key}}</h2>
-            <ul>
-              <li v-for="item in value" :key="item.id" :class="current === item.id?'active':''" @click="activeSelect(item)">{{item.name}}</li>
-            </ul>
+          <div class="common" v-for="(item,index) in companyTypeList" :key="index">
+            <div v-for="(value,key) in item" :key="key">
+              <h2>{{key}}</h2>
+              <ul>
+                <li v-for="itemValue in value" :key="itemValue.id" :class="current === itemValue.id?'active':''" @click="activeSelect(itemValue)">{{itemValue.name}}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </cube-scroll>
@@ -60,14 +62,14 @@ export default {
   },
   mounted() {
     _getData(
-      "/server_pro/company!request.action",
+      "/server_pro/groupPurchaseCompany!request.action",
       {
-        method: "getTopCompanyType",
+        method: "getGroupCompanyType",
         params: {}
       },
       data => {
         console.log(data);
-        // this.companyTypeList = data.companyTypeList;
+        this.companyTypeList = data.companyTypeList;
       }
     );
   },

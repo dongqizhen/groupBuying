@@ -1,5 +1,9 @@
-import { _getData } from '../../service/getData'
-import { JsCallNativeMethods } from '../../../../common/js/jsBridge';
+import {
+    _getData
+} from '../../service/getData'
+import {
+    JsCallNativeMethods
+} from '../../../../common/js/jsBridge';
 
 export const getProductList = {
     data() {
@@ -24,18 +28,20 @@ export const getProductList = {
             "/server_pro/groupPurchaseCompanyProduct!request.action", {
                 method: "getGroupPUrchaseCompanyProductList",
                 params: {
-                    companyId: "1"
+                    companyId: this.$route.query.id
                 }
             },
             data => {
                 console.log(data.groupPurchaseTypeList);
-                this.groupPurchaseTypeList = data.groupPurchaseTypeList;
-                this.typeData = _.map(data.groupPurchaseTypeList, "name");
-                this.curTypeVal = this.groupPurchaseTypeList[0].name;
-                this.changeModel(
-                    this.groupPurchaseTypeList[0].name,
-                    this.groupPurchaseTypeList[0].productLineList[0].name
-                );
+                if (data.groupPurchaseTypeList.length != 0) {
+                    this.groupPurchaseTypeList = data.groupPurchaseTypeList;
+                    this.typeData = _.map(data.groupPurchaseTypeList, "name");
+                    this.curTypeVal = this.groupPurchaseTypeList[0].name;
+                    this.changeModel(
+                        this.groupPurchaseTypeList[0].name,
+                        this.groupPurchaseTypeList[0].productLineList[0].name
+                    );
+                }
             }
         );
     },
@@ -85,11 +91,11 @@ export const getProductList = {
     }
 }
 
-//打开原生自动定位功能 
+//打开原生自动定位功能
 export const openNativeNav = {
     data() {
         return {
-            responseData: "请选择地址"
+            responseData: ""
         }
     },
 
