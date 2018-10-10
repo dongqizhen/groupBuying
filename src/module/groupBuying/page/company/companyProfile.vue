@@ -13,19 +13,24 @@
             </basic-title>
             <personal-information :read="true" :disabled="true" :data="detailData.contactList" ref="Personal_information"></personal-information>
           </div>
-          <div class="product_list" v-if="groupPurchaseTypeList.length!=0">
+          <div class="list_container">
             <basic-title title="参加团购产品列表" imgurl="../static/images/product_list.png"></basic-title>
-            <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
-          </div>
-          <div class="products" v-if="groupPurchaseTypeList.length!=0">
-            <model-scroll-nav-bar :modelData="modelData" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
-            <ul>
-              <li v-for="data in swipeData" :key="data.id">
-                <product-list :listData="data"></product-list>
-              </li>
+            <div class="product_list" v-if="groupPurchaseTypeList.length">
 
-            </ul>
+              <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+            </div>
+            <div class="products" v-if="groupPurchaseTypeList.length">
+              <model-scroll-nav-bar :modelData="modelData" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
+              <ul>
+                <li v-for="data in swipeData" :key="data.id">
+                  <product-list :listData="data"></product-list>
+                </li>
+
+              </ul>
+            </div>
+            <no-data v-else></no-data>
           </div>
+
         </cube-scroll>
       </div>
     </div>
@@ -44,14 +49,15 @@ import { mapMutations } from "vuex";
 import { _getData } from "../../service/getData";
 import _ from "lodash";
 import { getProductList } from "../../components/mixin/mixin";
+import noData from "../../components/noData/noData.vue";
 export default {
   data() {
     return {
       detailData: {},
       disabled: true,
-      isShowBtn: true,
-      btnText: 0,
-      typeData: []
+      typeData: [],
+      isShowBtn: false,
+      btnText: 0
     };
   },
   mixins: [getProductList],
@@ -62,7 +68,8 @@ export default {
     typeScrollNavBar,
     modelScrollNavBar,
     productList,
-    personalInformation
+    personalInformation,
+    noData
   },
   methods: {
     ...mapMutations(["setTransition"]),
@@ -98,14 +105,11 @@ export default {
         console.log(data);
         this.detailData = data;
         console.log(this.detailData);
+        if (data.contactList.length > 1) {
+          this.isShowBtn = true;
+        }
       }
     );
-    setTimeout(() => {
-      this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
-
-      this.$refs.Personal_information.$el.style.height =
-        this.parentHeight + "px";
-    }, 300);
   }
 };
 </script>
@@ -130,7 +134,7 @@ export default {
           padding-left: 13px;
           li {
             padding: 13px 13px 13px 0;
-            border-bottom: 0.5px solid #f6f6f6;
+            border-bottom: $border_style;
             &:first-child {
               padding-top: 0;
             }
@@ -142,10 +146,13 @@ export default {
         }
       }
     }
+    /deep/ .cube-scroll-wrapper {
+      .cube-scroll-content {
+        min-height: calc(100% + 1px);
+      }
+    }
     .Personal_information {
-      background: #ffffff;
-      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
+      @include box_shadow_style;
       margin-top: 10px;
       /deep/ .basicTitle {
         h2 {
@@ -157,39 +164,64 @@ export default {
         }
       }
     }
-    .product_list {
-      background: #ffffff;
-      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
+    .list_container {
       margin-top: 10px;
-    }
-    .products {
-      background: #ffffff;
-      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      margin-top: 10px;
-      ul {
-        padding: 10px 0;
-        border-top: 0.5px solid #f6f6f6;
-        li {
-          height: 90px;
-          width: 100%;
-          padding: 0 13px;
-          margin-bottom: 13px;
-          /deep/ .productList {
-            height: 100%;
-            .left_box {
-              width: 100px;
-              margin-right: 13px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      // box-shadow: $base-box-shadow;
+      /deep/ .basicTitle {
+        background: #ffffff;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        box-shadow: $base-box-shadow;
+      }
+      .product_list {
+        background: #ffffff;
+        /* box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+                                                            border-radius: 5px;
+                                                            margin-top: 10px; */
+        /deep/ .typeScrollNavBar {
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+          box-shadow: $base-box-shadow;
+          margin-bottom: 10px;
+        }
+      }
+      .products {
+        background: #ffffff;
+        box-shadow: $base-box-shadow;
+        border-radius: 5px;
+
+        ul {
+          padding: 10px 0;
+          border-top: $border_style;
+          li {
+            height: 90px;
+            width: 100%;
+            padding: 0 13px;
+            margin-bottom: 13px;
+            /deep/ .productList {
+              height: 100%;
+              .left_box {
+                width: 100px;
+                margin-right: 13px;
+              }
+              .right_box {
+                padding: 16px 0;
+              }
             }
-            .right_box {
-              padding: 16px 0;
+            &:last-child {
+              margin-bottom: 0;
             }
-          }
-          &:last-child {
-            margin-bottom: 0;
           }
         }
+      }
+      /deep/ .noData {
+        background: #ffffff;
+        padding: 30px 0;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        box-shadow: $base-box-shadow;
       }
     }
   }

@@ -1,33 +1,23 @@
 <template>
     <div class="container demandTable">
         <Header title="需求清单">
-            <router-link to="/submitGroupDemand" slot="explain" @click.native="setTransition('turn-on')">上传</router-link>
+            <!--  <router-link to="/submitGroupDemand" slot="explain" @click.native="setTransition('turn-on')">上传</router-link> -->
         </Header>
         <div class="content">
-            <div class="scroll-list-wrap" v-if="hasNet">
-                <scroller v-if="hasData">
-                    <cube-swipe>
-                        <transition-group name="swipe" tag="ul">
-                            <router-link tag="li" class="swipe-item-wrapper" v-for="(data,index) in swipeData" :key="data.id" to="/demandTableDetaile" @click.native="setTransition('turn-on')">
-                                <a>
-                                    <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive">
-                                        <div @click="onItemClick(data, index)" class="item-inner">
-                                            <div class="icon">
-                                                <img width="42" height="42" src="../../../../../static/images/word.png">
-                                            </div>
-                                            <div class="text">
-                                                <h2 class="item-name" v-html="data.fileName"></h2>
+            <div v-if="hasNet">
+                <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+                <div class="scroll-list-wrap">
+                    <cube-scroll v-if="hasData">
+                        <div v-for="(val,index) in demandListData" :key="index" class="demandList-container" @click="handleClick(val.id,slectedTypeKeyWord)">
+                            <budget-count :demandListData="val" :slectedTypeKeyWord="slectedTypeKeyWord"></budget-count>
+                            <demand-list pageName="hospitalProfile" :data="val" :slectedTypeKeyWord="slectedTypeKeyWord"></demand-list>
+                        </div>
+                    </cube-scroll>
 
-                                            </div>
-                                        </div>
-                                    </cube-swipe-item>
-                                </a>
-                            </router-link>
-                        </transition-group>
-                    </cube-swipe>
-                </scroller>
-                <no-data v-else></no-data>
+                    <no-data v-else></no-data>
+                </div>
             </div>
+
             <no-net v-else v-on:refresh="getData"></no-net>
         </div>
     </div>
@@ -39,107 +29,86 @@
     import { mapMutations } from "vuex";
     import noData from "../../components/noData/noData";
     import noNet from "../../components/noNet/noNet.vue";
-
+    import typeScrollNavBar from "../../components/common/typeScrollNavBar.vue";
+    import budgetCount from "../../components/common/budgetCount";
+    import demandList from "../../components/common/demandList";
+    import _ from "lodash";
     export default {
         data() {
             return {
-                swipeData: [],
-                btns: [
-                    {
-                        action: "delete",
-                        text: "删除",
-                        color: "#FB4354"
-                    }
-                ],
                 hasData: true,
-                hasNet: true
+                hasNet: true,
+                typeData: [],
+                slectedTypeKeyWord: "",
+                demandListData: {},
+                list: []
             };
         },
         components: {
             Header,
             noData,
-            noNet
+            noNet,
+            typeScrollNavBar,
+            budgetCount,
+            demandList
         },
-        created() {
-            this.activeIndex = -1;
-        },
+
         deactivated() {
-            this.$destroy();
+            //this.$destroy();
         },
         activated() {
             this.getData();
         },
         methods: {
             ...mapMutations(["setTransition"]),
-            onItemClick(item) {
-                console.log("click item:", item);
-            },
-            onBtnClick(btn, index) {
-                if (btn.action === "delete") {
-                    this.$createActionSheet({
-                        title: "确认要删除吗",
-                        active: 0,
-                        data: [{ content: "删除" }],
-                        onSelect: () => {
-                            console.log(index);
-                            this.deleteHospitalPurchaseFile(
-                                this.swipeData[index].id
-                            );
-                            this.swipeData.splice(index, 1);
-                            if (this.swipeData.length <= 0) {
-                                this.hasData = false;
-                            }
-                        }
-                    }).show();
-                } else {
-                    this.$refs.swipeItem[index].shrink();
-                }
-            },
-            onItemActive(index) {
-                if (index === this.activeIndex) {
-                    return;
-                }
-                if (this.activeIndex !== -1) {
-                    const activeItem = this.$refs.swipeItem[this.activeIndex];
-                    activeItem.shrink();
-                }
-                this.activeIndex = index;
-            },
-            deleteHospitalPurchaseFile(id) {
-                console.log(id);
-                _getData(
-                    "/server_pro/hospitalPurchaseFile!request.action",
-                    {
-                        method: "deleteHospitalPurchaseFile",
-
-                        params: { id: id }
-                    },
-                    data => {}
-                );
-            },
             getData() {
                 _getData(
-                    "/server_pro/hospitalPurchaseFile!request.action",
+                    "/server_pro/groupPurchaseHospital!request.action",
                     {
-                        method: "getPageList",
+                        method: "getDemandListByHospitalId",
 
-                        params: {
-                            groupPurchaseHospitalId: this.$route.query.id,
-                            currentPage: 1,
-                            countPerPage: ""
-                        }
+                        params: { hospitalId: this.$route.query.id }
                     },
                     data => {
-                        console.log(data);
                         this.hasNet = true;
-                        this.swipeData = data.list;
+                        console.log(data);
+                        this.list = data.list;
                         this.hasData = data.list.length > 0;
-                        console.log(this.hasData);
+                        if (this.list.length != 0) {
+                            if (_.isEmpty(this.demandListData)) {
+                                this.demandListData = data.list[0].demandList;
+                                this.typeData = _.map(data.list, "name");
+                                this.slectedTypeKeyWord =
+                                    this.slectedTypeKeyWord == ""
+                                        ? this.typeData[0]
+                                        : this.slectedTypeKeyWord;
+                                console.log(this.typeData);
+                            } else {
+                                this.demandListData = _.filter(data.list, {
+                                    name: this.slectedTypeKeyWord
+                                })[0].demandList;
+
+                                console.log(this.demandListData);
+                            }
+                        }
                     },
                     err => {
                         this.hasNet = false;
                     }
                 );
+            },
+            TypeNavChange(val) {
+                console.log(val, this.list);
+                this.slectedTypeKeyWord = val;
+                this.demandListData = _.find(this.list, { name: val }).demandList;
+                console.log(this.demandListData);
+            },
+            handleClick(id, key) {
+                this.setTransition("turn-on");
+                this.$router.push({
+                    path: "submitGroupDemand",
+                    query: { id: id, title: key }
+                });
             }
         }
     };
@@ -150,17 +119,36 @@
     .container {
         @include basic_container_style;
         .content {
+            > div {
+                display: flex;
+                height: 100%;
+                flex-direction: column;
+            }
             padding-top: 0;
             .scroll-list-wrap {
-                height: 100%;
-
+                height: calc(100% - 57px);
+                /deep/ ._v-content {
+                    .demandList-container {
+                        background: #ffffff;
+                        @include box_shadow_style;
+                        margin-bottom: 10px;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
                 /deep/ .cube-scroll-wrapper {
-                    height: 100%;
-                    padding-bottom: 10px;
+                    /*  height: 100%;*/
+                    //padding-bottom: 10px;
                     .cube-scroll-content {
                         min-height: calc(100% + 1px);
                         padding: 10px 13px;
                         padding-bottom: 0;
+                        .demandList-container {
+                            background: #ffffff;
+                            @include box_shadow_style;
+                            margin-bottom: 10px;
+                        }
                     }
                 }
                 /deep/ .cube-swipe {

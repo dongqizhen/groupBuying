@@ -1,7 +1,7 @@
 <template>
     <div class="typeScrollNavBar">
 
-        <cube-scroll-nav-bar :current="current" v-if="labels.length" :labels="labels" @change="changeHandler" />
+        <cube-scroll-nav-bar :current="typeData[0]" v-if="typeData.length" :labels="typeData" @change="changeHandler" />
     </div>
 </template>
 
@@ -13,7 +13,12 @@
                 labels: []
             };
         },
-        props: ["typeData"],
+        props: {
+            typeData: {
+                type: Array,
+                default: []
+            }
+        },
         methods: {
             changeHandler(cur) {
                 this.current = cur;
@@ -21,11 +26,14 @@
             }
         },
         updated() {},
-        created() {},
+        created() {
+            // console.log(this.typeData);
+        },
         watch: {
-            typeData() {
-                this.labels = this.typeData;
-                this.current = this.typeData[0];
+            typeData(newVal, oldVal) {
+                /*  console.log(newVal, oldVal);
+                    this.labels = this.typeData;
+                    this.current = this.typeData[0]; */
             }
         }
     };
