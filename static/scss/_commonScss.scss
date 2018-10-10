@@ -19,7 +19,7 @@ $border_style: 0.5px solid #E9E9E9;
     .content {
         height: calc(100% - #{$header-height});
         // padding: 10px 13px;
-        background: red;
+        background: $base-backgroud;
         overflow: auto;
         //flex: 1;
         .scroll-list-wrap {
