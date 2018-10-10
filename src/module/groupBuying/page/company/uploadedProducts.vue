@@ -20,7 +20,6 @@
                             </transition-group>
                         </cube-swipe>
                     </scroller>
-
                 </div>
             </div>
             <no-data v-else></no-data>
@@ -75,6 +74,8 @@ export default {
       console.log("click item:", item);
     },
     onBtnClick(btn, index) {
+      console.log(index);
+      console.log(this.swipeData[index].id);
       if (btn.action === "delete") {
         this.$createActionSheet({
           title: "确认要删除吗",
@@ -88,7 +89,10 @@ export default {
       } else {
         this.setTransition("turn-on");
         this.$refs.swipeItem[index].shrink();
-        this.$router.push("uploadProduct");
+        this.$router.push({
+          path: "uploadProduct",
+          query: { id: this.swipeData[index].id }
+        });
       }
     },
     onItemActive(index) {

@@ -33,6 +33,7 @@ import search from "../../components/search/search";
 import { _getData } from "../../service/getData";
 import { mapMutations } from "vuex";
 import _ from "lodash";
+import { Toast } from "vant";
 export default {
   data() {
     return {
@@ -73,7 +74,8 @@ export default {
       });
       console.log(modelListCommon);
       if (this.selectMainBusinessArr.length === 3) {
-        this.showToastTime("最多选择三个主营业务");
+        Toast({ message: "最多选择三个主营业务", duration: 1000 });
+        return;
       } else {
         if (!mainBusinessSelectCommon && !modelListCommon) {
           this.selectMainBusinessArr.push({ id: "", name: val });
@@ -81,7 +83,11 @@ export default {
           if (!mainBusinessSelectCommon && modelListCommon) {
             this.selectMainBusinessArr.push(modelListCommon);
           } else if (mainBusinessSelectCommon) {
-            this.showToastTime("已选相同主营业务，请勿重复选择");
+            Toast({
+              message: "已选相同主营业务，请勿重复选择",
+              duration: 1000
+            });
+            return;
           }
         }
       }
@@ -108,16 +114,10 @@ export default {
           changeItem
         );
         if (this.selectMainBusinessArr.length == 3) {
-          this.showToastTime("最多选择三个主营业务");
+          Toast({ message: "最多选择三个主营业务", duration: 1000 });
+          return;
         }
       }
-    },
-    showToastTime(txt) {
-      const toast = this.$createToast({
-        time: 1000,
-        txt: txt
-      });
-      toast.show();
     },
     activeClass(id) {
       if (this.selectMainBusinessArr) {

@@ -14,6 +14,10 @@
           </div>
         </scroller>
       </div>
+      <div class="btn_container">
+        <x-button type="primary" @click.native="submitBtnClick" :disabled="isDisabled">
+        上传产品</x-button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +35,7 @@ export default {
     return {
       detailData: {},
       meetingListData: {},
+      isDisabled: false,
       hasData: true
     };
   },
@@ -41,7 +46,13 @@ export default {
     basicTitle,
     noData
   },
-  methods: { ...mapMutations(["setTransition"]) },
+  methods: {
+    ...mapMutations(["setTransition"]),
+    submitBtnClick() {
+      this.setTransition("turn-on");
+      this.$router.push("/uploadProduct");
+    }
+  },
   created() {
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
@@ -87,6 +98,9 @@ export default {
     flex-direction: column;
   }
   .content {
+    /deep/ .scroll-list-wrap {
+      height: calc(100% - 60px);
+    }
     .i_join_in {
       @include box_shadow_style;
       margin-top: 10px;
@@ -96,6 +110,28 @@ export default {
       /deep/ .basicTitle {
         h2 {
           border: none;
+        }
+      }
+    }
+    .btn_container {
+      background: #fff;
+      height: 60px;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      /deep/ .weui-btn {
+        background: #019ddd;
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        //margin-top: 10px;
+        height: 50px;
+        border-radius: 6px;
+        color: #fff;
+        &.end {
+          background: #cccccc;
+          &:after {
+            border: none;
+          }
         }
       }
     }

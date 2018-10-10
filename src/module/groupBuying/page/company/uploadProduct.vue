@@ -57,7 +57,7 @@ import listItem from "../../components/common/listItem";
 import basicTitle from "../../components/common/basicTitle";
 import selectProjectNav from "../../components/common/selectProjectNav";
 import productBasicInfo from "../../components/common/productBasicInfo";
-import { Group, XTextarea } from "vux";
+import { Group, XTextarea, base64 } from "vux";
 import { _getData } from "../../service/getData";
 import _ from "lodash";
 import compress from "../../../../../static/js/compressImage";
@@ -156,17 +156,31 @@ export default {
         this.submitBtnStatus = true;
         return;
       }
-      this.submitData.imageUrl = _.join(
-        _.map(
-          _.map(this.action.files, function(o) {
-            return o.response.result.imageList[0];
-          }),
-          function(item) {
-            return item.imageurl;
-          }
-        ),
-        ","
+
+      console.log(this.action.files);
+      console.log(
+        _.map(this.action.files, o => {
+          return (o.url = o.response.result.imageList[0].imageurl);
+        })
       );
+      console.log(
+        _.map(this.action.files, o => {
+          return (o._xhr = JSON.stringify(o._xhr, ["onabort"]));
+        })
+      );
+
+      this.submitData.imageUrl = JSON.stringify(this.action.files);
+      // this.submitData.imageUrl = _.join(
+      //   _.map(
+      //     _.map(this.action.files, function(o) {
+      //       return o.response.result.imageList[0];
+      //     }),
+      //     function(item) {
+      //       return item.imageurl;
+      //     }
+      //   ),
+      //   ","
+      // );
       this.submitData = { ...this.submitData, ...this.$refs.basicInfo.info };
       this.submitData.companyId = this.$store.state.userCompanyIdOrHospitalId;
       console.log(this.submitData);
@@ -201,23 +215,38 @@ export default {
     },
     addedHandler(files) {
       //图片上传需要判断是否重复
+      console.log("files", files);
+      let hasIgnore = false;
       if (this.action.files.length != 0) {
-        if (
-          _.find(this.action.files, o => {
-            return o.name == files[0].name;
-          })
-        ) {
-          Toast({ message: "该文件已上传,请勿重复上传", duration: 1000 });
-          this.$refs.upload.removeFile(
+        for (let k in files) {
+          const file = files[k];
+          if (
             _.find(this.action.files, o => {
-              return o.name == files[0].name;
+              return o.name == file.name;
             })
-          );
+          ) {
+            file.ignore = true;
+            hasIgnore = true;
+          }
         }
+        hasIgnore &&
+          this.$createToast({
+            type: "warn",
+            time: 1000,
+            txt: "文件已上传,请勿重复上传"
+          }).show();
       }
     },
     fileRemove(file) {
+      console.log(file);
       console.log(this.action.files);
+      if (
+        _.find(this.action.files, o => {
+          return o.name == file.name;
+        })
+      ) {
+        //this.action.files.splice()
+      }
     }
   },
   created: function() {},
@@ -234,8 +263,33 @@ export default {
       }
     );
   },
-  activated: function() {},
-  deactivated: function() {},
+  activated() {
+    if (this.$route.query.id) {
+      _getData(
+        "/server_pro/groupPurchaseCompanyProduct!request.action",
+        {
+          method: "getGroupPurchaseCompanyProductDetail",
+          params: { id: this.$route.query.id }
+        },
+        data => {
+          console.log(data);
+          data.imageUrl = JSON.parse(data.imageUrl);
+          console.log(
+            _.map(data.imageUrl, o => {
+              return (o._xhr = JSON.parse(o._xhr));
+            })
+          );
+          console.log(data.imageUrl);
+          this.action.files = data.imageUrl;
+          // this.action.files.push({
+          //   url: "http://60.195.252.86:8080/server/upload/1539211548819.jpg",
+          //   status: "success"
+          // });
+        }
+      );
+    }
+  },
+  deactivated() {},
   watch: {
     groupItemObj() {
       switch (this.groupItemObj.code) {

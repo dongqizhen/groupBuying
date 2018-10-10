@@ -36,7 +36,7 @@ export default {
       this.title = "报名成功(医院)";
     }
   },
-  deactivated: function() {
+  deactivated() {
     console.log(4);
   }
 };
@@ -47,14 +47,15 @@ export default {
 .container {
   @include basic_container_style;
   .content {
+    padding: 10px 13px;
     position: relative;
     .advertising {
       height: 134px;
       background: #03cc03;
       position: absolute;
       bottom: 28px;
-      width: 100%;
-      // width: calc(100% - 26px);
+      // width: 100%;
+      width: calc(100% - 26px);
       span {
         display: flex;
         height: 16px;

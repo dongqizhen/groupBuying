@@ -193,7 +193,7 @@ export default {
         },
         data => {
           console.log(data);
-          this.$router.push({
+          this.$router.replace({
             path: "registrationSuccess",
             query: {
               companyNum: data.companyNum,

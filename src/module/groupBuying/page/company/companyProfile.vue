@@ -110,6 +110,12 @@ export default {
         }
       }
     );
+    setTimeout(() => {
+      this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
+
+      this.$refs.Personal_information.$el.style.height =
+        this.parentHeight + "px";
+    }, 300);
   }
 };
 </script>
@@ -154,6 +160,8 @@ export default {
     .Personal_information {
       @include box_shadow_style;
       margin-top: 10px;
+      overflow: hidden;
+      height: auto;
       /deep/ .basicTitle {
         h2 {
           span {
@@ -162,6 +170,10 @@ export default {
             font-family: PingFangSC-Regular;
           }
         }
+      }
+      /deep/ .personalInformation {
+        height: auto;
+        transition: height 0.3s;
       }
     }
     .list_container {
