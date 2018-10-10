@@ -1,7 +1,7 @@
 <template>
     <div class="productList" @click="OnItemClick(listData)">
         <div class="left_box">
-           <img :src="listData.imageUrl" alt="">
+           <img :src="listData.imageUrl?listData.imageUrl.split(',')[0]:''" alt="">
         </div>
         <div class="right_box">
             <p>

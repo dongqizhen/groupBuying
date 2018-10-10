@@ -79,16 +79,16 @@ export default {
       productLineId: "",
       submitData: {
         id: "",
-        companyId: "1",
+        companyId: "",
         groupPurchaseId: "",
         groupPurchaseTypeId: "",
-        productLineName: "dddd",
-        brandName: "dffa",
+        productLineName: "",
+        brandName: "",
         modelName: "",
         productLineId: "",
         brandId: "",
         modelId: "",
-        price: "123",
+        price: "",
         paramsId: "",
         imageUrl: "",
         introduce: "",
@@ -168,6 +168,7 @@ export default {
         ","
       );
       this.submitData = { ...this.submitData, ...this.$refs.basicInfo.info };
+      this.submitData.companyId = this.$store.state.userCompanyIdOrHospitalId;
       console.log(this.submitData);
       _getData(
         "/server_pro/groupPurchaseCompanyProduct!request.action",
@@ -178,7 +179,10 @@ export default {
         data => {
           console.log(data);
           this.submitBtnStatus = true;
-          this.$router.push("/myComponyGroupBuy");
+          this.$router.push({
+            path: "myComponyGroupBuy",
+            query: { id: this.$store.state.userCompanyIdOrHospitalId }
+          });
         }
       );
     },

@@ -143,6 +143,8 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$route.query.vuexValue);
+    this.selectMainBusinessArr = this.$route.query.vuexValue;
     this.reqData();
   },
   deactivated() {

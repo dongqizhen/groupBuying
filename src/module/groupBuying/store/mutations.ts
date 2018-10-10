@@ -8,14 +8,17 @@ const mutations = {
   setUserType(state, type) {
     state.userType = type;
   },
+  setUserCompanyIdOrHospitalId(state, companyIdOrHospitalId) {
+    state.userCompanyIdOrHospitalId = companyIdOrHospitalId;
+  },
   setDetailsPageData(state, val) {
     state.page.detailsPageData = val;
   },
   selectCompanyType(state, companyValue) {
-    state.page.typeOfEnterprise.selectedCompanyType = companyValue;
+    state.page.typeOfEnterprise = companyValue;
   },
   selectMainBusiness(state, businessValue) {
-    state.page.mainBusiness.selectedMainBusiness = businessValue;
+    state.page.mainBusiness = businessValue;
   },
   selectSBTGProductSort(state, productSortValue) {
     state.page.uploadProduct.SBTG.productSort = productSortValue;

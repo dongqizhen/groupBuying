@@ -5,13 +5,13 @@
     </Header>
     <div class="content">
       <div class="scroll-list-wrap">
-        <cube-scroll>
+        <cube-scroll ref="scroll">
           <basic-information :detailData="detailData" title="企业基本信息"></basic-information>
           <div class="Personal_information">
             <basic-title title="团购负责人信息" imgurl="../static/images/Personal_information.png">
-              <span slot="check">收起</span>
+              <span slot="check" @click="packUp" v-if="isShowBtn">{{btnText!=0?'展开':'收起'}}</span>
             </basic-title>
-            <personal-information :read="true" :disabled="true" :data="detailData.contactList"></personal-information>
+            <personal-information :read="true" :disabled="true" :data="detailData.contactList" ref="Personal_information"></personal-information>
           </div>
           <div class="product_list" v-if="groupPurchaseTypeList.length!=0">
             <basic-title title="参加团购产品列表" imgurl="../static/images/product_list.png"></basic-title>
@@ -49,6 +49,8 @@ export default {
     return {
       detailData: {},
       disabled: true,
+      isShowBtn: true,
+      btnText: 0,
       typeData: []
     };
   },
@@ -62,7 +64,28 @@ export default {
     productList,
     personalInformation
   },
-  methods: { ...mapMutations(["setTransition"]) },
+  methods: {
+    ...mapMutations(["setTransition"]),
+    packUp() {
+      const childHeight = this.$refs.Personal_information.$el.childNodes[0]
+        .clientHeight;
+
+      if (this.btnText == 0) {
+        this.btnText = 1;
+
+        this.$refs.Personal_information.$el.style.height = childHeight + "px";
+      } else {
+        this.btnText = 0;
+        this.$refs.Personal_information.$el.style.height =
+          this.parentHeight + "px";
+      }
+      // console.log(this.$refs.scroll);
+
+      setTimeout(() => {
+        this.$refs.scroll.refresh();
+      }, 300);
+    }
+  },
 
   created() {
     _getData(
@@ -77,6 +100,12 @@ export default {
         console.log(this.detailData);
       }
     );
+    setTimeout(() => {
+      this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
+
+      this.$refs.Personal_information.$el.style.height =
+        this.parentHeight + "px";
+    }, 300);
   }
 };
 </script>

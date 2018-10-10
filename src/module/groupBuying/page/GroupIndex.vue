@@ -102,7 +102,11 @@ export default {
     TabItem
   },
   methods: {
-    ...mapMutations(["setTransition", "setUserType"]),
+    ...mapMutations([
+      "setTransition",
+      "setUserType",
+      "setUserCompanyIdOrHospitalId"
+    ]),
     handleClick(item, index) {
       if (item.path == "/") {
         if (index == 0) {
@@ -177,6 +181,9 @@ export default {
         });
       }
     );
+  },
+  created() {},
+  activated() {
     _getData(
       //获取用户类型(企业或医院)
       "/server_pro/groupPurchase!request.action",
@@ -191,6 +198,7 @@ export default {
           this.routerLinkArr[1].path = "/";
         }
         this.setUserType(data.type);
+        this.setUserCompanyIdOrHospitalId(data.id);
         this.routerLinkArr[2].id = data.id;
         this.routerLinkArr[0].num = data.hospitalNum;
         this.routerLinkArr[1].num = data.companyNum;
@@ -202,8 +210,6 @@ export default {
       }
     );
   },
-  created() {},
-  activated() {},
   deactivated() {}
 };
 </script>

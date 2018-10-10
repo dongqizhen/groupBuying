@@ -10,7 +10,7 @@
             <div v-for="(value,key) in item" :key="key">
               <h2>{{key}}</h2>
               <ul>
-                <li v-for="itemValue in value" :key="itemValue.id" :class="current === itemValue.id?'active':''" @click="activeSelect(itemValue)">{{itemValue.name}}</li>
+                <li v-for="itemValue in value" :key="itemValue.id" :class="activeClass(itemValue.id)" @click="activeSelect(itemValue,itemValue.id)">{{itemValue.name}}</li>
               </ul>
             </div>
           </div>
@@ -24,43 +24,55 @@
 import Header from "../../components/header/header";
 import { _getData } from "../../service/getData";
 import { mapMutations } from "vuex";
+import _ from "lodash";
+import { Toast } from "vant";
 export default {
   data() {
     return {
-      current: -1,
-      tempCompanyType: { tempCompanyTypeName: "", tempCompanyTypeId: "" },
-      companyType: { companyTypeName: "", companyTypeId: "" },
-      companyTypeList: {
-        厂家: [{ name: "外资厂家", id: 1 }, { name: "民族厂家", id: 2 }],
-        代理商: [{ name: "代理商", id: 3 }, { name: "配送商", id: 4 }],
-        维修: [{ name: "原厂维修", id: 5 }, { name: "维修代理商", id: 6 }],
-        其他: [
-          { name: "第三方维修", id: 7 },
-          { name: "外贸公司", id: 8 },
-          { name: "招标公司", id: 9 },
-          { name: "融资租赁", id: 10 }
-        ]
-      }
+      companyTypeList: [],
+      itemSelect: []
     };
   },
   components: { Header },
   methods: {
     ...mapMutations(["setTransition", "selectCompanyType"]),
     clickSure() {
-      this.setTransition("turn-off");
-      this.$router.go(-1);
-      this.companyType.companyTypeName = this.tempCompanyType.tempCompanyTypeName;
-      this.companyType.companyTypeId = this.tempCompanyType.tempCompanyTypeId;
-      console.log(this.companyType);
-      this.selectCompanyType(this.companyType);
+      if (this.itemSelect.length == 0) {
+        Toast({ message: "请选择企业类型", duration: 1000 });
+        return;
+      } else {
+        this.selectCompanyType(this.itemSelect[0]);
+        this.setTransition("turn-off");
+        this.$router.go(-1);
+      }
     },
-    activeSelect(item) {
-      this.current = item.id;
-      this.tempCompanyType.tempCompanyTypeId = item.id;
-      this.tempCompanyType.tempCompanyTypeName = item.name;
+    activeSelect(item, id) {
+      if (this.itemSelect.length < 1) {
+        this.itemSelect.push(item);
+      } else {
+        if (
+          _.find(this.itemSelect, function(o) {
+            return o.id == id;
+          })
+        ) {
+          this.itemSelect.splice(0, 1);
+        } else {
+          this.itemSelect.splice(0, 1, item);
+        }
+      }
+    },
+    activeClass(id) {
+      if (this.itemSelect) {
+        for (const val of this.itemSelect) {
+          if (val.id == id) {
+            return "active";
+          }
+        }
+      }
     }
   },
-  mounted() {
+  activated() {
+    this.itemSelect.push(this.$route.query.vuexValue);
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
       {
@@ -73,9 +85,7 @@ export default {
       }
     );
   },
-  deactivated() {
-    this.$destroy();
-  }
+  deactivated() {}
 };
 </script>
 

@@ -51,6 +51,8 @@ export default {
         console.log(this.detailData);
       }
     );
+  },
+  activated() {
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
       {

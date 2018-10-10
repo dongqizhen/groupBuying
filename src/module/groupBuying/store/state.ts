@@ -3,7 +3,8 @@ interface StateType {
   states : String,
   API_HOST : Object,
   page : Object,
-  userType : String
+  userType : String,
+  userCompanyIdOrHospitalId : String
 }
 
 console.log();
@@ -14,17 +15,11 @@ let state : StateType = {
   states: "turn-on", //控制路由返回
   API_HOST: process.env.API_HOST,
   userType: "",
+  userCompanyIdOrHospitalId: "",
   page: {
     detailsPageData: {},
-    typeOfEnterprise: {
-      selectedCompanyType: {
-        companyTypeName: "",
-        companyTypeId: ""
-      }
-    },
-    mainBusiness: {
-      selectedMainBusiness: []
-    },
+    typeOfEnterprise: {},
+    mainBusiness: [],
     uploadProduct: {
       SBTG: {
         productSort: [

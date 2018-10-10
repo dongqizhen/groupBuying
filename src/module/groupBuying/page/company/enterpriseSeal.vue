@@ -20,16 +20,16 @@
                 <cube-input class="name" v-model.trim="submitData.companyName" placeholder="请输入公司全称"></cube-input>
               </li>
               <li>
-                <router-link to='/typeOfEnterprise' @click.native="setTransition('turn-on')">
+                <router-link :to='{path:"typeOfEnterprise",query:{vuexValue:$store.state.page.typeOfEnterprise}}' @click.native="setTransition('turn-on')">
                   <span>企业类型：</span>
                   <div>
-                    {{companyTypeName}}
+                    {{$store.state.page.typeOfEnterprise.name}}
                     <i></i>
                   </div>
                 </router-link>
               </li>
               <li>
-                <router-link to="/mainBusiness" @click.native="setTransition('turn-on')">
+                <router-link :to='{path:"mainBusiness",query:{vuexValue:$store.state.page.mainBusiness}}' @click.native="setTransition('turn-on')">
                   <span>主营业务：</span>
                   <cube-input placeholder="请选择主营业务" :disabled="true" v-model="mainBusinessName">
                     <i slot="append"></i>
@@ -86,7 +86,6 @@ export default {
           wxCode: ""
         }
       ],
-      companyTypeName: "",
       mainBusinessName: "",
       submitBtnStatus: true,
       submitData: {
@@ -96,10 +95,10 @@ export default {
         lat: "39.944193", //纬度
         lng: "116.375416", //经度
         introduce: "",
-        groupPurchaseTypeIds: "",
+        groupPurchaseTypeId: "",
         province: "北京市",
         city: "北京市",
-        companyTypeId: "",
+        companyType: "",
         businessId: "",
         contact: ""
       },
@@ -114,11 +113,15 @@ export default {
     selectProjectNav
   },
   methods: {
-    ...mapMutations(["setTransition"]),
+    ...mapMutations([
+      "setTransition",
+      "selectCompanyType",
+      "selectMainBusiness"
+    ]),
     submitBtnClick() {
       this.setTransition("turn-on");
       this.submitBtnStatus = false;
-      if (this.submitData.groupPurchaseTypeIds == "") {
+      if (this.submitData.groupPurchaseTypeId == "") {
         Toast({ message: "请选择团购项目", duration: 1000 });
         this.submitBtnStatus = true;
         return;
@@ -133,9 +136,7 @@ export default {
         this.submitBtnStatus = true;
         return;
       }
-      if (
-        this.$store.state.page.mainBusiness.selectedMainBusiness.length == 0
-      ) {
+      if (this.$store.state.page.mainBusiness.length == 0) {
         Toast({ message: "请选择主营业务", duration: 1000 });
         this.submitBtnStatus = true;
         return;
@@ -170,9 +171,13 @@ export default {
           return false;
         }
       });
+
       if (flag) {
+        this.submitData.companyType = JSON.stringify(
+          this.$store.state.page.typeOfEnterprise
+        );
         this.submitData.businessId = JSON.stringify(
-          this.$store.state.page.mainBusiness.selectedMainBusiness
+          this.$store.state.page.mainBusiness
         );
         this.submitData.contact = JSON.stringify(this.$refs.person.persons);
         this.submit();
@@ -200,7 +205,7 @@ export default {
     },
     handleSelect(value) {
       console.log(value);
-      this.submitData.groupPurchaseTypeIds = value;
+      this.submitData.groupPurchaseTypeId = value;
     }
   },
   created() {
@@ -215,6 +220,12 @@ export default {
         },
         data => {
           console.log("获取的报名详情", data);
+          this.selectCompanyType(data.companyType);
+          this.selectMainBusiness(data.bussinessList);
+          this.mainBusinessName = _.join(
+            _.map(data.bussinessList, "name"),
+            ","
+          );
           this.submitData.id = data.id;
           this.contact = data.contactList;
           this.companyTypeName = data.companyTypeName;
@@ -228,10 +239,8 @@ export default {
   },
   mounted() {},
   activated() {
-    this.companyTypeName = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeName;
-    this.submitData.companyTypeId = this.$store.state.page.typeOfEnterprise.selectedCompanyType.companyTypeId;
     this.mainBusinessName = _.join(
-      _.map(this.$store.state.page.mainBusiness.selectedMainBusiness, "name"),
+      _.map(this.$store.state.page.mainBusiness, "name"),
       ","
     );
   },
