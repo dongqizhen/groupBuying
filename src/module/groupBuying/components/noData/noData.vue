@@ -31,6 +31,7 @@
         justify-content: center;
         flex-direction: column;
         align-items: center;
+        flex: 1;
         img {
             height: 154px;
             width: 142px;
