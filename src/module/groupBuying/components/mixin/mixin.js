@@ -23,7 +23,7 @@ export const getProductList = {
             activeIndex: -1 //控制滑动删除按钮唯一位置
         }
     },
-    activated() {
+    created() {
         _getData(
             "/server_pro/groupPurchaseCompanyProduct!request.action", {
                 method: "getGroupPUrchaseCompanyProductList",
