@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       detailData: {},
-      isDisabled: true,
+      isDisabled: false,
       meetingListData: {}
     };
   },
@@ -61,7 +61,7 @@ export default {
       },
       data => {
         this.detailData = data;
-        this.isDisabled = data.review == 1 ? false : true;
+        //this.isDisabled = data.review == 1 ? false : true;
         console.log(this.detailData);
       }
     );

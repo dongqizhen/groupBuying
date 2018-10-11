@@ -291,7 +291,7 @@ export default {
       info: infos[0].value
     };
   },
-  props: ["groupType"],
+  props: ["groupType", "data"],
   components: {
     Group,
     XTextarea
@@ -392,6 +392,7 @@ export default {
         ),
         ","
       );
+      console.log(this.info.productLineName);
       this.info.productLineId = _.join(
         _.map(
           this.$store.state.page.uploadProduct[this.groupType.code].productSort,
@@ -462,14 +463,25 @@ export default {
     }
   },
   watch: {
+    data() {
+      for (const val of this.infos) {
+        if (val.code == this.groupType.code) {
+          val.value = this.data;
+          val.value.isOpen = this.data.isOpen == 1 ? true : false;
+        }
+      }
+      console.log(this.infos);
+    },
     groupType() {
       console.log(this.groupType);
+      console.log(this.data);
       for (var i = 0; i < this.infos.length; i++) {
         if (this.infos[i].code == this.groupType.code) {
           this.infoText = this.infos[i].text;
           this.info = this.infos[i].value;
         }
       }
+      console.log(this.info);
     }
   }
 };
