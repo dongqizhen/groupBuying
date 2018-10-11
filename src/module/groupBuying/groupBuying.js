@@ -59,7 +59,7 @@ Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
 Vue.prototype.$API_URL = process.env.API_HOST.URL
     //Vue.prototype.$bridge = jsbridge
-
+Vue.prototype.$USER_INFO = commonMessage()
 Vue.config.productionTip = false
 
 if ('addEventListener' in document) {
@@ -80,7 +80,11 @@ Vue.use(VueTouch)
     }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize).use(Vant);
 
 Vue.use(VueScroller)
-Vue.use(Lazyload);
+Vue.use(Lazyload, {
+    attempt: 3,
+    error: '../static/images/defaultAuthor.png',
+    loading: '../static/images/defaultAuthor.png'
+});
 
 createAPI(Vue, ActionSheet, ['select'], true)
 createAPI(Vue, Toast, ['click'], true)

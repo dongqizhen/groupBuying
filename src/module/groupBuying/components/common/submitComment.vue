@@ -2,7 +2,7 @@
     <div class="submitComment">
 
         <div class="footer">
-            <div class="textBox"><textarea id="txt" placeholder="发表评论" rows='1'></textarea></div>
+            <div class="textBox"><textarea id="txt" placeholder="发表评论" v-model.trim="value" rows='1'></textarea></div>
 
             <!-- <textarea-autosize
   placeholder="发表评论"
@@ -12,17 +12,20 @@
   :max-height="64" class="ipt-box"
 ></textarea-autosize> -->
         </div>
-        <span>发送</span>
+        <span @click="sendComment()">发送</span>
     </div>
 </template>
 <script>
     import VueTextareaAutosize from "vue-textarea-autosize";
     import { Group, XTextarea, XNumber, CellBox } from "vux";
     import autosize from "autosize";
+    import { _getData } from "../../service/getData";
+
     export default {
         data() {
             return {
-                Textareavalue: ""
+                Textareavalue: "",
+                value: ""
             };
         },
         components: {
@@ -32,8 +35,39 @@
             XNumber,
             CellBox
         },
+        props: ["id"],
         mounted() {
             autosize(document.querySelector("textarea"));
+        },
+        methods: {
+            sendComment() {
+                _getData(
+                    "/server_pro/videoComment!request.action",
+                    {
+                        method: "addModelComments",
+                        params: {
+                            id: this.id, //视频id
+                            type: 21, //表示聊一聊
+                            content: this.value, //评论内容，编码
+                            parentId: "", //被回复顶层评论id
+                            commentId: "" //被回复记录id
+                        }
+                    },
+                    data => {
+                        console.log(data);
+                        this.value = "";
+                        document.querySelector("textarea").value = "";
+                        autosize.update(document.querySelector("textarea"));
+                        this.$emit("comment_success");
+                    },
+                    err => {
+                        Toast({
+                            message: data.message,
+                            duration: 1000
+                        });
+                    }
+                );
+            }
         }
     };
 </script>
@@ -141,6 +175,10 @@
             color: #666666;
             font-family: PingFangSC-Regular;
             justify-content: center;
+            border-radius: 5px;
+            &:active {
+                background: rgba(0, 0, 0, 0.04);
+            }
         }
     }
 </style>

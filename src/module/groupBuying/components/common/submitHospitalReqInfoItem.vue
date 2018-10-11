@@ -17,7 +17,7 @@
                 <span class="moneyCount">{{result.price}}万</span>
             </div>
         </div>
-        <router-link :to="{path:'hospitalProfile',query:{id:result.id}}" @click.native.stop="clickLink">
+        <router-link :to="{path:'hospitalProfile',query:{id:result.hospitalId}}" @click.native.stop="clickLink">
             <div class="otherRequire">
                 <span>该院其他团购需求</span>
                 <img src="../../../../../static/images/rightArrow.png">
@@ -183,7 +183,7 @@
             .address {
                 width: 176px;
                 /* display: flex;
-                                                                            justify-content: flex-start; */
+                                                                                                justify-content: flex-start; */
                 img {
                     width: 10.8px;
                     height: 14px;

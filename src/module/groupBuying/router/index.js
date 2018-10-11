@@ -71,9 +71,10 @@ const router = new Router({
             name: '首页',
             component: GroupIndex
         }, {
-            path: '/Details',
+            path: '/Details/:id',
             name: '团购详情',
-            component: GroupDetails
+            component: GroupDetails,
+            props: true
         },
         {
             path: '/productDetails',

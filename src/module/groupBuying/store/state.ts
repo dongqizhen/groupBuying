@@ -7,7 +7,7 @@ interface StateType {
   userCompanyIdOrHospitalId : String
 }
 
-console.log();
+
 // 下面是在state中定义的数据，尽量使用变量声明
 
 let state : StateType = {
