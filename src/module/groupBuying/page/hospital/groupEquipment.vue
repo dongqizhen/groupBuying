@@ -5,9 +5,9 @@
             <div class="scroll-list-wrap">
 
                 <cube-scroll ref="scroll">
-                    <select-path-nav :productLineName="this.$route.query.productLineName" :unit="this.unit" :provinceName="this.$route.query.provinceName" :totalNum="this.$route.query.totalNum" :brandName="this.$route.query.brandName"></select-path-nav>
-                    <div class="submitNumber">已提交需求的医院共<span>12</span>家</div>
-                    <submit-hospital-req-info-item :result="val" v-for="(val,index) in result" :key="index"></submit-hospital-req-info-item>
+                    <select-path-nav :productLineName="this.$route.query.productLineName" :unit="this.unit" :provinceName="this.$route.query.provinceName" :totalNum="this.$route.query.totalNum" :brandName="this.$route.query.aliasName?this.$route.query.aliasName:this.$route.query.brandName"></select-path-nav>
+                    <div class="submitNumber">已提交需求的医院共<span>{{result.hospitalNum}}</span>家</div>
+                    <submit-hospital-req-info-item :result="val" v-for="(val,index) in result.list" :key="index"></submit-hospital-req-info-item>
                 </cube-scroll>
             </div>
 
@@ -24,10 +24,10 @@
             return {
                 result: {
                     /* imgUrl: "../../../../../static/images/add.png",
-                        name: "张工",
-                        hospital: "山东省立医院",
-                        address: "山东省济南市",
-                        introduce: "这是一所山东省立医院，归属山东省政府管理规划" */
+                                                name: "张工",
+                                                hospital: "山东省立医院",
+                                                address: "山东省济南市",
+                                                introduce: "这是一所山东省立医院，归属山东省政府管理规划" */
                 },
                 unit: ""
             };
@@ -59,7 +59,7 @@
                     break;
             }
         },
-        mounted() {
+        activated() {
             _getData(
                 "/server_pro/groupPurchaseHospital!request.action",
                 {
@@ -69,13 +69,14 @@
                         groupPurchaseId: this.$route.query.groupPurchaseId,
                         productLineId: this.$route.query.productLineId,
                         brandId: this.$route.query.brandId,
+                        aliasId: this.$route.query.aliasId,
                         currentPage: "1",
                         countPerPage: ""
                     }
                 },
                 data => {
                     console.log(data);
-                    this.result = data.list;
+                    this.result = data;
                 }
             );
         }

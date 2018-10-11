@@ -1,16 +1,17 @@
 <template>
-    <div class="hosManAttention" v-if="hackReset">
+    <div class="hosManAttention">
         <div class="leftBox">
-            <div v-lazy-container="{ selector: 'img' }">
-                <img :data-src="newResult.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="">
-            </div>
+            <!-- <div v-lazy-container="{ selector: 'img' }">
+                <img :data-src="result.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="">
+            </div> -->
+            <img v-lazy="result.userImageUrl" alt="">
             <div class="nameAndHospital">
-                <span class="name">{{newResult.userName || newResult.username}}</span>
+                <span class="name">{{result.userName || result.username}}</span>
                 <slot name="hospitalName"></slot>
             </div>
         </div>
         <div class="rightBox">
-            <attention-btn :isFollw="newResult.isFollw"></attention-btn>
+            <attention-btn :isFollw="result.isFollw"></attention-btn>
         </div>
     </div>
 </template>

@@ -3,7 +3,7 @@
     <Header :title="`${$route.query.title?$route.query.title:'团购'}需求详情`"></Header>
     <div class="content">
       <div class="scroll-list-wrap">
-        <cube-scroll ref="scroll">
+        <cube-scroll ref="scroll" :options="options" @pulling-up="pullUpLoad" :refreshDelay="3" @before-scroll-start="scrollStart">
           <man-hospital-info class="hospitalAttention" :result="resultData"></man-hospital-info>
 
           <!-- <budget-count></budget-count> -->
@@ -57,7 +57,7 @@
             </div>
             <div class="common perdictTime">
               <span>预计装机时间</span>
-              <span class="value">{{resultData.loadTime}}</span>
+              <span class="value">{{resultData.showLoadTime}}</span>
             </div>
             <div class="common demandIntroduce">
               <span>本院采购需求说明</span>
@@ -236,12 +236,26 @@
               <span class="value">{{resultData.introduce}}</span>
             </div>
           </div>
-          <comment></comment>
+          <div class="comment">
+            <h2>会员企业留言区<span>（仅限铂金、钻石会员）</span></h2>
+            <div class="commentContainer">
+              <ul v-if="commentList.length">
+                <li v-for="(val,index) in commentList" :key="index">
+                  <comment-list-item :commentData='val' :index="index" v-on:delete_commit="delete_commit(val.id,index)"></comment-list-item>
+                </li>
+              </ul>
+              <div v-else class="noComment">
+                <img src="../../../../../static/images/sofa.png" alt="">
+                <span>还没有企业发表留言，快来抢沙发~</span>
+              </div>
+            </div>
+          </div>
+          <!--  <comment :commentList='commentList'></comment> -->
 
         </cube-scroll>
 
       </div>
-      <submit-comment></submit-comment>
+      <submit-comment :id="resultData.id" v-on:comment_success="comment_success"></submit-comment>
     </div>
   </div>
 </template>
@@ -253,12 +267,20 @@
   import requireDetailItem from "../../components/common/requireDetailItem";
   import budgetCount from "../../components/common/budgetCount";
   import { _getData } from "../../service/getData";
+  import commentListItem from "../../components/common/commentListItem";
   import _ from "lodash";
 
   export default {
       data() {
           return {
-              resultData: {}
+              resultData: {},
+              commentList: [],
+              options: {
+                  pullUpLoad: false
+              },
+              currentPage: 1,
+              pageCount: 1,
+              pullUpFlag: true
           };
       },
       components: {
@@ -267,7 +289,8 @@
           comment,
           manHospitalInfo,
           requireDetailItem,
-          budgetCount
+          budgetCount,
+          commentListItem
       },
       methods: {
           keyWords() {
@@ -278,11 +301,88 @@
                       };
               }
           },
+          async getCommentList(currentPage) {
+              await _getData(
+                  "/server_pro/groupPurchaseHospital!request.action",
+                  {
+                      method: "getDemandCommentList",
+
+                      params: {
+                          id: this.$route.query.id,
+                          currentPage: currentPage || this.currentPage,
+                          countPerPage: 3
+                      }
+                  },
+                  data => {
+                      console.log(data);
+                      if (this.currentPage == 1) {
+                          this.commentList = data.list;
+                      } else {
+                          this.commentList = [...this.commentList, ...data.list];
+                      }
+
+                      if (this.commentList.length == 0) {
+                          this.options.pullUpLoad = false;
+                      } else {
+                          this.options.pullUpLoad = {
+                              threshold: 1000,
+                              txt: {
+                                  more: "上拉加载更多",
+                                  noMore: "全部数据加载完毕"
+                              }
+                          };
+                      }
+
+                      this.$nextTick(() => {
+                          this.$refs.scroll.refresh();
+                      });
+                      this.pageCount = data.pageCount;
+                  }
+              );
+          },
           model() {
               return _.join(this.resultData.modelList, ",");
-          }
+          },
+          comment_success() {
+              this.currentPage = 1;
+              this.$refs.scroll.scrollToElement(".comment", 0, 0, 0);
+              /* this.actions.pullUpLoad = {
+                                                      threshold: 1000,
+                                                      txt: { more: "加载更多", noMore: "全部数据加载完毕" }
+                                                  }; */
+              this.getCommentList(1);
+          },
+          pullUpLoad() {
+              this.currentPage += 1;
+
+              setTimeout(() => {
+                  this.getCommentList().then(() => {
+                      this.$refs.scroll.forceUpdate();
+                  });
+              }, 1000);
+          },
+          delete_commit(id, index) {
+              console.log(id);
+              this.commentList.splice(index, 1);
+              _getData(
+                  "/server_pro/videoComment!request.action",
+                  {
+                      method: "deleteCommentById",
+
+                      params: {
+                          objId: id, // id
+                          type: 21 //表示聊一聊
+                      }
+                  },
+                  data => {
+                      console.log(data);
+                  }
+              );
+          },
+          scrollStart() {}
       },
       activated() {
+          console.log(this.$USER_INFO);
           _getData(
               "/server_pro/groupPurchaseHospital!request.action",
               {
@@ -294,6 +394,11 @@
                   this.resultData = data;
               }
           );
+          // this.currentPage = 1;
+          this.getCommentList();
+      },
+      deactivated() {
+          this.$destroy();
       }
   };
 </script>
@@ -493,6 +598,38 @@
               @include box_shadow_style;
               background-color: #fff;
               margin-bottom: 10px;
+          }
+          .comment {
+              background-color: #fff;
+              h2 {
+                  padding: 13px;
+                  font-family: PingFangSC-Medium;
+                  font-size: 14px;
+                  color: #333333;
+
+                  border-bottom: $border_style;
+                  span {
+                      font-family: PingFangSC-Regular;
+                      font-size: 14px;
+                      color: #aaaaaa;
+                  }
+              }
+              .noComment {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  height: 240px;
+                  img {
+                      height: 59px;
+                      width: 57px;
+                  }
+                  span {
+                      color: #999;
+                      font-size: 12px;
+                      margin-top: 20px;
+                  }
+              }
           }
       }
   }
