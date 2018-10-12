@@ -97,7 +97,7 @@ export default {
       }
     }
   },
-  mounted() {
+  activated() {
     _getData(
       "/server_pro/groupPurchaseCompanyProduct!request.action",
       {
@@ -105,10 +105,10 @@ export default {
         params: {}
       },
       data => {
-        console.log("====================================");
         console.log(data);
-        console.log("====================================");
         this.items = data;
+        this.selectValue = this.$route.query.vuexSelectValue;
+        this.current = this.selectValue.flag;
       }
     );
   },

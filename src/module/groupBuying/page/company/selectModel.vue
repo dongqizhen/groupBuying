@@ -89,6 +89,7 @@ export default {
           this.itemSelect = [];
         }
       }
+      console.log(this.itemSelect);
       switch (this.groupTypeCode) {
         case "SBTG":
           if (this.page == "uploadProduct") {

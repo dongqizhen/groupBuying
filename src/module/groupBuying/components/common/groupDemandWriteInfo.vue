@@ -132,9 +132,6 @@
               <a>
                   <span>设备安装日期:</span>
                   <cube-button @click="showDatePicker" :class="info.installTime.indexOf('-')!=-1?'valueStyle':''">{{info.installTime}}</cube-button>
-                  <!-- <cube-input placeholder="请选择安装日期" :readonly="true" v-model="info.installTime"  @click="showDatePicker">
-                    <i slot="append"></i>
-                  </cube-input> -->
               </a>
             </li>
                  <li >
@@ -176,7 +173,7 @@
                 <li @click="jumpPredictTime">
                     <a>
                         <span>{{infoText.loadTimeText}}</span>
-                        <cube-input :placeholder="infoText.loadTimePlaceholder" :disabled="true" v-model="info.loadTime">
+                        <cube-input :placeholder="infoText.loadTimePlaceholder" :disabled="true" v-model="info.showLoadTime">
                               <i slot="append"></i>
                         </cube-input>
                     </a>
@@ -253,6 +250,7 @@ const infos = [
       application: "", //应用需求
       mainParamsName: "", //显示参数名
       params: "", //重要参数
+      showLoadTime: "", //展示预计时间
       loadTime: "", //预计时间
       introduce: "" //采购需求说明
     }
@@ -306,6 +304,7 @@ const infos = [
       application: "", //应用需求
       mainParamsName: "", //显示参数名
       params: "", //重要参数
+      showLoadTime: "", //展示预计时间
       loadTime: "", //预计时间
       introduce: "" //采购需求说明
     }
@@ -351,6 +350,7 @@ const infos = [
       num: 1, //设备台数
       price: "", //维修预算价格
       installTime: "请选择安装日期", //安装日期
+      showLoadTime: "", //展示维修时间
       loadTime: "", //维修时间
       deviceCheckNum: "", //每天检查量
       responseTime: "", //响应时间
@@ -398,6 +398,7 @@ const infos = [
       application: "", //应用需求
       mainParamsName: "",
       params: "", //重要参数
+      showLoadTime: "", //展示预计时间
       loadTime: "", //预计时间
       introduce: "" //采购需求说明
     }
@@ -436,6 +437,7 @@ const infos = [
       application: "", //应用方向
       mainParamsName: "",
       params: "", //关键词
+      showLoadTime: "", //展示融资时间
       loadTime: "", //预计融资时间
       introduce: "" //采购需求说明
     }
@@ -476,6 +478,7 @@ const infos = [
       application: "", //应用方向
       mainParamsName: "",
       params: "", //关键词
+      showLoadTime: "", //展示咨询时间
       loadTime: "", //预计咨询时间
       introduce: "" //采购需求说明
     }
@@ -744,7 +747,10 @@ export default {
           path: "perdictTime",
           query: {
             groupTypeCode: this.groupType.code,
-            page: "submitGroupDemand"
+            page: "submitGroupDemand",
+            vuexSelectValue: this.$store.state.page.submitGroupDemand[
+              this.groupType.code
+            ].predictTime
           }
         });
       } else {
@@ -761,8 +767,25 @@ export default {
     XNumber,
     CellBox
   },
-  props: ["groupType", "groupPurchaseId", "groupPurchaseTypeId"],
+  props: ["groupType", "groupPurchaseId", "groupPurchaseTypeId", "data"],
+  mounted() {
+    this._watchers[1].deep = true;
+    console.log("this::::::::", this._watchers[1]);
+  },
   watch: {
+    data() {
+      for (const val of this.infos) {
+        if (val.code == this.groupType.code) {
+          val.value = this.data;
+          if (this.groupType.code == "SBTG") {
+            this.info = this.data;
+          }
+          if (this.groupType.code == "SHTG") {
+            this.currentIdx = this.data.maintenanceType;
+          }
+        }
+      }
+    },
     groupType() {
       console.log("选择的团购类型：", this.groupType);
       for (var i = 0; i < this.infos.length; i++) {
@@ -771,7 +794,9 @@ export default {
           this.info = this.infos[i].value;
         }
       }
+      console.log(this.info);
     },
+    deep: true,
     groupPurchaseId() {}
   },
   activated() {
@@ -931,7 +956,7 @@ export default {
         );
       }
 
-      this.info.loadTime = this.$store.state.page.submitGroupDemand[
+      this.info.showLoadTime = this.$store.state.page.submitGroupDemand[
         this.groupType.code
       ].predictTime.year
         ? this.$store.state.page.submitGroupDemand[this.groupType.code]
@@ -940,6 +965,9 @@ export default {
           this.$store.state.page.submitGroupDemand[this.groupType.code]
             .predictTime.quarter
         : "";
+      this.info.loadTime = this.$store.state.page.submitGroupDemand[
+        this.groupType.code
+      ].predictTime;
     }
     _getData(
       "/server_pro/groupPurchaseHospital!request.action",

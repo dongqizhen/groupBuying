@@ -16,7 +16,7 @@
                   <basic-title title="团购产品类型" imgurl="../static/images/selectproject.png">
                       <span slot="select">(必选项)</span>
                   </basic-title>
-                  <select-project-nav v-on:selectObj="getItemObj" v-on:select-value="selectGroupId"></select-project-nav>
+                  <select-project-nav :editSelectValue="editSelectId" :come="editSelectId?'1':''" v-on:selectObj="getItemObj" v-on:select-value="selectGroupId"></select-project-nav>
               </div>
               <div class="productBasicInfromation">
                   <basic-title title="产品基本信息" imgurl="../static/images/basicInformation.png">
@@ -26,7 +26,7 @@
                           客服
                       </a>
                   </basic-title>
-                  <product-basic-info ref="basicInfo" :groupType="this.groupItemObj"></product-basic-info>
+                  <product-basic-info ref="basicInfo" :data="data" :groupType="this.groupItemObj"></product-basic-info>
               </div>
               <div class="img_upload">
                   <basic-title title="产品图片" imgurl="../static/images/imgUpload.png">
@@ -67,6 +67,8 @@ import { Toast } from "vant";
 export default {
   data() {
     return {
+      data: {},
+      editSelectId: "",
       groupItemObj: {},
       current: null,
       toastText: "",
@@ -107,7 +109,15 @@ export default {
     productBasicInfo
   },
   methods: {
-    ...mapMutations(["setTransition"]),
+    ...mapMutations([
+      "setTransition",
+      "selectSBTGProductSort",
+      "selectHCTGProductSort",
+      "selectSHTGProductSort",
+      "selectXXHTGProductSort",
+      "selectJRTGProductSort",
+      "selectZXTGProductSort"
+    ]),
     submitBtnClick() {
       console.log(this.$refs.basicInfo.info);
       this.submitBtnStatus = false;
@@ -156,31 +166,14 @@ export default {
         this.submitBtnStatus = true;
         return;
       }
-
-      console.log(this.action.files);
-      console.log(
-        _.map(this.action.files, o => {
-          return (o.url = o.response.result.imageList[0].imageurl);
-        })
-      );
-      console.log(
-        _.map(this.action.files, o => {
-          return (o._xhr = JSON.stringify(o._xhr, ["onabort"]));
-        })
-      );
-
-      this.submitData.imageUrl = JSON.stringify(this.action.files);
-      // this.submitData.imageUrl = _.join(
-      //   _.map(
-      //     _.map(this.action.files, function(o) {
-      //       return o.response.result.imageList[0];
-      //     }),
-      //     function(item) {
-      //       return item.imageurl;
-      //     }
-      //   ),
-      //   ","
-      // );
+      _.map(this.action.files, o => {
+        return (o.url = o.response.result
+          ? o.response.result.imageList[0].imageurl
+          : o.url);
+      });
+      this.submitData.imageUrl = _.map(this.action.files, o => {
+        return JSON.stringify(o, ["name", "status", "url"]);
+      });
       this.submitData = { ...this.submitData, ...this.$refs.basicInfo.info };
       this.submitData.companyId = this.$store.state.userCompanyIdOrHospitalId;
       console.log(this.submitData);
@@ -240,17 +233,11 @@ export default {
     fileRemove(file) {
       console.log(file);
       console.log(this.action.files);
-      if (
-        _.find(this.action.files, o => {
-          return o.name == file.name;
-        })
-      ) {
-        //this.action.files.splice()
-      }
     }
   },
-  created: function() {},
-  mounted: function() {
+  created() {},
+  mounted() {},
+  activated() {
     _getData(
       "/server_pro/groupPurchase!request.action",
       {
@@ -262,8 +249,6 @@ export default {
         this.groupUnderWayList = data.groupPurchaseList;
       }
     );
-  },
-  activated() {
     if (this.$route.query.id) {
       _getData(
         "/server_pro/groupPurchaseCompanyProduct!request.action",
@@ -273,18 +258,22 @@ export default {
         },
         data => {
           console.log(data);
-          data.imageUrl = JSON.parse(data.imageUrl);
-          console.log(
-            _.map(data.imageUrl, o => {
-              return (o._xhr = JSON.parse(o._xhr));
-            })
-          );
-          console.log(data.imageUrl);
-          this.action.files = data.imageUrl;
-          // this.action.files.push({
-          //   url: "http://60.195.252.86:8080/server/upload/1539211548819.jpg",
-          //   status: "success"
-          // });
+          this.action.files = JSON.parse(data.imageUrl);
+          for (var i = 0; i < this.groupUnderWayList.length; i++) {
+            if (this.groupUnderWayList[i].id == data.groupPurchaseId) {
+              this.current = i;
+              this.submitData.groupPurchaseId = data.groupPurchaseId;
+            }
+          }
+          this.editSelectId = "" + data.groupPurchaseType.id;
+          this.submitData.groupPurchaseTypeId = data.groupPurchaseType.id;
+          this.groupItemObj = data.groupPurchaseType;
+          switch (data.groupPurchaseType.code) {
+            case "SBTG":
+              this.selectSBTGProductSort();
+              break;
+          }
+          this.data = data;
         }
       );
     }

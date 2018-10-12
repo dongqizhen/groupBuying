@@ -251,9 +251,7 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModelFirst: [],
-        productModelSecond: [],
-        productModelThird: [],
+        productModel: [],
         mainParams: [],
         predictTime: {}
       },
