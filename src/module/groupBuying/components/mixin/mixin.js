@@ -5,22 +5,22 @@ import {
     JsCallNativeMethods
 } from '../../../../common/js/jsBridge';
 
+//import noData from '../../components/noData/noData'
+
+
+
 export const getProductList = {
     data() {
         return {
             typeData: [],
             modelData: [],
             swipeData: [{
-                item: {
-                    id: "3646653877",
-                    name: "还不是因为你长得不好看",
-                    desc: "伤感：歌词再狠，也抵不过现实伤人",
-                    imgurl: "http://p.qpic.cn/music_cover/MhQ4bJBPt3Yt5icXyBGNhyPJnE9O51CqaN72iaDgvFmDKaia12UFhU5uQ/600?n=1"
-                }
+
             }],
             groupPurchaseTypeList: [],
             curTypeVal: "",
-            activeIndex: -1 //控制滑动删除按钮唯一位置
+            activeIndex: -1, //控制滑动删除按钮唯一位置
+            isLoading: true
         }
     },
     created() {
@@ -33,6 +33,7 @@ export const getProductList = {
             },
             data => {
                 console.log(data.groupPurchaseTypeList);
+                this.isLoading = false
                 if (data.groupPurchaseTypeList.length != 0) {
                     this.groupPurchaseTypeList = data.groupPurchaseTypeList;
                     this.typeData = _.map(data.groupPurchaseTypeList, "name");
@@ -90,6 +91,8 @@ export const getProductList = {
         }
     }
 }
+
+
 
 //打开原生自动定位功能
 export const openNativeNav = {

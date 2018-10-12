@@ -58,8 +58,8 @@
         transition: transform 0.4s ease;
     }
     /* .turn-on-enter-to{
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      transform: translate3d(0, 0, 0);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          transform: translate3d(0, 0, 0);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
     .turn-off-enter {
         /* transform: translate3d(-20%, 0, 0); */
     }
@@ -118,7 +118,7 @@
     }
     .vux-loading {
         .weui-mask_transparent {
-            background: rgba($color: #000000, $alpha: 0.2);
+            // background: rgba($color: #000000, $alpha: 0.2);
         }
         .weui-toast {
             top: 50%;

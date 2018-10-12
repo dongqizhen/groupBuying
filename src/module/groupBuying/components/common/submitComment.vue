@@ -48,7 +48,7 @@
                         params: {
                             id: this.id, //视频id
                             type: 21, //表示聊一聊
-                            content: this.value, //评论内容，编码
+                            content: window.encodeURI(this.value), //评论内容，编码
                             parentId: "", //被回复顶层评论id
                             commentId: "" //被回复记录id
                         }

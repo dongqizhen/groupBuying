@@ -58,7 +58,8 @@ const productDetails = () =>
     import ('../page/product/productDetails')
 const searchIndex = () =>
     import ('../page/search/searchIndex')
-
+const searchList = () =>
+    import ('../page/search/searchList')
 
 
 Vue.use(Router)
@@ -71,10 +72,9 @@ const router = new Router({
             name: '首页',
             component: GroupIndex
         }, {
-            path: '/Details/:id',
+            path: '/Details',
             name: '团购详情',
             component: GroupDetails,
-            props: true
         },
         {
             path: '/productDetails',
@@ -191,12 +191,16 @@ const router = new Router({
             component: groupDemand
         }, {
             path: '/groupDemandDetails',
-            name: '团购需求详情',
+            name: '团购需求类型',
             component: groupDemandDetails
         }, {
-            path: '/sda',
+            path: '/searchIndex',
             name: '搜索',
             component: searchIndex
+        }, {
+            path: '/searchList',
+            name: '搜索列表',
+            component: searchList
         }
     ],
     /* scrollBehavior(to, from, savedPosition) {

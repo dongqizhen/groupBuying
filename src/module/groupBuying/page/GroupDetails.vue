@@ -112,7 +112,7 @@
                         this.$router.push({
                             path: "groupDemand",
                             query: {
-                                groupPurchaseId: this.id,
+                                groupPurchaseId: this.$route.query.id,
                                 groupPurchaseTypeId: val.id,
                                 groupTypeCode: val.code
                             }
@@ -133,7 +133,7 @@
                     path: "groupClassification",
                     query: {
                         groupPurchaseTypeId: this.currentGroupId,
-                        groupPurchaseId: this.id,
+                        groupPurchaseId: this.$route.query.id,
                         groupPurchaseTypeName: this.groupPurchaseTypeName
                     }
                 });
@@ -172,7 +172,7 @@
                 "/server_pro/groupPurchase!request.action",
                 {
                     method: "getGroupPurchaseInfoHospital",
-                    params: { id: this.id }
+                    params: { id: this.$route.query.id }
                 },
                 data => {
                     console.log(data);
@@ -183,7 +183,7 @@
                 "/server_pro/groupPurchase!request.action",
                 {
                     method: "getGroupPurchaseInfoCompany",
-                    params: { id: this.id }
+                    params: { id: this.$route.query.id }
                 },
                 data => {
                     console.log(data);

@@ -9,29 +9,17 @@
             <span slot="explain">搜索</span>
         </Header>
         <div class="content">
-            <div class="history" v-if="false">
-                <h2>历史记录<span></span></h2>
-                <ul class="history_container">
-                    <li>CT类</li>
-                    <li>相关热门标签</li>
-                    <li>相关热门标签标签标签</li>
-                    <li>相关热门标签</li>
-                </ul>
-            </div>
+
             <div class="search_list">
                 <div class="search_container">
-                    <p>共<span>17</span>个结果</p>
+
                     <div class="company common">
                         <h2><i></i>企业产品</h2>
                         <div>
                             <list-item></list-item>
                         </div>
-                        <div class="bottom">查看全部10个结果</div>
                     </div>
-                    <div class="hospital common">
-                        <h2><i></i>医院需求</h2>
-                        <div class="bottom">查看全部10个结果</div>
-                    </div>
+
                 </div>
                 <loading :show="loading" :text="loadIngTxt"></loading>
             </div>

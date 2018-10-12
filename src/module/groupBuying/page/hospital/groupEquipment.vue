@@ -2,15 +2,14 @@
     <div class="container">
         <Header :title="this.$route.query.title"></Header>
         <div class="content">
-            <div class="scroll-list-wrap">
-
+            <select-path-nav :productLineName="this.$route.query.productLineName" :unit="this.unit" :provinceName="this.$route.query.provinceName" :totalNum="this.$route.query.totalNum" :brandName="this.$route.query.aliasName?this.$route.query.aliasName:this.$route.query.brandName"></select-path-nav>
+            <div class="scroll-list-wrap" v-if="!loading">
                 <cube-scroll ref="scroll">
-                    <select-path-nav :productLineName="this.$route.query.productLineName" :unit="this.unit" :provinceName="this.$route.query.provinceName" :totalNum="this.$route.query.totalNum" :brandName="this.$route.query.aliasName?this.$route.query.aliasName:this.$route.query.brandName"></select-path-nav>
                     <div class="submitNumber">已提交需求的医院共<span>{{result.hospitalNum}}</span>家</div>
                     <submit-hospital-req-info-item :result="val" v-for="(val,index) in result.list" :key="index"></submit-hospital-req-info-item>
                 </cube-scroll>
             </div>
-
+            <loading :show="loading" :text="loadIngTxt"></loading>
         </div>
     </div>
 </template>
@@ -19,17 +18,15 @@
     import selectPathNav from "../../components/common/selectPathNav";
     import submitHospitalReqInfoItem from "../../components/common/submitHospitalReqInfoItem";
     import { _getData } from "../../service/getData";
+    import noData from "../../components/noData/noData.vue";
+
     export default {
         data() {
             return {
-                result: {
-                    /* imgUrl: "../../../../../static/images/add.png",
-                                                name: "张工",
-                                                hospital: "山东省立医院",
-                                                address: "山东省济南市",
-                                                introduce: "这是一所山东省立医院，归属山东省政府管理规划" */
-                },
-                unit: ""
+                result: {},
+                unit: "",
+                loading: true,
+                loadIngTxt: "Loading..."
             };
         },
         components: {
@@ -77,8 +74,20 @@
                 data => {
                     console.log(data);
                     this.result = data;
+                },
+                err => {
+                    this.loadIngTxt = "网络错误，请稍后...";
+                    setTimeout(() => {
+                        this.loading = false;
+                    }, 1000);
                 }
-            );
+            ).then(() => {
+                this.loading = false;
+
+                this.$nextTick(() => {
+                    this.$refs.scroll.refresh();
+                });
+            });
         }
     };
 </script>
@@ -87,6 +96,15 @@
     .container {
         @include basic_container_style;
         .content {
+            /deep/ .selectedSort {
+                margin: 10px 13px 0;
+            }
+            .scroll-list-wrap {
+                height: calc(100% - 48px);
+                /deep/ .cube-scroll-content {
+                    padding-bottom: 0 !important;
+                }
+            }
             .submitNumber {
                 font-size: 12px;
                 color: #999999;

@@ -54,7 +54,8 @@
                   this.setTransition("turn-on");
                   this.setDetailsPageData(this.dataValue);
                   this.$router.push({
-                      path: `Details/${this.dataValue.id}`
+                      path: "Details",
+                      query: { id: this.dataValue.id }
                   });
               } else {
                   console.log(index);

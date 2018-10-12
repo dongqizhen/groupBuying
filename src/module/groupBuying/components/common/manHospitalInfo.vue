@@ -5,7 +5,7 @@
             <div class="hospitalAndAddress">
                 <basic-title :title="result.hospitalName" imgurl="../static/images/hospital.png"></basic-title>
 
-                <div class="address">
+                <div class="address" @click.stop="toNativeMapPage(result)">
                     <img src="../../../../../static/images/site.png" alt="">
                     <span>{{result.addr}}</span>
                 </div>
@@ -22,6 +22,7 @@
 <script>
     import hosManAttention from "./hosManAttention";
     import basicTitle from "../../components/common/basicTitle";
+    import { ToNativeMap } from "../mixin/mixin";
     export default {
         data() {
             return {
@@ -29,6 +30,7 @@
             };
         },
         props: ["result"],
+        mixins: [ToNativeMap],
         components: {
             hosManAttention,
             basicTitle

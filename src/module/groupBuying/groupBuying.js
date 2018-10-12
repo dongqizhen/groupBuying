@@ -28,7 +28,7 @@ import {
     XButton,
     XTextarea,
     XNumber,
-
+    Loading,
     Confirm
 } from 'vux';
 import FastClick from 'fastclick';
@@ -90,6 +90,7 @@ createAPI(Vue, ActionSheet, ['select'], true)
 createAPI(Vue, Toast, ['click'], true)
 createAPI(Vue, Dialog, ['confirm', 'cancel'], true)
 
+Vue.component('loading', Loading)
 Vue.component('confirm', Confirm)
 Vue.component('x-button', XButton)
 Vue.component('x-number', XNumber)
