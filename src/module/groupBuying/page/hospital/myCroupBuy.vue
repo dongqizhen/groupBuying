@@ -57,7 +57,7 @@ export default {
       "/server_pro/groupPurchaseHospital!request.action",
       {
         method: "getAppGroupPurchaseHospitalInfo",
-        params: { id: this.$route.query.id }
+        params: { id: this.$store.state.userCompanyIdOrHospitalId }
       },
       data => {
         this.detailData = data;

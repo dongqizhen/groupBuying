@@ -3,184 +3,57 @@
         <ul>
             <li @click="jumpProductCateGory">
                 <a >
-                    <span>{{infoText.productSortText}}</span>
-                    <cube-input :placeholder="infoText.sortPlaceholder" :disabled="true" v-model="info.productLineName">
+                    <span>金融分类:</span>
+                    <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
                       <i slot="append"></i>
                     </cube-input>
                 </a>
             </li>
-            <li class="number" v-if="this.groupType.code != 'JRTG'">
-                <group>
-                    <x-number :title="infoText.numText"  v-model="info.num" :min="1" fillable></x-number>
-                </group>
-                <p>
-                    本次团购,{{info.productLineName}}{{infoText.typeText}}已累计申报<span>{{demandNum}}</span>{{infoText.unitText}},历史累计申报共<span>{{histroyTotalDemandNum}}</span>{{infoText.unitText}}
-                </p>
-            </li>
             <li class="price">
                 <div>
-                  <span>{{infoText.hopePriceText}}</span>
-                    <cube-input :placeholder="infoText.hopePricePlaceholder" type="number" :disabled="false" v-model="info.price">
+                  <span>预计融资金额:</span>
+                    <cube-input placeholder="请真实填写融资金额" type="number" :disabled="false" v-model="info.price">
                     </cube-input>
                   <div class="unit">万元</div>
                 </div>
                 <p>
-                    本次团购,{{info.productLineName}}{{infoText.typeText}}已累计申报<span>{{demandNum}}</span>{{infoText.unitText}},{{infoText.countText}}为<span>{{totalPrice}}</span>万元
+                    本次团购,{{info.productLineName}}金融已累计申报<span>{{demandNum}}</span>单,总融资金额为<span>{{totalPrice}}</span>万元
                 </p>
             </li>
-            <li class="clinic" v-if="!infoText.show">
+            <li class="clinic">
                 <group>
-                    <x-textarea :title="infoText.applicationText" v-model="info.application" :placeholder="infoText.appPlaceholder" autosize></x-textarea>
+                    <x-textarea title="应用方向:" v-model="info.application" placeholder="为保证你的采购质量及效率请详细填写融资应用方向" autosize></x-textarea>
                 </group>
             </li>
-            <li class="SHTGbrand" v-if="!infoText.isShow" @click="jumpSelectBrand">
+            <li class="SHTGbrand" @click="jumpSelectBrand">
               <a>
-                 <span>{{infoText.productBrandText}}</span>
-                    <cube-input :placeholder="infoText.brandPlaceholder" :disabled="true" v-model="info.brandName">
+                 <span>金融服务商:</span>
+                    <cube-input placeholder="请选择服务商" :disabled="true" v-model="info.brandName">
                       <i slot="append"></i>
                     </cube-input></a>
             </li>
-            <li class="SHTGmodel" v-if="infoText.isModel" @click="jumpSelectModel">
-              <a>
-                  <span>{{infoText.productModelText}}</span>
-                  <cube-input :placeholder="infoText.modelPlaceholder" :class="this.info.modelList.length!=0?'showStyle':''" :disabled="true">
-                    <span slot="prepend" class="showModel">
-                      <span v-for="(item,index) in info.modelList" :key="index">{{item.name}}</span>
-                    </span>
-                    <i slot="append"></i>
-                  </cube-input>
-              </a>
-            </li>
         </ul>
-        <div class="selectBrand" v-if="infoText.isShow">
-            <basic-title title='首选' imgurl='../../../../../static/images/selected-first.png'>
-                <span slot="select">(必填)</span>
-                <span slot="check" @click.stop="clear(0)">清空</span>
-            </basic-title>
-            <ul>
-                <li @click="jumpToBrand(0)">
-                    <a>
-                    <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandFirstName">
-                            <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-                <li @click="jumpToModel(0)">
-                    <a>
-                        <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :class="this.info.modelListFirst.length!=0?'showStyle':''" :disabled="true">
-                          <span slot="prepend" class="showModel">
-                            <span v-for="(item,index) in info.modelListFirst" :key="index">{{item.name}}</span>
-                          </span>
-                          <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-            </ul>
-            <basic-title title='次选' imgurl='../../../../../static/images/selected-second.png'>
-                <span slot="check" @click.stop="clear(1)">清空</span>
-            </basic-title>
-            <ul>
-                <li @click="jumpToBrand(1)">
-                    <a>
-                    <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandSecondName">
-                            <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-                <li @click="jumpToModel(1)">
-                    <a>
-                        <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :class="this.info.modelListSecond.length!=0?'showStyle':''" :disabled="true">
-                          <span slot="prepend" class="showModel">
-                            <span v-for="(item,index) in info.modelListSecond" :key="index">{{item.name}}</span>
-                          </span>
-                          <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-            </ul>
-            <basic-title title='再选' imgurl='../../../../../static/images/selected-three.png'>
-            <span slot="check" @click.stop="clear(2)">清空</span></basic-title>
-            <ul>
-                <li @click="jumpToBrand(2)">
-                    <a>
-                    <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandThirdName">
-                              <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-                <li @click="jumpToModel(2)">
-                    <a>
-                        <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :class="this.info.modelListThird.length!=0?'showStyle':''" :disabled="true">
-                            <span slot="prepend" class="showModel">
-                                <span v-for="(item,index) in info.modelListThird" :key="index">{{item.name}}</span>
-                            </span>
-                            <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="saleAfterGroupField" v-if="infoText.show">
-          <ul>
-            <li @click="jumpInstallTime">
-              <a>
-                  <span>设备安装日期:</span>
-                  <cube-button @click="showDatePicker" :class="info.installTime.indexOf('-')!=-1?'valueStyle':''">{{info.installTime}}</cube-button>
-              </a>
-            </li>
-                 <li >
-              <a>
-                    <span class="star">该设备每天检查量：</span>
-                    <cube-input class="responseTime" placeholder="请填写每天病人数量" v-model="info.deviceCheckNum">
-                        <span slot="append">人</span>
-                    </cube-input>
-                    </a>
-            </li>
-                 <li >
-              <a>
-                    <span class="star">响应时间：</span>
-                    <cube-input class="responseTime" placeholder="请填写响应时间" v-model="info.responseTime">
-                        <span slot="append">小时以内</span>
-                    </cube-input>
-                    </a>
-            </li>
-              <li >
-                    <a >
-                        <span class="star">维保类型：</span>
-                        <div class="maintanceType">
-                          <span v-for="(item,index) in types" :key="index" :class="currentIdx==index?'active':''" @click="addClass(index)">{{item.name}}</span>
-                        </div>
-                      </a>
-            </li>
-            </ul>
-        </div>
         <div class="parameter">
             <ul>
                 <li @click="jumpMainParams" v-if="!infoText.show">
                     <a>
-                        <span>{{infoText.mainParamsText}}</span>
-                        <cube-input :placeholder="infoText.paramPlaceholder" :disabled="true" v-model="info.mainParamsName">
+                        <span>关键词:</span>
+                        <cube-input placeholder="请选择或输入关键词" :disabled="true" v-model="info.mainParamsName">
                               <i slot="append"></i>
                         </cube-input>
                     </a>
                 </li>
                 <li @click="jumpPredictTime">
                     <a>
-                        <span>{{infoText.loadTimeText}}</span>
-                        <cube-input :placeholder="infoText.loadTimePlaceholder" :disabled="true" v-model="info.showLoadTime">
+                        <span>预计融资时间:</span>
+                        <cube-input placeholder="请选择预计融资时间" :disabled="true" v-model="info.showLoadTime">
                               <i slot="append"></i>
                         </cube-input>
                     </a>
                 </li>
                 <li class="clinic">
                     <group>
-                        <x-textarea :title="infoText.introduceText" v-model="info.introduce" :placeholder="infoText.introducePlaceholder" autosize :height="43"></x-textarea>
+                        <x-textarea title="采购需求说明:" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
                     </group>
                 </li>
             </ul>
@@ -188,221 +61,14 @@
     </div>
 </template>
 <script>
-import basicTitle from "./basicTitle";
+import basicTitle from "../../../components/common/basicTitle";
 import { mapMutations } from "vuex";
 import { Toast } from "vant";
 import { DatetimePicker } from "vant";
 import { Popup } from "vant";
-import { _getData } from "../../service/getData";
+import { _getData } from "../../../service/getData";
 import { Group, XTextarea, XNumber, CellBox } from "vux";
-const types = [
-  { id: 0, name: "全保" },
-  { id: 1, name: "备件保" },
-  { id: 2, name: "人工保" }
-];
 const infos = [
-  {
-    code: "SBTG",
-    text: {
-      typeText: "设备",
-      unitText: "台",
-      countText: "总预算",
-      productSortText: "设备分类:",
-      productBrandText: "设备品牌:",
-      productModelText: "设备型号:",
-      numText: "需求数量:",
-      hopePriceText: "期望采购总价:",
-      mainParamsText: "重要参数:",
-      applicationText: "应用需求:",
-      loadTimeText: "预计装机时间:",
-      introduceText: "采购需求说明:",
-      sortPlaceholder: "请选择分类",
-      brandPlaceholder: "请选择品牌",
-      modelPlaceholder: "默认为不限",
-      hopePricePlaceholder: "请真实填写采购期望价格",
-      paramPlaceholder: "请选择或输入重要参数",
-      loadTimePlaceholder: "请选择预计装机时间",
-      appPlaceholder: "为保证你的采购质量及效率请详细填写设备的临床用途",
-      introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-      isShow: true,
-      show: false,
-      isModel: false
-    },
-    value: {
-      productLineName: "", //显示用
-      productLine: "", //上传数据库用
-      productLineId: "", //判断用
-      productBrandFirstName: "", //首选品牌显示用
-      productBrandSecondName: "", //首选品牌显示用
-      productBrandThirdName: "", //首选品牌显示用
-      brandList: [], //上传数据库用
-      brandFirstId: "", //判断用
-      brandSecondId: "", //判断用
-      brandThirdId: "", //判断用
-      aliasBrandFirstId: "",
-      aliasBrandSecondId: "",
-      aliasBrandThirdId: "",
-      modelListFirst: [], //首选型号显示用
-      modelListSecond: [], //次选型号显示用
-      modelListThird: [], //再选型号显示用
-      num: 1, //需求数量
-      price: "", //期望价格
-      application: "", //应用需求
-      mainParamsName: "", //显示参数名
-      params: "", //重要参数
-      showLoadTime: "", //展示预计时间
-      loadTime: "", //预计时间
-      introduce: "" //采购需求说明
-    }
-  },
-  {
-    code: "HCTG",
-    text: {
-      typeText: "耗材",
-      unitText: "单",
-      countText: "总预算",
-      productSortText: "耗材分类:",
-      productBrandText: "耗材品牌:",
-      productModelText: "耗材型号:",
-      numText: "需求数量:",
-      hopePriceText: "期望采购总价:",
-      mainParamsText: "重要规格",
-      applicationText: "应用需求:",
-      loadTimeText: "预计需求时间:",
-      introduceText: "采购需求说明:",
-      sortPlaceholder: "请选择分类",
-      brandPlaceholder: "请选择品牌",
-      modelPlaceholder: "默认为不限",
-      hopePricePlaceholder: "请真实填写采购期望价格",
-      paramPlaceholder: "请选择或输入重要规格",
-      loadTimePlaceholder: "请选择预计需求时间",
-      appPlaceholder: "为保证你的采购质量及效率请详细填写耗材的临床用途",
-      introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-      isShow: true,
-      show: false,
-      isModel: false
-    },
-    value: {
-      productLineName: "",
-      productLine: "",
-      productLineId: "",
-      productBrandFirstName: "",
-      productBrandSecondName: "",
-      productBrandThirdName: "",
-      brandFirstId: "",
-      brandSecondId: "",
-      brandThirdId: "",
-      aliasBrandFirstId: "",
-      aliasBrandSecondId: "",
-      aliasBrandThirdId: "",
-      brandList: [],
-      modelListFirst: [],
-      modelListSecond: [],
-      modelListThird: [],
-      num: 1, //需求数量
-      price: "", //期望价格
-      application: "", //应用需求
-      mainParamsName: "", //显示参数名
-      params: "", //重要参数
-      showLoadTime: "", //展示预计时间
-      loadTime: "", //预计时间
-      introduce: "" //采购需求说明
-    }
-  },
-  {
-    code: "SHTG",
-    text: {
-      typeText: "设备",
-      unitText: "台",
-      countText: "总维修预算",
-      productSortText: "设备分类:",
-      productBrandText: "设备品牌:",
-      productModelText: "设备型号:",
-      numText: "设备台数:",
-      hopePriceText: "维修预算总价:",
-      installTimeText: "设备安装日期:",
-      deviceCheckNumText: "该设备每天检查量:",
-      responseTimeText: "响应时间:",
-      loadTimeText: "维修时间:",
-      maintenanceTypeText: "维保类型:",
-      introduceText: "备注信息:",
-      sortPlaceholder: "请选择分类",
-      brandPlaceholder: "请选择品牌",
-      modelPlaceholder: "默认为不限",
-      hopePricePlaceholder: "请真实填写维修预算",
-      installTimePlaceholder: "请选择安装日期",
-      deviceCheckNumPlaceholder: "请填写每天病人数量",
-      loadTimePlaceholder: "请选择维修时间",
-      responseTimePlaceholder: "请填写响应时间",
-      introducePlaceholder: "请在这里填写备注信息",
-      isShow: false, //判断多选品牌和品牌
-      show: true, //判断installTime、params、application
-      isModel: true
-    },
-    value: {
-      productLineName: "", //显示
-      productLine: "", //上传数据库
-      productLineId: "", //判断用
-      brandName: "", //显示
-      brand: "", //上传数据库
-      brandId: "", //判断用
-      modelList: [], //显示、上传
-      num: 1, //设备台数
-      price: "", //维修预算价格
-      installTime: "请选择安装日期", //安装日期
-      showLoadTime: "", //展示维修时间
-      loadTime: "", //维修时间
-      deviceCheckNum: "", //每天检查量
-      responseTime: "", //响应时间
-      maintenanceType: "", //维保类型
-      introduce: "" //备注
-    }
-  },
-  {
-    code: "XXHTG",
-    text: {
-      typeText: "信息化",
-      unitText: "单",
-      countText: "总预算",
-      productSortText: "平台分类:",
-      productBrandText: "平台品牌:",
-      productModelText: "平台型号:",
-      numText: "需求数量:",
-      hopePriceText: "期望采购总价:",
-      mainParamsText: "重要参数:",
-      applicationText: "应用需求:",
-      loadTimeText: "预计装机时间:",
-      introduceText: "采购需求说明:",
-      sortPlaceholder: "请选择分类",
-      brandPlaceholder: "请选择品牌",
-      modelPlaceholder: "默认为不限",
-      hopePricePlaceholder: "请真实填写采购期望价格",
-      paramPlaceholder: "请选择或输入重要参数",
-      loadTimePlaceholder: "请选择预计装机时间",
-      appPlaceholder: "为保证你的采购质量及效率请详细填写信息化应用需求",
-      introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-      isShow: false,
-      show: false,
-      isModel: true
-    },
-    value: {
-      productLineName: "",
-      productLine: "",
-      productLineId: "",
-      brandName: "",
-      brand: "",
-      brandId: "",
-      modelList: [],
-      num: 1, //需求数量
-      price: "", //期望价格
-      application: "", //应用需求
-      mainParamsName: "",
-      params: "", //重要参数
-      showLoadTime: "", //展示预计时间
-      loadTime: "", //预计时间
-      introduce: "" //采购需求说明
-    }
-  },
   {
     code: "JRTG",
     text: {
@@ -441,54 +107,12 @@ const infos = [
       loadTime: "", //预计融资时间
       introduce: "" //采购需求说明
     }
-  },
-  {
-    code: "ZXTG",
-    text: {
-      typeText: "咨询",
-      unitText: "次",
-      countText: "总咨询预算",
-      productSortText: "咨询服务分类:",
-      productBrandText: "咨询服务商:",
-      numText: "需求数量:",
-      hopePriceText: "期望采购总价:",
-      mainParamsText: "关键词:",
-      applicationText: "应用方向:",
-      loadTimeText: "预计咨询时间:",
-      introduceText: "采购需求说明:",
-      sortPlaceholder: "请选择分类",
-      brandPlaceholder: "请选择服务商",
-      hopePricePlaceholder: "请真实填写采购期望价格",
-      paramPlaceholder: "请选择或输入关键词",
-      loadTimePlaceholder: "请选择预计咨询时间",
-      appPlaceholder: "为保证你的采购质量及效率请详细填写咨询应用方向",
-      introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-      isShow: false,
-      show: false,
-      isModel: false
-    },
-    value: {
-      productLineName: "",
-      productLineId: "",
-      productLine: "",
-      brandName: "",
-      brand: "",
-      num: 1, //需求数量
-      price: "", //采购总价
-      application: "", //应用方向
-      mainParamsName: "",
-      params: "", //关键词
-      showLoadTime: "", //展示咨询时间
-      loadTime: "", //预计咨询时间
-      introduce: "" //采购需求说明
-    }
   }
 ];
 export default {
   data() {
     return {
       infos,
-      types,
       show: false,
       value: "",
       currentDate: new Date(),
@@ -980,296 +604,11 @@ export default {
       }
     );
   },
-  deactivated() {
-    this.infos = [
-      {
-        code: "SBTG",
-        text: {
-          typeText: "设备",
-          unitText: "台",
-          countText: "总预算",
-          productSortText: "设备分类:",
-          productBrandText: "设备品牌:",
-          productModelText: "设备型号:",
-          numText: "需求数量:",
-          hopePriceText: "期望采购总价:",
-          mainParamsText: "重要参数:",
-          applicationText: "应用需求:",
-          loadTimeText: "预计装机时间:",
-          introduceText: "采购需求说明:",
-          sortPlaceholder: "请选择分类",
-          brandPlaceholder: "请选择品牌",
-          modelPlaceholder: "默认为不限",
-          hopePricePlaceholder: "请真实填写采购期望价格",
-          paramPlaceholder: "请选择或输入重要参数",
-          loadTimePlaceholder: "请选择预计装机时间",
-          appPlaceholder: "为保证你的采购质量及效率请详细填写设备的临床用途",
-          introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-          isShow: true,
-          show: false,
-          isModel: false
-        },
-        value: {
-          productLineName: "", //显示用
-          productLine: "", //上传数据库用
-          productLineId: "", //判断用
-          productBrandFirstName: "", //首选品牌显示用
-          productBrandSecondName: "", //首选品牌显示用
-          productBrandThirdName: "", //首选品牌显示用
-          brandList: [], //上传数据库用
-          brandFirstId: "", //判断用
-          brandSecondId: "", //判断用
-          brandThirdId: "", //判断用
-          aliasBrandFirstId: "",
-          aliasBrandSecondId: "",
-          aliasBrandThirdId: "",
-          modelListFirst: [], //首选型号显示用
-          modelListSecond: [], //次选型号显示用
-          modelListThird: [], //再选型号显示用
-          num: 1, //需求数量
-          price: "", //期望价格
-          application: "", //应用需求
-          mainParamsName: "", //显示参数名
-          params: "", //重要参数
-          showLoadTime: "", //展示预计时间
-          loadTime: "", //预计时间
-          introduce: "" //采购需求说明
-        }
-      },
-      {
-        code: "HCTG",
-        text: {
-          typeText: "耗材",
-          unitText: "单",
-          countText: "总预算",
-          productSortText: "耗材分类:",
-          productBrandText: "耗材品牌:",
-          productModelText: "耗材型号:",
-          numText: "需求数量:",
-          hopePriceText: "期望采购总价:",
-          mainParamsText: "重要规格",
-          applicationText: "应用需求:",
-          loadTimeText: "预计需求时间:",
-          introduceText: "采购需求说明:",
-          sortPlaceholder: "请选择分类",
-          brandPlaceholder: "请选择品牌",
-          modelPlaceholder: "默认为不限",
-          hopePricePlaceholder: "请真实填写采购期望价格",
-          paramPlaceholder: "请选择或输入重要规格",
-          loadTimePlaceholder: "请选择预计需求时间",
-          appPlaceholder: "为保证你的采购质量及效率请详细填写耗材的临床用途",
-          introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-          isShow: true,
-          show: false,
-          isModel: false
-        },
-        value: {
-          productLineName: "",
-          productLine: "",
-          productLineId: "",
-          productBrandFirstName: "",
-          productBrandSecondName: "",
-          productBrandThirdName: "",
-          brandFirstId: "",
-          brandSecondId: "",
-          brandThirdId: "",
-          aliasBrandFirstId: "",
-          aliasBrandSecondId: "",
-          aliasBrandThirdId: "",
-          brandList: [],
-          modelListFirst: [],
-          modelListSecond: [],
-          modelListThird: [],
-          num: 1, //需求数量
-          price: "", //期望价格
-          application: "", //应用需求
-          mainParamsName: "", //显示参数名
-          params: "", //重要参数
-          showLoadTime: "", //展示预计时间
-          loadTime: "", //预计时间
-          introduce: "" //采购需求说明
-        }
-      },
-      {
-        code: "SHTG",
-        text: {
-          typeText: "设备",
-          unitText: "台",
-          countText: "总维修预算",
-          productSortText: "设备分类:",
-          productBrandText: "设备品牌:",
-          productModelText: "设备型号:",
-          numText: "设备台数:",
-          hopePriceText: "维修预算总价:",
-          installTimeText: "设备安装日期:",
-          deviceCheckNumText: "该设备每天检查量:",
-          responseTimeText: "响应时间:",
-          loadTimeText: "维修时间:",
-          maintenanceTypeText: "维保类型:",
-          introduceText: "备注信息:",
-          sortPlaceholder: "请选择分类",
-          brandPlaceholder: "请选择品牌",
-          modelPlaceholder: "默认为不限",
-          hopePricePlaceholder: "请真实填写维修预算",
-          installTimePlaceholder: "请选择安装日期",
-          deviceCheckNumPlaceholder: "请填写每天病人数量",
-          loadTimePlaceholder: "请选择维修时间",
-          responseTimePlaceholder: "请填写响应时间",
-          introducePlaceholder: "请在这里填写备注信息",
-          isShow: false, //判断多选品牌和品牌
-          show: true, //判断installTime、params、application
-          isModel: true
-        },
-        value: {
-          productLineName: "", //显示
-          productLine: "", //上传数据库
-          productLineId: "", //判断用
-          brandName: "", //显示
-          brand: "", //上传数据库
-          brandId: "", //判断用
-          modelList: [], //显示、上传
-          num: 1, //设备台数
-          price: "", //维修预算价格
-          installTime: "请选择安装日期", //安装日期
-          showLoadTime: "", //展示维修时间
-          loadTime: "", //维修时间
-          deviceCheckNum: "", //每天检查量
-          responseTime: "", //响应时间
-          maintenanceType: "", //维保类型
-          introduce: "" //备注
-        }
-      },
-      {
-        code: "XXHTG",
-        text: {
-          typeText: "信息化",
-          unitText: "单",
-          countText: "总预算",
-          productSortText: "平台分类:",
-          productBrandText: "平台品牌:",
-          productModelText: "平台型号:",
-          numText: "需求数量:",
-          hopePriceText: "期望采购总价:",
-          mainParamsText: "重要参数:",
-          applicationText: "应用需求:",
-          loadTimeText: "预计装机时间:",
-          introduceText: "采购需求说明:",
-          sortPlaceholder: "请选择分类",
-          brandPlaceholder: "请选择品牌",
-          modelPlaceholder: "默认为不限",
-          hopePricePlaceholder: "请真实填写采购期望价格",
-          paramPlaceholder: "请选择或输入重要参数",
-          loadTimePlaceholder: "请选择预计装机时间",
-          appPlaceholder: "为保证你的采购质量及效率请详细填写信息化应用需求",
-          introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-          isShow: false,
-          show: false,
-          isModel: true
-        },
-        value: {
-          productLineName: "",
-          productLine: "",
-          productLineId: "",
-          brandName: "",
-          brand: "",
-          brandId: "",
-          modelList: [],
-          num: 1, //需求数量
-          price: "", //期望价格
-          application: "", //应用需求
-          mainParamsName: "",
-          params: "", //重要参数
-          showLoadTime: "", //展示预计时间
-          loadTime: "", //预计时间
-          introduce: "" //采购需求说明
-        }
-      },
-      {
-        code: "JRTG",
-        text: {
-          typeText: "金融",
-          unitText: "单",
-          countText: "总融资金额",
-          productSortText: "金融分类:",
-          productBrandText: "金融服务商:",
-          hopePriceText: "预计融资金额:",
-          mainParamsText: "关键词:",
-          applicationText: "应用方向:",
-          loadTimeText: "预计融资时间:",
-          introduceText: "采购需求说明:",
-          sortPlaceholder: "请选择分类",
-          brandPlaceholder: "请选择服务商",
-          hopePricePlaceholder: "请真实填写融资金额",
-          paramPlaceholder: "请选择或输入关键词",
-          loadTimePlaceholder: "请选择预计融资时间",
-          appPlaceholder: "为保证你的采购质量及效率请详细填写融资应用方向",
-          introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-          isShow: false,
-          show: false,
-          isModel: false
-        },
-        value: {
-          productLineName: "",
-          productLine: "",
-          productLineId: "",
-          brandName: "",
-          brand: "",
-          price: "", //融资金额
-          application: "", //应用方向
-          mainParamsName: "",
-          params: "", //关键词
-          showLoadTime: "", //展示融资时间
-          loadTime: "", //预计融资时间
-          introduce: "" //采购需求说明
-        }
-      },
-      {
-        code: "ZXTG",
-        text: {
-          typeText: "咨询",
-          unitText: "次",
-          countText: "总咨询预算",
-          productSortText: "咨询服务分类:",
-          productBrandText: "咨询服务商:",
-          numText: "需求数量:",
-          hopePriceText: "期望采购总价:",
-          mainParamsText: "关键词:",
-          applicationText: "应用方向:",
-          loadTimeText: "预计咨询时间:",
-          introduceText: "采购需求说明:",
-          sortPlaceholder: "请选择分类",
-          brandPlaceholder: "请选择服务商",
-          hopePricePlaceholder: "请真实填写采购期望价格",
-          paramPlaceholder: "请选择或输入关键词",
-          loadTimePlaceholder: "请选择预计咨询时间",
-          appPlaceholder: "为保证你的采购质量及效率请详细填写咨询应用方向",
-          introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-          isShow: false,
-          show: false,
-          isModel: false
-        },
-        value: {
-          productLineName: "",
-          productLineId: "",
-          productLine: "",
-          brandName: "",
-          brand: "",
-          num: 1, //需求数量
-          price: "", //采购总价
-          application: "", //应用方向
-          mainParamsName: "",
-          params: "", //关键词
-          showLoadTime: "", //展示咨询时间
-          loadTime: "", //预计咨询时间
-          introduce: "" //采购需求说明
-        }
-      }
-    ];
-  }
+  deactivated() {}
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../../../static/scss/_commonScss";
+@import "../../../../../../static/scss/_commonScss";
 .groupDemandWriteInfo {
   background-color: #f6f6f6;
   ul {

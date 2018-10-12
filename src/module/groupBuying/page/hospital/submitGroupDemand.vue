@@ -16,13 +16,16 @@
                 <basic-title title="团购需求类型" imgurl="../static/images/selectproject.png">
                     <span slot="select">(必选项)</span>
                 </basic-title>
-                <select-project-nav :editSelectValue="editSelectId" :come="editSelectId?'1':''"  v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
+                <select-project-nav :groupPurchaseId="submitData.groupPurchaseId"  :editSelectValue="editSelectId" :come="editSelectId?'1':''"  v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
             </div>
             <div class="productBasicInfromation">
                 <basic-title :title="title" imgurl="../static/images/basicInformation.png">
                     <span slot="select">(必填项)</span>
                 </basic-title>
-                <group-demand-write-info :data="data" ref="groupDemandWriteInfo" :groupPurchaseId="this.submitData.groupPurchaseId" :groupType="this.groupItemObj" :groupPurchaseTypeId="submitData.groupPurchaseTypeId"></group-demand-write-info>
+                <div>
+                  <router-view></router-view>
+                </div>
+                <!-- <group-demand-write-info :data="data" ref="groupDemandWriteInfo" :groupPurchaseId="this.submitData.groupPurchaseId" :groupType="this.groupItemObj" :groupPurchaseTypeId="submitData.groupPurchaseTypeId"></group-demand-write-info> -->
             </div>
             <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购需求表</x-button>
             <x-button v-else type="primary" show-loading>提交中</x-button>
@@ -62,6 +65,7 @@ export default {
       current: null,
       submitBtnStatus: true,
       groupUnderWayList: [],
+      flag: true,
       submitData: {
         id: "",
         hospitalId: "",
@@ -139,75 +143,82 @@ export default {
     ]),
     submitBtnClick() {
       this.submitBtnStatus = false;
-      console.log(this.$refs.groupDemandWriteInfo.info);
-      if (this.$refs.groupDemandWriteInfo.info.productLineId == "") {
+      console.log(
+        this.$store.state.page.submitGroupDemand[
+          this.$route.query.groupTypeCode
+        ]
+      );
+      var getSubmitInfo = this.$store.state.page.submitGroupDemand[
+        this.$route.query.groupTypeCode
+      ];
+
+      if (getSubmitInfo.productSort[0].aliasId == "") {
         Toast({ message: "请选择分类", duration: 1000 });
         this.submitBtnStatus = true;
         return;
       } else {
-        this.$refs.groupDemandWriteInfo.info.productLine = JSON.stringify(
-          this.$refs.groupDemandWriteInfo.info.productLine
-        );
+        this.submitData.productLine = JSON.stringify(getSubmitInfo.productSort);
       }
-      if (this.$refs.groupDemandWriteInfo.info.price == "") {
+      if (getSubmitInfo.price == "") {
         Toast({ message: this.toastPriceText, duration: 1000 });
         this.submitBtnStatus = true;
         return;
       } else {
-        if (
-          !/^[0-9]+(.[0-9])?$/.test(this.$refs.groupDemandWriteInfo.info.price)
-        ) {
+        if (!/^[0-9]+(.[0-9])?$/.test(getSubmitInfo.price)) {
           Toast({ message: this.toastNumPriceText, duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
+          this.submitData.price = getSubmitInfo.price;
         }
       }
-      if (this.groupItemObj.code != "SHTG") {
-        if (this.$refs.groupDemandWriteInfo.info.application == "") {
+      if (this.$route.query.groupTypeCode != "SHTG") {
+        if (getSubmitInfo.application == "") {
           Toast({ message: this.toastApplicationText, duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
+          this.submitData.application = getSubmitInfo.application;
         }
-        if (this.$refs.groupDemandWriteInfo.info.params == "") {
+        if (getSubmitInfo.mainParams.length == 0) {
           Toast({ message: this.toastParamText, duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
+          this.submitData.params = JSON.stringify(getSubmitInfo.mainParams);
         }
       }
 
       if (
-        this.groupItemObj.code == "SBTG" ||
-        this.groupItemObj.code == "HCTG"
+        this.$route.query.groupTypeCode == "SBTG" ||
+        this.$route.query.groupTypeCode == "HCTG"
       ) {
         this.submitData.brandList = [];
         var brandFirst = {},
           brandSecond = {},
           brandThird = {};
-        if (this.$refs.groupDemandWriteInfo.info.brandFirstId) {
+        if (getSubmitInfo.productBrandFirst[0].aliasId) {
           brandFirst = {
-            brandId: this.$refs.groupDemandWriteInfo.info.brandFirstId,
-            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandFirstId,
-            brandName: this.$refs.groupDemandWriteInfo.info
-              .productBrandFirstName,
-            model: this.$refs.groupDemandWriteInfo.info.modelListFirst
+            brandId: getSubmitInfo.productBrandFirst[0].brandId,
+            aliasId: getSubmitInfo.productBrandFirst[0].aliasId,
+            brandName: getSubmitInfo.productBrandFirst[0].brandName,
+            model: getSubmitInfo.productModelFirst
           };
         }
-        if (this.$refs.groupDemandWriteInfo.info.brandSecondId) {
+        if (getSubmitInfo.productBrandSecond[0].aliasId) {
           brandSecond = {
-            brandId: this.$refs.groupDemandWriteInfo.info.brandSecondId,
-            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandSecondId,
-            brandName: this.$refs.groupDemandWriteInfo.info
-              .productBrandSecondName,
-            model: this.$refs.groupDemandWriteInfo.info.modelListSecond
+            brandId: getSubmitInfo.productBrandSecond[0].brandId,
+            aliasId: getSubmitInfo.productBrandSecond[0].aliasId,
+            brandName: getSubmitInfo.productBrandSecond[0].brandName,
+            model: getSubmitInfo.productModelSecond
           };
         }
-        if (this.$refs.groupDemandWriteInfo.info.brandThirdId) {
+        if (getSubmitInfo.productBrandThird[0].aliasId) {
           brandThird = {
-            brandId: this.$refs.groupDemandWriteInfo.info.brandThirdId,
-            aliasId: this.$refs.groupDemandWriteInfo.info.aliasBrandThirdId,
-            brandName: this.$refs.groupDemandWriteInfo.info
-              .productBrandThirdName,
-            model: this.$refs.groupDemandWriteInfo.info.modelListThird
+            brandId: getSubmitInfo.productBrandThird[0].brandId,
+            aliasId: getSubmitInfo.productBrandThird[0].aliasId,
+            brandName: getSubmitInfo.productBrandThird[0].brandName,
+            model: getSubmitInfo.productModelThird
           };
         }
         if (Object.keys(brandFirst).length != 0) {
@@ -224,72 +235,67 @@ export default {
           this.submitBtnStatus = true;
           return;
         } else {
-          this.$refs.groupDemandWriteInfo.info.brandList = JSON.stringify(
-            this.submitData.brandList
-          );
+          this.submitData.brandList = JSON.stringify(this.submitData.brandList);
         }
       }
       if (
-        this.groupItemObj.code != "SBTG" &&
-        this.groupItemObj.code != "HCTG"
+        this.$route.query.groupTypeCode != "SBTG" &&
+        this.$route.query.groupTypeCode != "HCTG"
       ) {
-        if (this.$refs.groupDemandWriteInfo.info.brandId == "") {
+        if (getSubmitInfo.productBrand[0].brandId == "") {
           Toast({ message: this.toastBrandText, duration: 1000 });
           this.submitBtnStatus = true;
           return;
         } else {
-          this.$refs.groupDemandWriteInfo.info.brand = JSON.stringify(
-            this.$refs.groupDemandWriteInfo.info.brand
-          );
+          this.submitData.brand = JSON.stringify(getSubmitInfo.productBrand);
         }
       }
       if (
-        this.groupItemObj.code == "SHTG" ||
-        this.groupItemObj.code == "XXHTG"
+        this.$route.query.groupTypeCode == "SHTG" ||
+        this.$route.query.groupTypeCode == "XXHTG"
       ) {
-        this.$refs.groupDemandWriteInfo.info.modelList = JSON.stringify(
-          this.$refs.groupDemandWriteInfo.info.modelList
-        );
+        this.submitData.modelList = JSON.stringify(getSubmitInfo.productModel);
       }
-      if (this.groupItemObj.code == "SHTG") {
-        if (
-          this.$refs.groupDemandWriteInfo.info.installTime == "请选择安装日期"
-        ) {
+      if (this.$route.query.groupTypeCode == "SHTG") {
+        if (getSubmitInfo.installTime == "请选择安装日期") {
           Toast({ message: "请选择安装日期", duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
         }
-        if (this.$refs.groupDemandWriteInfo.info.deviceCheckNum == "") {
+        if (getSubmitInfo.deviceCheckNum == "") {
           Toast({ message: "请填写每天检查量", duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
         }
-        if (this.$refs.groupDemandWriteInfo.info.responseTime == "") {
+        if (getSubmitInfo.responseTime == "") {
           Toast({ message: "请填写响应时间", duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
         }
-        if (this.$refs.groupDemandWriteInfo.info.maintenanceType === "") {
+        if (getSubmitInfo.maintenanceType === "") {
           Toast({ message: "请选择维保类型", duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
         }
       }
-
-      if (this.$refs.groupDemandWriteInfo.info.loadTime == "") {
+      if (JSON.stringify(getSubmitInfo.predictTime) == "{}") {
         Toast({ message: this.toastPredictTimeText, duration: 1000 });
         this.submitBtnStatus = true;
         return;
+      } else {
+        this.submitData.loadTime = JSON.stringify(getSubmitInfo.predictTime);
       }
-      if (this.$refs.groupDemandWriteInfo.info.introduce == "") {
+      if (getSubmitInfo.introduce == "") {
         Toast({ message: this.toastIntroduceText, duration: 1000 });
         this.submitBtnStatus = true;
         return;
       }
-      this.submitData = {
-        ...this.submitData,
-        ...this.$refs.groupDemandWriteInfo.info
-      };
+      this.submitData.num = getSubmitInfo.num;
+      this.submitData.introduce = getSubmitInfo.introduce;
       this.submitData.hospitalId = this.$store.state.userCompanyIdOrHospitalId;
       console.log(this.submitData);
       _getData(
@@ -314,6 +320,13 @@ export default {
     getIndex(index) {
       this.current = index;
       this.submitData.groupPurchaseId = this.groupUnderWayList[index].id;
+      this.$router.replace({
+        query: {
+          groupPurchaseTypeId: this.submitData.groupPurchaseTypeId,
+          groupPurchaseId: this.submitData.groupPurchaseId,
+          groupTypeCode: this.groupItemObj.code
+        }
+      });
     }
   },
   watch: {
@@ -415,9 +428,8 @@ export default {
                   this.submitData.groupPurchaseId = data.groupPurchaseId;
                 }
               }
-              var flag = true;
-              if (flag) {
-                flag = false;
+              if (this.flag) {
+                this.flag = false;
                 switch (data.groupPurchaseType.code) {
                   case "SBTG":
                     this.SBTGProductSort([data.productLine]);
@@ -452,9 +464,12 @@ export default {
                       data.brandSecondId = data.brandList[1].brandId;
                       data.brandThirdId = data.brandList[2].brandId;
                     }
-                    this.SBTGMainParam(data.paramList);
+                    this.SBTGMainParam(data.params);
                     this.SBTGPredictTime(data.loadTime);
-
+                    data.mainParamsName = _.join(
+                      _.map(data.params, "name"),
+                      ","
+                    );
                     break;
                   case "HCTG":
                     this.HCTGProductSort(data.productLine);
@@ -495,8 +510,12 @@ export default {
                       data.brandSecondId = data.brandList[1].brandId;
                       data.brandThirdId = data.brandList[2].brandId;
                     }
-                    this.HCTGMainParam(data.paramList);
+                    this.HCTGMainParam(data.params);
                     this.HCTGPredictTime(data.loadTime);
+                    data.mainParamsName = _.join(
+                      _.map(data.params, "name"),
+                      ","
+                    );
                     break;
                   case "SHTG":
                     this.SHTGProductSort([data.productLine]);
@@ -504,31 +523,43 @@ export default {
                     this.SHTGProductModel(data.modelList);
                     this.SHTGMainParam(data.paramList);
                     this.SHTGPredictTime(data.loadTime);
+                    data.mainParamsName = _.join(
+                      _.map(data.params, "name"),
+                      ","
+                    );
                     break;
                   case "XXHTG":
                     this.XXHTGProductSort([data.productLine]);
                     this.XXHTGProductBrand([data.brand]);
                     this.XXHTGProductModel(data.modelList);
-                    this.XXHTGMainParam(data.paramList);
+                    this.XXHTGMainParam(data.params);
                     this.XXHTGPredictTime(data.loadTime);
+                    data.mainParamsName = _.join(
+                      _.map(data.params, "name"),
+                      ","
+                    );
                     break;
                   case "JRTG":
                     this.JRTGProductSort([data.productLine]);
                     this.JRTGProductBrand([data.brand]);
-                    this.JRTGMainParam(data.paramList);
+                    this.JRTGMainParam(data.params);
                     this.JRTGPredictTime(data.loadTime);
+                    data.mainParamsName = _.join(
+                      _.map(data.params, "name"),
+                      ","
+                    );
                     break;
                   case "ZXTG":
                     this.ZXTGProductSort([data.productLine]);
                     this.ZXTGProductBrand([data.brand]);
-                    this.ZXTGMainParam(data.paramList);
+                    this.ZXTGMainParam(data.params);
                     this.ZXTGPredictTime(data.loadTime);
+                    data.mainParamsName = _.join(
+                      _.map(data.params, "name"),
+                      ","
+                    );
                     break;
                 }
-                data.mainParamsName = _.join(
-                  _.map(data.paramList, "paramName"),
-                  ","
-                );
                 this.data = data;
               }
             }
@@ -537,7 +568,9 @@ export default {
       }
     );
   },
-  deactivated() {}
+  deactivated() {
+    this.flag = false;
+  }
 };
 </script>
 

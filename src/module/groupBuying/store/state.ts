@@ -7,7 +7,6 @@ interface StateType {
   userCompanyIdOrHospitalId : String
 }
 
-
 // 下面是在state中定义的数据，尽量使用变量声明
 
 let state : StateType = {
@@ -150,7 +149,7 @@ let state : StateType = {
     },
     submitGroupDemand: {
       SBTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -158,7 +157,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrandFirst: [
+        productLineName: "",
+        productLineId: "",
+        brandFirst: [
           {
             aliasId: "",
             aliasName: "",
@@ -167,7 +168,8 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productBrandSecond: [
+        brandFirstName: "",
+        brandSecond: [
           {
             aliasId: "",
             aliasName: "",
@@ -176,7 +178,8 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productBrandThird: [
+        brandSecondName: "",
+        brandThird: [
           {
             aliasId: "",
             aliasName: "",
@@ -185,14 +188,19 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModelFirst: [],
-        productModelSecond: [],
-        productModelThird: [],
+        brandThirdName: "",
+        modelFirst: [],
+        modelSecond: [],
+        modelThird: [],
         mainParams: [],
-        predictTime: {}
+        predictTime: {},
+        num: 1, //需求数量
+        price: "", //采购价格
+        application: "", //应用需求
+        introduce: "" //采购需求说明
       },
       HCTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -200,7 +208,7 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrandFirst: [
+        brandFirst: [
           {
             aliasId: "",
             aliasName: "",
@@ -209,7 +217,7 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productBrandSecond: [
+        brandSecond: [
           {
             aliasId: "",
             aliasName: "",
@@ -218,7 +226,7 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productBrandThird: [
+        brandThird: [
           {
             aliasId: "",
             aliasName: "",
@@ -227,14 +235,18 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModelFirst: [],
-        productModelSecond: [],
-        productModelThird: [],
+        modelFirst: [],
+        modelSecond: [],
+        modelThird: [],
         mainParams: [],
-        predictTime: {}
+        predictTime: {},
+        num: 1, //需求数量
+        price: "", //采购价格
+        application: "", //应用需求
+        introduce: "" //采购需求说明
       },
       SHTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -242,7 +254,7 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -251,12 +263,12 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
+        model: [],
         mainParams: [],
         predictTime: {}
       },
       XXHTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -264,7 +276,7 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -273,12 +285,16 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
+        model: [],
         mainParams: [],
-        predictTime: {}
+        predictTime: {},
+        num: 1, //需求数量
+        price: "", //采购价格
+        application: "", //应用需求
+        introduce: "" //采购需求说明
       },
       JRTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -286,7 +302,7 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -295,12 +311,11 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
         mainParams: [],
         predictTime: {}
       },
       ZXTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -308,7 +323,7 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -317,7 +332,6 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
         mainParams: [],
         predictTime: {}
       }

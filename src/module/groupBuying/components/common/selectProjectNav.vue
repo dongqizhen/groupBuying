@@ -16,9 +16,17 @@ export default {
       itemSelect: []
     };
   },
-  props: ["MultipleSelection", "editSelectValue", "come"],
+  props: ["MultipleSelection", "editSelectValue", "come", "groupPurchaseId"],
   methods: {
     select(item, itemObj) {
+      this.$router.replace({
+        path: `/submitGroupDemand/${itemObj.code}`,
+        query: {
+          groupPurchaseTypeId: `${itemObj.id}`,
+          groupPurchaseId: this.groupPurchaseId,
+          groupTypeCode: `${itemObj.code}`
+        }
+      });
       if (this.MultipleSelection != undefined) {
         if (_.without(this.itemSelect, item).length == this.itemSelect.length) {
           this.itemSelect.push(item);
@@ -58,10 +66,15 @@ export default {
       data => {
         console.log("团购类型:", data);
         console.log(this.editSelectValue);
-        console.log(this.come);
         this.items = data;
         if (this.come == 1) {
         } else {
+          this.$router.replace({
+            query: {
+              groupTypeCode: data[0].code,
+              groupPurchaseTypeId: data[0].id
+            }
+          });
           this.itemSelect.push(data[0].id);
           this.$emit("select-value", this.itemSelect.join(","));
           this.$emit("selectObj", this.items[0]);
@@ -71,9 +84,7 @@ export default {
   },
   watch: {
     editSelectValue() {
-      console.log(this.editSelectValue);
       this.itemSelect = this.editSelectValue.split(",").map(Number);
-      console.log(this.itemSelect);
       this.$emit("select-value", this.itemSelect.join(","));
       if (this.itemSelect.length == 1) {
         this.$emit(

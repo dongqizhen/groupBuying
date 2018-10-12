@@ -46,6 +46,18 @@ const hospitalSeal = () =>
     import ('../page/hospital/hospitalSeal')
 const submitGroupDemand = () =>
     import ('../page/hospital/submitGroupDemand')
+const SBTGGroupDemandWriteInfo = () =>
+    import ('../page/hospital/submitGroupDemandChildren/SBTGGroupDemandWriteInfo')
+const HCTGGroupDemandWriteInfo = () =>
+    import ('../page/hospital/submitGroupDemandChildren/HCTGGroupDemandWriteInfo')
+const SHTGGroupDemandWriteInfo = () =>
+    import ('../page/hospital/submitGroupDemandChildren/SHTGGroupDemandWriteInfo')
+const XXHTGGroupDemandWriteInfo = () =>
+    import ('../page/hospital/submitGroupDemandChildren/XXHTGGroupDemandWriteInfo')
+const JRTGGroupDemandWriteInfo = () =>
+    import ('../page/hospital/submitGroupDemandChildren/JRTGGroupDemandWriteInfo')
+const ZXTGGroupDemandWriteInfo = () =>
+    import ('../page/hospital/submitGroupDemandChildren/ZXTGGroupDemandWriteInfo')
 const groupDemand = () =>
     import ('../page/groupDemand/groupDemand')
 const groupDemandDetails = () =>
@@ -184,7 +196,36 @@ const router = new Router({
         }, {
             path: '/submitGroupDemand',
             name: '提交团购需求 (医院)',
-            component: submitGroupDemand
+            component: submitGroupDemand,
+            children: [{
+                    path: "/",
+                    component: SBTGGroupDemandWriteInfo
+                },
+                {
+                    path: "SBTG",
+                    component: SBTGGroupDemandWriteInfo
+                },
+                {
+                    path: "HCTG",
+                    component: HCTGGroupDemandWriteInfo
+                },
+                {
+                    path: "SHTG",
+                    component: SHTGGroupDemandWriteInfo
+                },
+                {
+                    path: "XXHTG",
+                    component: XXHTGGroupDemandWriteInfo
+                },
+                {
+                    path: "JRTG",
+                    component: JRTGGroupDemandWriteInfo
+                },
+                {
+                    path: "ZXTG",
+                    component: ZXTGGroupDemandWriteInfo
+                },
+            ]
         }, {
             path: '/groupDemand',
             name: '团购需求',

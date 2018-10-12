@@ -205,6 +205,18 @@ const mutations = {
   },
   ZXTGPredictTime(state, predictTimeValue) {
     state.page.submitGroupDemand.ZXTG.predictTime = predictTimeValue;
+  },
+  SBTGNumSave(state, val) {
+    state.page.submitGroupDemand.SBTG.num = val;
+  },
+  SBTGPriceSave(state, val) {
+    state.page.submitGroupDemand.SBTG.price = val;
+  },
+  SBTGApplicationSave(state, val) {
+    state.page.submitGroupDemand.SBTG.application = val;
+  },
+  SBTGIntroduceSave(state, val) {
+    state.page.submitGroupDemand.SBTG.introduce = val;
   }
 }
 
