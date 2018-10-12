@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="rightBox">
-            <attention-btn :isFollw="result.isFollw"></attention-btn>
+            <attention-btn :result="result"></attention-btn>
         </div>
     </div>
 </template>

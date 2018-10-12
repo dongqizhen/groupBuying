@@ -1,8 +1,8 @@
 <template>
 
-    <div class="attentionBtn" @click.stop="triggleSrc">
-        <img v-if="isFollw==0" src="../../../../../static/images/attention-active.png">
-        <img v-else-if="isFollw==1" src="../../../../../static/images/attention.png" alt="" srcset="">
+    <div class="attentionBtn" @click.stop="triggleSrc(result.isFollw)" v-if="isShowBtn">
+        <img v-if="isAttention==0" src="../../../../../static/images/attention-active.png">
+        <img v-else-if="isAttention==1" src="../../../../../static/images/attention.png" alt="" srcset="">
         <img v-else src="../../../../../static/images/attention-each.png" alt="">
     </div>
 </template>
@@ -10,31 +10,41 @@
     import { _getData } from "../../service/getData";
     export default {
         data() {
-            return { isAttention: false };
+            return { isAttention: this.result.isFollw };
         },
-        props: ["isFollw"],
+        props: ["result"],
         methods: {
-            triggleSrc() {
-                this.isAttention = !this.isAttention;
+            triggleSrc(status) {
+                // this.isAttention = !this.isAttention;
+
                 _getData(
-                    "/server/followBusiness!request.action",
+                    "/server/follow!request.action",
                     {
                         method: "addOrDeleteFollow",
-
                         params: {
-                            id: "316", //业务id
-                            controlflag: 0 //1表示取消，0表示添加（传的是现在的状态）
+                            followId: this.result.userId,
+                            controlflag: status == 1 ? 0 : 1
                         }
                     },
                     data => {
                         console.log(data);
+                        this.isAttention = data.status;
                     }
-                );
+                ).then(() => {});
             }
         },
         computed: {
             isFollwed() {
                 return this.triggleSrc();
+            },
+            isShowBtn() {
+                return this.$USER_INFO.userid != this.result.userId;
+            }
+        },
+        watch: {
+            result(newVal) {
+                console.log(11);
+                this.isAttention = newVal.isFollw;
             }
         }
     };

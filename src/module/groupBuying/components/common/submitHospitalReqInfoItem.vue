@@ -182,18 +182,21 @@
             justify-content: flex-start;
             .address {
                 width: 176px;
-                /* display: flex;
-                                                                                                justify-content: flex-start; */
+                display: flex;
+                justify-content: flex-start;
+                height: 100%;
                 img {
                     width: 10.8px;
                     height: 14px;
                     vertical-align: middle;
+                    margin-right: 3.2px;
                 }
                 span {
                     font-size: 13px;
                     color: #999;
                     font-family: PingFangSC-Regular;
                     // display: flex;
+
                     &:last-child {
                         font-family: PingFangSC-Medium;
                         color: #333;
@@ -202,16 +205,21 @@
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-                        margin-left: 8px;
+                        margin-left: 10px;
+                        height: 100%;
                     }
                 }
             }
             .budget {
                 width: 147px;
+                display: flex;
+                justify-content: flex-start;
+
                 img {
                     width: 14px;
                     height: 14px;
                     vertical-align: middle;
+                    margin-right: 4px;
                 }
                 span {
                     font-size: 13px;

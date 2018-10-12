@@ -2,10 +2,8 @@
 
     <div class="clearfix commentList">
         <div class="left">
-            <div v-lazy-container="{ selector: 'img' }">
-                <img :data-src="commentData.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="">
-            </div>
 
+            <img v-lazy="commentData.userImageUrl" alt="">
         </div>
         <div class="right">
             <div class="nameBox">
@@ -16,7 +14,7 @@
                     <span>{{dianzanshu}}</span>
                 </div>
             </div>
-            <p>{{commentData.content}}</p>
+            <p>{{decodeURI(commentData.content)}}</p>
             <div class="replyBtn">
                 <span>打赏</span>
                 <span><a>{{commentData.commentNum}}</a>回复</span>
@@ -81,10 +79,21 @@
                 this.$emit("delete_commit", id, this.index);
             }
         },
-        props: ["commentData", "index"],
+        props: {
+            commentData: {
+                type: Object,
+                default: {}
+            },
+            index: {
+                type: Number
+            }
+        },
         watch: {
-            commentData(newVal) {
-                console.log(newVal);
+            commentData(newVal, oldVal) {
+                console.log(newVal, oldVal);
+                console.log(this.commentData.isDianzan);
+                this.isActive = newVal.isDianzan == 0 ? false : true;
+                this.dianzanshu = newVal.amount;
             }
         }
     };
@@ -220,7 +229,7 @@
                     }
                     span {
                         /* display: flex;
-                                                                                                                                                                                                                    align-items: center; */
+                                                                                                                                                                                                                                                                    align-items: center; */
                         &.name {
                             color: #406599;
                         }

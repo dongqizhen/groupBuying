@@ -172,7 +172,7 @@
             </div>
             <div class="common productSort">
               <span>预计咨询时间</span>
-              <span class="value">{{resultData.loadTime}}</span>
+              <span class="value">{{resultData.showLoadTime}}</span>
             </div>
             <div class="common productSort">
               <span>本院采购需求说明</span>
@@ -229,7 +229,7 @@
             </div>
             <div class="common productSort">
               <span>预计咨询时间</span>
-              <span class="value">{{resultData.loadTime}}</span>
+              <span class="value">{{resultData.showLoadTime}}</span>
             </div>
             <div class="common productSort">
               <span>本院采购需求说明</span>
@@ -310,7 +310,7 @@
                       params: {
                           id: this.$route.query.id,
                           currentPage: currentPage || this.currentPage,
-                          countPerPage: 3
+                          countPerPage: 6
                       }
                   },
                   data => {
@@ -327,7 +327,6 @@
                           this.options.pullUpLoad = {
                               threshold: 1000,
                               txt: {
-                                  more: "上拉加载更多",
                                   noMore: "全部数据加载完毕"
                               }
                           };
@@ -347,23 +346,25 @@
               this.currentPage = 1;
               this.$refs.scroll.scrollToElement(".comment", 0, 0, 0);
               /* this.actions.pullUpLoad = {
-                                                      threshold: 1000,
-                                                      txt: { more: "加载更多", noMore: "全部数据加载完毕" }
-                                                  }; */
+                                                                                                                          threshold: 1000,
+                                                                                                                          txt: { more: "加载更多", noMore: "全部数据加载完毕" }
+                                                                                                                      }; */
               this.getCommentList(1);
           },
           pullUpLoad() {
               this.currentPage += 1;
-
               setTimeout(() => {
                   this.getCommentList().then(() => {
                       this.$refs.scroll.forceUpdate();
                   });
-              }, 1000);
+              }, 500);
           },
           delete_commit(id, index) {
               console.log(id);
               this.commentList.splice(index, 1);
+              if (this.commentList.length == 0) {
+                  this.options.pullUpLoad = false;
+              }
               _getData(
                   "/server_pro/videoComment!request.action",
                   {
@@ -417,6 +418,20 @@
           /deep/ .cube-scroll-wrapper {
               .cube-scroll-content {
                   padding-bottom: 0 !important;
+                  .cube-pullup-wrapper {
+                      .before-trigger {
+                          font-size: 13px;
+                          color: #999999;
+                          font-family: PingFangSC-Regular;
+                          padding: 15px 0;
+                      }
+                      .after-trigger {
+                          padding: 12.5px 0;
+                          .cube-loading {
+                              font-size: 18px;
+                          }
+                      }
+                  }
               }
           }
           .common {
@@ -581,9 +596,7 @@
               border-bottom: none;
           }
           .intention {
-              background: #ffffff;
-              box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-              border-radius: 5px;
+              @include box_shadow_style;
               margin-bottom: 10px;
           }
           .box {
