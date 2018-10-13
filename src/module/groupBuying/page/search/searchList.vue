@@ -9,41 +9,74 @@
             <span slot="explain">搜索</span>
         </Header>
         <div class="content">
+            <div class="scroll-list-wrap">
+                <cube-scroll>
+                    <div class="search_list">
+                        <div class="search_container">
 
-            <div class="search_list">
-                <div class="search_container">
+                            <div class="company common" v-if="type==13">
+                                <h2><i></i>企业产品</h2>
+                                <div>
+                                    <product-list v-for="(val,index) in listData.eachrList" :listData='val' :key="index"></product-list>
+                                </div>
+                            </div>
+                            <div class="hospital common" v-else-if="type==14">
+                                <h2><i></i>医院需求</h2>
 
-                    <div class="company common">
-                        <h2><i></i>企业产品</h2>
-                        <div>
-                            <list-item></list-item>
+                                <submit-hospital-req-info-item v-for="(val,index) in listData.eachrList" :result='val' :key="index"></submit-hospital-req-info-item>
+
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
+                </cube-scroll>
                 <loading :show="loading" :text="loadIngTxt"></loading>
             </div>
+
         </div>
     </div>
 </template>
 
 <script>
     import Header from "../../components/header/header";
-    import listItem from "../../components/common/listItem.vue";
+    import productList from "../../components/common/productList.vue";
     import submitHospitalReqInfoItem from "../../components/common/submitHospitalReqInfoItem.vue";
-
+    import { _getData } from "../../service/getData";
     export default {
         data() {
             return {
-                value: "",
+                value: this.$route.query.val,
                 loading: false,
-                loadIngTxt: "Loading..."
+                loadIngTxt: "Loading...",
+                listData: []
             };
         },
+        props: ["type"],
         components: {
             Header,
-            listItem,
+            productList,
             submitHospitalReqInfoItem
+        },
+        mounted() {
+            this.loading = true;
+            _getData(
+                "/server_pro/video!request.action",
+                {
+                    method: "getEachListV28",
+                    params: {
+                        currentPage: 1,
+                        countPerPage: 20,
+                        name: "", //搜搜内容
+                        type: this.type
+                    }
+                },
+                data => {
+                    console.log(data);
+                    this.listData = data;
+                }
+            ).then(() => {
+                this.loading = false;
+            });
         }
     };
 </script>
@@ -109,6 +142,13 @@
             }
         }
         .content {
+            //padding: 10px 13px;
+            overflow: hidden;
+            /deep/ .cube-scroll-wrapper {
+                .cube-scroll-content {
+                    padding-bottom: 0 !important;
+                }
+            }
             .history {
                 width: 100%;
                 background: #fff;
@@ -159,7 +199,7 @@
                 }
             }
             .search_list {
-                padding: 0 13px;
+                //padding: 0 13px;
                 .search_container {
                     > p {
                         height: 37px;
@@ -187,6 +227,7 @@
                             color: #333333;
                             border-bottom: $border-style;
                             padding-left: 13px;
+                            background-color: #fff;
                             i {
                                 background: $theme-color;
                                 display: flex;
@@ -206,6 +247,43 @@
                         }
                         &.company {
                             margin-bottom: 10px;
+                            h2 {
+                                border-top-left-radius: 5px;
+                                border-top-right-radius: 5px;
+                            }
+                            /deep/ .productList {
+                                padding: 13px;
+                                border-bottom: $border-style;
+                                .left_box {
+                                    height: 90px;
+                                    width: 100px;
+                                    margin-right: 13px;
+                                }
+                            }
+                        }
+                        &.hospital {
+                            background: #f6f6f6;
+                            box-shadow: none;
+                            border-radius: 1.333vw;
+                            h2 {
+                                @include box_shadow_style;
+                                border-bottom-left-radius: 0;
+                                border-bottom-right-radius: 0;
+                            }
+                            > div {
+                                background: #f6f6f6;
+                            }
+                            /deep/ .submitHospitalInfo {
+                                margin-bottom: 10px;
+                                background: #fff;
+                                &:nth-child(2) {
+                                    border-top-left-radius: 0;
+                                    border-top-right-radius: 0;
+                                }
+                                a > .otherRequire {
+                                    display: none;
+                                }
+                            }
                         }
                     }
                 }

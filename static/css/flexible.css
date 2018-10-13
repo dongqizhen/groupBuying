@@ -32,6 +32,10 @@
         overflow: hidden;
     }
     
+    input[disabled] {
+        opacity: 1;
+    }
+    
     body {
         /* position: relative; */
     }

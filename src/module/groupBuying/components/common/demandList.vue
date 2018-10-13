@@ -20,27 +20,7 @@
                         <span class="model" v-for="(item,ind) in val.modelList" :key="ind">{{item.modelName}}</span>
                     </span>
                 </li>
-                <!-- <li>
-                    <span>
-                        <img src="../../../../../static/images/selected-second.png">
-                        <span>次选</span>
-                    </span>
-                    <span class="brandAndModel">
-                        <span class="brand">{{data.brandList[1].brandName}}</span>
-                        <span class="model" v-for="(val,index) in data.brandList[1].modelList" :key="index">{{val.modelName}}</span>
 
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <img src="../../../../../static/images/selected-three.png">
-                        <span>再选</span>
-                    </span>
-                    <span class="brandAndModel">
-                        <span class="brand">{{data.brandList[2].brandName}}</span>
-                        <span class="model" v-for="(val,index) in data.brandList[2].modelList" :key="index">{{val.modelName}}</span>
-                    </span>
-                </li> -->
             </ul>
         </div>
         <div v-if="slectedTypeKeyWord=='售后团购' || slectedTypeKeyWord=='信息化团购'">
@@ -231,7 +211,7 @@
                         font-size: 12px;
                         color: #666;
                         min-width: 49px;
-                        max-width: 98px;
+                        max-width: 62px;
                         //margin-bottom: -4px;
                         padding: 0 10px;
                     }

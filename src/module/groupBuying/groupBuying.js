@@ -50,6 +50,11 @@ import Cube, {
     ActionSheet
 } from 'cube-ui';
 import Ripple from 'vue-ripple-directive'
+// import animated from 'animate.css' // npm install animate.css --save安装，在引入
+
+// Vue.use(animated)
+
+
 
 Ripple.color = 'rgba(153, 153, 153, 0.3)';
 Ripple.zIndex = 55;

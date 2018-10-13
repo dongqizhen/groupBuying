@@ -39,7 +39,7 @@
             },
             handleClick(id) {
                 this.$router.push({
-                    path: "GroupRequireDetails",
+                    path: "/GroupRequireDetails",
                     query: { id: id, title: this.$route.query.title }
                 });
                 this.$store.commit("setTransition", "turn-on");
@@ -53,6 +53,9 @@
         },
         computed: {
             getUserInfo() {}
+        },
+        activated() {
+            console.log(this.result);
         }
     };
 </script>
