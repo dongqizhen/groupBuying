@@ -1,6 +1,6 @@
 <template>
     <div class="container submitGroupDemand">
-        <Header title="提交团购需求 (医院)"></Header>
+        <Header title="提交团购需求 (医院)" :saveId="saveId" v-on:changeSaveId="changeSaveId"></Header>
         <div class="content">
             <div class="scroll-list-wrap">
             <cube-scroll ref="scroll">
@@ -16,7 +16,7 @@
                 <basic-title title="团购需求类型" imgurl="../static/images/selectproject.png">
                     <span slot="select">(必选项)</span>
                 </basic-title>
-                <select-project-nav :groupPurchaseId="submitData.groupPurchaseId"  :editSelectValue="editSelectId" :come="editSelectId?'1':''"  v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
+                <select-project-nav :groupPurchaseId="submitData.groupPurchaseId"  :editSelectValue="editSelectId"  v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
             </div>
             <div class="productBasicInfromation">
                 <basic-title :title="title" imgurl="../static/images/basicInformation.png">
@@ -66,15 +66,15 @@ export default {
       submitBtnStatus: true,
       groupUnderWayList: [],
       flag: true,
+      saveId: "",
+      saveCode: "",
       submitData: {
         id: "",
         hospitalId: "",
         groupPurchaseId: "",
         groupPurchaseTypeId: "",
         productLine: "",
-        brand: "",
         brandList: [],
-        modelList: [],
         num: "",
         application: "",
         loadTime: "",
@@ -100,47 +100,7 @@ export default {
     groupDemandWriteInfo
   },
   methods: {
-    ...mapMutations([
-      "setTransition",
-      "SBTGProductSort",
-      "HCTGProductSort",
-      "SHTGProductSort",
-      "XXHTGProductSort",
-      "JRTGProductSort",
-      "ZXTGProductSort",
-      "SBTGProductBrandFirst",
-      "SBTGProductBrandSecond",
-      "SBTGProductBrandThird",
-      "HCTGProductBrandFirst",
-      "HCTGProductBrandSecond",
-      "HCTGProductBrandThird",
-      "SHTGProductBrand",
-      "XXHTGProductBrand",
-      "JRTGProductBrand",
-      "ZXTGProductBrand",
-      "SBTGProductModelFirst",
-      "SBTGProductModelSecond",
-      "SBTGProductModelThird",
-      "HCTGProductModelFirst",
-      "HCTGProductModelSecond",
-      "HCTGProductModelThird",
-      "SHTGProductModel",
-      "XXHTGProductModel",
-      "JRTGProductModel",
-      "ZXTGProductModel",
-      "SBTGPredictTime",
-      "HCTGPredictTime",
-      "SHTGPredictTime",
-      "XXHTGPredictTime",
-      "JRTGPredictTime",
-      "ZXTGPredictTime",
-      "SBTGMainParam",
-      "HCTGMainParam",
-      "SHTGMainParam",
-      "XXHTGMainParam",
-      "JRTGMainParam",
-      "ZXTGMainParam"
-    ]),
+    ...mapMutations(["setTransition", "SBTG", "HCTG", "SHTG"]),
     submitBtnClick() {
       this.submitBtnStatus = false;
       console.log(
@@ -152,12 +112,12 @@ export default {
         this.$route.query.groupTypeCode
       ];
 
-      if (getSubmitInfo.productSort[0].aliasId == "") {
+      if (getSubmitInfo.productLine[0].aliasId == "") {
         Toast({ message: "请选择分类", duration: 1000 });
         this.submitBtnStatus = true;
         return;
       } else {
-        this.submitData.productLine = JSON.stringify(getSubmitInfo.productSort);
+        this.submitData.productLine = JSON.stringify(getSubmitInfo.productLine);
       }
       if (getSubmitInfo.price == "") {
         Toast({ message: this.toastPriceText, duration: 1000 });
@@ -180,12 +140,12 @@ export default {
         } else {
           this.submitData.application = getSubmitInfo.application;
         }
-        if (getSubmitInfo.mainParams.length == 0) {
+        if (getSubmitInfo.params.length == 0) {
           Toast({ message: this.toastParamText, duration: 1000 });
           this.submitBtnStatus = true;
           return;
         } else {
-          this.submitData.params = JSON.stringify(getSubmitInfo.mainParams);
+          this.submitData.params = JSON.stringify(getSubmitInfo.params);
         }
       }
 
@@ -197,28 +157,31 @@ export default {
         var brandFirst = {},
           brandSecond = {},
           brandThird = {};
-        if (getSubmitInfo.productBrandFirst[0].aliasId) {
+        if (getSubmitInfo.brandFirst[0].aliasId) {
           brandFirst = {
-            brandId: getSubmitInfo.productBrandFirst[0].brandId,
-            aliasId: getSubmitInfo.productBrandFirst[0].aliasId,
-            brandName: getSubmitInfo.productBrandFirst[0].brandName,
-            model: getSubmitInfo.productModelFirst
+            brandId: getSubmitInfo.brandFirst[0].brandId,
+            aliasId: getSubmitInfo.brandFirst[0].aliasId,
+            brandName: getSubmitInfo.brandFirst[0].brandName,
+            aliasName: getSubmitInfo.brandFirst[0].aliasName,
+            model: getSubmitInfo.modelFirst
           };
         }
-        if (getSubmitInfo.productBrandSecond[0].aliasId) {
+        if (getSubmitInfo.brandSecond[0].aliasId) {
           brandSecond = {
-            brandId: getSubmitInfo.productBrandSecond[0].brandId,
-            aliasId: getSubmitInfo.productBrandSecond[0].aliasId,
-            brandName: getSubmitInfo.productBrandSecond[0].brandName,
-            model: getSubmitInfo.productModelSecond
+            brandId: getSubmitInfo.brandSecond[0].brandId,
+            aliasId: getSubmitInfo.brandSecond[0].aliasId,
+            brandName: getSubmitInfo.brandSecond[0].brandName,
+            aliasName: getSubmitInfo.brandSecond[0].aliasName,
+            model: getSubmitInfo.modelSecond
           };
         }
-        if (getSubmitInfo.productBrandThird[0].aliasId) {
+        if (getSubmitInfo.brandThird[0].aliasId) {
           brandThird = {
-            brandId: getSubmitInfo.productBrandThird[0].brandId,
-            aliasId: getSubmitInfo.productBrandThird[0].aliasId,
-            brandName: getSubmitInfo.productBrandThird[0].brandName,
-            model: getSubmitInfo.productModelThird
+            brandId: getSubmitInfo.brandThird[0].brandId,
+            aliasId: getSubmitInfo.brandThird[0].aliasId,
+            brandName: getSubmitInfo.brandThird[0].brandName,
+            aliasName: getSubmitInfo.brandThird[0].aliasName,
+            model: getSubmitInfo.modelThird
           };
         }
         if (Object.keys(brandFirst).length != 0) {
@@ -242,60 +205,63 @@ export default {
         this.$route.query.groupTypeCode != "SBTG" &&
         this.$route.query.groupTypeCode != "HCTG"
       ) {
-        if (getSubmitInfo.productBrand[0].brandId == "") {
+        if (getSubmitInfo.brand[0].brandId == "") {
           Toast({ message: this.toastBrandText, duration: 1000 });
           this.submitBtnStatus = true;
           return;
         } else {
-          this.submitData.brand = JSON.stringify(getSubmitInfo.productBrand);
+          getSubmitInfo.model
+            ? (getSubmitInfo.brand[0].model = getSubmitInfo.model)
+            : "";
+          this.submitData.brandList = JSON.stringify(getSubmitInfo.brand);
         }
       }
-      if (
-        this.$route.query.groupTypeCode == "SHTG" ||
-        this.$route.query.groupTypeCode == "XXHTG"
-      ) {
-        this.submitData.modelList = JSON.stringify(getSubmitInfo.productModel);
-      }
+
       if (this.$route.query.groupTypeCode == "SHTG") {
         if (getSubmitInfo.installTime == "请选择安装日期") {
           Toast({ message: "请选择安装日期", duration: 1000 });
           this.submitBtnStatus = true;
           return;
         } else {
+          this.submitData.installTime = getSubmitInfo.installTime;
         }
         if (getSubmitInfo.deviceCheckNum == "") {
           Toast({ message: "请填写每天检查量", duration: 1000 });
           this.submitBtnStatus = true;
           return;
         } else {
+          this.submitData.deviceCheckNum = getSubmitInfo.deviceCheckNum;
         }
         if (getSubmitInfo.responseTime == "") {
           Toast({ message: "请填写响应时间", duration: 1000 });
           this.submitBtnStatus = true;
           return;
         } else {
+          this.submitData.responseTime = getSubmitInfo.responseTime;
         }
         if (getSubmitInfo.maintenanceType === "") {
           Toast({ message: "请选择维保类型", duration: 1000 });
           this.submitBtnStatus = true;
           return;
         } else {
+          this.submitData.maintenanceType = getSubmitInfo.maintenanceType;
         }
       }
-      if (JSON.stringify(getSubmitInfo.predictTime) == "{}") {
+      if (getSubmitInfo.loadTime.flag == "") {
         Toast({ message: this.toastPredictTimeText, duration: 1000 });
         this.submitBtnStatus = true;
         return;
       } else {
-        this.submitData.loadTime = JSON.stringify(getSubmitInfo.predictTime);
+        this.submitData.loadTime = JSON.stringify(getSubmitInfo.loadTime);
       }
       if (getSubmitInfo.introduce == "") {
         Toast({ message: this.toastIntroduceText, duration: 1000 });
         this.submitBtnStatus = true;
         return;
+      } else {
+        this.submitData.introduce = getSubmitInfo.introduce;
       }
       this.submitData.num = getSubmitInfo.num;
-      this.submitData.introduce = getSubmitInfo.introduce;
       this.submitData.hospitalId = this.$store.state.userCompanyIdOrHospitalId;
       console.log(this.submitData);
       _getData(
@@ -306,10 +272,13 @@ export default {
         },
         data => {
           console.log(data);
-          this.$router.replace("myHospitalGroupBuy");
-          this.submitBtnStatus = true;
+          this.$router.replace("/myHospitalGroupBuy");
         }
       );
+      this.submitBtnStatus = true;
+    },
+    changeSaveId(val) {
+      this.saveId = val;
     },
     handleSelect(value) {
       this.submitData.groupPurchaseTypeId = value;
@@ -321,13 +290,424 @@ export default {
       this.current = index;
       this.submitData.groupPurchaseId = this.groupUnderWayList[index].id;
       this.$router.replace({
+        path: this.$route.path,
         query: {
+          id: this.$route.query.id,
           groupPurchaseTypeId: this.submitData.groupPurchaseTypeId,
           groupPurchaseId: this.submitData.groupPurchaseId,
           groupTypeCode: this.groupItemObj.code
         }
       });
     }
+  },
+  activated() {
+    _getData(
+      "/server_pro/groupPurchase!request.action",
+      {
+        method: "getUnderWayGroupPurchaseList",
+        params: {}
+      },
+      data => {
+        console.log("正在报名的团购大会：", data);
+        this.groupUnderWayList = data.groupPurchaseList;
+        if (this.$route.query.id && this.saveId != this.$route.query.id) {
+          this.saveId = this.$route.query.id;
+          _getData(
+            "/server_pro/groupPurchaseHospital!request.action",
+            {
+              method: "getGroupPurchaseHospitalDemandInfo",
+              params: { id: this.$route.query.id }
+            },
+            data => {
+              console.log("提交的需求详情：", data);
+              this.submitData.id = data.id;
+              this.submitData.hospitalId = data.hospitalId;
+              this.submitData.groupPurchaseTypeId = data.groupPurchaseType.id;
+              this.submitData.groupPurchaseId = data.groupPurchaseId;
+              this.$router.replace({
+                path: `/submitGroupDemand/${data.groupPurchaseType.code}`,
+                query: {
+                  id: this.$route.query.id,
+                  groupPurchaseTypeId: this.submitData.groupPurchaseTypeId,
+                  groupPurchaseId: this.submitData.groupPurchaseId,
+                  groupTypeCode: data.groupPurchaseType.code
+                }
+              });
+              this.editSelectId = "" + data.groupPurchaseType.id;
+              for (var i = 0; i < this.groupUnderWayList.length; i++) {
+                if (this.groupUnderWayList[i].id == data.groupPurchaseId) {
+                  this.current = i;
+                  this.submitData.groupPurchaseId = data.groupPurchaseId;
+                }
+              }
+              var initialValue = [
+                {
+                  aliasId: "",
+                  aliasName: "",
+                  brandId: "",
+                  brandLabel: "",
+                  brandName: ""
+                }
+              ];
+              this.saveCode = data.groupPurchaseType.code;
+              data.productLine = [data.productLine];
+              if (data.groupPurchaseType.code != "SHTG") {
+                data.mainParamsName = _.join(_.map(data.params, "name"), ",");
+              }
+              switch (data.groupPurchaseType.code) {
+                case "SBTG":
+                  if (data.brandList.length == 1) {
+                    data.brandFirst = [data.brandList[0].brand];
+                    data.brandSecond = initialValue;
+                    data.brandThird = initialValue;
+                    data.brandFirstId = data.brandList[0].brand.brandId;
+                    data.brandSecondId = "";
+                    data.brandThirdId = "";
+                    data.brandFirstName = data.brandList[0].brand.aliasName
+                      ? data.brandList[0].brand.aliasName
+                      : data.brandList[0].brand.brandName;
+                    data.brandSecondName = "";
+                    data.brandThirdName = "";
+                    data.modelFirst = data.brandList[0].model;
+                    data.modelSecond = [];
+                    data.modelThird = [];
+                  } else if (data.brandList.length == 2) {
+                    data.brandFirst = [data.brandList[0].brand];
+                    data.brandSecond = [data.brandList[1].brand];
+                    data.brandThird = initialValue;
+                    data.brandFirstId = data.brandList[0].brand.brandId;
+                    data.brandSecondId = data.brandList[1].brand.brandId;
+                    data.brandThirdId = "";
+                    data.brandFirstName = data.brandList[0].brand.aliasName
+                      ? data.brandList[0].brand.aliasName
+                      : data.brandList[0].brand.brandName;
+                    data.brandSecondName = data.brandList[1].brand.aliasName
+                      ? data.brandList[1].brand.aliasName
+                      : data.brandList[1].brand.brandName;
+                    data.brandThirdName = "";
+                    data.modelFirst = data.brandList[0].model;
+                    data.modelSecond = data.brandList[1].model;
+                    data.modelThird = [];
+                  } else if (data.brandList.length == 3) {
+                    data.brandFirst = [data.brandList[0].brand];
+                    data.brandSecond = [data.brandList[1].brand];
+                    data.brandThird = [data.brandList[2].brand];
+                    data.brandFirstId = data.brandList[0].brand.brandId;
+                    data.brandSecondId = data.brandList[1].brand.brandId;
+                    data.brandThirdId = data.brandList[2].brand.brandId;
+                    data.brandFirstName = data.brandList[0].brand.aliasName
+                      ? data.brandList[0].brand.aliasName
+                      : data.brandList[0].brand.brandName;
+                    data.brandSecondName = data.brandList[1].brand.aliasName
+                      ? data.brandList[1].brand.aliasName
+                      : data.brandList[1].brand.brandName;
+                    data.brandThirdName = data.brandList[2].brand.aliasName
+                      ? data.brandList[2].brand.aliasName
+                      : data.brandList[2].brand.brandName;
+                    data.modelFirst = data.brandList[0].model;
+                    data.modelSecond = data.brandList[1].model;
+                    data.modelThird = data.brandList[2].model;
+                  }
+
+                  console.log("data", data);
+                  this.SBTG(data);
+                  this.HCTG({
+                    productLine: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        productLineId: "",
+                        productLineName: ""
+                      }
+                    ],
+                    productLineId: "",
+                    aliasProductLineId: "",
+                    productLineName: "",
+                    brandFirst: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandFirstId: "",
+                    brandFirstName: "",
+                    brandSecond: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandSecondId: "",
+                    brandSecondName: "",
+                    brandThird: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandThirdId: "",
+                    brandThirdName: "",
+                    modelFirst: [],
+                    modelSecond: [],
+                    modelThird: [],
+                    params: [],
+                    mainParamsName: "",
+                    loadTime: {
+                      outTime: "",
+                      year: "",
+                      quarter: "",
+                      flag: ""
+                    },
+                    showLoadTime: "",
+                    demandNum: "",
+                    histroyTotalDemandNum: "",
+                    totalPrice: "",
+                    num: 1, //需求数量
+                    price: "", //采购价格
+                    application: "", //应用需求
+                    introduce: "" //采购需求说明
+                  });
+                  this.SHTG({
+                    productLine: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        productLineId: "",
+                        productLineName: ""
+                      }
+                    ],
+                    productLineId: "",
+                    aliasProductLineId: "",
+                    productLineName: "",
+                    brand: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandId: "",
+                    brandName: "",
+                    model: [],
+                    params: [],
+                    mainParamsName: "",
+                    loadTime: {
+                      outTime: "",
+                      year: "",
+                      quarter: "",
+                      flag: ""
+                    },
+                    showLoadTime: "",
+                    demandNum: "",
+                    histroyTotalDemandNum: "",
+                    totalPrice: "",
+                    installTime: "", //安装日期
+                    deviceCheckNum: "", //每天检查量
+                    responseTime: "", //响应时间
+                    maintenanceType: "", //维保类型
+                    num: 1, //设备台数
+                    price: "", //维修预算
+                    introduce: "" //备注说明
+                  });
+                  break;
+                case "HCTG":
+                  if (data.brandList.length == 1) {
+                    data.brandFirst = [data.brandList[0].brand];
+                    data.brandSecond = initialValue;
+                    data.brandThird = initialValue;
+                    data.brandFirstId = data.brandList[0].brand.brandId;
+                    data.brandSecondId = "";
+                    data.brandThirdId = "";
+                    data.brandFirstName = data.brandList[0].brand.aliasName
+                      ? data.brandList[0].brand.aliasName
+                      : data.brandList[0].brand.brandName;
+                    data.brandSecondName = "";
+                    data.brandThirdName = "";
+                    data.modelFirst = data.brandList[0].model;
+                    data.modelSecond = [];
+                    data.modelThird = [];
+                  } else if (data.brandList.length == 2) {
+                    data.brandFirst = [data.brandList[0].brand];
+                    data.brandSecond = [data.brandList[1].brand];
+                    data.brandThird = initialValue;
+                    data.brandFirstId = data.brandList[0].brand.brandId;
+                    data.brandSecondId = data.brandList[1].brand.brandId;
+                    data.brandThirdId = "";
+                    data.brandFirstName = data.brandList[0].brand.aliasName
+                      ? data.brandList[0].brand.aliasName
+                      : data.brandList[0].brand.brandName;
+                    data.brandSecondName = data.brandList[1].brand.aliasName
+                      ? data.brandList[1].brand.aliasName
+                      : data.brandList[1].brand.brandName;
+                    data.brandThirdName = "";
+                    data.modelFirst = data.brandList[0].model;
+                    data.modelSecond = data.brandList[1].model;
+                    data.modelThird = [];
+                  } else if (data.brandList.length == 3) {
+                    data.brandFirst = [data.brandList[0].brand];
+                    data.brandSecond = [data.brandList[1].brand];
+                    data.brandThird = [data.brandList[2].brand];
+                    data.brandFirstId = data.brandList[0].brand.brandId;
+                    data.brandSecondId = data.brandList[1].brand.brandId;
+                    data.brandThirdId = data.brandList[2].brand.brandId;
+                    data.brandFirstName = data.brandList[0].brand.aliasName
+                      ? data.brandList[0].brand.aliasName
+                      : data.brandList[0].brand.brandName;
+                    data.brandSecondName = data.brandList[1].brand.aliasName
+                      ? data.brandList[1].brand.aliasName
+                      : data.brandList[1].brand.brandName;
+                    data.brandThirdName = data.brandList[2].brand.aliasName
+                      ? data.brandList[2].brand.aliasName
+                      : data.brandList[2].brand.brandName;
+                    data.modelFirst = data.brandList[0].model;
+                    data.modelSecond = data.brandList[1].model;
+                    data.modelThird = data.brandList[2].model;
+                  }
+
+                  data.mainParamsName = _.join(_.map(data.params, "name"), ",");
+                  this.HCTG(data);
+                  this.SBTG({
+                    productLine: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        productLineId: "",
+                        productLineName: ""
+                      }
+                    ],
+                    productLineId: "",
+                    aliasProductLineId: "",
+                    productLineName: "",
+                    brandFirst: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandFirstId: "",
+                    brandFirstName: "",
+                    brandSecond: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandSecondId: "",
+                    brandSecondName: "",
+                    brandThird: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandThirdId: "",
+                    brandThirdName: "",
+                    modelFirst: [],
+                    modelSecond: [],
+                    modelThird: [],
+                    params: [],
+                    mainParamsName: "",
+                    loadTime: {
+                      outTime: "",
+                      year: "",
+                      quarter: "",
+                      flag: ""
+                    },
+                    showLoadTime: "",
+                    demandNum: "",
+                    histroyTotalDemandNum: "",
+                    totalPrice: "",
+                    num: 1, //需求数量
+                    price: "", //采购价格
+                    application: "", //应用需求
+                    introduce: "" //采购需求说明
+                  });
+                  this.SHTG({
+                    productLine: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        productLineId: "",
+                        productLineName: ""
+                      }
+                    ],
+                    productLineId: "",
+                    aliasProductLineId: "",
+                    productLineName: "",
+                    brand: [
+                      {
+                        aliasId: "",
+                        aliasName: "",
+                        brandId: "",
+                        brandLabel: "",
+                        brandName: ""
+                      }
+                    ],
+                    brandId: "",
+                    brandName: "",
+                    model: [],
+                    params: [],
+                    mainParamsName: "",
+                    loadTime: {
+                      outTime: "",
+                      year: "",
+                      quarter: "",
+                      flag: ""
+                    },
+                    showLoadTime: "",
+                    demandNum: "",
+                    histroyTotalDemandNum: "",
+                    totalPrice: "",
+                    installTime: "", //安装日期
+                    deviceCheckNum: "", //每天检查量
+                    responseTime: "", //响应时间
+                    maintenanceType: "", //维保类型
+                    num: 1, //设备台数
+                    price: "", //维修预算
+                    introduce: "" //备注说明
+                  });
+                  break;
+                case "SHTG":
+                  data.brand = [data.brandList[0].brand];
+                  data.brandName = data.brandList[0].brand.aliasName
+                    ? data.brandList[0].brand.aliasName
+                    : data.brandList[0].brand.brandName;
+                  data.model = data.brandList[0].model;
+                  data.brandId = data.brandList[0].brand.brandId;
+                  this.SHTG(data);
+                  break;
+                case "XXHTG":
+                  break;
+                case "JRTG":
+                  break;
+                case "ZXTG":
+                  break;
+              }
+            }
+          );
+        }
+      }
+    );
   },
   watch: {
     groupItemObj() {
@@ -399,178 +779,7 @@ export default {
       }
     }
   },
-  mounted() {},
-  activated() {
-    _getData(
-      "/server_pro/groupPurchase!request.action",
-      {
-        method: "getUnderWayGroupPurchaseList",
-        params: {}
-      },
-      data => {
-        console.log("正在报名的团购大会：", data);
-        this.groupUnderWayList = data.groupPurchaseList;
-        if (this.$route.query.id) {
-          _getData(
-            "/server_pro/groupPurchaseHospital!request.action",
-            {
-              method: "getGroupPurchaseHospitalDemandInfo",
-              params: { id: this.$route.query.id }
-            },
-            data => {
-              console.log("提交的需求详情：", data);
-              this.submitData.id = data.id;
-              this.submitData.hospitalId = data.hospitalId;
-              this.editSelectId = "" + data.groupPurchaseType.id;
-              for (var i = 0; i < this.groupUnderWayList.length; i++) {
-                if (this.groupUnderWayList[i].id == data.groupPurchaseId) {
-                  this.current = i;
-                  this.submitData.groupPurchaseId = data.groupPurchaseId;
-                }
-              }
-              if (this.flag) {
-                this.flag = false;
-                switch (data.groupPurchaseType.code) {
-                  case "SBTG":
-                    this.SBTGProductSort([data.productLine]);
-                    if (data.brandList.length == 1) {
-                      this.SBTGProductBrandFirst(data.brandList[0].brand);
-                      data.modelListFirst = data.brandList[0].model;
-                      data.modelListSecond = [];
-                      data.modelListThird = [];
-                      data.productBrandFirstName = data.brandList[0].brandName;
-                      data.brandFirstId = data.brandList[0].brandId;
-                    } else if (data.brandList.length == 2) {
-                      this.SBTGProductBrandFirst(data.brandList[0].brand);
-                      this.SBTGProductBrandSecond(data.brandList[1].brand);
-                      data.modelListFirst = data.brandList[0].model;
-                      data.modelListSecond = data.brandList[1].model;
-                      data.modelListThird = [];
-                      data.productBrandFirstName = data.brandList[0].brandName;
-                      data.productBrandSecondName = data.brandList[1].brandName;
-                      data.brandFirstId = data.brandList[0].brandId;
-                      data.brandSecondId = data.brandList[1].brandId;
-                    } else if (data.brandList.length == 3) {
-                      this.SBTGProductBrandFirst(data.brandList[0].brand);
-                      this.SBTGProductBrandSecond(data.brandList[1].brand);
-                      this.SBTGProductBrandThird(data.brandList[2].brand);
-                      data.modelListFirst = data.brandList[0].model;
-                      data.modelListSecond = data.brandList[1].model;
-                      data.modelListThird = data.brandList[2].model;
-                      data.productBrandFirstName = data.brandList[0].brandName;
-                      data.productBrandSecondName = data.brandList[1].brandName;
-                      data.productBrandThirdName = data.brandList[2].brandName;
-                      data.brandFirstId = data.brandList[0].brandId;
-                      data.brandSecondId = data.brandList[1].brandId;
-                      data.brandThirdId = data.brandList[2].brandId;
-                    }
-                    this.SBTGMainParam(data.params);
-                    this.SBTGPredictTime(data.loadTime);
-                    data.mainParamsName = _.join(
-                      _.map(data.params, "name"),
-                      ","
-                    );
-                    break;
-                  case "HCTG":
-                    this.HCTGProductSort(data.productLine);
-                    if (data.brandList.length == 1) {
-                      this.HCTGProductBrandFirst(data.brandList[0].brand);
-                      data.modelListFirst = data.brandList[0].model;
-                      data.modelListSecond = [];
-                      data.modelListThird = [];
-                      data.productBrandFirstName = data.brandList[0].brandName;
-                      data.productBrandSecondName = "";
-                      data.productBrandThirdName = "";
-                      data.brandFirstId = data.brandList[0].brandId;
-                      data.brandSecondId = "";
-                      data.brandThirdId = "";
-                    } else if (data.brandList.length == 2) {
-                      this.HCTGProductBrandFirst(data.brandList[0].brand);
-                      this.HCTGProductBrandSecond(data.brandList[1].brand);
-                      data.modelListFirst = data.brandList[0].model;
-                      data.modelListSecond = data.brandList[1].model;
-                      data.modelListThird = [];
-                      data.productBrandFirstName = data.brandList[0].brandName;
-                      data.productBrandSecondName = data.brandList[1].brandName;
-                      data.productBrandThirdName = "";
-                      data.brandFirstId = data.brandList[0].brandId;
-                      data.brandSecondId = data.brandList[1].brandId;
-                      data.brandThirdId = "";
-                    } else if (data.brandList.length == 3) {
-                      this.HCTGProductBrandFirst(data.brandList[0].brand);
-                      this.HCTGProductBrandSecond(data.brandList[1].brand);
-                      this.HCTGProductBrandThird(data.brandList[2].brand);
-                      data.modelListFirst = data.brandList[0].model;
-                      data.modelListSecond = data.brandList[1].model;
-                      data.modelListThird = data.brandList[2].model;
-                      data.productBrandFirstName = data.brandList[0].brandName;
-                      data.productBrandSecondName = data.brandList[1].brandName;
-                      data.productBrandThirdName = data.brandList[2].brandName;
-                      data.brandFirstId = data.brandList[0].brandId;
-                      data.brandSecondId = data.brandList[1].brandId;
-                      data.brandThirdId = data.brandList[2].brandId;
-                    }
-                    this.HCTGMainParam(data.params);
-                    this.HCTGPredictTime(data.loadTime);
-                    data.mainParamsName = _.join(
-                      _.map(data.params, "name"),
-                      ","
-                    );
-                    break;
-                  case "SHTG":
-                    this.SHTGProductSort([data.productLine]);
-                    this.SHTGProductBrand([data.brand]);
-                    this.SHTGProductModel(data.modelList);
-                    this.SHTGMainParam(data.paramList);
-                    this.SHTGPredictTime(data.loadTime);
-                    data.mainParamsName = _.join(
-                      _.map(data.params, "name"),
-                      ","
-                    );
-                    break;
-                  case "XXHTG":
-                    this.XXHTGProductSort([data.productLine]);
-                    this.XXHTGProductBrand([data.brand]);
-                    this.XXHTGProductModel(data.modelList);
-                    this.XXHTGMainParam(data.params);
-                    this.XXHTGPredictTime(data.loadTime);
-                    data.mainParamsName = _.join(
-                      _.map(data.params, "name"),
-                      ","
-                    );
-                    break;
-                  case "JRTG":
-                    this.JRTGProductSort([data.productLine]);
-                    this.JRTGProductBrand([data.brand]);
-                    this.JRTGMainParam(data.params);
-                    this.JRTGPredictTime(data.loadTime);
-                    data.mainParamsName = _.join(
-                      _.map(data.params, "name"),
-                      ","
-                    );
-                    break;
-                  case "ZXTG":
-                    this.ZXTGProductSort([data.productLine]);
-                    this.ZXTGProductBrand([data.brand]);
-                    this.ZXTGMainParam(data.params);
-                    this.ZXTGPredictTime(data.loadTime);
-                    data.mainParamsName = _.join(
-                      _.map(data.params, "name"),
-                      ","
-                    );
-                    break;
-                }
-                this.data = data;
-              }
-            }
-          );
-        }
-      }
-    );
-  },
-  deactivated() {
-    this.flag = false;
-  }
+  deactivated() {}
 };
 </script>
 

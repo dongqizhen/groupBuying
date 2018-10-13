@@ -92,119 +92,122 @@ const mutations = {
   selectZXTGMainParam(state, mainParamValue) {
     state.page.uploadProduct.ZXTG.mainParams = mainParamValue;
   },
+  SBTG(state, SBTGValue) {
+    state.page.submitGroupDemand.SBTG = SBTGValue;
+  },
+  HCTG(state, HCTGValue) {
+    state.page.submitGroupDemand.HCTG = HCTGValue;
+  },
+  SHTG(state, SHTGValue) {
+    state.page.submitGroupDemand.SHTG = SHTGValue;
+  },
+  XXHTG(state, SHTGValue) {
+    state.page.submitGroupDemand.XXHTG = SHTGValue;
+  },
   SBTGProductSort(state, productSortValue) {
-    state.page.submitGroupDemand.SBTG.productSort = productSortValue;
+    state.page.submitGroupDemand.SBTG.productLine = productSortValue;
   },
   HCTGProductSort(state, productSortValue) {
-    state.page.submitGroupDemand.HCTG.productSort = productSortValue;
+    state.page.submitGroupDemand.HCTG.productLine = productSortValue;
   },
   SHTGProductSort(state, productSortValue) {
-    state.page.submitGroupDemand.SHTG.productSort = productSortValue;
+    state.page.submitGroupDemand.SHTG.productLine = productSortValue;
   },
   XXHTGProductSort(state, productSortValue) {
-    state.page.submitGroupDemand.XXHTG.productSort = productSortValue;
+    state.page.submitGroupDemand.XXHTG.productLine = productSortValue;
   },
   JRTGProductSort(state, productSortValue) {
-    state.page.submitGroupDemand.JRTG.productSort = productSortValue;
+    state.page.submitGroupDemand.JRTG.productLine = productSortValue;
   },
   ZXTGProductSort(state, productSortValue) {
-    state.page.submitGroupDemand.ZXTG.productSort = productSortValue;
+    state.page.submitGroupDemand.ZXTG.productLine = productSortValue;
   },
   SBTGProductBrandFirst(state, productBrandValue) {
-    state.page.submitGroupDemand.SBTG.productBrandFirst = productBrandValue;
+    state.page.submitGroupDemand.SBTG.brandFirst = productBrandValue;
   },
   SBTGProductBrandSecond(state, productBrandValue) {
-    state.page.submitGroupDemand.SBTG.productBrandSecond = productBrandValue;
+    state.page.submitGroupDemand.SBTG.brandSecond = productBrandValue;
   },
   SBTGProductBrandThird(state, productBrandValue) {
-    state.page.submitGroupDemand.SBTG.productBrandThird = productBrandValue;
+    state.page.submitGroupDemand.SBTG.brandThird = productBrandValue;
   },
   HCTGProductBrandFirst(state, productBrandValue) {
-    state.page.submitGroupDemand.HCTG.productBrandFirst = productBrandValue;
+    state.page.submitGroupDemand.HCTG.brandFirst = productBrandValue;
   },
   HCTGProductBrandSecond(state, productBrandValue) {
-    state.page.submitGroupDemand.HCTG.productBrandSecond = productBrandValue;
+    state.page.submitGroupDemand.HCTG.brandSecond = productBrandValue;
   },
   HCTGProductBrandThird(state, productBrandValue) {
-    state.page.submitGroupDemand.HCTG.productBrandThird = productBrandValue;
+    state.page.submitGroupDemand.HCTG.brandThird = productBrandValue;
   },
-  SHTGProductBrand(state, productBrandValue) {
-    state.page.submitGroupDemand.SHTG.productBrand = productBrandValue;
+  SHTGProductBrand(state, brandValue) {
+    state.page.submitGroupDemand.SHTG.brand = brandValue;
   },
   XXHTGProductBrand(state, productBrandValue) {
-    state.page.submitGroupDemand.XXHTG.productBrand = productBrandValue;
+    state.page.submitGroupDemand.XXHTG.brand = productBrandValue;
   },
   JRTGProductBrand(state, productBrandValue) {
-    state.page.submitGroupDemand.JRTG.productBrand = productBrandValue;
+    state.page.submitGroupDemand.JRTG.brand = productBrandValue;
   },
   ZXTGProductBrand(state, productBrandValue) {
-    state.page.submitGroupDemand.ZXTG.productBrand = productBrandValue;
+    state.page.submitGroupDemand.ZXTG.brand = productBrandValue;
   },
   SBTGProductModelFirst(state, productModelValue) {
-    state.page.submitGroupDemand.SBTG.productModelFirst = productModelValue;
+    state.page.submitGroupDemand.SBTG.modelFirst = productModelValue;
   },
   SBTGProductModelSecond(state, productModelValue) {
-    state.page.submitGroupDemand.SBTG.productModelSecond = productModelValue;
+    state.page.submitGroupDemand.SBTG.modelSecond = productModelValue;
   },
   SBTGProductModelThird(state, productModelValue) {
-    state.page.submitGroupDemand.SBTG.productModelThird = productModelValue;
+    state.page.submitGroupDemand.SBTG.modelThird = productModelValue;
   },
   HCTGProductModelFirst(state, productModelValue) {
-    state.page.submitGroupDemand.HCTG.productModelFirst = productModelValue;
+    state.page.submitGroupDemand.HCTG.modelFirst = productModelValue;
   },
   HCTGProductModelSecond(state, productModelValue) {
-    state.page.submitGroupDemand.HCTG.productModelSecond = productModelValue;
+    state.page.submitGroupDemand.HCTG.modelSecond = productModelValue;
   },
   HCTGProductModelThird(state, productModelValue) {
-    state.page.submitGroupDemand.HCTG.productModelThird = productModelValue;
+    state.page.submitGroupDemand.HCTG.modelThird = productModelValue;
   },
-  SHTGProductModel(state, productModelValue) {
-    state.page.submitGroupDemand.SHTG.productModel = productModelValue;
+  SHTGProductModel(state, modelValue) {
+    state.page.submitGroupDemand.SHTG.model = modelValue;
   },
-  XXHTGProductModel(state, productModelValue) {
-    state.page.submitGroupDemand.XXHTG.productModel = productModelValue;
-  },
-  JRTGProductModel(state, productModelValue) {
-    state.page.submitGroupDemand.JRTG.productModel = productModelValue;
-  },
-  ZXTGProductModel(state, productModelValue) {
-    state.page.submitGroupDemand.ZXTG.productModel = productModelValue;
+  XXHTGProductModel(state, modelValue) {
+    state.page.submitGroupDemand.XXHTG.model = modelValue;
   },
   SBTGMainParam(state, mainParamValue) {
-    state.page.submitGroupDemand.SBTG.mainParams = mainParamValue;
+    state.page.submitGroupDemand.SBTG.params = mainParamValue;
   },
   HCTGMainParam(state, mainParamValue) {
-    state.page.submitGroupDemand.HCTG.mainParams = mainParamValue;
-  },
-  SHTGMainParam(state, mainParamValue) {
-    state.page.submitGroupDemand.SHTG.mainParams = mainParamValue;
+    state.page.submitGroupDemand.HCTG.params = mainParamValue;
   },
   XXHTGMainParam(state, mainParamValue) {
-    state.page.submitGroupDemand.XXHTG.mainParams = mainParamValue;
+    state.page.submitGroupDemand.XXHTG.params = mainParamValue;
   },
   JRTGMainParam(state, mainParamValue) {
-    state.page.submitGroupDemand.JRTG.mainParams = mainParamValue;
+    state.page.submitGroupDemand.JRTG.params = mainParamValue;
   },
   ZXTGMainParam(state, mainParamValue) {
-    state.page.submitGroupDemand.ZXTG.mainParams = mainParamValue;
+    state.page.submitGroupDemand.ZXTG.params = mainParamValue;
   },
   SBTGPredictTime(state, predictTimeValue) {
-    state.page.submitGroupDemand.SBTG.predictTime = predictTimeValue;
+    state.page.submitGroupDemand.SBTG.loadTime = predictTimeValue;
   },
   HCTGPredictTime(state, predictTimeValue) {
-    state.page.submitGroupDemand.HCTG.predictTime = predictTimeValue;
+    state.page.submitGroupDemand.HCTG.loadTime = predictTimeValue;
   },
   SHTGPredictTime(state, predictTimeValue) {
-    state.page.submitGroupDemand.SHTG.predictTime = predictTimeValue;
+    state.page.submitGroupDemand.SHTG.loadTime = predictTimeValue;
   },
   XXHTGPredictTime(state, predictTimeValue) {
-    state.page.submitGroupDemand.XXHTG.predictTime = predictTimeValue;
+    state.page.submitGroupDemand.XXHTG.loadTime = predictTimeValue;
   },
   JRTGPredictTime(state, predictTimeValue) {
-    state.page.submitGroupDemand.JRTG.predictTime = predictTimeValue;
+    state.page.submitGroupDemand.JRTG.loadTime = predictTimeValue;
   },
   ZXTGPredictTime(state, predictTimeValue) {
-    state.page.submitGroupDemand.ZXTG.predictTime = predictTimeValue;
+    state.page.submitGroupDemand.ZXTG.loadTime = predictTimeValue;
   },
   SBTGNumSave(state, val) {
     state.page.submitGroupDemand.SBTG.num = val;
@@ -217,6 +220,51 @@ const mutations = {
   },
   SBTGIntroduceSave(state, val) {
     state.page.submitGroupDemand.SBTG.introduce = val;
+  },
+  HCTGNumSave(state, val) {
+    state.page.submitGroupDemand.HCTG.num = val;
+  },
+  HCTGPriceSave(state, val) {
+    state.page.submitGroupDemand.HCTG.price = val;
+  },
+  HCTGApplicationSave(state, val) {
+    state.page.submitGroupDemand.HCTG.application = val;
+  },
+  HCTGIntroduceSave(state, val) {
+    state.page.submitGroupDemand.HCTG.introduce = val;
+  },
+  SHTGNumSave(state, val) {
+    state.page.submitGroupDemand.HCTG.num = val;
+  },
+  SHTGPriceSave(state, val) {
+    state.page.submitGroupDemand.HCTG.price = val;
+  },
+  SHTGInstallTimeSave(state, val) {
+    state.page.submitGroupDemand.HCTG.installTime = val;
+  },
+  SHTGDeviceCheckNumSave(state, val) {
+    state.page.submitGroupDemand.HCTG.deviceCheckNum = val;
+  },
+  SHTGResponseTimeSave(state, val) {
+    state.page.submitGroupDemand.HCTG.responseTime = val;
+  },
+  SHTGMaintenanceTypeSave(state, val) {
+    state.page.submitGroupDemand.HCTG.maintenanceType = val;
+  },
+  SHTGIntroduceSave(state, val) {
+    state.page.submitGroupDemand.HCTG.introduce = val;
+  },
+  XXHTGNumSave(state, val) {
+    state.page.submitGroupDemand.XXHTG.num = val;
+  },
+  XXHTGPriceSave(state, val) {
+    state.page.submitGroupDemand.XXHTG.price = val;
+  },
+  XXHTGApplicationSave(state, val) {
+    state.page.submitGroupDemand.XXHTG.application = val;
+  },
+  XXHTGIntroduceSave(state, val) {
+    state.page.submitGroupDemand.XXHTG.introduce = val;
   }
 }
 

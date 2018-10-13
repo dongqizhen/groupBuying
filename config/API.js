@@ -2,7 +2,7 @@ const chalk = require('chalk')
 
 let alpha = {
     URL: "http://60.195.252.86:8080",
-    // URL: "http://192.168.2.103:8080",
+    // URL: "http://192.168.2.116:8080",
 }
 let beta = {
     URL: "https://www.api/code",

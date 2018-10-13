@@ -293,6 +293,7 @@ export default {
           }
         },
         data => {
+          console.log("产品线", data);
           if (!name) {
             this.stick_area_arr = data.productLineList;
             this.general_area_arr = data.wzdProductLineList;
@@ -308,7 +309,7 @@ export default {
       );
     }
   },
-  mounted() {
+  activated() {
     this.groupTypeCode = this.$route.query.groupTypeCode;
     this.page = this.$route.query.page;
     this.reqData();

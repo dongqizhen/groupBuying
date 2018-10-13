@@ -157,8 +157,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productLineName: "",
         productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
         brandFirst: [
           {
             aliasId: "",
@@ -168,6 +169,7 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandFirstId: "",
         brandFirstName: "",
         brandSecond: [
           {
@@ -178,6 +180,7 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandSecondId: "",
         brandSecondName: "",
         brandThird: [
           {
@@ -188,12 +191,23 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandThirdId: "",
         brandThirdName: "",
         modelFirst: [],
         modelSecond: [],
         modelThird: [],
-        mainParams: [],
-        predictTime: {},
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
         num: 1, //需求数量
         price: "", //采购价格
         application: "", //应用需求
@@ -208,6 +222,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
         brandFirst: [
           {
             aliasId: "",
@@ -217,6 +234,8 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandFirstId: "",
+        brandFirstName: "",
         brandSecond: [
           {
             aliasId: "",
@@ -226,6 +245,8 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandSecondId: "",
+        brandSecondName: "",
         brandThird: [
           {
             aliasId: "",
@@ -235,11 +256,23 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandThirdId: "",
+        brandThirdName: "",
         modelFirst: [],
         modelSecond: [],
         modelThird: [],
-        mainParams: [],
-        predictTime: {},
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
         num: 1, //需求数量
         price: "", //采购价格
         application: "", //应用需求
@@ -254,6 +287,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
         brand: [
           {
             aliasId: "",
@@ -263,9 +299,28 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandId: "",
+        brandName: "",
         model: [],
-        mainParams: [],
-        predictTime: {}
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        installTime: "", //安装日期
+        deviceCheckNum: "", //每天检查量
+        responseTime: "", //响应时间
+        maintenanceType: "", //维保类型
+        num: 1, //设备台数
+        price: "", //维修预算
+        introduce: "" //备注说明
       },
       XXHTG: {
         productLine: [
@@ -276,6 +331,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
         brand: [
           {
             aliasId: "",
@@ -285,11 +343,23 @@ let state : StateType = {
             brandName: ""
           }
         ],
+        brandId: "",
+        brandName: "",
         model: [],
-        mainParams: [],
-        predictTime: {},
-        num: 1, //需求数量
-        price: "", //采购价格
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        num: 1, //
+        price: "", //
         application: "", //应用需求
         introduce: "" //采购需求说明
       },

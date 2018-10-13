@@ -22,6 +22,7 @@ export default {
       this.$router.replace({
         path: `/submitGroupDemand/${itemObj.code}`,
         query: {
+          id: this.$route.query.id,
           groupPurchaseTypeId: `${itemObj.id}`,
           groupPurchaseId: this.groupPurchaseId,
           groupTypeCode: `${itemObj.code}`
@@ -65,9 +66,8 @@ export default {
       },
       data => {
         console.log("团购类型:", data);
-        console.log(this.editSelectValue);
         this.items = data;
-        if (this.come == 1) {
+        if (this.$route.query.id) {
         } else {
           this.$router.replace({
             query: {
@@ -84,6 +84,22 @@ export default {
   },
   watch: {
     editSelectValue() {
+      if (this.editSelectValue) {
+        this.itemSelect = this.editSelectValue.split(",").map(Number);
+        this.$emit("select-value", this.itemSelect.join(","));
+        if (this.itemSelect.length == 1) {
+          this.$emit(
+            "selectObj",
+            _.find(this.items, o => {
+              return o.id == this.itemSelect[0];
+            })
+          );
+        }
+      }
+    }
+  },
+  activated() {
+    if (this.editSelectValue) {
       this.itemSelect = this.editSelectValue.split(",").map(Number);
       this.$emit("select-value", this.itemSelect.join(","));
       if (this.itemSelect.length == 1) {

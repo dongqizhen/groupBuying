@@ -14,7 +14,7 @@
                     <x-number title="需求数量:"  v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
                 </group>
                 <p>
-                    本次团购,{{info.productLineName}}设备已累计申报<span>{{demandNum}}</span>台,历史累计申报共<span>{{histroyTotalDemandNum}}</span>台
+                    本次团购,{{info.productLineName}}设备已累计申报<span>{{info.demandNum}}</span>台,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>台
                 </p>
             </li>
             <li class="price">
@@ -25,7 +25,7 @@
                   <div class="unit">万元</div>
                 </div>
                 <p>
-                    本次团购,{{info.productLineName}}设备已累计申报<span>{{demandNum}}</span>台,总预算为<span>{{totalPrice}}</span>万元
+                    本次团购,{{info.productLineName}}设备已累计申报<span>{{info.demandNum}}</span>台,总预算为<span>{{info.totalPrice}}</span>万元
                 </p>
             </li>
             <li class="clinic">
@@ -43,7 +43,7 @@
                 <li @click="jumpToBrand(0)">
                     <a>
                     <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandFirstName">
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandFirstName">
                             <i slot="append"></i>
                         </cube-input>
                     </a>
@@ -51,9 +51,9 @@
                 <li @click="jumpToModel(0)">
                     <a>
                         <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :class="this.info.modelListFirst.length!=0?'showStyle':''" :disabled="true">
+                        <cube-input placeholder="请选择型号" :class="this.info.modelFirst.length!=0?'showStyle':''" :disabled="true">
                           <span slot="prepend" class="showModel">
-                            <span v-for="(item,index) in info.modelListFirst" :key="index">{{item.name}}</span>
+                            <span v-for="(item,index) in info.modelFirst" :key="index">{{item.name}}</span>
                           </span>
                           <i slot="append"></i>
                         </cube-input>
@@ -67,7 +67,7 @@
                 <li @click="jumpToBrand(1)">
                     <a>
                     <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandSecondName">
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandSecondName">
                             <i slot="append"></i>
                         </cube-input>
                     </a>
@@ -75,9 +75,9 @@
                 <li @click="jumpToModel(1)">
                     <a>
                         <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :class="this.info.modelListSecond.length!=0?'showStyle':''" :disabled="true">
+                        <cube-input placeholder="请选择型号" :class="this.info.modelSecond.length!=0?'showStyle':''" :disabled="true">
                           <span slot="prepend" class="showModel">
-                            <span v-for="(item,index) in info.modelListSecond" :key="index">{{item.name}}</span>
+                            <span v-for="(item,index) in info.modelSecond" :key="index">{{item.name}}</span>
                           </span>
                           <i slot="append"></i>
                         </cube-input>
@@ -90,7 +90,7 @@
                 <li @click="jumpToBrand(2)">
                     <a>
                     <span>品牌：</span>
-                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.productBrandThirdName">
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandThirdName">
                               <i slot="append"></i>
                         </cube-input>
                     </a>
@@ -98,9 +98,9 @@
                 <li @click="jumpToModel(2)">
                     <a>
                         <span>型号：</span>
-                        <cube-input placeholder="请选择型号" :class="this.info.modelListThird.length!=0?'showStyle':''" :disabled="true">
+                        <cube-input placeholder="请选择型号" :class="this.info.modelThird.length!=0?'showStyle':''" :disabled="true">
                             <span slot="prepend" class="showModel">
-                                <span v-for="(item,index) in info.modelListThird" :key="index">{{item.name}}</span>
+                                <span v-for="(item,index) in info.modelThird" :key="index">{{item.name}}</span>
                             </span>
                             <i slot="append"></i>
                         </cube-input>
@@ -143,38 +143,21 @@ import { DatetimePicker } from "vant";
 import { Popup } from "vant";
 import { _getData } from "../../../service/getData";
 import { Group, XTextarea, XNumber, CellBox } from "vux";
-const info = {
-  productLineName: "", //显示用
-  productLineId: "", //判断用
-  productBrandFirstName: "", //首选品牌显示用
-  productBrandSecondName: "", //首选品牌显示用
-  productBrandThirdName: "", //首选品牌显示用
-  brandList: [], //上传数据库用
-  brandFirstId: "", //判断用
-  brandSecondId: "", //判断用
-  brandThirdId: "", //判断用
-  modelListFirst: [], //首选型号显示用
-  modelListSecond: [], //次选型号显示用
-  modelListThird: [], //再选型号显示用
-  num: 1, //需求数量
-  price: "", //期望价格
-  application: "", //应用需求
-  mainParamsName: "", //显示参数名
-  params: "", //重要参数
-  showLoadTime: "", //展示预计时间
-  loadTime: "", //预计时间
-  introduce: "" //采购需求说明
-};
 export default {
   data() {
     return {
-      show: false,
-      value: "",
-      info,
-      demandNum: "",
-      histroyTotalDemandNum: "",
-      totalPrice: ""
+      value: ""
     };
+  },
+  computed: {
+    info() {
+      return this.$store.state.page.submitGroupDemand.SBTG;
+    }
+  },
+  watch: {
+    info() {
+      console.log("变化的数据", this.$store.state.page.submitGroupDemand.SBTG);
+    }
   },
   methods: {
     ...mapMutations([
@@ -191,16 +174,16 @@ export default {
       "SBTGIntroduceSave"
     ]),
     saveNumValue() {
-      this.SBTGNumSave(info.num);
+      this.SBTGNumSave(this.info.num);
     },
     savePriceValue() {
-      this.SBTGPriceSave(info.price);
+      this.SBTGPriceSave(this.info.price);
     },
     saveApplicationValue() {
-      this.SBTGApplicationSave(info.application);
+      this.SBTGApplicationSave(this.info.application);
     },
     saveIntroduceValue() {
-      this.SBTGIntroduceSave(info.introduce);
+      this.SBTGIntroduceSave(this.info.introduce);
     },
     //选择产品线
     jumpProductCateGory() {
@@ -208,13 +191,13 @@ export default {
         if (this.$route.query.groupPurchaseTypeId) {
           this.setTransition("turn-on");
           this.$router.push({
-            path: "productCategory",
+            path: "/productCategory",
             query: {
               groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
               groupTypeCode: "SBTG",
               page: "submitGroupDemand",
               vuexSelectValue: this.$store.state.page.submitGroupDemand.SBTG
-                .productSort
+                .productLine
             }
           });
         } else {
@@ -241,37 +224,37 @@ export default {
       if (index == 0) {
         this.SBTGProductBrandFirst(initialValue);
         this.SBTGProductModelFirst([]);
-        this.info.productBrandFirstName = "";
+        this.info.brandFirstName = "";
         this.info.brandFirstId = "";
-        this.info.modelListFirst = [];
+        this.info.modelFirst = [];
       } else if (index == 1) {
         this.SBTGProductBrandSecond(initialValue);
         this.SBTGProductModelSecond([]);
-        this.info.productBrandSecondName = "";
+        this.info.brandSecondName = "";
         this.info.brandSecondId = "";
-        this.info.modelListSecond = [];
+        this.info.modelSecond = [];
       } else {
         this.SBTGProductBrandThird(initialValue);
         this.SBTGProductModelThird([]);
-        this.info.productBrandThirdName = "";
+        this.info.brandThirdName = "";
         this.info.brandThirdId = "";
-        this.info.modelListThird = [];
+        this.info.modelThird = [];
       }
     },
     //设备和耗材专用（选择品牌）
     jumpToBrand(index) {
       console.log(index);
       if (index == 0) {
-        var productBrand = "productBrandFirst";
+        var productBrand = "brandFirst";
       } else if (index == 1) {
-        var productBrand = "productBrandSecond";
+        var productBrand = "brandSecond";
       } else {
-        var productBrand = "productBrandThird";
+        var productBrand = "brandThird";
       }
       if (this.info.productLineId) {
         this.setTransition("turn-on");
         this.$router.push({
-          path: "selectBrand",
+          path: "/selectBrand",
           query: {
             productLineId: this.info.productLineId,
             groupTypeCode: "SBTG",
@@ -290,19 +273,19 @@ export default {
     //设备和耗材专用（选择型号）
     jumpToModel(index) {
       if (index == 0) {
-        var productModel = "productModelFirst";
+        var productModel = "modelFirst";
         var brandId = this.info.brandFirstId;
       } else if (index == 1) {
-        var productModel = "productModelSecond";
+        var productModel = "modelSecond";
         var brandId = this.info.brandSecondId;
       } else {
-        var productModel = "productModelThird";
+        var productModel = "modelThird";
         var brandId = this.info.brandThirdId;
       }
       if (brandId) {
         this.setTransition("turn-on");
         this.$router.push({
-          path: "selectModel",
+          path: "/selectModel",
           query: {
             productLineId: this.info.productLineId,
             brandId: brandId,
@@ -324,12 +307,12 @@ export default {
       if (this.$route.query.groupPurchaseTypeId) {
         this.setTransition("turn-on");
         this.$router.push({
-          path: "mainParams",
+          path: "/mainParams",
           query: {
             groupTypeCode: "SBTG",
             page: "submitGroupDemand",
             vuexSelectValue: this.$store.state.page.submitGroupDemand.SBTG
-              .mainParams
+              .params
           }
         });
       } else {
@@ -341,12 +324,12 @@ export default {
       if (this.$route.query.groupPurchaseTypeId) {
         this.setTransition("turn-on");
         this.$router.push({
-          path: "perdictTime",
+          path: "/perdictTime",
           query: {
             groupTypeCode: "SBTG",
             page: "submitGroupDemand",
             vuexSelectValue: this.$store.state.page.submitGroupDemand.SBTG
-              .predictTime
+              .loadTime
           }
         });
       } else {
@@ -362,22 +345,11 @@ export default {
     XNumber,
     CellBox
   },
-  props: ["data"],
-  watch: {
-    // data() {
-    //   for (const val of this.infos) {
-    //     if (val.code == this.groupType.code) {
-    //       val.value = this.data;
-    //       this.info = this.data;
-    //     }
-    //   }
-    // }
-  },
   activated() {
     this.info.productLineName = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productSort,
-        this.$store.state.page.submitGroupDemand.SBTG.productSort[0].aliasName
+        this.$store.state.page.submitGroupDemand.SBTG.productLine,
+        this.$store.state.page.submitGroupDemand.SBTG.productLine[0].aliasName
           ? "aliasName"
           : "productLineName"
       ),
@@ -385,36 +357,40 @@ export default {
     );
     this.info.productLineId = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productSort,
+        this.$store.state.page.submitGroupDemand.SBTG.productLine,
         "productLineId"
       ),
       ","
     );
-    this.info.productBrandFirstName = _.join(
+    this.info.aliasProductLineId = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandFirst,
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandFirst[0]
-          .aliasName
+        this.$store.state.page.submitGroupDemand.SBTG.productLine,
+        "aliasId"
+      ),
+      ","
+    );
+    this.info.brandFirstName = _.join(
+      _.map(
+        this.$store.state.page.submitGroupDemand.SBTG.brandFirst,
+        this.$store.state.page.submitGroupDemand.SBTG.brandFirst[0].aliasName
           ? "aliasName"
           : "brandName"
       ),
       ","
     );
-    this.info.productBrandSecondName = _.join(
+    this.info.brandSecondName = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandSecond,
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandSecond[0]
-          .aliasName
+        this.$store.state.page.submitGroupDemand.SBTG.brandSecond,
+        this.$store.state.page.submitGroupDemand.SBTG.brandSecond[0].aliasName
           ? "aliasName"
           : "brandName"
       ),
       ","
     );
-    this.info.productBrandThirdName = _.join(
+    this.info.brandThirdName = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandThird,
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandThird[0]
-          .aliasName
+        this.$store.state.page.submitGroupDemand.SBTG.brandThird,
+        this.$store.state.page.submitGroupDemand.SBTG.brandThird[0].aliasName
           ? "aliasName"
           : "brandName"
       ),
@@ -422,58 +398,37 @@ export default {
     );
     this.info.brandFirstId = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandFirst,
+        this.$store.state.page.submitGroupDemand.SBTG.brandFirst,
         "brandId"
       ),
       ","
     );
     this.info.brandSecondId = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandSecond,
+        this.$store.state.page.submitGroupDemand.SBTG.brandSecond,
         "brandId"
       ),
       ","
     );
     this.info.brandThirdId = _.join(
       _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandThird,
+        this.$store.state.page.submitGroupDemand.SBTG.brandThird,
         "brandId"
       ),
       ","
     );
-    this.info.aliasBrandFirstId = _.join(
-      _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandFirst,
-        "aliasId"
-      ),
-      ","
-    );
-    this.info.aliasBrandSecondId = _.join(
-      _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandSecond,
-        "aliasId"
-      ),
-      ","
-    );
-    this.info.aliasBrandThirdId = _.join(
-      _.map(
-        this.$store.state.page.submitGroupDemand.SBTG.productBrandThird,
-        "aliasId"
-      ),
-      ","
-    );
-    this.info.modelListFirst = this.$store.state.page.submitGroupDemand.SBTG.productModelFirst;
-    this.info.modelListSecond = this.$store.state.page.submitGroupDemand.SBTG.productModelSecond;
-    this.info.modelListThird = this.$store.state.page.submitGroupDemand.SBTG.productModelThird;
+    this.info.modelFirst = this.$store.state.page.submitGroupDemand.SBTG.modelFirst;
+    this.info.modelSecond = this.$store.state.page.submitGroupDemand.SBTG.modelSecond;
+    this.info.modelThird = this.$store.state.page.submitGroupDemand.SBTG.modelThird;
     this.info.mainParamsName = _.join(
-      _.map(this.$store.state.page.submitGroupDemand.SBTG.mainParams, "name"),
+      _.map(this.$store.state.page.submitGroupDemand.SBTG.params, "name"),
       ","
     );
     this.info.showLoadTime = this.$store.state.page.submitGroupDemand.SBTG
-      .predictTime.year
-      ? this.$store.state.page.submitGroupDemand.SBTG.predictTime.year +
+      .loadTime.year
+      ? this.$store.state.page.submitGroupDemand.SBTG.loadTime.year +
         "年" +
-        this.$store.state.page.submitGroupDemand.SBTG.predictTime.quarter
+        this.$store.state.page.submitGroupDemand.SBTG.loadTime.quarter
       : "";
     _getData(
       "/server_pro/groupPurchaseHospital!request.action",
@@ -488,13 +443,12 @@ export default {
       },
       data => {
         console.log(data);
-        this.demandNum = data.demandNum;
-        this.histroyTotalDemandNum = data.histroyTotalDemandNum;
-        this.totalPrice = data.totalPrice;
+        this.info.demandNum = data.demandNum;
+        this.info.histroyTotalDemandNum = data.histroyTotalDemandNum;
+        this.info.totalPrice = data.totalPrice;
       }
     );
-  },
-  deactivated() {}
+  }
 };
 </script>
 <style lang="scss" scoped>
