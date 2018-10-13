@@ -241,9 +241,10 @@ const router = new Router({
             name: '搜索',
             component: searchIndex
         }, {
-            path: '/searchList',
+            path: '/searchList/:type',
             name: '搜索列表',
-            component: searchList
+            component: searchList,
+            props: true
         }
     ],
     /* scrollBehavior(to, from, savedPosition) {

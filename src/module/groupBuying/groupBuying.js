@@ -50,9 +50,9 @@ import Cube, {
     ActionSheet
 } from 'cube-ui';
 import Ripple from 'vue-ripple-directive'
-import animated from 'animate.css' // npm install animate.css --save安装，在引入
+// import animated from 'animate.css' // npm install animate.css --save安装，在引入
 
-Vue.use(animated)
+// Vue.use(animated)
 
 
 

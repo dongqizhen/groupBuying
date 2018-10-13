@@ -9,27 +9,32 @@
             <span slot="explain">搜索</span>
         </Header>
         <div class="content">
-            <div class="history">
+            <div class="history" v-if="isSearchHistory">
                 <h2>历史记录<span></span></h2>
                 <ul class="history_container">
                     <li v-for="(val,index) in searchList" :key="index" @click="search(val.name)">{{val.name}}</li>
                 </ul>
             </div>
-            <div class="search_list" v-if="false">
-                <div class="search_container">
-                    <p>共<span>17</span>个结果</p>
+            <div class="search_list" v-else>
+                <div class="search_container" v-if="hasData">
+                    <p>共<span>{{totalnum}}</span>个结果</p>
                     <div class="company common">
                         <h2><i></i>企业产品</h2>
                         <div>
-                            <list-item></list-item>
+                            <product-list :listData='listData.productList[0]'></product-list>
+
                         </div>
-                        <div class="bottom">查看全部10个结果</div>
+                        <div class="bottom" @click.stop="handleClick(13)">查看全部{{listData.productNum}}个结果</div>
                     </div>
                     <div class="hospital common">
                         <h2><i></i>医院需求</h2>
-                        <div class="bottom">查看全部10个结果</div>
+                        <div>
+                            <submit-hospital-req-info-item :result='listData.demandList[0]'></submit-hospital-req-info-item>
+                        </div>
+                        <div class="bottom" @click.stop="handleClick(14)">查看全部{{listData.demandNum}}个结果</div>
                     </div>
                 </div>
+                <no-data v-else></no-data>
                 <loading :show="loading" :text="loadIngTxt"></loading>
             </div>
         </div>
@@ -38,27 +43,63 @@
 
 <script>
     import Header from "../../components/header/header";
-    import listItem from "../../components/common/listItem.vue";
     import submitHospitalReqInfoItem from "../../components/common/submitHospitalReqInfoItem.vue";
     import { _getData } from "../../service/getData";
-
+    import noData from "../../components/noData/noData.vue";
+    import productList from "../../components/common/productList.vue";
+    import { mapMutations } from "vuex";
     export default {
         data() {
             return {
                 searchList: [],
                 value: "",
                 loading: false,
-                loadIngTxt: "Loading..."
+                loadIngTxt: "Loading...",
+                isSearchHistory: true,
+                hasData: true,
+                listData: {},
+                demandList: [],
+                productList: []
             };
         },
         components: {
             Header,
-            listItem,
-            submitHospitalReqInfoItem
+            productList,
+            submitHospitalReqInfoItem,
+            noData
         },
         methods: {
+            ...mapMutations(["setTransition"]),
             search(val) {
                 this.value = val;
+                this.loading = true;
+                _getData(
+                    "/server_pro/groupPurchase!request.action",
+                    {
+                        method: "getSearchList",
+
+                        params: { name: this.value }
+                    },
+                    data => {
+                        console.log(data);
+                        if (data.demandNum == 0 && data.productNum == 0) {
+                            this.hasData = false;
+                        } else {
+                            this.hasData = true;
+                            this.listData = data;
+                        }
+                    }
+                ).then(() => {
+                    this.loading = false;
+                    this.isSearchHistory = false;
+                });
+            },
+            handleClick(val) {
+                this.setTransition("turn-on");
+                this.$router.push({
+                    path: `/searchList/${val}`,
+                    query: { val: this.value }
+                });
             }
         },
         activated() {
@@ -73,6 +114,24 @@
                     this.searchList = data.searchList;
                 }
             );
+        },
+        beforeRouteEnter(to, from, next) {
+            console.log(from);
+            if (from.name != "搜索列表") {
+                next(vm => {
+                    console.log(vm);
+                    vm.isSearchHistory = true;
+                    vm.value = "";
+                });
+                return;
+            }
+
+            next();
+        },
+        computed: {
+            totalnum() {
+                return this.listData.demandNum + this.listData.productNum;
+            }
         }
     };
 </script>
@@ -189,6 +248,7 @@
             }
             .search_list {
                 padding: 0 13px;
+                height: 100%;
                 .search_container {
                     > p {
                         height: 37px;
@@ -235,6 +295,24 @@
                         }
                         &.company {
                             margin-bottom: 10px;
+                            /deep/ .productList {
+                                padding: 13px;
+                                border-bottom: $border-style;
+                                .left_box {
+                                    height: 90px;
+                                    width: 100px;
+                                    margin-right: 13px;
+                                }
+                            }
+                        }
+                        &.hospital {
+                            /deep/ .submitHospitalInfo {
+                                box-shadow: none;
+                                margin-bottom: 0;
+                                a > .otherRequire {
+                                    display: none;
+                                }
+                            }
                         }
                     }
                 }
