@@ -153,6 +153,8 @@
                         this.loading = false;
                         console.log("团购需求数据:", data);
 
+                        if (data.list == 0) return;
+
                         this.DATA_MAP = data.list;
                         this.title = data.title;
                         if (this.selectedId) {
@@ -395,7 +397,8 @@
                                                                             font-family: PingFangSC-Regular;
                                                                             font-size: 12px;
                                                                             color: #019ddd;
-                                                                            justify-content: flex-end; // padding-right: 15px;
+                                                                            justify-content: flex-end;
+                                                                            // padding-right: 15px;
                                                                             flex: 0.7;
                                                                             a {
                                                                                 text-decoration: none;

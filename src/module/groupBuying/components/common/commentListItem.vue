@@ -10,7 +10,8 @@
                 <span class="userName">{{commentData.username}}</span>
                 <span class="commentTime">{{commentData.createdOn}}</span>
                 <div class="approve" :class="isActive?'active':''" @click.stop="triggle(commentData.id)">
-                    <i></i>
+                    <i :class="isActive?'animated tada':''"></i>
+
                     <span>{{dianzanshu}}</span>
                 </div>
             </div>
@@ -41,6 +42,7 @@
 </template>
 <script>
     import { _getData } from "../../service/getData";
+
     export default {
         data() {
             return {
@@ -48,6 +50,7 @@
                 dianzanshu: this.commentData.amount
             };
         },
+        components: {},
         methods: {
             like(id, flag) {
                 _getData(
@@ -143,6 +146,33 @@
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
+                    /deep/ .VueStar {
+                        height: 16px;
+                        width: 16px;
+                        left: -20px;
+                        .VueStar__ground {
+                            width: 100%;
+                            height: 100%;
+                            .VueStar__icon {
+                                width: 100%;
+                                height: 100%;
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                        }
+                        .VueStar__decoration {
+                            width: 32px;
+                            height: 32px;
+                            left: -100px;
+                            top: -100px;
+
+                            &.VueStar__decoration--active {
+                                background-position: -2500px 0;
+                            }
+                        }
+                    }
                     i {
                         width: 16px;
                         height: 16px;
@@ -157,6 +187,7 @@
                         align-items: center;
                         font-size: 12px;
 
+                        font-family: PingFangSC-Regular;
                         float: left;
                     }
                     &.active {
@@ -229,7 +260,7 @@
                     }
                     span {
                         /* display: flex;
-                                                                                                                                                                                                                                                                    align-items: center; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center; */
                         &.name {
                             color: #406599;
                         }

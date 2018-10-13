@@ -84,9 +84,10 @@ const router = new Router({
             name: '首页',
             component: GroupIndex
         }, {
-            path: '/Details',
+            path: '/Details/:id',
             name: '团购详情',
             component: GroupDetails,
+            props: true
         },
         {
             path: '/productDetails',
@@ -195,10 +196,11 @@ const router = new Router({
             component: hospitalProfile
         }, {
             path: '/submitGroupDemand',
-            name: '提交团购需求 (医院)',
+
             component: submitGroupDemand,
             children: [{
                     path: "/",
+                    name: '提交团购需求 (医院)',
                     component: SBTGGroupDemandWriteInfo
                 },
                 {

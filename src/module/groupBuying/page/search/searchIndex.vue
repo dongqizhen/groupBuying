@@ -9,16 +9,13 @@
             <span slot="explain">搜索</span>
         </Header>
         <div class="content">
-            <div class="history" v-if="false">
+            <div class="history">
                 <h2>历史记录<span></span></h2>
                 <ul class="history_container">
-                    <li>CT类</li>
-                    <li>相关热门标签</li>
-                    <li>相关热门标签标签标签</li>
-                    <li>相关热门标签</li>
+                    <li v-for="(val,index) in searchList" :key="index" @click="search(val.name)">{{val.name}}</li>
                 </ul>
             </div>
-            <div class="search_list">
+            <div class="search_list" v-if="false">
                 <div class="search_container">
                     <p>共<span>17</span>个结果</p>
                     <div class="company common">
@@ -43,10 +40,12 @@
     import Header from "../../components/header/header";
     import listItem from "../../components/common/listItem.vue";
     import submitHospitalReqInfoItem from "../../components/common/submitHospitalReqInfoItem.vue";
+    import { _getData } from "../../service/getData";
 
     export default {
         data() {
             return {
+                searchList: [],
                 value: "",
                 loading: false,
                 loadIngTxt: "Loading..."
@@ -56,6 +55,24 @@
             Header,
             listItem,
             submitHospitalReqInfoItem
+        },
+        methods: {
+            search(val) {
+                this.value = val;
+            }
+        },
+        activated() {
+            _getData(
+                "/server/searchrecord!request.action",
+                {
+                    method: "getSearchlist_v28",
+                    params: { type: 21 }
+                },
+                data => {
+                    console.log(data);
+                    this.searchList = data.searchList;
+                }
+            );
         }
     };
 </script>
@@ -165,7 +182,7 @@
                         margin-bottom: 10px;
                         padding: 0 13px;
                         &:active {
-                            background: rgba($color: #000000, $alpha: 0.06);
+                            background: rgba($color: #000000, $alpha: 0.08);
                         }
                     }
                 }

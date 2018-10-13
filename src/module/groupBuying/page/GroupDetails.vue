@@ -110,9 +110,9 @@
                     if (val.hospitalNum != 0) {
                         this.setTransition("turn-on");
                         this.$router.push({
-                            path: "groupDemand",
+                            path: "/groupDemand",
                             query: {
-                                groupPurchaseId: this.$route.query.id,
+                                groupPurchaseId: this.id,
                                 groupPurchaseTypeId: val.id,
                                 groupTypeCode: val.code
                             }
@@ -130,10 +130,10 @@
                 // if (this.$store.state.userType == "hospital") {
                 this.setTransition("turn-on");
                 this.$router.push({
-                    path: "groupClassification",
+                    path: "/groupClassification",
                     query: {
                         groupPurchaseTypeId: this.currentGroupId,
-                        groupPurchaseId: this.$route.query.id,
+                        groupPurchaseId: this.id,
                         groupPurchaseTypeName: this.groupPurchaseTypeName
                     }
                 });
@@ -147,10 +147,10 @@
                 // if (this.$store.state.userType == "hospital") {
                 this.setTransition("turn-on");
                 this.$router.push({
-                    path: "groupClassification",
+                    path: "/groupClassification",
                     query: {
                         groupPurchaseTypeId: this.currentGroupId,
-                        groupPurchaseId: this.$route.query.id,
+                        groupPurchaseId: this.id,
                         productLineId: val.id,
                         groupPurchaseTypeName: this.groupPurchaseTypeName
                     }
@@ -168,11 +168,12 @@
             }
         },
         activated() {
+            console.log(this.id);
             _getData(
                 "/server_pro/groupPurchase!request.action",
                 {
                     method: "getGroupPurchaseInfoHospital",
-                    params: { id: this.$route.query.id }
+                    params: { id: this.id }
                 },
                 data => {
                     console.log(data);
@@ -183,7 +184,7 @@
                 "/server_pro/groupPurchase!request.action",
                 {
                     method: "getGroupPurchaseInfoCompany",
-                    params: { id: this.$route.query.id }
+                    params: { id: this.id }
                 },
                 data => {
                     console.log(data);

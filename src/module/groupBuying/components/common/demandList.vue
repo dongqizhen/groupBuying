@@ -231,7 +231,7 @@
                         font-size: 12px;
                         color: #666;
                         min-width: 49px;
-                        max-width: 98px;
+                        max-width: 62px;
                         //margin-bottom: -4px;
                         padding: 0 10px;
                     }
