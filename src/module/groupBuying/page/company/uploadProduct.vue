@@ -278,7 +278,6 @@ export default {
       );
     }
   },
-  deactivated() {},
   watch: {
     groupItemObj() {
       switch (this.groupItemObj.code) {

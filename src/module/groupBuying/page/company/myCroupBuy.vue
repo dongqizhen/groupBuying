@@ -53,12 +53,13 @@ export default {
       this.$router.push("/uploadProduct");
     }
   },
-  created() {
+  created() {},
+  activated() {
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
       {
         method: "getGroupPurchaseCompanyDetail",
-        params: { id: this.$route.query.id }
+        params: { id: this.$store.state.userCompanyIdOrHospitalId }
       },
       data => {
         console.log(data);
@@ -66,13 +67,11 @@ export default {
         console.log(this.detailData);
       }
     );
-  },
-  activated() {
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
       {
         method: "getMyGroupPurchaseCompany",
-        params: { companyId: this.$route.query.id }
+        params: { companyId: this.$store.state.userCompanyIdOrHospitalId }
       },
       data => {
         console.log(data);
