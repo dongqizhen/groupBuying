@@ -5,7 +5,7 @@
         </Header>
         <div class="content">
             <div v-if="hasNet">
-                <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+                <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="slectedTypeKeyWord" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
                 <div class="scroll-list-wrap">
                     <cube-scroll v-if="hasData">
                         <div v-for="(val,index) in demandListData" :key="index" class="demandList-container" @click="handleClick(val.id,slectedTypeKeyWord)">
@@ -71,13 +71,9 @@ export default {
         },
         data => {
           this.hasNet = true;
-          console.log(555, data);
           this.list = data.list;
           this.hasData = data.list.length > 0;
-          console.log(666, this.list.length);
           if (this.list.length != 0) {
-            console.log(this.demandListData);
-            console.log(_.isEmpty(this.demandListData));
             if (_.isEmpty(this.demandListData)) {
               this.demandListData = data.list[0].demandList;
               this.typeData = _.map(data.list, "name");
@@ -87,11 +83,28 @@ export default {
                   : this.slectedTypeKeyWord;
               console.log(this.typeData);
             } else {
-              this.demandListData = _.filter(data.list, {
-                name: this.slectedTypeKeyWord
-              })[0].demandList;
+              this.typeData = _.map(data.list, "name");
+              this.demandListData = _.isEmpty(
+                _.filter(data.list, {
+                  name: this.slectedTypeKeyWord
+                })
+              )
+                ? _.filter(data.list, {
+                    name: this.typeData[0]
+                  })[0].demandList
+                : _.filter(data.list, {
+                    name: this.slectedTypeKeyWord
+                  })[0].demandList;
 
+              this.slectedTypeKeyWord = _.isEmpty(
+                _.filter(data.list, {
+                  name: this.slectedTypeKeyWord
+                })
+              )
+                ? this.typeData[0]
+                : this.slectedTypeKeyWord;
               console.log(this.demandListData);
+              console.log(this.slectedTypeKeyWord);
             }
           }
         },

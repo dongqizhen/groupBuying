@@ -284,6 +284,7 @@ export default {
           this.saveId = "";
           this.editSelectId = "";
           this.current = null;
+          this.vuexInitialFun();
         }
       );
       this.submitBtnStatus = true;
@@ -298,6 +299,9 @@ export default {
         data => {
           console.log(data);
           this.$router.go(-1);
+          this.saveId = "";
+          this.editSelectId = "";
+          this.current = null;
         }
       );
     },
@@ -326,6 +330,303 @@ export default {
           groupPurchaseId: this.submitData.groupPurchaseId,
           groupTypeCode: this.groupItemObj.code
         }
+      });
+    },
+    vuexInitialFun() {
+      this.SBTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
+        brandFirst: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandFirstId: "",
+        brandFirstName: "",
+        brandSecond: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandSecondId: "",
+        brandSecondName: "",
+        brandThird: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandThirdId: "",
+        brandThirdName: "",
+        modelFirst: [],
+        modelSecond: [],
+        modelThird: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        num: 1, //需求数量
+        price: "", //采购价格
+        application: "", //应用需求
+        introduce: "" //采购需求说明
+      });
+      this.HCTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
+        brandFirst: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandFirstId: "",
+        brandFirstName: "",
+        brandSecond: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandSecondId: "",
+        brandSecondName: "",
+        brandThird: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandThirdId: "",
+        brandThirdName: "",
+        modelFirst: [],
+        modelSecond: [],
+        modelThird: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        num: 1, //需求数量
+        price: "", //采购价格
+        application: "", //应用需求
+        introduce: "" //采购需求说明
+      });
+      this.SHTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        installTime: "", //安装日期
+        deviceCheckNum: "", //每天检查量
+        responseTime: "", //响应时间
+        maintenanceType: "", //维保类型
+        num: 1, //设备台数
+        price: "", //维修预算
+        introduce: "" //备注说明
+      });
+      this.XXHTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        num: 1, //
+        price: "", //
+        application: "", //应用需求
+        introduce: "" //采购需求说明
+      });
+      this.JRTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        totalPrice: "",
+        price: "", //
+        application: "", //应用需求
+        introduce: "" //采购需求说明
+      });
+      this.ZXTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        num: 1, //
+        price: "", //
+        application: "", //应用需求
+        introduce: "" //采购需求说明
       });
     }
   },
@@ -384,301 +685,7 @@ export default {
               if (data.groupPurchaseType.code != "SHTG") {
                 data.mainParamsName = _.join(_.map(data.params, "name"), ",");
               }
-              this.SBTG({
-                productLine: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    productLineId: "",
-                    productLineName: ""
-                  }
-                ],
-                productLineId: "",
-                aliasProductLineId: "",
-                productLineName: "",
-                brandFirst: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandFirstId: "",
-                brandFirstName: "",
-                brandSecond: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandSecondId: "",
-                brandSecondName: "",
-                brandThird: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandThirdId: "",
-                brandThirdName: "",
-                modelFirst: [],
-                modelSecond: [],
-                modelThird: [],
-                params: [],
-                mainParamsName: "",
-                loadTime: {
-                  outTime: "",
-                  year: "",
-                  quarter: "",
-                  flag: ""
-                },
-                showLoadTime: "",
-                demandNum: "",
-                histroyTotalDemandNum: "",
-                totalPrice: "",
-                num: 1, //需求数量
-                price: "", //采购价格
-                application: "", //应用需求
-                introduce: "" //采购需求说明
-              });
-              this.HCTG({
-                productLine: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    productLineId: "",
-                    productLineName: ""
-                  }
-                ],
-                productLineId: "",
-                aliasProductLineId: "",
-                productLineName: "",
-                brandFirst: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandFirstId: "",
-                brandFirstName: "",
-                brandSecond: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandSecondId: "",
-                brandSecondName: "",
-                brandThird: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandThirdId: "",
-                brandThirdName: "",
-                modelFirst: [],
-                modelSecond: [],
-                modelThird: [],
-                params: [],
-                mainParamsName: "",
-                loadTime: {
-                  outTime: "",
-                  year: "",
-                  quarter: "",
-                  flag: ""
-                },
-                showLoadTime: "",
-                demandNum: "",
-                histroyTotalDemandNum: "",
-                totalPrice: "",
-                num: 1, //需求数量
-                price: "", //采购价格
-                application: "", //应用需求
-                introduce: "" //采购需求说明
-              });
-              this.SHTG({
-                productLine: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    productLineId: "",
-                    productLineName: ""
-                  }
-                ],
-                productLineId: "",
-                aliasProductLineId: "",
-                productLineName: "",
-                brand: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandId: "",
-                brandName: "",
-                model: [],
-                params: [],
-                mainParamsName: "",
-                loadTime: {
-                  outTime: "",
-                  year: "",
-                  quarter: "",
-                  flag: ""
-                },
-                showLoadTime: "",
-                demandNum: "",
-                histroyTotalDemandNum: "",
-                totalPrice: "",
-                installTime: "", //安装日期
-                deviceCheckNum: "", //每天检查量
-                responseTime: "", //响应时间
-                maintenanceType: "", //维保类型
-                num: 1, //设备台数
-                price: "", //维修预算
-                introduce: "" //备注说明
-              });
-              this.XXHTG({
-                productLine: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    productLineId: "",
-                    productLineName: ""
-                  }
-                ],
-                productLineId: "",
-                aliasProductLineId: "",
-                productLineName: "",
-                brand: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandId: "",
-                brandName: "",
-                model: [],
-                params: [],
-                mainParamsName: "",
-                loadTime: {
-                  outTime: "",
-                  year: "",
-                  quarter: "",
-                  flag: ""
-                },
-                showLoadTime: "",
-                demandNum: "",
-                histroyTotalDemandNum: "",
-                totalPrice: "",
-                num: 1, //
-                price: "", //
-                application: "", //应用需求
-                introduce: "" //采购需求说明
-              });
-              this.JRTG({
-                productLine: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    productLineId: "",
-                    productLineName: ""
-                  }
-                ],
-                productLineId: "",
-                aliasProductLineId: "",
-                productLineName: "",
-                brand: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandId: "",
-                brandName: "",
-                model: [],
-                params: [],
-                mainParamsName: "",
-                loadTime: {
-                  outTime: "",
-                  year: "",
-                  quarter: "",
-                  flag: ""
-                },
-                showLoadTime: "",
-                demandNum: "",
-                totalPrice: "",
-                price: "", //
-                application: "", //应用需求
-                introduce: "" //采购需求说明
-              });
-              this.ZXTG({
-                productLine: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    productLineId: "",
-                    productLineName: ""
-                  }
-                ],
-                productLineId: "",
-                aliasProductLineId: "",
-                productLineName: "",
-                brand: [
-                  {
-                    aliasId: "",
-                    aliasName: "",
-                    brandId: "",
-                    brandLabel: "",
-                    brandName: ""
-                  }
-                ],
-                brandId: "",
-                brandName: "",
-                model: [],
-                params: [],
-                mainParamsName: "",
-                loadTime: {
-                  outTime: "",
-                  year: "",
-                  quarter: "",
-                  flag: ""
-                },
-                showLoadTime: "",
-                demandNum: "",
-                histroyTotalDemandNum: "",
-                totalPrice: "",
-                num: 1, //
-                price: "", //
-                application: "", //应用需求
-                introduce: "" //采购需求说明
-              });
+              this.vuexInitialFun();
               switch (data.groupPurchaseType.code) {
                 case "SBTG":
                   if (data.brandList.length == 1) {
