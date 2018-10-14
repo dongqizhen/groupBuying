@@ -16,7 +16,7 @@
       </div>
       <div class="btn_container">
         <x-button type="primary" @click.native="submitBtnClick" :disabled="isDisabled">
-        上传产品</x-button>
+          上传产品</x-button>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@ import Header from "../../components/header/header";
 import basicInformation from "../../components/common/basicInformation";
 import listTab from "../../components/common/listTab";
 import basicTitle from "../../components/common/basicTitle";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { _getData } from "../../service/getData";
 import noData from "../../components/noData/noData.vue";
 export default {
@@ -53,13 +53,16 @@ export default {
       this.$router.push("/uploadProduct");
     }
   },
+  computed: {
+    ...mapState(["userCompanyIdOrHospitalId"])
+  },
   created() {},
   activated() {
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
       {
         method: "getGroupPurchaseCompanyDetail",
-        params: { id: this.$store.state.userCompanyIdOrHospitalId }
+        params: { id: this.userCompanyIdOrHospitalId }
       },
       data => {
         console.log(data);
@@ -71,7 +74,7 @@ export default {
       "/server_pro/groupPurchaseCompany!request.action",
       {
         method: "getMyGroupPurchaseCompany",
-        params: { companyId: this.$store.state.userCompanyIdOrHospitalId }
+        params: { companyId: this.userCompanyIdOrHospitalId }
       },
       data => {
         console.log(data);

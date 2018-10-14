@@ -24,27 +24,7 @@ export const getProductList = {
         }
     },
     activated() {
-        _getData(
-            "/server_pro/groupPurchaseCompanyProduct!request.action", {
-                method: "getGroupPUrchaseCompanyProductList",
-                params: {
-                    companyId: this.$route.query.id
-                }
-            },
-            data => {
-                console.log(data.groupPurchaseTypeList);
-                this.isLoading = false
-                if (data.groupPurchaseTypeList.length != 0) {
-                    this.groupPurchaseTypeList = data.groupPurchaseTypeList;
-                    this.typeData = _.map(data.groupPurchaseTypeList, "name");
-                    this.curTypeVal = this.groupPurchaseTypeList[0].name;
-                    this.changeModel(
-                        this.groupPurchaseTypeList[0].name,
-                        this.groupPurchaseTypeList[0].productLineList[0].name
-                    );
-                }
-            }
-        );
+        this.getData()
     },
     methods: {
         async changeModel(typeVal, modelVal) {
@@ -88,6 +68,29 @@ export const getProductList = {
             if (this.activeIndex >= 0) {
                 this.$refs.swipeItem[this.activeIndex].shrink();
             }
+        },
+        getData() {
+            _getData(
+                "/server_pro/groupPurchaseCompanyProduct!request.action", {
+                    method: "getGroupPUrchaseCompanyProductList",
+                    params: {
+                        companyId: this.$route.query.id
+                    }
+                },
+                data => {
+                    console.log(data);
+                    this.isLoading = false
+                    if (data.groupPurchaseTypeList.length != 0) {
+                        this.groupPurchaseTypeList = data.groupPurchaseTypeList;
+                        this.typeData = _.map(data.groupPurchaseTypeList, "name");
+                        this.curTypeVal = this.groupPurchaseTypeList[0].name;
+                        this.changeModel(
+                            this.groupPurchaseTypeList[0].name,
+                            this.groupPurchaseTypeList[0].productLineList[0].name
+                        );
+                    }
+                }
+            );
         }
     }
 }
@@ -138,6 +141,94 @@ export const ToNativeMap = {
                     doubleLongitude: value.lng,
                     title: value.address || value.hospitalName,
                     address: value.addr || value.province
+                },
+                data => {}
+            );
+        }
+    }
+}
+
+//原生评论详情页
+
+export const toNativeCommentDetails = {
+    methods: {
+        toNativeCommentDetails(id, type = 21) {
+            console.log(id)
+            JsCallNativeMethods(
+                "navNativePage", {
+                    actionName: 'CommonDiscuzz',
+                    type: type,
+                    id: id
+                },
+                data => {}
+            );
+        }
+    }
+}
+
+//原生个人主页
+export const friendInfo = {
+    methods: {
+        friendInfo(userId) {
+            console.log(userId)
+            JsCallNativeMethods(
+                "navNativePage", {
+                    actionName: 'friendInfo',
+                    userId: userId
+                },
+                data => {}
+            );
+        }
+    }
+}
+
+//打赏
+
+export const moreOpetationReward = {
+    methods: {
+        moreOpetationReward(id, type = 23) {
+            console.log(id)
+            JsCallNativeMethods(
+                "webInvokeNative", {
+                    method: 'moreOpetationReward',
+                    id: id,
+                    type: type,
+                    moduleActionCode: 'PURCHASECOMMENTREWARD'
+                },
+                data => {}
+            );
+        }
+    }
+}
+
+//金币动画
+
+export const goldCoinAnimation = {
+    methods: {
+        goldCoinAnimation(num) {
+            console.log(num)
+            JsCallNativeMethods(
+                "webInvokeNative", {
+                    method: 'goldCoinAnimation',
+                    goldCoinNum: num
+                },
+                data => {}
+            );
+        }
+    }
+}
+
+//私信
+
+export const directMessages = {
+    methods: {
+        directMessages(id, type = 21) {
+            console.log(id)
+            JsCallNativeMethods(
+                "navNativePage", {
+                    actionName: 'directMessages',
+                    userName: '',
+                    userId: ''
                 },
                 data => {}
             );

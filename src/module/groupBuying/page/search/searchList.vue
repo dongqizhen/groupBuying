@@ -1,38 +1,42 @@
 <template>
     <div class="container searchIndex">
         <Header>
-            <cube-input v-model="value" slot="mainTitle" :clearable="true" placeholder="请输入关键词">
+            <cube-input v-model.trim="value" slot="mainTitle" :clearable="true" placeholder="请输入关键词">
                 <span slot="prepend">
                     <img src="../../../../../static/images/smallSearch.png" alt="">
                 </span>
             </cube-input>
-            <span slot="explain">搜索</span>
+            <span slot="explain" @click.stop="search">搜索</span>
         </Header>
         <div class="content">
-            <div class="scroll-list-wrap">
-                <cube-scroll>
-                    <div class="search_list">
-                        <div class="search_container">
+            <div class="box">
+                <div class="scroll-list-wrap">
 
-                            <div class="company common" v-if="type==13">
-                                <h2><i></i>企业产品</h2>
-                                <div>
-                                    <product-list v-for="(val,index) in listData.eachrList" :listData='val' :key="index"></product-list>
+                    <cube-scroll v-if="hasData">
+                        <div class="search_list">
+                            <div class="search_container">
+
+                                <div class="company common" v-if="type==13">
+                                    <h2><i></i>企业产品</h2>
+                                    <div v-if="!loading">
+                                        <product-list v-for="(val,index) in listData.eachrList" :listData='val' :key="index"></product-list>
+                                    </div>
+                                </div>
+                                <div class="hospital common" v-else-if="type==14">
+                                    <h2><i></i>医院需求</h2>
+
+                                    <submit-hospital-req-info-item v-for="(val,index) in listData.eachrList" :result='val' :key="index" v-if="!loading"></submit-hospital-req-info-item>
+
                                 </div>
                             </div>
-                            <div class="hospital common" v-else-if="type==14">
-                                <h2><i></i>医院需求</h2>
 
-                                <submit-hospital-req-info-item v-for="(val,index) in listData.eachrList" :result='val' :key="index"></submit-hospital-req-info-item>
-
-                            </div>
                         </div>
+                    </cube-scroll>
+                    <no-data v-else></no-data>
+                </div>
 
-                    </div>
-                </cube-scroll>
-                <loading :show="loading" :text="loadIngTxt"></loading>
             </div>
-
+            <loading :show="loading" :text="loadIngTxt"></loading>
         </div>
     </div>
 </template>
@@ -42,41 +46,57 @@
     import productList from "../../components/common/productList.vue";
     import submitHospitalReqInfoItem from "../../components/common/submitHospitalReqInfoItem.vue";
     import { _getData } from "../../service/getData";
+    import noData from "../../components/noData/noData.vue";
     export default {
         data() {
             return {
                 value: this.$route.query.val,
                 loading: false,
                 loadIngTxt: "Loading...",
-                listData: []
+                listData: [],
+                hasData: true
             };
         },
         props: ["type"],
         components: {
             Header,
             productList,
-            submitHospitalReqInfoItem
+            submitHospitalReqInfoItem,
+            noData
         },
-        mounted() {
-            this.loading = true;
-            _getData(
-                "/server_pro/video!request.action",
-                {
-                    method: "getEachListV28",
-                    params: {
-                        currentPage: 1,
-                        countPerPage: 20,
-                        name: "", //搜搜内容
-                        type: this.type
+        methods: {
+            async getData() {
+                await _getData(
+                    "/server_pro/video!request.action",
+                    {
+                        method: "getEachListV28",
+                        params: {
+                            currentPage: 1,
+                            countPerPage: 20,
+                            name: this.value, //搜搜内容
+                            type: this.type
+                        }
+                    },
+                    data => {
+                        console.log(data);
+                        if (data.eachrList.length > 0) {
+                            this.hasData = true;
+                            this.listData = data;
+                        } else {
+                            this.hasData = false;
+                        }
                     }
-                },
-                data => {
-                    console.log(data);
-                    this.listData = data;
-                }
-            ).then(() => {
-                this.loading = false;
-            });
+                ).then(() => {
+                    this.loading = false;
+                });
+            },
+            search() {
+                this.getData();
+            }
+        },
+        activated() {
+            this.loading = true;
+            this.getData();
         }
     };
 </script>
@@ -143,6 +163,9 @@
         }
         .content {
             //padding: 10px 13px;
+            .box {
+                height: 100%;
+            }
             overflow: hidden;
             /deep/ .cube-scroll-wrapper {
                 .cube-scroll-content {
@@ -200,6 +223,7 @@
             }
             .search_list {
                 //padding: 0 13px;
+                height: 100%;
                 .search_container {
                     > p {
                         height: 37px;

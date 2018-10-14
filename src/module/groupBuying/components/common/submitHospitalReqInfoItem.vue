@@ -11,7 +11,7 @@
                 <span>地址</span>
                 <span>{{result.addr}}</span>
             </div>
-            <div class="budget" :style="{display:this.$route.query.title=='金融团购'?'none':''}">
+            <div class="budget" :style="{display:result.code=='JRTG'?'none':''}">
                 <img src="../../../../../static/images/budget.png">
                 <span>{{result.num}}台预算总计</span>
                 <span class="moneyCount">{{result.price}}万</span>
@@ -52,7 +52,12 @@
             demandList
         },
         computed: {
-            getUserInfo() {}
+            code() {
+                switch (this.result.code) {
+                    case SBTG:
+                        return "";
+                }
+            }
         },
         activated() {
             console.log(this.result);
@@ -180,14 +185,19 @@
         }
         .addressAndBudget {
             border-bottom: 0.5px solid #e9e9e9;
-            padding: 12px 13px;
+            // padding: 12px 13px;
             display: flex;
             justify-content: flex-start;
+            height: 40px;
+            padding: 0;
+            padding: 0 13px;
+            align-items: center;
             .address {
                 width: 176px;
                 display: flex;
                 justify-content: flex-start;
                 height: 100%;
+                align-items: center;
                 img {
                     width: 10.8px;
                     height: 14px;
@@ -198,12 +208,14 @@
                     font-size: 13px;
                     color: #999;
                     font-family: PingFangSC-Regular;
-                    // display: flex;
+                    display: flex;
+                    align-items: center;
 
                     &:last-child {
                         font-family: PingFangSC-Medium;
                         color: #333;
                         width: 121px;
+                        line-height: 40px;
                         display: inline-block;
                         overflow: hidden;
                         text-overflow: ellipsis;
