@@ -104,6 +104,12 @@ const mutations = {
   XXHTG(state, SHTGValue) {
     state.page.submitGroupDemand.XXHTG = SHTGValue;
   },
+  JRTG(state, JRTGValue) {
+    state.page.submitGroupDemand.JRTG = JRTGValue;
+  },
+  ZXTG(state, ZXTGValue) {
+    state.page.submitGroupDemand.ZXTG = ZXTGValue;
+  },
   SBTGProductSort(state, productSortValue) {
     state.page.submitGroupDemand.SBTG.productLine = productSortValue;
   },
@@ -234,25 +240,25 @@ const mutations = {
     state.page.submitGroupDemand.HCTG.introduce = val;
   },
   SHTGNumSave(state, val) {
-    state.page.submitGroupDemand.HCTG.num = val;
+    state.page.submitGroupDemand.SHTG.num = val;
   },
   SHTGPriceSave(state, val) {
-    state.page.submitGroupDemand.HCTG.price = val;
+    state.page.submitGroupDemand.SHTG.price = val;
   },
   SHTGInstallTimeSave(state, val) {
-    state.page.submitGroupDemand.HCTG.installTime = val;
+    state.page.submitGroupDemand.SHTG.installTime = val;
   },
   SHTGDeviceCheckNumSave(state, val) {
-    state.page.submitGroupDemand.HCTG.deviceCheckNum = val;
+    state.page.submitGroupDemand.SHTG.deviceCheckNum = val;
   },
   SHTGResponseTimeSave(state, val) {
-    state.page.submitGroupDemand.HCTG.responseTime = val;
+    state.page.submitGroupDemand.SHTG.responseTime = val;
   },
   SHTGMaintenanceTypeSave(state, val) {
-    state.page.submitGroupDemand.HCTG.maintenanceType = val;
+    state.page.submitGroupDemand.SHTG.maintenanceType = val;
   },
   SHTGIntroduceSave(state, val) {
-    state.page.submitGroupDemand.HCTG.introduce = val;
+    state.page.submitGroupDemand.SHTG.introduce = val;
   },
   XXHTGNumSave(state, val) {
     state.page.submitGroupDemand.XXHTG.num = val;
@@ -265,6 +271,27 @@ const mutations = {
   },
   XXHTGIntroduceSave(state, val) {
     state.page.submitGroupDemand.XXHTG.introduce = val;
+  },
+  JRTGPriceSave(state, val) {
+    state.page.submitGroupDemand.JRTG.price = val;
+  },
+  JRTGApplicationSave(state, val) {
+    state.page.submitGroupDemand.JRTG.application = val;
+  },
+  JRTGIntroduceSave(state, val) {
+    state.page.submitGroupDemand.JRTG.introduce = val;
+  },
+  ZXTGNumSave(state, val) {
+    state.page.submitGroupDemand.ZXTG.num = val;
+  },
+  ZXTGPriceSave(state, val) {
+    state.page.submitGroupDemand.ZXTG.price = val;
+  },
+  ZXTGApplicationSave(state, val) {
+    state.page.submitGroupDemand.ZXTG.application = val;
+  },
+  ZXTGIntroduceSave(state, val) {
+    state.page.submitGroupDemand.ZXTG.introduce = val;
   }
 }
 

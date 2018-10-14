@@ -11,26 +11,26 @@
             </li>
             <li class="number">
                 <group>
-                    <x-number title="需求数量:"  v-model="info.num" :min="1" fillable></x-number>
+                    <x-number title="需求数量:"  v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
                 </group>
                 <p>
-                    本次团购,{{info.productLineName}}咨询已累计申报<span>{{demandNum}}</span>次,历史累计申报共<span>{{histroyTotalDemandNum}}</span>次
+                    本次团购,{{info.productLineName}}咨询已累计申报<span>{{info.demandNum}}</span>次,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>次
                 </p>
             </li>
             <li class="price">
                 <div>
-                  <span>{{infoText.hopePriceText}}</span>
-                    <cube-input :placeholder="infoText.hopePricePlaceholder" type="number" :disabled="false" v-model="info.price">
+                  <span>期望采购总价:</span>
+                    <cube-input placeholder="请真实填写采购期望价格" type="number" :disabled="false" @input="savePriceValue" v-model="info.price">
                     </cube-input>
                   <div class="unit">万元</div>
                 </div>
                 <p>
-                    本次团购,{{info.productLineName}}咨询已累计申报<span>{{demandNum}}</span>次,总咨询预算为<span>{{totalPrice}}</span>万元
+                    本次团购,{{info.productLineName}}咨询已累计申报<span>{{info.demandNum}}</span>次,总咨询预算为<span>{{info.totalPrice}}</span>万元
                 </p>
             </li>
             <li class="clinic">
                 <group>
-                    <x-textarea title="应用方向:" v-model="info.application" placeholder="为保证你的采购质量及效率请详细填写咨询应用方向" autosize></x-textarea>
+                    <x-textarea title="应用方向:" v-model="info.application" @on-change="saveApplicationValue" placeholder="为保证你的采购质量及效率请详细填写咨询应用方向" autosize></x-textarea>
                 </group>
             </li>
             <li class="SHTGbrand" @click="jumpSelectBrand">
@@ -43,7 +43,7 @@
         </ul>
         <div class="parameter">
             <ul>
-                <li @click="jumpMainParams" v-if="!infoText.show">
+                <li @click="jumpMainParams">
                     <a>
                         <span>关键词:</span>
                         <cube-input placeholder="请选择或输入关键词" :disabled="true" v-model="info.mainParamsName">
@@ -61,7 +61,7 @@
                 </li>
                 <li class="clinic">
                     <group>
-                        <x-textarea title="采购需求说明:" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+                        <x-textarea title="采购需求说明:" @on-change="saveIntroduceValue" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
                     </group>
                 </li>
             </ul>
@@ -76,126 +76,53 @@ import { DatetimePicker } from "vant";
 import { Popup } from "vant";
 import { _getData } from "../../../service/getData";
 import { Group, XTextarea, XNumber, CellBox } from "vux";
-const infos = [
-  {
-    code: "ZXTG",
-    text: {
-      typeText: "咨询",
-      unitText: "次",
-      countText: "总咨询预算",
-      productSortText: "咨询服务分类:",
-      productBrandText: "咨询服务商:",
-      numText: "需求数量:",
-      hopePriceText: "期望采购总价:",
-      mainParamsText: "关键词:",
-      applicationText: "应用方向:",
-      loadTimeText: "预计咨询时间:",
-      introduceText: "采购需求说明:",
-      sortPlaceholder: "请选择分类",
-      brandPlaceholder: "请选择服务商",
-      hopePricePlaceholder: "请真实填写采购期望价格",
-      paramPlaceholder: "请选择或输入关键词",
-      loadTimePlaceholder: "请选择预计咨询时间",
-      appPlaceholder: "为保证你的采购质量及效率请详细填写咨询应用方向",
-      introducePlaceholder: "为了使您的需求清晰准确，请尽量详细说明",
-      isShow: false,
-      show: false,
-      isModel: false
-    },
-    value: {
-      productLineName: "",
-      productLineId: "",
-      productLine: "",
-      brandName: "",
-      brand: "",
-      num: 1, //需求数量
-      price: "", //采购总价
-      application: "", //应用方向
-      mainParamsName: "",
-      params: "", //关键词
-      showLoadTime: "", //展示咨询时间
-      loadTime: "", //预计咨询时间
-      introduce: "" //采购需求说明
-    }
-  }
-];
 export default {
   data() {
-    return {
-      infos,
-      show: false,
-      value: "",
-      currentDate: new Date(),
-      currentIdx: null,
-      infoText: infos[0].text,
-      info: infos[0].value,
-      demandNum: "",
-      histroyTotalDemandNum: "",
-      totalPrice: "",
-      loadTimeObj: {}
-    };
+    return {};
+  },
+  computed: {
+    info() {
+      return this.$store.state.page.submitGroupDemand.ZXTG;
+    }
+  },
+  watch: {
+    info() {
+      console.log("变化的数据", this.$store.state.page.submitGroupDemand.ZXTG);
+    }
   },
   methods: {
     ...mapMutations([
       "setTransition",
-      "SBTGProductBrandFirst",
-      "SBTGProductBrandSecond",
-      "SBTGProductBrandThird",
-      "HCTGProductBrandFirst",
-      "HCTGProductBrandSecond",
-      "HCTGProductBrandThird",
-      "SHTGProductBrand",
-      "xxHTGProductBrand",
-      "JRTGProductBrand",
-      "ZXTGProductBrand",
-      "SBTGProductModelFirst",
-      "SBTGProductModelSecond",
-      "SBTGProductModelThird",
-      "HCTGProductModelFirst",
-      "HCTGProductModelSecond",
-      "HCTGProductModelThird",
-      "SHTGProductModel",
-      "xxHTGProductModel",
-      "JRTGProductModel",
-      "ZXTGProductModel"
+      "ZXTGNumSave",
+      "ZXTGPriceSave",
+      "ZXTGApplicationSave",
+      "ZXTGIntroduceSave"
     ]),
-    showDatePicker() {
-      if (!this.datePicker) {
-        this.datePicker = this.$createDatePicker({
-          min: new Date(2016, 0, 1),
-          max: new Date(2025, 11, 31),
-          value: new Date(),
-          onSelect: this.selectHandle,
-          onCancel: this.cancelHandle
-        });
-      }
-      this.datePicker.show();
+    saveNumValue() {
+      this.ZXTGNumSave(this.info.num);
     },
-    selectHandle(date, selectedVal, selectedText) {
-      console.log(selectedVal);
-      this.info.installTime = selectedVal.join("-");
+    savePriceValue() {
+      this.ZXTGPriceSave(this.info.price);
     },
-    cancelHandle() {
-      // this.info.installTime = selectedVal.join("-");
+    saveApplicationValue() {
+      this.ZXTGApplicationSave(this.info.application);
     },
-    addClass(index) {
-      this.currentIdx = index;
-      this.info.maintenanceType = this.types[index].id;
+    saveIntroduceValue() {
+      this.ZXTGIntroduceSave(this.info.introduce);
     },
     //选择产品线
     jumpProductCateGory() {
-      if (this.groupPurchaseId) {
-        if (this.groupPurchaseTypeId) {
+      if (this.$route.query.groupPurchaseId) {
+        if (this.$route.query.groupPurchaseTypeId) {
           this.setTransition("turn-on");
           this.$router.push({
-            path: "productCategory",
+            path: "/productCategory",
             query: {
-              groupPurchaseTypeId: this.groupType.id,
-              groupTypeCode: this.groupType.code,
+              groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
+              groupTypeCode: "ZXTG",
               page: "submitGroupDemand",
-              vuexSelectValue: this.$store.state.page.submitGroupDemand[
-                this.groupType.code
-              ].productSort
+              vuexSelectValue: this.$store.state.page.submitGroupDemand.ZXTG
+                .productLine
             }
           });
         } else {
@@ -207,127 +134,16 @@ export default {
         return;
       }
     },
-    //清空
-    clear(index) {
-      console.log(index);
-      var initialValue = [
-        {
-          aliasId: "",
-          aliasName: "",
-          brandId: "",
-          brandLabel: "",
-          brandName: ""
-        }
-      ];
-      if (index == 0) {
-        if (this.groupType.code == "SBTG") {
-          this.SBTGProductBrandFirst(initialValue);
-          this.SBTGProductModelFirst([]);
-        } else if (this.groupType.code == "HCTG") {
-          this.HCTGProductBrandFirst(initialValue);
-          this.HCTGProductModelFirst([]);
-        }
-        this.info.productBrandFirstName = "";
-        this.info.brandFirstId = "";
-        this.info.modelListFirst = [];
-      } else if (index == 1) {
-        if (this.groupType.code == "SBTG") {
-          this.SBTGProductBrandSecond(initialValue);
-          this.SBTGProductModelSecond([]);
-        } else if (this.groupType.code == "HCTG") {
-          this.HCTGProductBrandSecond(initialValue);
-          this.HCTGProductModelSecond([]);
-        }
-        this.info.productBrandSecondName = "";
-        this.info.brandSecondId = "";
-        this.info.modelListSecond = [];
-      } else {
-        if (this.groupType.code == "SBTG") {
-          this.SBTGProductBrandThird(initialValue);
-          this.SBTGProductModelThird([]);
-        } else if (this.groupType.code == "HCTG") {
-          this.HCTGProductBrandThird(initialValue);
-          this.HCTGProductModelThird([]);
-        }
-        this.info.productBrandThirdName = "";
-        this.info.brandThirdId = "";
-        this.info.modelListThird = [];
-      }
-    },
-    //设备和耗材专用（选择品牌）
-    jumpToBrand(index) {
-      console.log(index);
-      if (index == 0) {
-        var productBrand = "productBrandFirst";
-      } else if (index == 1) {
-        var productBrand = "productBrandSecond";
-      } else {
-        var productBrand = "productBrandThird";
-      }
-      if (this.info.productLineId) {
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "selectBrand",
-          query: {
-            productLineId: this.info.productLineId,
-            groupTypeCode: this.groupType.code,
-            page: "submitGroupDemand",
-            type: index,
-            vuexSelectValue: this.$store.state.page.submitGroupDemand[
-              this.groupType.code
-            ][productBrand]
-          }
-        });
-      } else {
-        Toast({ message: "请先选择分类", duration: 1000 });
-        return;
-      }
-    },
-    //设备和耗材专用（选择型号）
-    jumpToModel(index) {
-      if (index == 0) {
-        var productModel = "productModelFirst";
-        var brandId = this.info.brandFirstId;
-      } else if (index == 1) {
-        var productModel = "productModelSecond";
-        var brandId = this.info.brandSecondId;
-      } else {
-        var productModel = "productModelThird";
-        var brandId = this.info.brandThirdId;
-      }
-      if (brandId) {
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "selectModel",
-          query: {
-            productLineId: this.info.productLineId,
-            brandId: brandId,
-            groupTypeCode: this.groupType.code,
-            page: "submitGroupDemand",
-            type: index,
-            isMultiple: true,
-            vuexSelectValue: this.$store.state.page.submitGroupDemand[
-              this.groupType.code
-            ][productModel]
-          }
-        });
-      } else {
-        Toast({ message: "请先选择品牌", duration: 1000 });
-        return;
-      }
-    },
     jumpSelectBrand() {
       if (this.info.productLineId) {
         this.setTransition("turn-on");
         this.$router.push({
-          path: "selectBrand",
+          path: "/selectBrand",
           query: {
             productLineId: this.info.productLineId,
-            groupTypeCode: this.groupType.code,
+            groupTypeCode: "ZXTG",
             page: "submitGroupDemand",
-            vuexSelectValue: this.$store.state.page.submitGroupDemand[
-              this.groupType.code
-            ].productBrand
+            vuexSelectValue: this.$store.state.page.submitGroupDemand.ZXTG.brand
           }
         });
       } else {
@@ -335,38 +151,16 @@ export default {
         return;
       }
     },
-    jumpSelectModel() {
-      if (this.info.brandId) {
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "selectModel",
-          query: {
-            brandId: this.info.brandId,
-            productLineId: this.info.productLineId,
-            groupTypeCode: this.groupType.code,
-            page: "submitGroupDemand",
-            isMultiple: true,
-            vuexSelectValue: this.$store.state.page.submitGroupDemand[
-              this.groupType.code
-            ].productModel
-          }
-        });
-      } else {
-        Toast("请先选择品牌");
-        return;
-      }
-    },
     jumpMainParams() {
-      if (this.groupPurchaseTypeId) {
+      if (this.$route.query.groupPurchaseTypeId) {
         this.setTransition("turn-on");
         this.$router.push({
-          path: "mainParams",
+          path: "/mainParams",
           query: {
-            groupTypeCode: this.groupType.code,
+            groupTypeCode: "ZXTG",
             page: "submitGroupDemand",
-            vuexSelectValue: this.$store.state.page.submitGroupDemand[
-              this.groupType.code
-            ].mainParams
+            vuexSelectValue: this.$store.state.page.submitGroupDemand.ZXTG
+              .params
           }
         });
       } else {
@@ -375,24 +169,22 @@ export default {
       }
     },
     jumpPredictTime() {
-      if (this.groupPurchaseTypeId) {
+      if (this.$route.query.groupPurchaseTypeId) {
         this.setTransition("turn-on");
         this.$router.push({
-          path: "perdictTime",
+          path: "/perdictTime",
           query: {
-            groupTypeCode: this.groupType.code,
+            groupTypeCode: "ZXTG",
             page: "submitGroupDemand",
-            vuexSelectValue: this.$store.state.page.submitGroupDemand[
-              this.groupType.code
-            ].predictTime
+            vuexSelectValue: this.$store.state.page.submitGroupDemand.ZXTG
+              .loadTime
           }
         });
       } else {
         Toast("请先选择团购需求类型");
         return;
       }
-    },
-    jumpInstallTime() {}
+    }
   },
   components: {
     basicTitle,
@@ -401,216 +193,68 @@ export default {
     XNumber,
     CellBox
   },
-  props: ["groupType", "groupPurchaseId", "groupPurchaseTypeId", "data"],
-  watch: {
-    data() {
-      for (const val of this.infos) {
-        if (val.code == this.groupType.code) {
-          val.value = this.data;
-          this.info = this.data;
-          if (this.groupType.code == "SHTG") {
-            this.currentIdx = this.data.maintenanceType;
-          }
-        }
-      }
-    },
-    groupType() {
-      console.log("选择的团购类型：", this.groupType);
-      for (var i = 0; i < this.infos.length; i++) {
-        if (this.infos[i].code == this.groupType.code) {
-          this.infoText = this.infos[i].text;
-          this.info = this.infos[i].value;
-        }
-      }
-      console.log(this.info);
-    },
-    groupPurchaseId() {}
-  },
   activated() {
-    if (this.groupType.code) {
-      this.info.productLineName = _.join(
-        _.map(
-          this.$store.state.page.submitGroupDemand[this.groupType.code]
-            .productSort,
-          this.$store.state.page.submitGroupDemand[this.groupType.code]
-            .productSort[0].aliasName
-            ? "aliasName"
-            : "productLineName"
-        ),
-        ","
-      );
-      this.info.productLineId = _.join(
-        _.map(
-          this.$store.state.page.submitGroupDemand[this.groupType.code]
-            .productSort,
-          "productLineId"
-        ),
-        ","
-      );
-      this.info.productLine = this.$store.state.page.submitGroupDemand[
-        this.groupType.code
-      ].productSort;
-      if (this.groupType.code == "SBTG" || this.groupType.code == "HCTG") {
-        this.info.productBrandFirstName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandFirst,
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandFirst[0].aliasName
-              ? "aliasName"
-              : "brandName"
-          ),
-          ","
-        );
-        this.info.productBrandSecondName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandSecond,
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandSecond[0].aliasName
-              ? "aliasName"
-              : "brandName"
-          ),
-          ","
-        );
-        this.info.productBrandThirdName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandThird,
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandThird[0].aliasName
-              ? "aliasName"
-              : "brandName"
-          ),
-          ","
-        );
-        this.info.brandFirstId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandFirst,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.brandSecondId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandSecond,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.brandThirdId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandThird,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.aliasBrandFirstId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandFirst,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.aliasBrandSecondId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandSecond,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.aliasBrandThirdId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrandThird,
-            "aliasId"
-          ),
-          ","
-        );
-        this.info.modelListFirst = this.$store.state.page.submitGroupDemand[
-          this.groupType.code
-        ].productModelFirst;
-        this.info.modelListSecond = this.$store.state.page.submitGroupDemand[
-          this.groupType.code
-        ].productModelSecond;
-        this.info.modelListThird = this.$store.state.page.submitGroupDemand[
-          this.groupType.code
-        ].productModelThird;
-      } else {
-        this.info.brandName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrand,
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrand[0].aliasName
-              ? "aliasName"
-              : "brandName"
-          ),
-          ","
-        );
-        this.info.brandId = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .productBrand,
-            "brandId"
-          ),
-          ","
-        );
-        this.info.brand = this.$store.state.page.submitGroupDemand[
-          this.groupType.code
-        ].productBrand;
-        this.info.modelList = this.$store.state.page.submitGroupDemand[
-          this.groupType.code
-        ].productModel;
-      }
-      if (this.groupType.code != "SHTG") {
-        this.info.mainParamsName = _.join(
-          _.map(
-            this.$store.state.page.submitGroupDemand[this.groupType.code]
-              .mainParams,
-            "name"
-          ),
-          ","
-        );
-        this.info.params = JSON.stringify(
-          this.$store.state.page.submitGroupDemand[this.groupType.code]
-            .mainParams
-        );
-      }
-
-      this.info.showLoadTime = this.$store.state.page.submitGroupDemand[
-        this.groupType.code
-      ].predictTime.year
-        ? this.$store.state.page.submitGroupDemand[this.groupType.code]
-            .predictTime.year +
-          "年" +
-          this.$store.state.page.submitGroupDemand[this.groupType.code]
-            .predictTime.quarter
-        : "";
-      this.info.loadTime = this.$store.state.page.submitGroupDemand[
-        this.groupType.code
-      ].predictTime;
-    }
+    this.info.productLineName = _.join(
+      _.map(
+        this.$store.state.page.submitGroupDemand.ZXTG.productLine,
+        this.$store.state.page.submitGroupDemand.ZXTG.productLine[0].aliasName
+          ? "aliasName"
+          : "productLineName"
+      ),
+      ","
+    );
+    this.info.productLineId = _.join(
+      _.map(
+        this.$store.state.page.submitGroupDemand.ZXTG.productLine,
+        "productLineId"
+      ),
+      ","
+    );
+    this.info.aliasProductLineId = _.join(
+      _.map(
+        this.$store.state.page.submitGroupDemand.ZXTG.productLine,
+        "aliasId"
+      ),
+      ","
+    );
+    this.info.brandName = _.join(
+      _.map(
+        this.$store.state.page.submitGroupDemand.ZXTG.brand,
+        this.$store.state.page.submitGroupDemand.ZXTG.brand[0].aliasName
+          ? "aliasName"
+          : "brandName"
+      ),
+      ","
+    );
+    this.info.brandId = _.join(
+      _.map(this.$store.state.page.submitGroupDemand.ZXTG.brand, "brandId"),
+      ","
+    );
+    this.info.mainParamsName = _.join(
+      _.map(this.$store.state.page.submitGroupDemand.ZXTG.params, "name"),
+      ","
+    );
+    this.info.showLoadTime = this.$store.state.page.submitGroupDemand.ZXTG
+      .loadTime.year
+      ? this.$store.state.page.submitGroupDemand.ZXTG.loadTime.year +
+        "年" +
+        this.$store.state.page.submitGroupDemand.ZXTG.loadTime.quarter
+      : "";
     _getData(
       "/server_pro/groupPurchaseHospital!request.action",
       {
         method: "getGroupPurchaseHospitalCountInfo",
         params: {
-          groupPurchaseId: this.groupPurchaseId,
-          groupPurchaseTypeId: this.groupType.id,
+          groupPurchaseId: this.$route.query.groupPurchaseId,
+          groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
           productLineId: this.info.productLineId,
           productLineAliasId: this.info.aliasProductLineId
         }
       },
       data => {
-        this.demandNum = data.demandNum;
-        this.histroyTotalDemandNum = data.histroyTotalDemandNum;
-        this.totalPrice = data.totalPrice;
+        this.info.demandNum = data.demandNum;
+        this.info.histroyTotalDemandNum = data.histroyTotalDemandNum;
+        this.info.totalPrice = data.totalPrice;
       }
     );
   },

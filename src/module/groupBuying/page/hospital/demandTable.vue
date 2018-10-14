@@ -71,10 +71,13 @@ export default {
         },
         data => {
           this.hasNet = true;
-          console.log(data);
+          console.log(555, data);
           this.list = data.list;
           this.hasData = data.list.length > 0;
+          console.log(666, this.list.length);
           if (this.list.length != 0) {
+            console.log(this.demandListData);
+            console.log(_.isEmpty(this.demandListData));
             if (_.isEmpty(this.demandListData)) {
               this.demandListData = data.list[0].demandList;
               this.typeData = _.map(data.list, "name");

@@ -19,15 +19,17 @@ export default {
   props: ["MultipleSelection", "editSelectValue", "come", "groupPurchaseId"],
   methods: {
     select(item, itemObj) {
-      this.$router.replace({
-        path: `/submitGroupDemand/${itemObj.code}`,
-        query: {
-          id: this.$route.query.id,
-          groupPurchaseTypeId: `${itemObj.id}`,
-          groupPurchaseId: this.groupPurchaseId,
-          groupTypeCode: `${itemObj.code}`
-        }
-      });
+      if (this.$route.path.indexOf("submitGroupDemand") != -1) {
+        this.$router.replace({
+          path: `/submitGroupDemand/${itemObj.code}`,
+          query: {
+            id: this.$route.query.id,
+            groupPurchaseTypeId: `${itemObj.id}`,
+            groupPurchaseId: this.groupPurchaseId,
+            groupTypeCode: `${itemObj.code}`
+          }
+        });
+      }
       if (this.MultipleSelection != undefined) {
         if (_.without(this.itemSelect, item).length == this.itemSelect.length) {
           this.itemSelect.push(item);
@@ -57,31 +59,6 @@ export default {
       }
     }
   },
-  created() {
-    _getData(
-      "/server/basedata!request.action",
-      {
-        method: "getGroupPurchaseTypeList",
-        params: { code: "TGDHLX" }
-      },
-      data => {
-        console.log("团购类型:", data);
-        this.items = data;
-        if (this.$route.query.id) {
-        } else {
-          this.$router.replace({
-            query: {
-              groupTypeCode: data[0].code,
-              groupPurchaseTypeId: data[0].id
-            }
-          });
-          this.itemSelect.push(data[0].id);
-          this.$emit("select-value", this.itemSelect.join(","));
-          this.$emit("selectObj", this.items[0]);
-        }
-      }
-    );
-  },
   watch: {
     editSelectValue() {
       if (this.editSelectValue) {
@@ -110,6 +87,31 @@ export default {
           })
         );
       }
+    } else {
+      _getData(
+        "/server/basedata!request.action",
+        {
+          method: "getGroupPurchaseTypeList",
+          params: { code: "TGDHLX" }
+        },
+        data => {
+          console.log("团购类型:", data);
+          this.items = data;
+          if (this.$route.query.id) {
+          } else {
+            this.$router.replace({
+              query: {
+                groupTypeCode: data[0].code,
+                groupPurchaseTypeId: data[0].id
+              }
+            });
+            this.itemSelect = [];
+            this.itemSelect.push(data[0].id);
+            this.$emit("select-value", this.itemSelect.join(","));
+            this.$emit("selectObj", this.items[0]);
+          }
+        }
+      );
     }
   }
 };

@@ -178,7 +178,7 @@ export default {
       this.submitData.groupPurchaseTypeId = value;
     }
   },
-  created() {
+  activated() {
     if (this.$route.query.id) {
       _getData(
         "/server_pro/groupPurchaseHospital!request.action",
@@ -200,7 +200,6 @@ export default {
       );
     }
   },
-  activated() {},
   deactivated() {}
 };
 </script>

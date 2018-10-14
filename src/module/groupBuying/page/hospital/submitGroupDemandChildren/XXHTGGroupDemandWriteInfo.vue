@@ -118,7 +118,7 @@ export default {
       this.XXHTGPriceSave(this.info.price);
     },
     saveApplicationValue() {
-      this.SBTGApplicationSave(this.info.application);
+      this.XXHTGApplicationSave(this.info.application);
     },
     saveIntroduceValue() {
       this.XXHTGIntroduceSave(this.info.introduce);

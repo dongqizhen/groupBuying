@@ -372,6 +372,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
         brand: [
           {
             aliasId: "",
@@ -381,8 +384,23 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        mainParams: [],
-        predictTime: {}
+        brandId: "",
+        brandName: "",
+        model: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        totalPrice: "",
+        price: "", //
+        application: "", //应用需求
+        introduce: "" //采购需求说明
       },
       ZXTG: {
         productLine: [
@@ -393,6 +411,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
+        productLineId: "",
+        aliasProductLineId: "",
+        productLineName: "",
         brand: [
           {
             aliasId: "",
@@ -402,8 +423,25 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        mainParams: [],
-        predictTime: {}
+        brandId: "",
+        brandName: "",
+        model: [],
+        params: [],
+        mainParamsName: "",
+        loadTime: {
+          outTime: "",
+          year: "",
+          quarter: "",
+          flag: ""
+        },
+        showLoadTime: "",
+        demandNum: "",
+        histroyTotalDemandNum: "",
+        totalPrice: "",
+        num: 1, //
+        price: "", //
+        application: "", //应用需求
+        introduce: "" //采购需求说明
       }
     }
   }

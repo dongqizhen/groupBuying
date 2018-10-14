@@ -23,7 +23,7 @@ export default {
   data() {
     return {};
   },
-  props: ["title", "goback", "isSearchHide", "saveId"],
+  props: ["title", "goback", "isSearchHide", "saveId", "editSelectId"],
   methods: {
     goPrev() {
       if (this.$router.currentRoute.path == "/") {
@@ -33,6 +33,9 @@ export default {
         this.$store.commit("setTransition", "turn-off");
         if (this.saveId) {
           this.$emit("changeSaveId", "");
+        }
+        if (this.editSelectId) {
+          this.$emit("changeEditSelectId", "");
         }
       }
     },

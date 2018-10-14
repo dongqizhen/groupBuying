@@ -75,7 +75,7 @@
                     <a >
                         <span class="star">维保类型：</span>
                         <div class="maintanceType">
-                          <span v-for="(item,index) in types" :key="index" :class="currentIdx==index?'active':''" @click="addClass(index)">{{item.name}}</span>
+                          <span v-for="(item,index) in types" :key="index" :class="currentIdx===index?'active':''" @click="addClass(index)">{{item.name}}</span>
                         </div>
                       </a>
             </li>
