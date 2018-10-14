@@ -209,7 +209,7 @@ export const goldCoinAnimation = {
             console.log(num)
             JsCallNativeMethods(
                 "webInvokeNative", {
-                    method: 'moreOpetationReward',
+                    method: 'goldCoinAnimation',
                     goldCoinNum: num
                 },
                 data => {}
