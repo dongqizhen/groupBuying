@@ -16,6 +16,7 @@
 </template>
 <script>
     import commentListItem from "./commentListItem";
+
     export default {
         data() {
             return {};
@@ -27,6 +28,7 @@
         created() {
             console.log("评论", this.commentList);
         },
+
         watch: {
             commentList(newVal) {
                 console.log(newVal);

@@ -1,7 +1,7 @@
 <template>
 
-    <div class="clearfix commentList">
-        <div class="left">
+    <div class="clearfix commentList" @click="toNativeCommentDetails(commentData.id)">
+        <div class="left" @click.stop="friendInfo(commentData.userId)">
 
             <img v-lazy="commentData.userImageUrl" alt="">
         </div>
@@ -17,7 +17,7 @@
             </div>
             <p>{{decodeURI(commentData.content)}}</p>
             <div class="replyBtn">
-                <span>打赏</span>
+                <span @click.stop="moreOpetationReward(commentData.id)">打赏</span>
                 <span><a>{{commentData.commentNum}}</a>回复</span>
                 <span class="delete" v-if="$USER_INFO.userid==commentData.userId" @click.stop=" delete_commit(commentData.id)">删除</span>
             </div>
@@ -42,7 +42,11 @@
 </template>
 <script>
     import { _getData } from "../../service/getData";
-
+    import {
+        toNativeCommentDetails,
+        friendInfo,
+        moreOpetationReward
+    } from "../mixin/mixin";
     export default {
         data() {
             return {
@@ -51,6 +55,7 @@
             };
         },
         components: {},
+        mixins: [toNativeCommentDetails, friendInfo, moreOpetationReward],
         methods: {
             like(id, flag) {
                 _getData(
@@ -80,7 +85,8 @@
             },
             delete_commit(id) {
                 this.$emit("delete_commit", id, this.index);
-            }
+            },
+            NativeCommentDetails() {}
         },
         props: {
             commentData: {
@@ -260,7 +266,7 @@
                     }
                     span {
                         /* display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                align-items: center; */
                         &.name {
                             color: #406599;
                         }

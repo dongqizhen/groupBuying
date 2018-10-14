@@ -1,16 +1,16 @@
 <template>
     <div class="container searchIndex">
         <Header>
-            <cube-input v-model="value" slot="mainTitle" :clearable="true" placeholder="请输入关键词">
+            <cube-input v-model.trim="value" slot="mainTitle" :clearable="true" placeholder="请输入关键词">
                 <span slot="prepend">
                     <img src="../../../../../static/images/smallSearch.png" alt="">
                 </span>
             </cube-input>
-            <span slot="explain">搜索</span>
+            <span slot="explain" @click.stop="searchBtn">搜索</span>
         </Header>
         <div class="content">
             <div class="history" v-if="isSearchHistory">
-                <h2>历史记录<span></span></h2>
+                <h2>历史记录<span @click.stop="del"></span></h2>
                 <ul class="history_container">
                     <li v-for="(val,index) in searchList" :key="index" @click="search(val.name)">{{val.name}}</li>
                 </ul>
@@ -71,7 +71,8 @@
         methods: {
             ...mapMutations(["setTransition"]),
             search(val) {
-                this.value = val;
+                this.value = val ? val : this.value;
+
                 this.loading = true;
                 _getData(
                     "/server_pro/groupPurchase!request.action",
@@ -94,43 +95,73 @@
                     this.isSearchHistory = false;
                 });
             },
+            searchBtn() {
+                this.search();
+            },
             handleClick(val) {
                 this.setTransition("turn-on");
                 this.$router.push({
                     path: `/searchList/${val}`,
                     query: { val: this.value }
                 });
+            },
+            async getHistorySearch() {
+                await _getData(
+                    "/server/searchrecord!request.action",
+                    {
+                        method: "getSearchlist_v28",
+                        params: { type: 21 }
+                    },
+                    data => {
+                        console.log(data);
+                        this.searchList = data.searchList;
+                    }
+                );
+            },
+            async del() {
+                await _getData(
+                    "/server/searchrecord!request.action",
+                    {
+                        method: "deletedUserSearchRecord",
+                        params: { type: 21 }
+                    },
+                    data => {
+                        console.log(data);
+                        this.searchList = [];
+                    }
+                );
             }
         },
         activated() {
-            _getData(
-                "/server/searchrecord!request.action",
-                {
-                    method: "getSearchlist_v28",
-                    params: { type: 21 }
-                },
-                data => {
-                    console.log(data);
-                    this.searchList = data.searchList;
-                }
-            );
+            this.getHistorySearch();
         },
         beforeRouteEnter(to, from, next) {
-            console.log(from);
-            if (from.name != "搜索列表") {
-                next(vm => {
-                    console.log(vm);
-                    vm.isSearchHistory = true;
-                    vm.value = "";
-                });
+            if (
+                from.name == "搜索列表" ||
+                from.name == "产品详情" ||
+                from.name == "团购需求详情"
+            ) {
+                next();
                 return;
             }
-
-            next();
+            next(vm => {
+                console.log(vm);
+                vm.isSearchHistory = true;
+                vm.value = "";
+            });
         },
         computed: {
             totalnum() {
                 return this.listData.demandNum + this.listData.productNum;
+            }
+        },
+        watch: {
+            value() {
+                if (this.value == "") {
+                    this.getHistorySearch().then(() => {
+                        this.isSearchHistory = true;
+                    });
+                }
             }
         }
     };

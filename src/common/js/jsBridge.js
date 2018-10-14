@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const connectWebViewJavascriptBridge = callback => {
     //Android
     if (window.WebViewJavascriptBridge) {
@@ -65,10 +67,15 @@ export const setupWebViewJavascriptBridge = (callback) => {
 export async function JsCallNativeMethods(nativeName = 'navNativePage', params = {}, callBack) {
     await window.WebViewJavascriptBridge.callHandler(
         nativeName, {
-            param: JSON.stringify(params)
+            param: params,
         },
         Data => {
-            callBack(JSON.parse(Data))
+            if (_.isObject(Data)) {
+                callBack(Data)
+            } else {
+                callBack(JSON.parse(Data))
+            }
+
         }
     );
 }

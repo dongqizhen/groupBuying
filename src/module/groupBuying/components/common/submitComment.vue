@@ -20,6 +20,7 @@
     import { Group, XTextarea, XNumber, CellBox } from "vux";
     import autosize from "autosize";
     import { _getData } from "../../service/getData";
+    import { goldCoinAnimation } from "../mixin/mixin";
 
     export default {
         data() {
@@ -36,6 +37,7 @@
             CellBox
         },
         props: ["id"],
+        mixins: [goldCoinAnimation],
         mounted() {
             autosize(document.querySelector("textarea"));
         },
@@ -55,16 +57,21 @@
                     },
                     data => {
                         console.log(data);
+
+                        if (data.admin_pay) {
+                            this.goldCoinAnimation(data.admin_pay);
+                        }
+
                         this.value = "";
                         document.querySelector("textarea").value = "";
                         autosize.update(document.querySelector("textarea"));
                         this.$emit("comment_success");
                     },
                     err => {
-                        Toast({
-                            message: data.message,
-                            duration: 1000
-                        });
+                        /* Toast({
+                                            message: data.message,
+                                            duration: 1000
+                                        }); */
                     }
                 );
             }
