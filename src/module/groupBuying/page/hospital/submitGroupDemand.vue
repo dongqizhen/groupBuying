@@ -686,151 +686,84 @@ export default {
                 data.mainParamsName = _.join(_.map(data.params, "name"), ",");
               }
               this.vuexInitialFun();
+              if (data.groupPurchaseType.isMore) {
+                if (data.brandList.length == 1) {
+                  data.brandFirst = [data.brandList[0].brand];
+                  data.brandSecond = initialValue;
+                  data.brandThird = initialValue;
+                  data.brandFirstId = data.brandList[0].brand.brandId;
+                  data.brandSecondId = "";
+                  data.brandThirdId = "";
+                  data.brandFirstName = data.brandList[0].brand.aliasName
+                    ? data.brandList[0].brand.aliasName
+                    : data.brandList[0].brand.brandName;
+                  data.brandSecondName = "";
+                  data.brandThirdName = "";
+                  data.modelFirst = data.brandList[0].model;
+                  data.modelSecond = [];
+                  data.modelThird = [];
+                } else if (data.brandList.length == 2) {
+                  data.brandFirst = [data.brandList[0].brand];
+                  data.brandSecond = [data.brandList[1].brand];
+                  data.brandThird = initialValue;
+                  data.brandFirstId = data.brandList[0].brand.brandId;
+                  data.brandSecondId = data.brandList[1].brand.brandId;
+                  data.brandThirdId = "";
+                  data.brandFirstName = data.brandList[0].brand.aliasName
+                    ? data.brandList[0].brand.aliasName
+                    : data.brandList[0].brand.brandName;
+                  data.brandSecondName = data.brandList[1].brand.aliasName
+                    ? data.brandList[1].brand.aliasName
+                    : data.brandList[1].brand.brandName;
+                  data.brandThirdName = "";
+                  data.modelFirst = data.brandList[0].model;
+                  data.modelSecond = data.brandList[1].model;
+                  data.modelThird = [];
+                } else if (data.brandList.length == 3) {
+                  data.brandFirst = [data.brandList[0].brand];
+                  data.brandSecond = [data.brandList[1].brand];
+                  data.brandThird = [data.brandList[2].brand];
+                  data.brandFirstId = data.brandList[0].brand.brandId;
+                  data.brandSecondId = data.brandList[1].brand.brandId;
+                  data.brandThirdId = data.brandList[2].brand.brandId;
+                  data.brandFirstName = data.brandList[0].brand.aliasName
+                    ? data.brandList[0].brand.aliasName
+                    : data.brandList[0].brand.brandName;
+                  data.brandSecondName = data.brandList[1].brand.aliasName
+                    ? data.brandList[1].brand.aliasName
+                    : data.brandList[1].brand.brandName;
+                  data.brandThirdName = data.brandList[2].brand.aliasName
+                    ? data.brandList[2].brand.aliasName
+                    : data.brandList[2].brand.brandName;
+                  data.modelFirst = data.brandList[0].model;
+                  data.modelSecond = data.brandList[1].model;
+                  data.modelThird = data.brandList[2].model;
+                }
+              } else {
+                data.brand = [data.brandList[0].brand];
+                data.brandName = data.brandList[0].brand.aliasName
+                  ? data.brandList[0].brand.aliasName
+                  : data.brandList[0].brand.brandName;
+                data.model = data.brandList[0].model;
+                data.brandId = data.brandList[0].brand.brandId;
+              }
               switch (data.groupPurchaseType.code) {
                 case "SBTG":
-                  if (data.brandList.length == 1) {
-                    data.brandFirst = [data.brandList[0].brand];
-                    data.brandSecond = initialValue;
-                    data.brandThird = initialValue;
-                    data.brandFirstId = data.brandList[0].brand.brandId;
-                    data.brandSecondId = "";
-                    data.brandThirdId = "";
-                    data.brandFirstName = data.brandList[0].brand.aliasName
-                      ? data.brandList[0].brand.aliasName
-                      : data.brandList[0].brand.brandName;
-                    data.brandSecondName = "";
-                    data.brandThirdName = "";
-                    data.modelFirst = data.brandList[0].model;
-                    data.modelSecond = [];
-                    data.modelThird = [];
-                  } else if (data.brandList.length == 2) {
-                    data.brandFirst = [data.brandList[0].brand];
-                    data.brandSecond = [data.brandList[1].brand];
-                    data.brandThird = initialValue;
-                    data.brandFirstId = data.brandList[0].brand.brandId;
-                    data.brandSecondId = data.brandList[1].brand.brandId;
-                    data.brandThirdId = "";
-                    data.brandFirstName = data.brandList[0].brand.aliasName
-                      ? data.brandList[0].brand.aliasName
-                      : data.brandList[0].brand.brandName;
-                    data.brandSecondName = data.brandList[1].brand.aliasName
-                      ? data.brandList[1].brand.aliasName
-                      : data.brandList[1].brand.brandName;
-                    data.brandThirdName = "";
-                    data.modelFirst = data.brandList[0].model;
-                    data.modelSecond = data.brandList[1].model;
-                    data.modelThird = [];
-                  } else if (data.brandList.length == 3) {
-                    data.brandFirst = [data.brandList[0].brand];
-                    data.brandSecond = [data.brandList[1].brand];
-                    data.brandThird = [data.brandList[2].brand];
-                    data.brandFirstId = data.brandList[0].brand.brandId;
-                    data.brandSecondId = data.brandList[1].brand.brandId;
-                    data.brandThirdId = data.brandList[2].brand.brandId;
-                    data.brandFirstName = data.brandList[0].brand.aliasName
-                      ? data.brandList[0].brand.aliasName
-                      : data.brandList[0].brand.brandName;
-                    data.brandSecondName = data.brandList[1].brand.aliasName
-                      ? data.brandList[1].brand.aliasName
-                      : data.brandList[1].brand.brandName;
-                    data.brandThirdName = data.brandList[2].brand.aliasName
-                      ? data.brandList[2].brand.aliasName
-                      : data.brandList[2].brand.brandName;
-                    data.modelFirst = data.brandList[0].model;
-                    data.modelSecond = data.brandList[1].model;
-                    data.modelThird = data.brandList[2].model;
-                  }
                   this.SBTG(data);
                   break;
                 case "HCTG":
-                  if (data.brandList.length == 1) {
-                    data.brandFirst = [data.brandList[0].brand];
-                    data.brandSecond = initialValue;
-                    data.brandThird = initialValue;
-                    data.brandFirstId = data.brandList[0].brand.brandId;
-                    data.brandSecondId = "";
-                    data.brandThirdId = "";
-                    data.brandFirstName = data.brandList[0].brand.aliasName
-                      ? data.brandList[0].brand.aliasName
-                      : data.brandList[0].brand.brandName;
-                    data.brandSecondName = "";
-                    data.brandThirdName = "";
-                    data.modelFirst = data.brandList[0].model;
-                    data.modelSecond = [];
-                    data.modelThird = [];
-                  } else if (data.brandList.length == 2) {
-                    data.brandFirst = [data.brandList[0].brand];
-                    data.brandSecond = [data.brandList[1].brand];
-                    data.brandThird = initialValue;
-                    data.brandFirstId = data.brandList[0].brand.brandId;
-                    data.brandSecondId = data.brandList[1].brand.brandId;
-                    data.brandThirdId = "";
-                    data.brandFirstName = data.brandList[0].brand.aliasName
-                      ? data.brandList[0].brand.aliasName
-                      : data.brandList[0].brand.brandName;
-                    data.brandSecondName = data.brandList[1].brand.aliasName
-                      ? data.brandList[1].brand.aliasName
-                      : data.brandList[1].brand.brandName;
-                    data.brandThirdName = "";
-                    data.modelFirst = data.brandList[0].model;
-                    data.modelSecond = data.brandList[1].model;
-                    data.modelThird = [];
-                  } else if (data.brandList.length == 3) {
-                    data.brandFirst = [data.brandList[0].brand];
-                    data.brandSecond = [data.brandList[1].brand];
-                    data.brandThird = [data.brandList[2].brand];
-                    data.brandFirstId = data.brandList[0].brand.brandId;
-                    data.brandSecondId = data.brandList[1].brand.brandId;
-                    data.brandThirdId = data.brandList[2].brand.brandId;
-                    data.brandFirstName = data.brandList[0].brand.aliasName
-                      ? data.brandList[0].brand.aliasName
-                      : data.brandList[0].brand.brandName;
-                    data.brandSecondName = data.brandList[1].brand.aliasName
-                      ? data.brandList[1].brand.aliasName
-                      : data.brandList[1].brand.brandName;
-                    data.brandThirdName = data.brandList[2].brand.aliasName
-                      ? data.brandList[2].brand.aliasName
-                      : data.brandList[2].brand.brandName;
-                    data.modelFirst = data.brandList[0].model;
-                    data.modelSecond = data.brandList[1].model;
-                    data.modelThird = data.brandList[2].model;
-                  }
                   this.HCTG(data);
                   break;
                 case "SHTG":
-                  data.brand = [data.brandList[0].brand];
-                  data.brandName = data.brandList[0].brand.aliasName
-                    ? data.brandList[0].brand.aliasName
-                    : data.brandList[0].brand.brandName;
-                  data.model = data.brandList[0].model;
-                  data.brandId = data.brandList[0].brand.brandId;
                   this.SHTG(data);
                   break;
                 case "XXHTG":
-                  data.brand = [data.brandList[0].brand];
-                  data.brandName = data.brandList[0].brand.aliasName
-                    ? data.brandList[0].brand.aliasName
-                    : data.brandList[0].brand.brandName;
-                  data.model = data.brandList[0].model;
-                  data.brandId = data.brandList[0].brand.brandId;
                   this.XXHTG(data);
                   break;
                 case "JRTG":
-                  data.brand = [data.brandList[0].brand];
-                  data.brandName = data.brandList[0].brand.aliasName
-                    ? data.brandList[0].brand.aliasName
-                    : data.brandList[0].brand.brandName;
-                  data.model = data.brandList[0].model;
-                  data.brandId = data.brandList[0].brand.brandId;
                   this.JRTG(data);
                   break;
                 case "ZXTG":
-                  data.brand = [data.brandList[0].brand];
-                  data.brandName = data.brandList[0].brand.aliasName
-                    ? data.brandList[0].brand.aliasName
-                    : data.brandList[0].brand.brandName;
-                  data.model = data.brandList[0].model;
-                  data.brandId = data.brandList[0].brand.brandId;
                   this.ZXTG(data);
                   break;
               }

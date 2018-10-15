@@ -16,7 +16,7 @@
 
         </scroller>
       </div>
-      <div class="btn_container">
+      <div :class="isDisabled?'btn_container_disabled':'btn_container'">
         <x-button type="primary" @click.native="submitBtnClick" :disabled="isDisabled">提交我的团购需求</x-button>
       </div>
 
@@ -52,7 +52,7 @@ export default {
       this.$router.push("/submitGroupDemand");
     }
   },
-  created() {
+  activated() {
     _getData(
       "/server_pro/groupPurchaseHospital!request.action",
       {
@@ -61,10 +61,12 @@ export default {
       },
       data => {
         this.detailData = data;
-        //this.isDisabled = data.review == 1 ? false : true;
+        this.isDisabled = data.review == 1 ? false : true;
         console.log(this.detailData);
       }
     );
+  },
+  created() {
     _getData(
       "/server_pro/groupPurchaseHospital!request.action",
       {
@@ -108,6 +110,28 @@ export default {
       align-items: center;
       /deep/ .weui-btn {
         background: #019ddd;
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        //margin-top: 10px;
+        height: 50px;
+        border-radius: 6px;
+        color: #fff;
+        &.end {
+          background: #cccccc;
+          &:after {
+            border: none;
+          }
+        }
+      }
+    }
+    .btn_container_disabled {
+      background: #fff;
+      height: 60px;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      /deep/ .weui-btn {
+        background: #ccc;
         font-family: PingFangSC-Regular;
         font-size: 16px;
         //margin-top: 10px;

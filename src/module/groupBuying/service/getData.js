@@ -1,5 +1,7 @@
 import axios from '@/config/axios.js'
-import { Toast } from 'vant'
+import {
+    Toast
+} from 'vant'
 // request demo
 export async function _getData(url = '', data = {}, successCallBack, errorCallBack) {
     return await axios
@@ -13,7 +15,10 @@ export async function _getData(url = '', data = {}, successCallBack, errorCallBa
                 successCallBack(data.data.result)
             } else {
                 console.log(data.data.status)
-                Toast({ message: data.data.status.message, duration: 1000 });
+                Toast({
+                    message: data.data.status.message,
+                    duration: 1000
+                });
 
             }
 
