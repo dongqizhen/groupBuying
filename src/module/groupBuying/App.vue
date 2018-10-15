@@ -58,8 +58,8 @@
         transition: transform 0.4s ease;
     }
     /* .turn-on-enter-to{
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          transform: translate3d(0, 0, 0);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      transform: translate3d(0, 0, 0);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
     .turn-off-enter {
         /* transform: translate3d(-20%, 0, 0); */
     }
@@ -123,6 +123,22 @@
         .weui-toast {
             top: 50%;
             margin-top: -3.8em;
+        }
+    }
+    .cube-scroll-content {
+        .cube-pullup-wrapper {
+            .before-trigger {
+                font-size: 13px;
+                color: #999999;
+                font-family: PingFangSC-Regular;
+                padding: 15px 0;
+            }
+            .after-trigger {
+                padding: 12.5px 0;
+                .cube-loading {
+                    font-size: 18px;
+                }
+            }
         }
     }
 </style>

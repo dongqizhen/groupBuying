@@ -8,7 +8,7 @@
 
                     <!-- <budget-count></budget-count> -->
                     <!-- 设备团购 -->
-                    <div v-if="$route.query.title=='设备团购'" class="intention">
+                    <div v-if="type=='SBTG'" class="intention">
 
                         <div class="common productSort">
                             <span>设备分类</span>
@@ -66,7 +66,7 @@
                     </div>
 
                     <!--耗材团购-->
-                    <div v-if="$route.query.title=='耗材团购'" class="intention">
+                    <div v-if="type=='HCTG'" class="intention">
 
                         <div class="common productSort">
                             <span>产品分类</span>
@@ -124,7 +124,7 @@
                     </div>
 
                     <!--售后团购-->
-                    <div class="afterSever" v-if="$route.query.title=='售后团购'">
+                    <div class="afterSever" v-if="type=='SHTG'">
                         <div class="box equipmentSortAndBrandAndModel">
                             <!-- <budget-count></budget-count> -->
                             <div class="common productSort">
@@ -191,7 +191,7 @@
                     </div>
 
                     <!-- 金融团购-->
-                    <div class="counsel" v-if="$route.query.title=='金融团购'">
+                    <div class="counsel" v-if="type=='JRTG'">
                         <div class="common hopePrice">
                             <div>
                                 <span>金融分类</span>
@@ -239,7 +239,7 @@
                     </div>
 
                     <!-- 咨询团购-->
-                    <div class="counsel" v-if="$route.query.title=='咨询团购'">
+                    <div class="counsel" v-if="type=='ZXTG'">
                         <div class="common hopePrice">
                             <div>
                                 <span>咨询分类</span>
@@ -287,7 +287,7 @@
                     </div>
 
                     <!-- 信息化团购 -->
-                    <div class="counsel" v-if="$route.query.title=='信息化团购'">
+                    <div class="counsel" v-if="type=='XXHTG'">
                         <div class="common productSort">
                             <span>平台分类</span>
                             <span class="value">{{resultData.productLineName}}</span>
@@ -398,6 +398,7 @@
             budgetCount,
             commentListItem
         },
+        props: ["type"],
         methods: {
             keyWords() {
                 switch (this.$router.query.title) {

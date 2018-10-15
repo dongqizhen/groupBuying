@@ -142,13 +142,15 @@ const router = new Router({
             name: '团购分类',
             component: groupClassification
         }, {
-            path: '/GroupRequireDetails',
+            path: '/GroupRequireDetails/:type',
             name: '团购需求详情',
-            component: GroupRequireDetails
+            component: GroupRequireDetails,
+            props: true
         }, {
-            path: '/groupEquipment',
+            path: '/groupEquipment/:type',
             name: '设备团购',
-            component: groupEquipment
+            component: groupEquipment,
+            props: true
         }, {
             path: '/perdictTime',
             name: '选择装机时间',
@@ -233,9 +235,10 @@ const router = new Router({
             name: '团购需求',
             component: groupDemand
         }, {
-            path: '/groupDemandDetails',
+            path: '/groupDemandDetails/:type',
             name: '团购需求类型',
-            component: groupDemandDetails
+            component: groupDemandDetails,
+            props: true
         }, {
             path: '/searchIndex',
             name: '搜索',

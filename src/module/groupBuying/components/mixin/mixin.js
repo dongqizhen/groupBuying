@@ -132,7 +132,6 @@ export const openNativeNav = {
 export const ToNativeMap = {
     methods: {
         toNativeMapPage(value) {
-            console.log(value);
             JsCallNativeMethods(
                 "navNativePage", {
                     actionName: "navigationLocationPage",
@@ -152,13 +151,13 @@ export const ToNativeMap = {
 
 export const toNativeCommentDetails = {
     methods: {
-        toNativeCommentDetails(id, type = 21) {
-            console.log(id)
+        toNativeCommentDetails(id, index, type = 21) {
             JsCallNativeMethods(
                 "navNativePage", {
                     actionName: 'CommonDiscuzz',
                     type: type,
-                    id: id
+                    id: id,
+                    index: index
                 },
                 data => {}
             );
@@ -170,11 +169,11 @@ export const toNativeCommentDetails = {
 export const friendInfo = {
     methods: {
         friendInfo(userId) {
-            console.log(userId)
             JsCallNativeMethods(
                 "navNativePage", {
                     actionName: 'friendInfo',
-                    userId: userId
+                    userId: userId,
+                    id: userId
                 },
                 data => {}
             );
@@ -187,7 +186,6 @@ export const friendInfo = {
 export const moreOpetationReward = {
     methods: {
         moreOpetationReward(id, type = 23) {
-            console.log(id)
             JsCallNativeMethods(
                 "webInvokeNative", {
                     method: 'moreOpetationReward',
@@ -206,7 +204,6 @@ export const moreOpetationReward = {
 export const goldCoinAnimation = {
     methods: {
         goldCoinAnimation(num) {
-            console.log(num)
             JsCallNativeMethods(
                 "webInvokeNative", {
                     method: 'goldCoinAnimation',
@@ -222,16 +219,40 @@ export const goldCoinAnimation = {
 
 export const directMessages = {
     methods: {
-        directMessages(id, type = 21) {
-            console.log(id)
+        directMessages(userName, userId, imageUrl) {
             JsCallNativeMethods(
                 "navNativePage", {
                     actionName: 'directMessages',
-                    userName: '',
-                    userId: ''
+                    userName: userName,
+                    userId: userId,
+                    id: userId,
+                    name: userName,
+                    imageUrl: 'http://60.195.252.86:8080/server/upload/1490039174242.jpg'
                 },
                 data => {}
             );
+        }
+    }
+}
+
+//轮播
+export const toNativeBanner = {
+    methods: {
+        toNativeBanner(val) {
+            console.log(val)
+            JsCallNativeMethods(
+                'webInvokeNative', {
+                    method: 'toNativeBanner',
+                    id: val.id,
+                    name: '',
+                    img: val.img,
+                    linkedType: val.linkedType,
+                    linkedId: val.linkedId,
+                    linkedUrl: val.linkedUrl
+                }, data => {
+
+                }
+            )
         }
     }
 }

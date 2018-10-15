@@ -4,7 +4,7 @@
         <hos-man-attention :result="result">
             <span slot="hospitalName" class="hospital">{{result.hospitalName}}</span>
         </hos-man-attention>
-        <demand-list :data="result" :slectedTypeKeyWord="$route.query.title"></demand-list>
+        <demand-list :data="result" :slectedTypeKeyWord="type"></demand-list>
         <div class="common addressAndBudget">
             <div class="address" @click.stop="toNativeMapPage(result)">
                 <img src="../../../../../static/images/site.png">
@@ -17,7 +17,7 @@
                 <span class="moneyCount">{{result.price}}万</span>
             </div>
         </div>
-        <router-link :to="{path:'hospitalProfile',query:{id:result.hospitalId}}" @click.native.stop="clickLink">
+        <router-link :to="{path:'/hospitalProfile',query:{id:result.hospitalId}}" @click.native.stop="clickLink">
             <div class="otherRequire">
                 <span>该院其他团购需求</span>
                 <img src="../../../../../static/images/rightArrow.png">
@@ -39,13 +39,13 @@
             },
             handleClick(id) {
                 this.$router.push({
-                    path: "/GroupRequireDetails",
-                    query: { id: id, title: this.$route.query.title }
+                    path: `/GroupRequireDetails/${this.type}`,
+                    query: { id: id }
                 });
                 this.$store.commit("setTransition", "turn-on");
             }
         },
-        props: ["result"],
+        props: ["result", "type"],
         mixins: [ToNativeMap],
         components: {
             hosManAttention,

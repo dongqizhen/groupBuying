@@ -6,7 +6,7 @@
             <div class="scroll-list-wrap" v-if="!loading">
                 <cube-scroll ref="scroll">
                     <div class="submitNumber">已提交需求的医院共<span>{{result.hospitalNum}}</span>家</div>
-                    <submit-hospital-req-info-item :result="val" v-for="(val,index) in result.list" :key="index"></submit-hospital-req-info-item>
+                    <submit-hospital-req-info-item :result="val" v-for="(val,index) in result.list" :key="index" :type='type'></submit-hospital-req-info-item>
                 </cube-scroll>
             </div>
             <loading :show="loading" :text="loadIngTxt"></loading>
@@ -34,6 +34,7 @@
             selectPathNav,
             submitHospitalReqInfoItem
         },
+        props: ["type"],
         created() {
             switch (this.$route.query.title) {
                 case "设备团购":
