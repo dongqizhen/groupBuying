@@ -250,6 +250,7 @@ export default {
   .content {
     padding: 13px;
     .selectedParamBox {
+      height: 77px;
       background-color: #fff;
       padding: 10px 13px;
       margin-bottom: 10px;

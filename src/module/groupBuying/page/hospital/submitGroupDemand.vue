@@ -69,7 +69,6 @@ export default {
       groupUnderWayList: [],
       flag: true,
       saveId: "",
-      saveCode: "",
       submitData: {
         id: "",
         hospitalId: "",
@@ -631,7 +630,6 @@ export default {
     }
   },
   activated() {
-    console.log("editSelectId的值", this.editSelectId);
     _getData(
       "/server_pro/groupPurchase!request.action",
       {
@@ -680,7 +678,6 @@ export default {
                   brandName: ""
                 }
               ];
-              this.saveCode = data.groupPurchaseType.code;
               data.productLine = [data.productLine];
               if (data.groupPurchaseType.code != "SHTG") {
                 data.mainParamsName = _.join(_.map(data.params, "name"), ",");

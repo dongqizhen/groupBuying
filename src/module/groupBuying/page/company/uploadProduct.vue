@@ -1,6 +1,6 @@
 <template>
     <div class="container uploadProduct">
-        <Header title="上传团购产品（企业）"></Header>
+        <Header title="上传团购产品（企业）" :saveId="saveId" :editSelectId="editSelectId" v-on:changeSaveId="changeSaveId" v-on:changeEditSelectId="changeEditSelectId"></Header>
         <div class="content">
           <div class="scroll-list-wrap">
             <cube-scroll ref="scroll">
@@ -16,7 +16,7 @@
                   <basic-title title="团购产品类型" imgurl="../static/images/selectproject.png">
                       <span slot="select">(必选项)</span>
                   </basic-title>
-                  <select-project-nav :editSelectValue="editSelectId" :come="editSelectId?'1':''" v-on:selectObj="getItemObj" v-on:select-value="selectGroupId"></select-project-nav>
+                  <select-project-nav :groupPurchaseId="submitData.groupPurchaseId" :editSelectValue="editSelectId" v-on:selectObj="getItemObj" v-on:select-value="selectGroupId"></select-project-nav>
               </div>
               <div class="productBasicInfromation">
                   <basic-title title="产品基本信息" imgurl="../static/images/basicInformation.png">
@@ -26,7 +26,10 @@
                           客服
                       </a>
                   </basic-title>
-                  <product-basic-info ref="basicInfo" :data="data" :groupType="this.groupItemObj"></product-basic-info>
+                  <div>
+                    <router-view></router-view>
+                  </div>
+                  <!-- <product-basic-info ref="basicInfo" :data="data" :groupType="this.groupItemObj"></product-basic-info> -->
               </div>
               <div class="img_upload">
                   <basic-title title="产品图片" imgurl="../static/images/imgUpload.png">
@@ -61,13 +64,14 @@ import { Group, XTextarea, base64 } from "vux";
 import { _getData } from "../../service/getData";
 import _ from "lodash";
 import compress from "../../../../../static/js/compressImage";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { Toast } from "vant";
 
 export default {
   data() {
     return {
       data: {},
+      saveId: "",
       editSelectId: "",
       groupItemObj: {},
       current: null,
@@ -84,20 +88,21 @@ export default {
         companyId: "",
         groupPurchaseId: "",
         groupPurchaseTypeId: "",
-        productLineName: "",
-        brandName: "",
-        modelName: "",
-        productLineId: "",
-        brandId: "",
-        modelId: "",
+        productLine: "",
+        brand: "",
         price: "",
-        paramsId: "",
+        params: "",
         imageUrl: "",
         introduce: "",
         application: "",
-        isOpen: ""
+        isOpen: "",
+        responseTime: "",
+        maintenanceType: ""
       }
     };
+  },
+  computed: {
+    ...mapState(["userCompanyIdOrHospitalId"])
   },
   components: {
     Header,
@@ -111,15 +116,20 @@ export default {
   methods: {
     ...mapMutations([
       "setTransition",
-      "selectSBTGProductSort",
-      "selectHCTGProductSort",
-      "selectSHTGProductSort",
-      "selectXXHTGProductSort",
-      "selectJRTGProductSort",
-      "selectZXTGProductSort"
+      "uploadProductSBTG",
+      "uploadProductHCTG",
+      "uploadProductSHTG",
+      "uploadProductXXHTG",
+      "uploadProductJRTG",
+      "uploadProductZXTG"
     ]),
     submitBtnClick() {
-      console.log(this.$refs.basicInfo.info);
+      console.log(
+        this.$store.state.page.uploadProduct[this.$route.query.groupTypeCode]
+      );
+      var getSubmitInfo = this.$store.state.page.uploadProduct[
+        this.$route.query.groupTypeCode
+      ];
       this.submitBtnStatus = false;
       this.setTransition("turn-on");
       if (!this.submitData.groupPurchaseId) {
@@ -132,50 +142,64 @@ export default {
         this.submitBtnStatus = true;
         return;
       }
-      if (this.$refs.basicInfo.info.productLineId == "") {
+      if (getSubmitInfo.productLineId == "") {
         Toast({ message: "请选择分类", duration: 1000 });
         this.submitBtnStatus = true;
         return;
+      } else {
+        this.submitData.productLine = JSON.stringify(getSubmitInfo.productLine);
       }
-      if (this.$refs.basicInfo.info.brandId == "") {
+      if (getSubmitInfo.brandId == "") {
         Toast({ message: "请选择品牌", duration: 1000 });
         this.submitBtnStatus = true;
         return;
+      } else {
+        getSubmitInfo.brand[0].model = getSubmitInfo.model;
+        this.submitData.brand = JSON.stringify(getSubmitInfo.brand);
       }
-      if (this.groupItemObj.code != "SHTG") {
-        if (this.$refs.basicInfo.info.application == "") {
+      if (this.$route.query.groupTypeCode != "SHTG") {
+        if (getSubmitInfo.application == "") {
           Toast({ message: this.toastText, duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
+          this.submitData.application = getSubmitInfo.application;
         }
       }
-      if (this.groupItemObj.code == "SHTG") {
-        if (this.$refs.basicInfo.info.responseTime == "") {
+      if (this.$route.query.groupTypeCode == "SHTG") {
+        if (getSubmitInfo.responseTime == "") {
           Toast({ message: "请输入响应时间", duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
+          this.submitData.responseTime = getSubmitInfo.responseTime;
         }
-        if (this.$refs.basicInfo.info.maintanceTypeId === "") {
+        if (getSubmitInfo.maintenanceType === "") {
           Toast({ message: "请选择维保类型", duration: 1000 });
           this.submitBtnStatus = true;
           return;
+        } else {
+          this.submitData.maintenanceType = getSubmitInfo.maintenanceType;
         }
       }
       if (this.action.files.length == 0) {
         Toast({ message: "至少上传一张图片", duration: 1000 });
         this.submitBtnStatus = true;
         return;
+      } else {
+        _.map(this.action.files, o => {
+          return (o.url = o.response
+            ? o.response.result.imageList[0].imageurl
+            : o.url);
+        });
+        this.submitData.imageUrl = _.map(this.action.files, o => {
+          return JSON.stringify(o, ["name", "status", "url"]);
+        });
       }
-      _.map(this.action.files, o => {
-        return (o.url = o.response.result
-          ? o.response.result.imageList[0].imageurl
-          : o.url);
-      });
-      this.submitData.imageUrl = _.map(this.action.files, o => {
-        return JSON.stringify(o, ["name", "status", "url"]);
-      });
-      this.submitData = { ...this.submitData, ...this.$refs.basicInfo.info };
-      this.submitData.companyId = this.$store.state.userCompanyIdOrHospitalId;
+      this.submitData.price = getSubmitInfo.price;
+      this.submitData.isOpen = getSubmitInfo.isOpen;
+      this.submitData.params = JSON.stringify(getSubmitInfo.params);
+      this.submitData.companyId = this.userCompanyIdOrHospitalId;
       console.log(this.submitData);
       _getData(
         "/server_pro/groupPurchaseCompanyProduct!request.action",
@@ -185,16 +209,26 @@ export default {
         },
         data => {
           console.log(data);
-          this.submitBtnStatus = true;
-          this.$router.push({
-            path: "myComponyGroupBuy",
-            query: { id: this.$store.state.userCompanyIdOrHospitalId }
-          });
+          this.saveId = "";
+          this.editSelectId = "";
+          this.current = null;
+          (this.submitData.introduce = ""), (this.action.files = []);
+          this.initialFun();
+          this.$router.go(-1);
         }
       );
+      this.submitBtnStatus = true;
+    },
+    changeSaveId(val) {
+      this.saveId = val;
+    },
+    changeEditSelectId(val) {
+      this.editSelectId = val;
+      this.current = null;
     },
     selectGroupId(value) {
       this.submitData.groupPurchaseTypeId = value;
+      this.editSelectId = value;
     },
     getItemObj(itemObj) {
       this.groupItemObj = itemObj;
@@ -205,6 +239,15 @@ export default {
     getCurrentIndex(v) {
       this.current = v;
       this.submitData.groupPurchaseId = this.groupUnderWayList[v].id;
+      this.$router.replace({
+        path: this.$route.path,
+        query: {
+          id: this.$route.query.id,
+          groupPurchaseTypeId: this.submitData.groupPurchaseTypeId,
+          groupPurchaseId: this.submitData.groupPurchaseId,
+          groupTypeCode: this.groupItemObj.code
+        }
+      });
     },
     addedHandler(files) {
       //图片上传需要判断是否重复
@@ -233,10 +276,192 @@ export default {
     fileRemove(file) {
       console.log(file);
       console.log(this.action.files);
+    },
+    initialFun() {
+      this.uploadProductSBTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
+      });
+      this.uploadProductHCTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
+      });
+      this.uploadProductSHTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true,
+        responseTime: "",
+        maintenanceType: ""
+      });
+      this.uploadProductXXHTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
+      });
+      this.uploadProductJRTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
+      });
+      this.uploadProductZXTG({
+        productLine: [
+          {
+            aliasId: "",
+            aliasName: "",
+            productLineId: "",
+            productLineName: ""
+          }
+        ],
+        productLineId: "",
+        productLineName: "",
+        brand: [
+          {
+            aliasId: "",
+            aliasName: "",
+            brandId: "",
+            brandLabel: "",
+            brandName: ""
+          }
+        ],
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
+      });
     }
   },
-  created() {},
-  mounted() {},
   activated() {
     _getData(
       "/server_pro/groupPurchase!request.action",
@@ -247,36 +472,67 @@ export default {
       data => {
         console.log(data);
         this.groupUnderWayList = data.groupPurchaseList;
+        if (this.$route.query.id && this.saveId != this.$route.query.id) {
+          this.saveId = this.$route.query.id;
+          _getData(
+            "/server_pro/groupPurchaseCompanyProduct!request.action",
+            {
+              method: "getGroupPurchaseCompanyProductDetail",
+              params: { id: this.$route.query.id }
+            },
+            data => {
+              console.log(data);
+              this.submitData.id = data.id;
+              this.submitData.hospitalId = data.hospitalId;
+              this.submitData.groupPurchaseTypeId = data.groupPurchaseType.id;
+              this.submitData.groupPurchaseId = data.groupPurchaseId;
+              this.submitData.introduce = data.introduce;
+              this.groupItemObj = data.groupPurchaseType;
+              this.editSelectId = "" + data.groupPurchaseType.id;
+              data.isOpen = data.isOpen ? true : false;
+              data.productLine = [data.productLine];
+              this.$router.replace({
+                path: `/uploadProduct/${data.groupPurchaseType.code}`,
+                query: {
+                  id: this.$route.query.id,
+                  groupPurchaseTypeId: this.submitData.groupPurchaseTypeId,
+                  groupPurchaseId: this.submitData.groupPurchaseId,
+                  groupTypeCode: data.groupPurchaseType.code
+                }
+              });
+              for (var i = 0; i < this.groupUnderWayList.length; i++) {
+                if (this.groupUnderWayList[i].id == data.groupPurchaseId) {
+                  this.current = i;
+                  this.submitData.groupPurchaseId = data.groupPurchaseId;
+                }
+              }
+              this.action.files = JSON.parse(data.imageUrl);
+              this.initialFun();
+              switch (data.groupPurchaseType.code) {
+                case "SBTG":
+                  this.uploadProductSBTG(data);
+                  break;
+                case "HCTG":
+                  this.uploadProductHCTG(data);
+                  break;
+                case "SHTG":
+                  this.uploadProductSHTG(data);
+                  break;
+                case "XXHTG":
+                  this.uploadProductXXHTG(data);
+                  break;
+                case "JRTG":
+                  this.uploadProductJRTG(data);
+                  break;
+                case "ZXTG":
+                  this.uploadProductZXTG(data);
+                  break;
+              }
+            }
+          );
+        }
       }
     );
-    if (this.$route.query.id) {
-      _getData(
-        "/server_pro/groupPurchaseCompanyProduct!request.action",
-        {
-          method: "getGroupPurchaseCompanyProductDetail",
-          params: { id: this.$route.query.id }
-        },
-        data => {
-          console.log(data);
-          this.action.files = JSON.parse(data.imageUrl);
-          for (var i = 0; i < this.groupUnderWayList.length; i++) {
-            if (this.groupUnderWayList[i].id == data.groupPurchaseId) {
-              this.current = i;
-              this.submitData.groupPurchaseId = data.groupPurchaseId;
-            }
-          }
-          this.editSelectId = "" + data.groupPurchaseType.id;
-          this.submitData.groupPurchaseTypeId = data.groupPurchaseType.id;
-          this.groupItemObj = data.groupPurchaseType;
-          switch (data.groupPurchaseType.code) {
-            case "SBTG":
-              this.selectSBTGProductSort();
-              break;
-          }
-          this.data = data;
-        }
-      );
-    }
   },
   watch: {
     groupItemObj() {

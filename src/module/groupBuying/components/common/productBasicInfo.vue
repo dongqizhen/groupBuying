@@ -71,7 +71,6 @@
 import { mapMutations } from "vuex";
 import { Group, XTextarea } from "vux";
 import { Toast } from "vant";
-import { type } from "eruda";
 const types = [
   { id: 0, name: "全保" },
   { id: 1, name: "备件保" },

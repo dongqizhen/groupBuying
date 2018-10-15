@@ -2,7 +2,7 @@
         <ul>
             <li @click="jumpProductCateGory">
                 <a>
-                    <span class="star">设备分类：</span>
+                    <span class="star">咨询服务分类：</span>
                     <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
                         <i slot="append"></i>
                     </cube-input>
@@ -10,17 +10,9 @@
             </li>
             <li @click="jumpSelectBrand">
                 <a>
-                    <span class="star">设备品牌：</span>
-                    <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandName">
+                    <span class="star">咨询服务商：</span>
+                    <cube-input placeholder="请选择服务商" :disabled="true" v-model="info.brandName">
                         <i slot="append"></i>
-                    </cube-input>
-                </a>
-            </li>
-            <li @click="jumpSelectModel">
-                <a>
-                    <span>设备型号：</span>
-                    <cube-input placeholder="默认为不限" :disabled="true" v-model="info.modelName">
-                      <i slot="append"></i>
                     </cube-input>
                 </a>
             </li>
@@ -37,15 +29,15 @@
             </li>
             <li @click="jumpMainParams">
                 <a>
-                    <span>重要参数：</span>
-                    <cube-input placeholder="请选择或输入重要参数" :disabled="true" v-model="info.mainParamsName">
+                    <span>关键词：</span>
+                    <cube-input placeholder="请选择或输入关键词" :disabled="true" v-model="info.mainParamsName">
                         <i slot="append"></i>
                     </cube-input>
                 </a>
             </li>
             <li class="clinic">
                 <group>
-                    <x-textarea title="临床应用:" placeholder="为保证医院的采购质量与效率，请详细填写设备的临床用途" v-model="info.application" @on-change="saveApplicationValue"  autosize></x-textarea>
+                    <x-textarea title="应用方向:" placeholder="为保证医院的采购质量与效率，请详细填写咨询应用方向" v-model="info.application" @on-change="saveApplicationValue"  autosize></x-textarea>
                 </group>
             </li>
         </ul>
@@ -60,12 +52,12 @@ export default {
   },
   computed: {
     info() {
-      return this.$store.state.page.uploadProduct.SBTG;
+      return this.$store.state.page.uploadProduct.ZXTG;
     }
   },
   watch: {
     info() {
-      console.log("变化数据：", this.$store.state.page.uploadProduct.SBTG);
+      console.log("变化数据：", this.$store.state.page.uploadProduct.ZXTG);
     }
   },
   components: {
@@ -75,18 +67,18 @@ export default {
   methods: {
     ...mapMutations([
       "setTransition",
-      "uploadProductSBTGPriceSave",
-      "uploadProductSBTGPriceIsOpenSave",
-      "uploadProductSBTGApplicationSave"
+      "uploadProductZXTGPriceSave",
+      "uploadProductZXTGPriceIsOpenSave",
+      "uploadProductZXTGApplicationSave"
     ]),
     savePriceValue() {
-      this.uploadProductSBTGPriceSave(this.info.price);
+      this.uploadProductZXTGPriceSave(this.info.price);
     },
     saveApplicationValue() {
-      this.uploadProductSBTGApplicationSave(this.info.application);
+      this.uploadProductZXTGApplicationSave(this.info.application);
     },
     saveIsOpenValue() {
-      this.uploadProductSBTGPriceIsOpenSave(!this.info.isOpen);
+      this.uploadProductZXTGPriceIsOpenSave(!this.info.isOpen);
     },
     jumpProductCateGory() {
       if (this.$route.query.groupTypeCode) {
@@ -97,7 +89,7 @@ export default {
             groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
             groupTypeCode: this.$route.query.groupTypeCode,
             page: "uploadProduct",
-            vuexSelectValue: this.$store.state.page.uploadProduct.SBTG
+            vuexSelectValue: this.$store.state.page.uploadProduct.ZXTG
               .productLine
           }
         });
@@ -115,29 +107,11 @@ export default {
             productLineId: this.info.productLineId,
             groupTypeCode: this.$route.query.groupTypeCode,
             page: "uploadProduct",
-            vuexSelectValue: this.$store.state.page.uploadProduct.SBTG.brand
+            vuexSelectValue: this.$store.state.page.uploadProduct.ZXTG.brand
           }
         });
       } else {
         Toast("请先选择分类");
-        return;
-      }
-    },
-    jumpSelectModel() {
-      if (this.info.brandId) {
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "/selectModel",
-          query: {
-            brandId: this.info.brandId,
-            productLineId: this.info.productLineId,
-            groupTypeCode: this.$route.query.groupTypeCode,
-            page: "uploadProduct",
-            vuexSelectValue: this.$store.state.page.uploadProduct.SBTG.model
-          }
-        });
-      } else {
-        Toast("请先选择品牌");
         return;
       }
     },
@@ -149,7 +123,7 @@ export default {
           query: {
             groupTypeCode: this.$route.query.groupTypeCode,
             page: "uploadProduct",
-            vuexSelectValue: this.$store.state.page.uploadProduct.SBTG.params
+            vuexSelectValue: this.$store.state.page.uploadProduct.ZXTG.params
           }
         });
       } else {
@@ -161,8 +135,8 @@ export default {
   activated() {
     this.info.productLineName = _.join(
       _.map(
-        this.$store.state.page.uploadProduct.SBTG.productLine,
-        this.$store.state.page.uploadProduct.SBTG.productLine[0].aliasName
+        this.$store.state.page.uploadProduct.ZXTG.productLine,
+        this.$store.state.page.uploadProduct.ZXTG.productLine[0].aliasName
           ? "aliasName"
           : "productLineName"
       ),
@@ -170,30 +144,26 @@ export default {
     );
     this.info.productLineId = _.join(
       _.map(
-        this.$store.state.page.uploadProduct.SBTG.productLine,
+        this.$store.state.page.uploadProduct.ZXTG.productLine,
         "productLineId"
       ),
       ","
     );
     this.info.brandName = _.join(
       _.map(
-        this.$store.state.page.uploadProduct.SBTG.brand,
-        this.$store.state.page.uploadProduct.SBTG.brand[0].aliasName
+        this.$store.state.page.uploadProduct.ZXTG.brand,
+        this.$store.state.page.uploadProduct.ZXTG.brand[0].aliasName
           ? "aliasName"
           : "brandName"
       ),
       ","
     );
     this.info.brandId = _.join(
-      _.map(this.$store.state.page.uploadProduct.SBTG.brand, "brandId"),
-      ","
-    );
-    this.info.modelName = _.join(
-      _.map(this.$store.state.page.uploadProduct.SBTG.model, "name"),
+      _.map(this.$store.state.page.uploadProduct.ZXTG.brand, "brandId"),
       ","
     );
     this.info.mainParamsName = _.join(
-      _.map(this.$store.state.page.uploadProduct.SBTG.params, "name"),
+      _.map(this.$store.state.page.uploadProduct.ZXTG.params, "name"),
       ","
     );
   }

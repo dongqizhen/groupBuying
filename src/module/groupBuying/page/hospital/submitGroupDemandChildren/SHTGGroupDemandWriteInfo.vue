@@ -176,9 +176,7 @@ export default {
       this.info.installTime = selectedVal.join("-");
       this.SHTGInstallTimeSave(this.info.installTime);
     },
-    cancelHandle() {
-      // this.info.installTime = selectedVal.join("-");
-    },
+    cancelHandle() {},
     addClass(index) {
       this.currentIdx = index;
       this.info.maintenanceType = this.types[index].id;

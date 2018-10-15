@@ -26,8 +26,7 @@ const perdictTime = () =>
     import ('../page/hospital/perdictTime')
 const mainParams = () =>
     import ('../page/hospital/mainParams')
-const uploadProduct = () =>
-    import ('../page/company/uploadProduct')
+
 const selectBrand = () =>
     import ('../page/company/selectBrand')
 const productCategory = () =>
@@ -44,6 +43,20 @@ const hospitalProfile = () =>
     import ('../page/hospital/hospitalProfile')
 const hospitalSeal = () =>
     import ('../page/hospital/hospitalSeal')
+const uploadProduct = () =>
+    import ('../page/company/uploadProduct')
+const SBTGUploadProduct = () =>
+    import ('../page/company/uploadProductChildren/SBTGUploadProduct')
+const HCTGUploadProduct = () =>
+    import ('../page/company/uploadProductChildren/HCTGUploadProduct')
+const SHTGUploadProduct = () =>
+    import ('../page/company/uploadProductChildren/SHTGUploadProduct')
+const XXHTGUploadProduct = () =>
+    import ('../page/company/uploadProductChildren/XXHTGUploadProduct')
+const JRTGUploadProduct = () =>
+    import ('../page/company/uploadProductChildren/JRTGUploadProduct')
+const ZXTGUploadProduct = () =>
+    import ('../page/company/uploadProductChildren/ZXTGUploadProduct')
 const submitGroupDemand = () =>
     import ('../page/hospital/submitGroupDemand')
 const SBTGGroupDemandWriteInfo = () =>
@@ -159,11 +172,40 @@ const router = new Router({
             component: mainParams
         }, {
             path: '/uploadProduct',
-            name: '上传团购产品（企业）',
             component: uploadProduct,
             meta: {
                 keepAlive: true
-            }
+            },
+            children: [{
+                    path: "/",
+                    name: '上传团购产品(企业)',
+                    component: SBTGUploadProduct
+                },
+                {
+                    path: "SBTG",
+                    component: SBTGUploadProduct
+                },
+                {
+                    path: "HCTG",
+                    component: HCTGUploadProduct
+                },
+                {
+                    path: "SHTG",
+                    component: SHTGUploadProduct
+                },
+                {
+                    path: "XXHTG",
+                    component: XXHTGUploadProduct
+                },
+                {
+                    path: "JRTG",
+                    component: JRTGUploadProduct
+                },
+                {
+                    path: "ZXTG",
+                    component: ZXTGUploadProduct
+                },
+            ]
         }, {
             path: '/selectBrand',
             name: '选择品牌',
@@ -196,7 +238,6 @@ const router = new Router({
             component: hospitalProfile
         }, {
             path: '/submitGroupDemand',
-
             component: submitGroupDemand,
             children: [{
                     path: "/",

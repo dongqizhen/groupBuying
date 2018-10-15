@@ -20,77 +20,152 @@ const mutations = {
   selectMainBusiness(state, businessValue) {
     state.page.mainBusiness = businessValue;
   },
+  uploadProductSBTG(state, SBTGValue) {
+    state.page.uploadProduct.SBTG = SBTGValue;
+  },
+  uploadProductHCTG(state, HCTGValue) {
+    state.page.uploadProduct.HCTG = HCTGValue;
+  },
+  uploadProductSHTG(state, SHTGValue) {
+    state.page.uploadProduct.SHTG = SHTGValue;
+  },
+  uploadProductXXHTG(state, XXHTGValue) {
+    state.page.uploadProduct.XXHTG = XXHTGValue;
+  },
+  uploadProductJRTG(state, JRTGValue) {
+    state.page.uploadProduct.JRTG = JRTGValue;
+  },
+  uploadProductZXTG(state, ZXTGValue) {
+    state.page.uploadProduct.ZXTG = ZXTGValue;
+  },
   selectSBTGProductSort(state, productSortValue) {
-    state.page.uploadProduct.SBTG.productSort = productSortValue;
+    state.page.uploadProduct.SBTG.productLine = productSortValue;
   },
   selectHCTGProductSort(state, productSortValue) {
-    state.page.uploadProduct.HCTG.productSort = productSortValue;
+    state.page.uploadProduct.HCTG.productLine = productSortValue;
   },
   selectSHTGProductSort(state, productSortValue) {
-    state.page.uploadProduct.SHTG.productSort = productSortValue;
+    state.page.uploadProduct.SHTG.productLine = productSortValue;
   },
   selectXXHTGProductSort(state, productSortValue) {
-    state.page.uploadProduct.XXHTG.productSort = productSortValue;
+    state.page.uploadProduct.XXHTG.productLine = productSortValue;
   },
   selectJRTGProductSort(state, productSortValue) {
-    state.page.uploadProduct.JRTG.productSort = productSortValue;
+    state.page.uploadProduct.JRTG.productLine = productSortValue;
   },
   selectZXTGProductSort(state, productSortValue) {
-    state.page.uploadProduct.ZXTG.productSort = productSortValue;
+    state.page.uploadProduct.ZXTG.productLine = productSortValue;
   },
   selectSBTGProductBrand(state, productBrandValue) {
-    state.page.uploadProduct.SBTG.productBrand = productBrandValue;
+    state.page.uploadProduct.SBTG.brand = productBrandValue;
   },
   selectHCTGProductBrand(state, productBrandValue) {
-    state.page.uploadProduct.HCTG.productBrand = productBrandValue;
+    state.page.uploadProduct.HCTG.brand = productBrandValue;
   },
   selectSHTGProductBrand(state, productBrandValue) {
-    state.page.uploadProduct.SHTG.productBrand = productBrandValue;
+    state.page.uploadProduct.SHTG.brand = productBrandValue;
   },
   selectXXHTGProductBrand(state, productBrandValue) {
-    state.page.uploadProduct.XXHTG.productBrand = productBrandValue;
+    state.page.uploadProduct.XXHTG.brand = productBrandValue;
   },
   selectJRTGProductBrand(state, productBrandValue) {
-    state.page.uploadProduct.JRTG.productBrand = productBrandValue;
+    state.page.uploadProduct.JRTG.brand = productBrandValue;
   },
   selectZXTGProductBrand(state, productBrandValue) {
-    state.page.uploadProduct.ZXTG.productBrand = productBrandValue;
+    state.page.uploadProduct.ZXTG.brand = productBrandValue;
   },
   selectSBTGProductModel(state, productModelValue) {
-    state.page.uploadProduct.SBTG.productModel = productModelValue;
+    state.page.uploadProduct.SBTG.model = productModelValue;
   },
   selectHCTGProductModel(state, productModelValue) {
-    state.page.uploadProduct.HCTG.productModel = productModelValue;
+    state.page.uploadProduct.HCTG.model = productModelValue;
   },
   selectSHTGProductModel(state, productModelValue) {
-    state.page.uploadProduct.SHTG.productModel = productModelValue;
+    state.page.uploadProduct.SHTG.model = productModelValue;
   },
   selectXXHTGProductModel(state, productModelValue) {
-    state.page.uploadProduct.XXHTG.productModel = productModelValue;
+    state.page.uploadProduct.XXHTG.model = productModelValue;
   },
   selectJRTGProductModel(state, productModelValue) {
-    state.page.uploadProduct.JRTG.productModel = productModelValue;
+    state.page.uploadProduct.JRTG.model = productModelValue;
   },
   selectZXTGProductModel(state, productModelValue) {
-    state.page.uploadProduct.ZXTG.productModel = productModelValue;
+    state.page.uploadProduct.ZXTG.model = productModelValue;
   },
   selectSBTGMainParam(state, mainParamValue) {
-    state.page.uploadProduct.SBTG.mainParams = mainParamValue;
+    state.page.uploadProduct.SBTG.params = mainParamValue;
   },
   selectHCTGMainParam(state, mainParamValue) {
-    state.page.uploadProduct.HCTG.mainParams = mainParamValue;
+    state.page.uploadProduct.HCTG.params = mainParamValue;
   },
   selectSHTGMainParam(state, mainParamValue) {
-    state.page.uploadProduct.SHTG.mainParams = mainParamValue;
+    state.page.uploadProduct.SHTG.params = mainParamValue;
   },
   selectXXHTGMainParam(state, mainParamValue) {
-    state.page.uploadProduct.XXHTG.mainParams = mainParamValue;
+    state.page.uploadProduct.XXHTG.params = mainParamValue;
   },
   selectJRTGMainParam(state, mainParamValue) {
-    state.page.uploadProduct.JRTG.mainParams = mainParamValue;
+    state.page.uploadProduct.JRTG.params = mainParamValue;
   },
   selectZXTGMainParam(state, mainParamValue) {
-    state.page.uploadProduct.ZXTG.mainParams = mainParamValue;
+    state.page.uploadProduct.ZXTG.params = mainParamValue;
+  },
+  uploadProductSBTGPriceSave(state, val) {
+    state.page.uploadProduct.SBTG.price = val;
+  },
+  uploadProductSBTGPriceIsOpenSave(state, val) {
+    state.page.uploadProduct.SBTG.isOpen = val;
+  },
+  uploadProductSBTGApplicationSave(state, val) {
+    state.page.uploadProduct.SBTG.application = val;
+  },
+  uploadProductHCTGPriceSave(state, val) {
+    state.page.uploadProduct.HCTG.price = val;
+  },
+  uploadProductHCTGPriceIsOpenSave(state, val) {
+    state.page.uploadProduct.HCTG.isOpen = val;
+  },
+  uploadProductHCTGApplicationSave(state, val) {
+    state.page.uploadProduct.HCTG.application = val;
+  },
+  uploadProductSHTGPriceSave(state, val) {
+    state.page.uploadProduct.SHTG.price = val;
+  },
+  uploadProductSHTGPriceIsOpenSave(state, val) {
+    state.page.uploadProduct.SHTG.isOpen = val;
+  },
+  uploadProductSHTGResponseTimeSave(state, val) {
+    state.page.uploadProduct.SHTG.responseTime = val;
+  },
+  uploadProductSHTGMaintenanceTypeSave(state, val) {
+    state.page.uploadProduct.SHTG.maintenanceType = val;
+  },
+  uploadProductXXHTGPriceSave(state, val) {
+    state.page.uploadProduct.XXHTG.price = val;
+  },
+  uploadProductXXHTGPriceIsOpenSave(state, val) {
+    state.page.uploadProduct.XXHTG.isOpen = val;
+  },
+  uploadProductXXHTGApplicationSave(state, val) {
+    state.page.uploadProduct.XXHTG.application = val;
+  },
+  uploadProductJRTGPriceSave(state, val) {
+    state.page.uploadProduct.JRTG.price = val;
+  },
+  uploadProductJRTGPriceIsOpenSave(state, val) {
+    state.page.uploadProduct.JRTG.isOpen = val;
+  },
+  uploadProductJRTGApplicationSave(state, val) {
+    state.page.uploadProduct.JRTG.application = val;
+  },
+  uploadProductZXTGPriceSave(state, val) {
+    state.page.uploadProduct.ZXTG.price = val;
+  },
+  uploadProductZXTGPriceIsOpenSave(state, val) {
+    state.page.uploadProduct.ZXTG.isOpen = val;
+  },
+  uploadProductZXTGApplicationSave(state, val) {
+    state.page.uploadProduct.ZXTG.application = val;
   },
   SBTG(state, SBTGValue) {
     state.page.submitGroupDemand.SBTG = SBTGValue;

@@ -117,13 +117,13 @@ export default {
       if (
         _.join(
           _.map(
-            this.$store.state.page[this.page][this.groupTypeCode].productSort,
+            this.$store.state.page[this.page][this.groupTypeCode].productLine,
             "aliasId"
           ),
           ","
         ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
       ) {
-        this.$store.state.page[this.page][this.groupTypeCode].productBrand = [
+        this.$store.state.page[this.page][this.groupTypeCode].brand = [
           {
             aliasId: "",
             aliasName: "",
@@ -132,12 +132,10 @@ export default {
             brandName: ""
           }
         ];
-        this.$store.state.page[this.page][this.groupTypeCode].productModel = [];
+        this.$store.state.page[this.page][this.groupTypeCode].model = [];
         if (this.page == "submitGroupDemand") {
           if (this.groupTypeCode == "SBTG" || this.groupTypeCode == "HCTG") {
-            this.$store.state.page[this.page][
-              this.groupTypeCode
-            ].productBrandFirst = [
+            this.$store.state.page[this.page][this.groupTypeCode].brandFirst = [
               {
                 aliasId: "",
                 aliasName: "",
@@ -148,7 +146,16 @@ export default {
             ];
             this.$store.state.page[this.page][
               this.groupTypeCode
-            ].productBrandSecond = [
+            ].brandSecond = [
+              {
+                aliasId: "",
+                aliasName: "",
+                brandId: "",
+                brandLabel: "",
+                brandName: ""
+              }
+            ];
+            this.$store.state.page[this.page][this.groupTypeCode].brandThird = [
               {
                 aliasId: "",
                 aliasName: "",
@@ -159,24 +166,13 @@ export default {
             ];
             this.$store.state.page[this.page][
               this.groupTypeCode
-            ].productBrandThird = [
-              {
-                aliasId: "",
-                aliasName: "",
-                brandId: "",
-                brandLabel: "",
-                brandName: ""
-              }
-            ];
+            ].modelFirst = [];
             this.$store.state.page[this.page][
               this.groupTypeCode
-            ].productModelFirst = [];
+            ].modelSecond = [];
             this.$store.state.page[this.page][
               this.groupTypeCode
-            ].productModelSecond = [];
-            this.$store.state.page[this.page][
-              this.groupTypeCode
-            ].productModelThird = [];
+            ].modelThird = [];
           }
         }
       }

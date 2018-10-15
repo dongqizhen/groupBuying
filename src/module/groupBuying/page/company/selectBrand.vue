@@ -110,13 +110,13 @@ export default {
       if (
         _.join(
           _.map(
-            this.$store.state.page[this.page][this.groupTypeCode].productBrand,
+            this.$store.state.page[this.page][this.groupTypeCode].brand,
             "aliasId"
           ),
           ","
         ) != _.join(_.map(this.itemSelect, "aliasId"), ",")
       ) {
-        this.$store.state.page[this.page][this.groupTypeCode].productModel = [];
+        this.$store.state.page[this.page][this.groupTypeCode].model = [];
       }
       if (this.page == "submitGroupDemand") {
         if (this.groupTypeCode == "SBTG" || this.groupTypeCode == "HCTG") {
@@ -125,7 +125,7 @@ export default {
               _.join(
                 _.map(
                   this.$store.state.page[this.page][this.groupTypeCode]
-                    .productBrandFirst,
+                    .brandFirst,
                   "aliasId"
                 ),
                 ","
@@ -133,14 +133,14 @@ export default {
             ) {
               this.$store.state.page[this.page][
                 this.groupTypeCode
-              ].productModelFirst = [];
+              ].modelFirst = [];
             }
           } else if (this.$route.query.type == 1) {
             if (
               _.join(
                 _.map(
                   this.$store.state.page[this.page][this.groupTypeCode]
-                    .productBrandSecond,
+                    .brandSecond,
                   "aliasId"
                 ),
                 ","
@@ -148,14 +148,14 @@ export default {
             ) {
               this.$store.state.page[this.page][
                 this.groupTypeCode
-              ].productModelSecond = [];
+              ].modelSecond = [];
             }
           } else if (this.$route.query.type == 2) {
             if (
               _.join(
                 _.map(
                   this.$store.state.page[this.page][this.groupTypeCode]
-                    .productBrandThird,
+                    .brandThird,
                   "aliasId"
                 ),
                 ","
@@ -163,7 +163,7 @@ export default {
             ) {
               this.$store.state.page[this.page][
                 this.groupTypeCode
-              ].productModelThird = [];
+              ].modelThird = [];
             }
           }
         }

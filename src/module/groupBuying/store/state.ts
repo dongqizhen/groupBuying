@@ -21,7 +21,7 @@ let state : StateType = {
     mainBusiness: [],
     uploadProduct: {
       SBTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -29,7 +29,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        productLineId: "",
+        productLineName: "",
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -38,11 +40,18 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
-        mainParams: []
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
       },
       HCTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -50,7 +59,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        productLineId: "",
+        productLineName: "",
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -59,11 +70,18 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
-        mainParams: []
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
       },
       SHTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -71,7 +89,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        productLineId: "",
+        productLineName: "",
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -80,11 +100,20 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
-        mainParams: []
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true,
+        responseTime: "",
+        maintenanceType: ""
       },
       XXHTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -92,7 +121,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        productLineId: "",
+        productLineName: "",
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -101,11 +132,18 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
-        mainParams: []
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
       },
       JRTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -113,7 +151,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        productLineId: "",
+        productLineName: "",
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -122,11 +162,18 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
-        mainParams: []
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
       },
       ZXTG: {
-        productSort: [
+        productLine: [
           {
             aliasId: "",
             aliasName: "",
@@ -134,7 +181,9 @@ let state : StateType = {
             productLineName: ""
           }
         ],
-        productBrand: [
+        productLineId: "",
+        productLineName: "",
+        brand: [
           {
             aliasId: "",
             aliasName: "",
@@ -143,8 +192,15 @@ let state : StateType = {
             brandName: ""
           }
         ],
-        productModel: [],
-        mainParams: []
+        brandId: "",
+        brandName: "",
+        model: [],
+        modelName: "",
+        params: [],
+        mainParamsName: "",
+        application: "",
+        price: "",
+        isOpen: true
       }
     },
     submitGroupDemand: {

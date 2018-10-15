@@ -30,6 +30,17 @@ export default {
           }
         });
       }
+      if (this.$route.path.indexOf("uploadProduct") != -1) {
+        this.$router.replace({
+          path: `/uploadProduct/${itemObj.code}`,
+          query: {
+            id: this.$route.query.id,
+            groupPurchaseTypeId: `${itemObj.id}`,
+            groupPurchaseId: this.groupPurchaseId,
+            groupTypeCode: `${itemObj.code}`
+          }
+        });
+      }
       if (this.MultipleSelection != undefined) {
         if (_.without(this.itemSelect, item).length == this.itemSelect.length) {
           this.itemSelect.push(item);
@@ -88,6 +99,7 @@ export default {
         );
       }
     } else {
+      console.log("走");
       _getData(
         "/server/basedata!request.action",
         {

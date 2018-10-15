@@ -16,7 +16,7 @@
             <cube-checkbox v-model="checked" v-if="this.Multiple">
                 不了解产品型号，请厂家根据我院临床需求推荐
             </cube-checkbox>
-            <search placeholder="请输入型号" isShowSave="true" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
+            <search placeholder="请输入型号" :isShowSave="this.Multiple?true:false" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
             <div class="Model_container">
                 <h2>请选择：<span>(企业提供的型号清单)</span></h2>
                 <cube-index-list :data="modelData">
@@ -80,8 +80,21 @@ export default {
       this.setTransition("turn-off");
       if (!this.Multiple) {
         if (this.itemSelect.length == 0) {
-          if (this.tempLastSearchValue != "") {
-            this.itemSelect.push({ name: this.tempLastSearchValue });
+          this.itemSelect.push({ id: "", name: this.tempLastSearchValue });
+        } else {
+          if (this.tempLastSearchValue == "") {
+            var tempArr = [];
+            _.map(this.modelData, o => {
+              return (tempArr = _.concat(tempArr, o.items));
+            });
+            if (
+              !_.find(tempArr, o => {
+                return o.name === this.itemSelect[0].name;
+              })
+            ) {
+              this.itemSelect = [];
+              this.itemSelect.push({ id: "", name: this.tempLastSearchValue });
+            }
           }
         }
       } else {
@@ -206,7 +219,11 @@ export default {
         return o.name.toUpperCase() === name.toUpperCase();
       });
       if (this.modelData.length > 0) {
-        modelListCommon = _.find(this.modelData[0].items, function(o) {
+        var tempArr = [];
+        _.map(this.modelData, o => {
+          return (tempArr = _.concat(tempArr, o.items));
+        });
+        modelListCommon = _.find(tempArr, function(o) {
           return o.name.toUpperCase() === name.toUpperCase();
         });
       }

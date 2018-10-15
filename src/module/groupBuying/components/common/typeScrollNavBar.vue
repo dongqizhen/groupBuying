@@ -1,4 +1,4 @@
-import { type } from 'eruda';
+
 <template>
     <div class="typeScrollNavBar">
 
