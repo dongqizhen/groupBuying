@@ -8,7 +8,7 @@
                 <a>台</a>
             </span>
         </div>
-        <div class="common hopeBrand" v-if="slectedTypeKeyWord=='设备团购' ||slectedTypeKeyWord=='耗材团购'">
+        <div class="common hopeBrand" v-if="slectedTypeKeyWord=='SBTG' ||slectedTypeKeyWord=='HCTG'">
             <ul>
                 <li v-for="(val,index) in data.brandList" :key="index">
                     <span>
@@ -23,7 +23,7 @@
 
             </ul>
         </div>
-        <div v-if="slectedTypeKeyWord=='售后团购' || slectedTypeKeyWord=='信息化团购'">
+        <div v-if="slectedTypeKeyWord=='SHTG' || slectedTypeKeyWord=='XXHTG'">
             <div class="common productSort"><span>{{keyWords()}}品牌</span>
                 <span class="value">{{data.brandName}}</span></div>
             <div class="common productSort model">
@@ -33,7 +33,7 @@
                 </ul>
             </div>
         </div>
-        <div v-if="slectedTypeKeyWord=='金融团购' || slectedTypeKeyWord=='咨询团购'">
+        <div v-if="slectedTypeKeyWord=='JRTG' || slectedTypeKeyWord=='ZXTG'">
             <div class="common productSort"><span>{{keyWords()}}服务商</span>
                 <span class="value">{{data.brandName}}</span>
             </div>
@@ -51,17 +51,17 @@
         methods: {
             keyWords() {
                 switch (this.slectedTypeKeyWord) {
-                    case "设备团购":
+                    case "SBTG":
                         return "设备";
-                    case "售后团购":
+                    case "SHTG":
                         return "设备";
-                    case "咨询团购":
+                    case "ZXTG":
                         return "咨询";
-                    case "金融团购":
+                    case "JRTG":
                         return "金融";
-                    case "信息化团购":
+                    case "XXHTG":
                         return "平台";
-                    case "耗材团购":
+                    case "HCTG":
                         return "耗材";
                     default:
                         return "产品";

@@ -12,20 +12,20 @@
             <div class="box">
                 <div class="scroll-list-wrap">
 
-                    <cube-scroll v-if="hasData">
+                    <cube-scroll v-if="hasData" @pulling-up="onPullingUp" ref='scroll' :options="options">
                         <div class="search_list">
-                            <div class="search_container">
+                            <div class="search_container" v-if="!loading">
 
                                 <div class="company common" v-if="type==13">
                                     <h2><i></i>企业产品</h2>
                                     <div v-if="!loading">
-                                        <product-list v-for="(val,index) in listData.eachrList" :listData='val' :key="index"></product-list>
+                                        <product-list v-for="(val,index) in listData" :listData='val' :key="index"></product-list>
                                     </div>
                                 </div>
                                 <div class="hospital common" v-else-if="type==14">
                                     <h2><i></i>医院需求</h2>
 
-                                    <submit-hospital-req-info-item v-for="(val,index) in listData.eachrList" :result='val' :key="index" v-if="!loading"></submit-hospital-req-info-item>
+                                    <submit-hospital-req-info-item v-for="(val,index) in listData" :result='val' :key="index" v-if="!loading" :type='val.code'></submit-hospital-req-info-item>
 
                                 </div>
                             </div>
@@ -47,6 +47,7 @@
     import submitHospitalReqInfoItem from "../../components/common/submitHospitalReqInfoItem.vue";
     import { _getData } from "../../service/getData";
     import noData from "../../components/noData/noData.vue";
+
     export default {
         data() {
             return {
@@ -54,7 +55,14 @@
                 loading: false,
                 loadIngTxt: "Loading...",
                 listData: [],
-                hasData: true
+                hasData: true,
+                options: {
+                    pullUpLoad: {
+                        txt: { noMore: "全部数据加载完毕" }
+                    }
+                },
+                currentPage: 1,
+                pageCount: 1
             };
         },
         props: ["type"],
@@ -65,38 +73,82 @@
             noData
         },
         methods: {
-            async getData() {
+            async getData(currentPage) {
                 await _getData(
                     "/server_pro/video!request.action",
                     {
                         method: "getEachListV28",
                         params: {
-                            currentPage: 1,
-                            countPerPage: 20,
+                            currentPage: currentPage || this.currentPage,
+
+                            countPerPage: 6,
                             name: this.value, //搜搜内容
                             type: this.type
                         }
                     },
                     data => {
                         console.log(data);
+                        this.pageCount = data.pageCount;
                         if (data.eachrList.length > 0) {
                             this.hasData = true;
-                            this.listData = data;
                         } else {
                             this.hasData = false;
+                        }
+
+                        if (this.currentPage == 1) {
+                            this.listData = data.eachrList;
+                        } else {
+                            this.listData = [...this.listData, ...data.eachrList];
                         }
                     }
                 ).then(() => {
                     this.loading = false;
+                    this.$nextTick(() => {
+                        this.$refs.scroll.refresh();
+                    });
                 });
             },
             search() {
+                this.currentPage = 1;
                 this.getData();
+            },
+            onPullingUp() {
+                this.currentPage += 1;
+                if (this.currentPage > this.pageCount) {
+                    this.$refs.scroll.forceUpdate();
+                    this.$nextTick(() => {
+                        this.$refs.scroll.refresh();
+                    });
+                    return;
+                }
+                setTimeout(() => {
+                    this.getData().then(() => {
+                        this.$refs.scroll.forceUpdate();
+                    });
+                }, 500);
             }
         },
         activated() {
-            this.loading = true;
-            this.getData();
+            this.value = this.$route.query.val;
+            if (this.listData.length == 0) {
+                this.loading = true;
+                this.getData();
+            }
+        },
+        beforeRouteLeave(to, from, next) {
+            console.log(to);
+            next();
+            if (to.name == "搜索") {
+                this.currentPage = 1;
+                setTimeout(() => {
+                    this.listData = [];
+                }, 300);
+            }
+        },
+        watch: {
+            value(newVal) {
+                console.log(newVal);
+            }
         }
     };
 </script>
@@ -170,6 +222,10 @@
             /deep/ .cube-scroll-wrapper {
                 .cube-scroll-content {
                     padding-bottom: 0 !important;
+                    min-height: calc(100% + 1px);
+                    .cube-scroll-list-wrapper {
+                        min-height: auto !important;
+                    }
                 }
             }
             .history {
@@ -270,7 +326,7 @@
                             color: $theme-color;
                         }
                         &.company {
-                            margin-bottom: 10px;
+                            // margin-bottom: 10px;
                             h2 {
                                 border-top-left-radius: 5px;
                                 border-top-right-radius: 5px;
@@ -282,6 +338,9 @@
                                     height: 90px;
                                     width: 100px;
                                     margin-right: 13px;
+                                }
+                                &:last-child {
+                                    margin-bottom: 0;
                                 }
                             }
                         }

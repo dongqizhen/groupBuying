@@ -9,7 +9,7 @@
                         <span>台件数</span>
                         <span></span>
                     </h2>
-                    <cube-scroll>
+                    <cube-scroll :options="{click:false}">
                         <div class="cancelTop">
                             <ul>
                                 <li @click="selectItem({provinceName:'全国',demondNum:totalNum})">
@@ -24,13 +24,13 @@
                                 </li>
                             </ul>
                         </div>
-                        <cube-index-list :data="wzdProvinceList">
+                        <cube-index-list :data="wzdProvinceList" :options="{click:false}">
                             <cube-index-list-group v-for="(group, index) in wzdProvinceList" :key="index" :group="group">
                                 <cube-index-list-item v-for="(item, index) in group.items" :key="index" :item="item" @select="selectItem">
                                     <div class="custom-item">
                                         <span>{{item.provinceName}}</span>
                                         <span>{{item.demondNum}}</span>
-                                        <span @click.stop="sureTop(item)">
+                                        <span @click.stop="sureTop(item,index)">
                                             <a>置顶</a>
                                         </span>
                                     </div>
@@ -81,10 +81,12 @@
         },
         methods: {
             ...mapMutations(["setTransition"]),
+            a() {
+                alert();
+            },
             selectItem(item) {
-                //console.log(item);
                 this.$router.push({
-                    path: "groupDemandDetails",
+                    path: `/groupDemandDetails/${this.$route.query.groupTypeCode}`,
                     query: {
                         productLineId: this.selectedId,
                         productLineName: this.selectedLabel.substring(
@@ -105,7 +107,8 @@
             cancelTop(val) {
                 this.setTopFun(val.id, 0);
             },
-            sureTop(val) {
+            sureTop(val, index) {
+                console.log(val.id, index);
                 this.setTopFun(val.id, 1);
             },
             selectLabel(val) {
@@ -198,6 +201,7 @@
                         }
                     },
                     data => {
+                        console.log(data);
                         this.reqData();
                     }
                 );
@@ -397,8 +401,7 @@
                                                                             font-family: PingFangSC-Regular;
                                                                             font-size: 12px;
                                                                             color: #019ddd;
-                                                                            justify-content: flex-end;
-                                                                            // padding-right: 15px;
+                                                                            justify-content: flex-end; // padding-right: 15px;
                                                                             flex: 0.7;
                                                                             a {
                                                                                 text-decoration: none;
@@ -440,5 +443,8 @@
                 }
             }
         }
+    }
+    .van-toast {
+        display: none;
     }
 </style>

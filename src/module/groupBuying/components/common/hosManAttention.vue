@@ -4,7 +4,7 @@
             <!-- <div v-lazy-container="{ selector: 'img' }">
                 <img :data-src="result.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="">
             </div> -->
-            <img v-lazy="result.userImageUrl" alt="">
+            <img v-lazy="result.userImageUrl" alt="" @click.stop="friendInfo(result.userId)">
             <div class="nameAndHospital">
                 <span class="name">{{result.userName || result.username}}</span>
                 <slot name="hospitalName"></slot>
@@ -17,6 +17,8 @@
 </template>
 <script>
     import attentionBtn from "./attentionBtn";
+    import { friendInfo } from "../mixin/mixin";
+
     export default {
         data() {
             return {
@@ -25,6 +27,7 @@
             };
         },
         props: ["result"],
+        mixins: [friendInfo],
         components: {
             attentionBtn
         },

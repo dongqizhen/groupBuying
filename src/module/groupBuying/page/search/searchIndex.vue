@@ -16,25 +16,30 @@
                 </ul>
             </div>
             <div class="search_list" v-else>
-                <div class="search_container" v-if="hasData">
-                    <p>共<span>{{totalnum}}</span>个结果</p>
-                    <div class="company common">
-                        <h2><i></i>企业产品</h2>
-                        <div>
-                            <product-list :listData='listData.productList[0]'></product-list>
+                <div class="scroll-list-wrap">
+                    <cube-scroll v-if="hasData">
+                        <div class="search_container">
+                            <p>共<span>{{totalnum}}</span>个结果</p>
+                            <div class="company common">
+                                <h2><i></i>企业产品</h2>
+                                <div>
+                                    <product-list :listData='listData.productList[0]'></product-list>
 
+                                </div>
+                                <div class="bottom" @click.stop="handleClick(13)">查看全部{{listData.productNum}}个结果</div>
+                            </div>
+                            <div class="hospital common">
+                                <h2><i></i>医院需求</h2>
+                                <div>
+                                    <submit-hospital-req-info-item :result='listData.demandList[0]' :type='listData.demandList[0].code'></submit-hospital-req-info-item>
+                                </div>
+                                <div class="bottom" @click.stop="handleClick(14)">查看全部{{listData.demandNum}}个结果</div>
+                            </div>
                         </div>
-                        <div class="bottom" @click.stop="handleClick(13)">查看全部{{listData.productNum}}个结果</div>
-                    </div>
-                    <div class="hospital common">
-                        <h2><i></i>医院需求</h2>
-                        <div>
-                            <submit-hospital-req-info-item :result='listData.demandList[0]'></submit-hospital-req-info-item>
-                        </div>
-                        <div class="bottom" @click.stop="handleClick(14)">查看全部{{listData.demandNum}}个结果</div>
-                    </div>
+                    </cube-scroll>
+                    <no-data v-else></no-data>
                 </div>
-                <no-data v-else></no-data>
+
                 <loading :show="loading" :text="loadIngTxt"></loading>
             </div>
         </div>
@@ -278,8 +283,13 @@
                 }
             }
             .search_list {
-                padding: 0 13px;
+                // padding: 0 13px;
                 height: 100%;
+                /deep/ .cube-scroll-wrapper {
+                    .cube-scroll-content {
+                        padding-top: 0;
+                    }
+                }
                 .search_container {
                     > p {
                         height: 37px;

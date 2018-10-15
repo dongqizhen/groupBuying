@@ -1,6 +1,6 @@
 <template>
 
-    <div class="clearfix commentList" @click="toNativeCommentDetails(commentData.id)">
+    <div class="clearfix commentList" @click="toNativeCommentDetails(commentData.id,index)">
         <div class="left" @click.stop="friendInfo(commentData.userId)">
 
             <img v-lazy="commentData.userImageUrl" alt="">
@@ -25,14 +25,14 @@
                 <li v-for="(val,index) in commentData.replyList" :key="index">
                     <div v-if="val.commentId == -1">
                         <span class="name">{{val.username}}：</span>
-                        <span>{{val.content}}</span>
+                        <span>{{decodeURI(val.content)}}</span>
                     </div>
                     <div v-else>
                         <span class="name">{{val.username}}：</span>
-                        <span>{{val.content}}</span>
+                        <span>{{decodeURI(val.content)}}</span>
                         //
                         <span class="name">@{{val.commentName}}：</span>
-                        <span>{{val.commentContent}}</span>
+                        <span>{{decodeURI(val.commentContent)}}</span>
                     </div>
                 </li>
 
@@ -83,10 +83,19 @@
 
                 this.isActive = !this.isActive;
             },
-            delete_commit(id) {
+            delete_commit(id, index) {
                 this.$emit("delete_commit", id, this.index);
             },
             NativeCommentDetails() {}
+        },
+        mounted() {
+            //注册原生调用删除评论方法
+            window.WebViewJavascriptBridge.registerHandler(
+                "deleteCommont",
+                (data, responseCallback) => {
+                    this.delete_commit(data.id);
+                }
+            );
         },
         props: {
             commentData: {
@@ -266,7 +275,7 @@
                     }
                     span {
                         /* display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                align-items: center; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center; */
                         &.name {
                             color: #406599;
                         }
