@@ -1,7 +1,7 @@
 <template>
     <div class="modelScrollNavBar">
         <div class="slide_container">
-            <cube-scroll-nav-bar :current="current" :labels="labels" @change="changeHandler" v-if="hackReset" />
+            <cube-scroll-nav-bar :current="selectModelVal" :labels="labels" @change="changeHandler" v-if="hackReset" />
         </div>
         <div @click="handleClick">
             <touch-ripple :speed="1" :opacity="0.3" color="#999" transition="ease">
@@ -10,7 +10,7 @@
         </div>
         <transition name="showBox">
             <div class="side-container-vertical" v-if="hideBoxIsShow">
-                <cube-scroll-nav-bar direction="vertical" :current="current" :labels="labels" @change="changeHandler" v-if="hackReset">
+                <cube-scroll-nav-bar direction="vertical" :current="current" :labels="labels"  @change="changeHandler" v-if="hackReset">
                     <i slot-scope="props">{{props.txt}}</i>
                 </cube-scroll-nav-bar>
             </div>
@@ -40,6 +40,8 @@ export default {
   },
   methods: {
     changeHandler(cur) {
+      console.log(cur);
+      console.log(this.$el);
       this.current = cur;
       this.$emit("modelNavChange", cur);
       this.hideBoxIsShow = false;
@@ -52,16 +54,18 @@ export default {
   props: {
     modelData: {
       type: Array
+    },
+    selectModelVal: {
+      type: String
     }
   },
   mounted() {},
   watch: {
     modelData(newVal, oldVal) {
-      console.log(newVal, oldVal, newVal == oldVal);
-
+      // console.log(newVal, oldVal, newVal == oldVal);
+      // console.log(this.selectModelVal);
       this.labels = [...newVal];
-
-      this.current = this.modelData[0];
+      this.current = this.selectModelVal;
       this.$nextTick(() => {
         this.hackReset = true;
       });

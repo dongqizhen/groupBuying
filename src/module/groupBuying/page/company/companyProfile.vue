@@ -17,10 +17,10 @@
             <basic-title title="参加团购产品列表" imgurl="../static/images/product_list.png"></basic-title>
             <div class="product_list" v-if="groupPurchaseTypeList.length">
 
-              <type-scroll-nav-bar :typeData="typeData" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+              <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="curTypeVal" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
             </div>
             <div class="products" v-if="groupPurchaseTypeList.length">
-              <model-scroll-nav-bar :modelData="modelData" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
+              <model-scroll-nav-bar :modelData="modelData" :selectModelVal="selectModelVal" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
               <ul>
                 <li v-for="data in swipeData" :key="data.id">
                   <product-list :listData="data"></product-list>
@@ -58,6 +58,7 @@ export default {
       typeData: [],
       isShowBtn: false,
       btnText: 0
+      // curTypeVal: ""
     };
   },
   mixins: [getProductList],

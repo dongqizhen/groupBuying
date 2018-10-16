@@ -7,8 +7,6 @@ import {
 
 //import noData from '../../components/noData/noData'
 
-
-
 export const getProductList = {
     data() {
         return {
@@ -20,7 +18,8 @@ export const getProductList = {
             groupPurchaseTypeList: [],
             curTypeVal: "",
             activeIndex: -1, //控制滑动删除按钮唯一位置
-            isLoading: true
+            isLoading: true,
+            selectModelVal: ""
         }
     },
     activated() {
@@ -33,9 +32,10 @@ export const getProductList = {
                 name: typeVal
             })[0].productLineList;
             const NewmodelVal = modelVal ? modelVal : productLineList[0].name;
-
             this.modelData = await _.map(productLineList, "name");
             console.log(modelVal);
+            console.log(NewmodelVal);
+            this.selectModelVal = NewmodelVal;
             this.showProduct(typeVal, NewmodelVal);
             console.log(typeVal, this.modelData);
         },
@@ -44,18 +44,14 @@ export const getProductList = {
                 name: typeVal
             });
             console.log(groupPurchaseTypeList, typeVal, modelVal);
-
             this.swipeData = _.filter(
                 groupPurchaseTypeList[0].productLineList, {
                     name: modelVal
                 }
             )[0].productList;
-
             console.log(this.swipeData);
-            // await this.changeModel(typeVal);
         },
         TypeNavChange(val) {
-            // this.showProduct(val);
             console.log(val)
             this.curTypeVal = val;
             this.changeModel(val);
@@ -64,6 +60,7 @@ export const getProductList = {
             }
         },
         ModelNavChange(val) {
+            this.selectModelVal = val;
             this.showProduct(this.curTypeVal, val);
             if (this.activeIndex >= 0) {
                 this.$refs.swipeItem[this.activeIndex].shrink();
@@ -79,15 +76,40 @@ export const getProductList = {
                 },
                 data => {
                     console.log(data);
-                    this.isLoading = false
+                    this.isLoading = false;
+                    this.groupPurchaseTypeList = data.groupPurchaseTypeList;
                     if (data.groupPurchaseTypeList.length != 0) {
-                        this.groupPurchaseTypeList = data.groupPurchaseTypeList;
-                        this.typeData = _.map(data.groupPurchaseTypeList, "name");
-                        this.curTypeVal = this.groupPurchaseTypeList[0].name;
-                        this.changeModel(
-                            this.groupPurchaseTypeList[0].name,
-                            this.groupPurchaseTypeList[0].productLineList[0].name
-                        );
+                        if (_.isEmpty(this.modelData)) {
+                            this.typeData = _.map(data.groupPurchaseTypeList, "name");
+                            this.curTypeVal = this.curTypeVal == "" ? this.typeData[0] : this.curTypeVal;
+                            this.changeModel(
+                                this.groupPurchaseTypeList[0].name,
+                                this.groupPurchaseTypeList[0].productLineList[0].name
+                            );
+                        } else {
+                            this.typeData = _.map(data.groupPurchaseTypeList, "name");
+                            this.curTypeVal = _.isEmpty(
+                                _.filter(this.typeData, o => {
+                                    return o.slice(0, o.indexOf("(")) == this.curTypeVal.slice(0, this.curTypeVal.indexOf("("));
+                                })) ? this.typeData[0] : _.filter(this.typeData, o => {
+                                return o.slice(0, o.indexOf("(")) == this.curTypeVal.slice(0, this.curTypeVal.indexOf("("));
+                            })[0];
+                            const productLineList = _.filter(data.groupPurchaseTypeList, {
+                                name: this.curTypeVal
+                            })[0].productLineList;
+                            _.isEmpty(
+                                    _.filter(this.typeData, o => {
+                                        return o.slice(0, o.indexOf("(")) == this.curTypeVal.slice(0, this.curTypeVal.indexOf("("));
+                                    })) ?
+                                this.changeModel(this.groupPurchaseTypeList[0].name, this.groupPurchaseTypeList[0].productLineList[0].name) :
+                                this.changeModel(this.curTypeVal, _.isEmpty(_.filter(productLineList, o => {
+                                    return o.name.slice(0, o.name.indexOf("(")) == this.selectModelVal.slice(0, this.selectModelVal.indexOf("("))
+                                })) ? productLineList[0].name : _.filter(productLineList, o => {
+                                    return o.name.slice(0, o.name.indexOf("(")) == this.selectModelVal.slice(0, this.selectModelVal.indexOf("("))
+                                })[0].name)
+
+
+                        }
                     }
                 }
             );

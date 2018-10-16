@@ -5,7 +5,7 @@
       <list-filter v-on:getSortType="getIndex"></list-filter>
       <div class="proList">
           <ul>
-            <router-link tag="li" :to="{ path: 'productDetails', query: { productID: listItem.id }}" v-for="(listItem,index) in lists" :key="index" @click.native="setTransition('turn-on')">
+            <router-link tag="li" :to="{ path: 'productDetails', query: { id: listItem.id }}" v-for="(listItem,index) in lists" :key="index" @click.native="setTransition('turn-on')">
                 <a>
                   <product-list class="itemPro" :listData="listItem"></product-list>
                 </a>

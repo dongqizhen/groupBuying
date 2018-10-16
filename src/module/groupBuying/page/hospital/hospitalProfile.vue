@@ -163,10 +163,6 @@ export default {
         console.log(data);
         this.list = data.list;
         if (this.list.length != 0) {
-          // this.demandListData = data.list[0].demandList;
-          // this.typeData = _.map(data.list, "name");
-          // this.slectedTypeKeyWord = this.typeData[0];
-          // console.log(this.typeData);
           if (_.isEmpty(this.demandListData)) {
             this.demandListData = data.list[0].demandList;
             this.typeData = _.map(data.list, "name");

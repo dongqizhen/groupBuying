@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Header title="团购详情" :isSearchHide="true"></Header>
+        <Header title="团购详情" :isSearchHide="true" :saveId="saveId" v-on:changeSaveId="changeSaveId"></Header>
         <div class="content">
             <div class="scroll-list-wrap">
 
@@ -93,7 +93,8 @@ export default {
       productLineList: [],
       totalNum: "",
       enterBrandList: [],
-      groupPurchaseTypeName: ""
+      groupPurchaseTypeName: "",
+      saveId: ""
     };
   },
   components: {
@@ -128,15 +129,21 @@ export default {
     },
     jumpToGroupClassification() {
       // if (this.$store.state.userType == "hospital") {
-      this.setTransition("turn-on");
-      this.$router.push({
-        path: "/groupClassification",
-        query: {
-          groupPurchaseTypeId: this.currentGroupId,
-          groupPurchaseId: this.id,
-          groupPurchaseTypeName: this.groupPurchaseTypeName
-        }
-      });
+      if (this.totalNum != 0) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "/groupClassification",
+          query: {
+            groupPurchaseTypeId: this.currentGroupId,
+            groupPurchaseId: this.id,
+            groupPurchaseTypeName: this.groupPurchaseTypeName
+          }
+        });
+      } else {
+        Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
+        return;
+      }
+
       // } else {
       //   Toast({message:"只有医院用户才能查看",duration:1000});
       //   return;
@@ -165,6 +172,9 @@ export default {
       this.currentGroupId = group.id;
       this.totalNum = group.totalNum;
       this.groupPurchaseTypeName = group.name;
+    },
+    changeSaveId(val) {
+      this.saveId = val;
     }
   },
   activated() {
@@ -180,28 +190,31 @@ export default {
         this.hospitalGroupList = data.list;
       }
     );
-    _getData(
-      "/server_pro/groupPurchase!request.action",
-      {
-        method: "getGroupPurchaseInfoCompany",
-        params: { id: this.id }
-      },
-      data => {
-        console.log(data);
-        this.groupList = data.groupList;
-        this.currentGroupId = data.groupList[0].id;
-        this.totalNum = data.groupList[0].totalNum;
-        this.groupPurchaseTypeName = data.groupList[0].name;
-        this.groupBrandList = data.groupPurchaseBrandList;
-        this.productLineList = data.productLineList;
-        this.groupInventoryList = _.find(this.productLineList, o => {
-          return o[this.currentGroupId];
-        })[this.currentGroupId];
-        this.enterBrandList = _.find(this.groupBrandList, o => {
-          return o[this.currentGroupId];
-        })[this.currentGroupId];
-      }
-    );
+    if (this.id != this.saveId) {
+      this.saveId = this.id;
+      _getData(
+        "/server_pro/groupPurchase!request.action",
+        {
+          method: "getGroupPurchaseInfoCompany",
+          params: { id: this.id }
+        },
+        data => {
+          console.log(data);
+          this.groupList = data.groupList;
+          this.currentGroupId = data.groupList[0].id;
+          this.totalNum = data.groupList[0].totalNum;
+          this.groupPurchaseTypeName = data.groupList[0].name;
+          this.groupBrandList = data.groupPurchaseBrandList;
+          this.productLineList = data.productLineList;
+          this.groupInventoryList = _.find(this.productLineList, o => {
+            return o[this.currentGroupId];
+          })[this.currentGroupId];
+          this.enterBrandList = _.find(this.groupBrandList, o => {
+            return o[this.currentGroupId];
+          })[this.currentGroupId];
+        }
+      );
+    }
   },
   watch: {
     currentGroupId() {
