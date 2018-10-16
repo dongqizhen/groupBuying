@@ -143,6 +143,10 @@ const router = new Router({
             path: '/registrationSuccess',
             name: '报名成功（企业）',
             component: registrationSuccess,
+            props: (route) => ({
+                companyNum: route.query.companyNum,
+                hospitalNum: route.query.hospitalNum
+            }),
             meta: {
                 keepAlive: true
             }
