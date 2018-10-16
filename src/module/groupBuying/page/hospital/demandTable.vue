@@ -70,6 +70,7 @@ export default {
           params: { hospitalId: this.$route.query.id }
         },
         data => {
+          console.log("需求清单：", data);
           this.hasNet = true;
           this.list = data.list;
           this.hasData = data.list.length > 0;
@@ -82,6 +83,7 @@ export default {
                   ? this.typeData[0]
                   : this.slectedTypeKeyWord;
               console.log(this.typeData);
+              console.log(this.slectedTypeKeyWord);
             } else {
               this.typeData = _.map(data.list, "name");
               this.demandListData = _.isEmpty(
