@@ -493,6 +493,15 @@
             },
             scrollStart() {}
         },
+        mounted() {
+            //注册原生调用删除评论方法
+            window.WebViewJavascriptBridge.registerHandler(
+                "deleteCommont",
+                (data, responseCallback) => {
+                    this.commentList.splice(data.index, 1);
+                }
+            );
+        },
         activated() {
             console.log(this.$USER_INFO);
             _getData(

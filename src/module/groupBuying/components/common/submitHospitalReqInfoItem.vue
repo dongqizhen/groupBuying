@@ -229,7 +229,7 @@
                 width: 147px;
                 display: flex;
                 justify-content: flex-start;
-
+                align-items: center;
                 img {
                     width: 14px;
                     height: 14px;
