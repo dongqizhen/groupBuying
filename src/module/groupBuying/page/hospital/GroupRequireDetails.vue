@@ -347,7 +347,7 @@
                         <div class="commentContainer">
                             <ul v-if="commentList.length">
                                 <li v-for="(val,index) in commentList" :key="index">
-                                    <comment-list-item :commentData='val' :index="index" v-on:delete_commit="delete_commit(val.id,index)"></comment-list-item>
+                                    <comment-list-item :commentData='val' :index="index" v-on:delete_commit="delete_commit(val.id,index)" v-on:delete_child_comment='delete_child_comment'></comment-list-item>
                                 </li>
                             </ul>
                             <div v-else class="noComment">
@@ -386,7 +386,8 @@
                 },
                 currentPage: 1,
                 pageCount: 1,
-                pullUpFlag: true
+                pullUpFlag: true,
+                isShow: false
             };
         },
         components: {
@@ -476,20 +477,28 @@
                 if (this.commentList.length == 0) {
                     this.options.pullUpLoad = false;
                 }
-                _getData(
-                    "/server_pro/videoComment!request.action",
-                    {
-                        method: "deleteCommentById",
+                if (id != "") {
+                    _getData(
+                        "/server_pro/videoComment!request.action",
+                        {
+                            method: "deleteCommentById",
 
-                        params: {
-                            objId: id, // id
-                            type: 21 //表示聊一聊
+                            params: {
+                                objId: id, // id
+                                type: 21 //表示聊一聊
+                            }
+                        },
+                        data => {
+                            console.log(data);
                         }
-                    },
-                    data => {
-                        console.log(data);
-                    }
-                );
+                    );
+                }
+            },
+            delete_child_comment(id, index) {
+                const obj = this.commentList[index];
+                _.remove(obj.replyList, n => n.id == id);
+
+                this.$set(this.commentList, index, { ...obj });
             },
             scrollStart() {}
         },
@@ -498,6 +507,7 @@
             window.WebViewJavascriptBridge.registerHandler(
                 "deleteCommont",
                 (data, responseCallback) => {
+                    alert(data.index);
                     this.commentList.splice(data.index, 1);
                 }
             );
@@ -520,6 +530,16 @@
         },
         deactivated() {
             this.$destroy();
+        },
+        watch: {
+            commentList(newVal, oldVal) {
+                console.log(newVal, oldVal, newVal == oldVal);
+
+                /* this.$nextTick(() => {
+                                    this.isShow = false;
+                                });
+                                this.isShow = true; */
+            }
         }
     };
 </script>
