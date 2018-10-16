@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header :isSearchHide="false" :title="this.$route.name"></Header>
+    <Header :isSearchHide="false" title="企业团购报名"></Header>
     <div class="content">
       <div class="scroll-list-wrap">
         <cube-scroll ref="scroll">
@@ -61,359 +61,361 @@
 </template>
 
 <script>
-import Header from "../../components/header/header";
-import basicTitle from "../../components/common/basicTitle";
-import personalInformation from "../../components/common/personalInformation";
-import selectProjectNav from "../../components/common/selectProjectNav";
-import { _getData } from "../../service/getData";
-import { mapMutations } from "vuex";
-import _ from "lodash";
-import { Toast } from "vant";
+  import Header from "../../components/header/header";
+  import basicTitle from "../../components/common/basicTitle";
+  import personalInformation from "../../components/common/personalInformation";
+  import selectProjectNav from "../../components/common/selectProjectNav";
+  import { _getData } from "../../service/getData";
+  import { mapMutations } from "vuex";
+  import _ from "lodash";
+  import { Toast } from "vant";
 
-import { openNativeNav } from "../../components/mixin/mixin";
+  import { openNativeNav } from "../../components/mixin/mixin";
 
-export default {
-  data() {
-    return {
-      editSelectId: "",
-      contact: [
-        {
-          id: "",
-          name: "",
-          post: "",
-          phone: "",
-          telphone: "",
-          wxCode: ""
-        }
-      ],
-      mainBusinessName: "",
-      submitBtnStatus: true,
-      submitData: {
-        id: "",
-        companyName: "",
-        address: "北京市",
-        lat: "39.944193", //纬度
-        lng: "116.375416", //经度
-        introduce: "",
-        groupPurchaseTypeId: "",
-        province: "北京市",
-        city: "北京市",
-        companyType: "",
-        businessId: "",
-        contact: ""
+  export default {
+      data() {
+          return {
+              editSelectId: "",
+              contact: [
+                  {
+                      id: "",
+                      name: "",
+                      post: "",
+                      phone: "",
+                      telphone: "",
+                      wxCode: ""
+                  }
+              ],
+              mainBusinessName: "",
+              submitBtnStatus: true,
+              submitData: {
+                  id: "",
+                  companyName: "",
+                  address: "北京市",
+                  lat: "39.944193", //纬度
+                  lng: "116.375416", //经度
+                  introduce: "",
+                  groupPurchaseTypeId: "",
+                  province: "北京市",
+                  city: "北京市",
+                  companyType: "",
+                  businessId: "",
+                  contact: ""
+              },
+              responseData: ""
+          };
       },
-      responseData: ""
-    };
-  },
-  mixins: [openNativeNav],
-  components: {
-    Header,
-    basicTitle,
-    personalInformation,
-    selectProjectNav
-  },
-  methods: {
-    ...mapMutations([
-      "setTransition",
-      "selectCompanyType",
-      "selectMainBusiness"
-    ]),
-    submitBtnClick() {
-      this.setTransition("turn-on");
-      this.submitBtnStatus = false;
-      if (this.submitData.groupPurchaseTypeId == "") {
-        Toast({ message: "请选择团购项目", duration: 1000 });
-        this.submitBtnStatus = true;
-        return;
-      }
-      if (this.submitData.companyName == "") {
-        Toast({ message: "请输入公司全称", duration: 1000 });
-        this.submitBtnStatus = true;
-        return;
-      }
-      if (this.submitData.companyTypeId == "") {
-        Toast({ message: "请选择企业类型", duration: 1000 });
-        this.submitBtnStatus = true;
-        return;
-      }
-      if (this.$store.state.page.mainBusiness.length == 0) {
-        Toast({ message: "请选择主营业务", duration: 1000 });
-        this.submitBtnStatus = true;
-        return;
-      }
-      var flag = true;
-      _.each(this.$refs.person.persons, (value, key) => {
-        if (value.name == "") {
-          flag = false;
-          Toast({
-            message: "请输入负责人" + (key + 1) + "姓名",
-            duration: 1000
-          });
-          this.submitBtnStatus = true;
-          return false;
-        }
-        if (value.post == "") {
-          flag = false;
-          Toast({
-            message: "请输入负责人" + (key + 1) + "职务",
-            duration: 1000
-          });
-          this.submitBtnStatus = true;
-          return false;
-        }
-        if (value.phone == "") {
-          flag = false;
-          Toast({
-            message: "请输入负责人" + (key + 1) + "移动电话",
-            duration: 1000
-          });
-          this.submitBtnStatus = true;
-          return false;
-        }
-      });
+      mixins: [openNativeNav],
+      components: {
+          Header,
+          basicTitle,
+          personalInformation,
+          selectProjectNav
+      },
+      methods: {
+          ...mapMutations([
+              "setTransition",
+              "selectCompanyType",
+              "selectMainBusiness"
+          ]),
+          submitBtnClick() {
+              this.setTransition("turn-on");
+              this.submitBtnStatus = false;
+              if (this.submitData.groupPurchaseTypeId == "") {
+                  Toast({ message: "请选择团购项目", duration: 1000 });
+                  this.submitBtnStatus = true;
+                  return;
+              }
+              if (this.submitData.companyName == "") {
+                  Toast({ message: "请输入公司全称", duration: 1000 });
+                  this.submitBtnStatus = true;
+                  return;
+              }
+              if (this.submitData.companyTypeId == "") {
+                  Toast({ message: "请选择企业类型", duration: 1000 });
+                  this.submitBtnStatus = true;
+                  return;
+              }
+              if (this.$store.state.page.mainBusiness.length == 0) {
+                  Toast({ message: "请选择主营业务", duration: 1000 });
+                  this.submitBtnStatus = true;
+                  return;
+              }
+              var flag = true;
+              _.each(this.$refs.person.persons, (value, key) => {
+                  if (value.name == "") {
+                      flag = false;
+                      Toast({
+                          message: "请输入负责人" + (key + 1) + "姓名",
+                          duration: 1000
+                      });
+                      this.submitBtnStatus = true;
+                      return false;
+                  }
+                  if (value.post == "") {
+                      flag = false;
+                      Toast({
+                          message: "请输入负责人" + (key + 1) + "职务",
+                          duration: 1000
+                      });
+                      this.submitBtnStatus = true;
+                      return false;
+                  }
+                  if (value.phone == "") {
+                      flag = false;
+                      Toast({
+                          message: "请输入负责人" + (key + 1) + "移动电话",
+                          duration: 1000
+                      });
+                      this.submitBtnStatus = true;
+                      return false;
+                  }
+              });
 
-      if (flag) {
-        this.submitData.companyType = JSON.stringify(
-          this.$store.state.page.typeOfEnterprise
-        );
-        this.submitData.businessId = JSON.stringify(
-          this.$store.state.page.mainBusiness
-        );
-        this.submitData.contact = JSON.stringify(this.$refs.person.persons);
-        this.submit();
-        this.submitBtnStatus = true;
-      }
-    },
-    submit() {
-      _getData(
-        "/server_pro/groupPurchaseCompany!request.action",
-        {
-          method: "addOrUpdateGroupPurchaseCompany",
-          params: this.submitData
-        },
-        data => {
-          console.log(data);
-          this.$router.replace({
-            path: "registrationSuccess",
-            query: {
-              companyNum: data.companyNum,
-              hospitalNum: data.hospitalNum
-            }
-          });
-        }
-      );
-    },
-    handleSelect(value) {
-      console.log(value);
-      this.submitData.groupPurchaseTypeId = value;
-    }
-  },
-  created() {
-    if (this.$route.query.id) {
-      _getData(
-        "/server_pro/groupPurchaseCompany!request.action",
-        {
-          method: "getGroupPurchaseCompanyDetail",
-          params: {
-            id: this.$route.query.id
+              if (flag) {
+                  this.submitData.companyType = JSON.stringify(
+                      this.$store.state.page.typeOfEnterprise
+                  );
+                  this.submitData.businessId = JSON.stringify(
+                      this.$store.state.page.mainBusiness
+                  );
+                  this.submitData.contact = JSON.stringify(
+                      this.$refs.person.persons
+                  );
+                  this.submit();
+                  this.submitBtnStatus = true;
+              }
+          },
+          submit() {
+              _getData(
+                  "/server_pro/groupPurchaseCompany!request.action",
+                  {
+                      method: "addOrUpdateGroupPurchaseCompany",
+                      params: this.submitData
+                  },
+                  data => {
+                      console.log(data);
+                      this.$router.replace({
+                          path: "registrationSuccess",
+                          query: {
+                              companyNum: data.companyNum,
+                              hospitalNum: data.hospitalNum
+                          }
+                      });
+                  }
+              );
+          },
+          handleSelect(value) {
+              console.log(value);
+              this.submitData.groupPurchaseTypeId = value;
           }
-        },
-        data => {
-          console.log("获取的报名详情", data);
-          this.selectCompanyType(data.companyType);
-          this.selectMainBusiness(data.bussinessList);
+      },
+      created() {
+          if (this.$route.query.id) {
+              _getData(
+                  "/server_pro/groupPurchaseCompany!request.action",
+                  {
+                      method: "getGroupPurchaseCompanyDetail",
+                      params: {
+                          id: this.$route.query.id
+                      }
+                  },
+                  data => {
+                      console.log("获取的报名详情", data);
+                      this.selectCompanyType(data.companyType);
+                      this.selectMainBusiness(data.bussinessList);
+                      this.mainBusinessName = _.join(
+                          _.map(data.bussinessList, "name"),
+                          ","
+                      );
+                      this.submitData.id = data.id;
+                      this.contact = data.contactList;
+                      this.companyTypeName = data.companyTypeName;
+                      this.submitData.companyName = data.companyName;
+                      this.responseData = data.address;
+                      this.submitData.introduce = data.introduce;
+                      this.editSelectId = data.groupPurchaseTypeId;
+                  }
+              );
+          }
+      },
+      mounted() {},
+      activated() {
           this.mainBusinessName = _.join(
-            _.map(data.bussinessList, "name"),
-            ","
+              _.map(this.$store.state.page.mainBusiness, "name"),
+              ","
           );
-          this.submitData.id = data.id;
-          this.contact = data.contactList;
-          this.companyTypeName = data.companyTypeName;
-          this.submitData.companyName = data.companyName;
-          this.responseData = data.address;
-          this.submitData.introduce = data.introduce;
-          this.editSelectId = data.groupPurchaseTypeId;
-        }
-      );
-    }
-  },
-  mounted() {},
-  activated() {
-    this.mainBusinessName = _.join(
-      _.map(this.$store.state.page.mainBusiness, "name"),
-      ","
-    );
-  },
-  deactivated() {}
-};
+      },
+      deactivated() {}
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../../static/scss/_commonScss";
-input::-webkit-input-placeholder {
-  //color: #333 !important;
-  opacity: 1;
-  font-family: PingFangSC-Regular;
-  font-size: 14px !important;
-  text-align: left;
-}
-.container {
-  @include basic_container_style;
-  .content {
-    /deep/ .basicTitle {
-      p {
-        span {
-          font-family: PingFangSC-Regular;
-          font-size: 15px;
-          color: #aaaaaa;
-          letter-spacing: 0;
-          margin-left: 5px;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          i {
-            font-size: 16px;
-            //width: 10px;
-            color: #f11f1f;
-            display: flex;
-            justify-content: center;
-            margin-right: 4px;
-            align-items: center;
-            font-family: PingFangSC-Regular;
-          }
-        }
-      }
-    }
-    .Select_project {
-      background: #ffffff;
-      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
-    .company_basic_information {
-      background: #ffffff;
-      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      margin-bottom: 10px;
-      ul {
-        padding-left: 13px;
-        li {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          height: 47px;
-          border-bottom: 0.5px solid #f6f6f6;
-          a {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            text-decoration: none;
-            width: 100%;
-            span {
-              font-family: PingFangSC-Regular;
-              font-size: 14px;
-              color: #333333;
-            }
-            > div {
-              display: flex;
-              justify-content: flex-end;
-              padding-right: 13px;
-              font-family: PingFangSC-Regular;
-              font-size: 14px;
-              color: #999999;
-              flex: 1;
-              i {
-                display: flex;
-                height: 14px;
-                width: 8px;
-                background: url("../../../../../static/images/grayarrow.png")
-                  no-repeat center;
-                background-size: 100% 100%;
-                margin-left: 3px;
-              }
-            }
-          }
-          > span {
-            font-family: PingFangSC-Regular;
-            font-size: 14px;
-            color: #333333;
-          }
-          > div {
-            display: flex;
-            justify-content: flex-end;
-            padding-right: 13px;
-            font-family: PingFangSC-Regular;
-            font-size: 14px;
-            color: #999999;
-            flex: 1;
-            i {
-              display: flex;
-              height: 14px;
-              width: 8px;
-              background: url("../../../../../static/images/grayarrow.png")
-                no-repeat center;
-              background-size: 100% 100%;
-              margin-left: 3px;
-            }
-          }
-          /deep/ .cube-input {
-            &.name {
-              input {
-                text-align: left;
-              }
-            }
-            flex: 1;
-            &:after {
-              border: none;
-            }
-            input {
-              color: #999999;
-              font-family: PingFangSC-Regular;
-              font-size: 14px;
-              padding-left: 0;
-              text-align: right;
-            }
-          }
-        }
-      }
-    }
-    .personal_informatin {
-      background: #ffffff;
-      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      margin-bottom: 10px;
-      /deep/ .personalInformation {
-        .details {
-          ul {
-            li {
-              span {
-                width: auto;
-              }
-              > div {
-                //width: auto;
-                input {
-                  color: #999999;
-                }
-                input::-webkit-input-placeholder {
-                  color: #ccc !important;
-                  opacity: 1;
-                  font-family: PingFangSC-Regular;
-                  font-size: 14px !important;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    /deep/ .weui-btn {
-      background: #019ddd;
+  @import "../../../../../static/scss/_commonScss";
+  input::-webkit-input-placeholder {
+      //color: #333 !important;
+      opacity: 1;
       font-family: PingFangSC-Regular;
-      font-size: 16px;
-
-      height: 50px;
-      border-radius: 6px;
-    }
+      font-size: 14px !important;
+      text-align: left;
   }
-}
+  .container {
+      @include basic_container_style;
+      .content {
+          /deep/ .basicTitle {
+              p {
+                  span {
+                      font-family: PingFangSC-Regular;
+                      font-size: 15px;
+                      color: #aaaaaa;
+                      letter-spacing: 0;
+                      margin-left: 5px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: flex-start;
+                      i {
+                          font-size: 16px;
+                          //width: 10px;
+                          color: #f11f1f;
+                          display: flex;
+                          justify-content: center;
+                          margin-right: 4px;
+                          align-items: center;
+                          font-family: PingFangSC-Regular;
+                      }
+                  }
+              }
+          }
+          .Select_project {
+              background: #ffffff;
+              box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+              border-radius: 5px;
+              margin-bottom: 10px;
+          }
+          .company_basic_information {
+              background: #ffffff;
+              box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+              border-radius: 5px;
+              margin-bottom: 10px;
+              ul {
+                  padding-left: 13px;
+                  li {
+                      display: flex;
+                      justify-content: flex-start;
+                      align-items: center;
+                      height: 47px;
+                      border-bottom: 0.5px solid #f6f6f6;
+                      a {
+                          display: flex;
+                          justify-content: flex-start;
+                          align-items: center;
+                          text-decoration: none;
+                          width: 100%;
+                          span {
+                              font-family: PingFangSC-Regular;
+                              font-size: 14px;
+                              color: #333333;
+                          }
+                          > div {
+                              display: flex;
+                              justify-content: flex-end;
+                              padding-right: 13px;
+                              font-family: PingFangSC-Regular;
+                              font-size: 14px;
+                              color: #999999;
+                              flex: 1;
+                              i {
+                                  display: flex;
+                                  height: 14px;
+                                  width: 8px;
+                                  background: url("../../../../../static/images/grayarrow.png")
+                                      no-repeat center;
+                                  background-size: 100% 100%;
+                                  margin-left: 3px;
+                              }
+                          }
+                      }
+                      > span {
+                          font-family: PingFangSC-Regular;
+                          font-size: 14px;
+                          color: #333333;
+                      }
+                      > div {
+                          display: flex;
+                          justify-content: flex-end;
+                          padding-right: 13px;
+                          font-family: PingFangSC-Regular;
+                          font-size: 14px;
+                          color: #999999;
+                          flex: 1;
+                          i {
+                              display: flex;
+                              height: 14px;
+                              width: 8px;
+                              background: url("../../../../../static/images/grayarrow.png")
+                                  no-repeat center;
+                              background-size: 100% 100%;
+                              margin-left: 3px;
+                          }
+                      }
+                      /deep/ .cube-input {
+                          &.name {
+                              input {
+                                  text-align: left;
+                              }
+                          }
+                          flex: 1;
+                          &:after {
+                              border: none;
+                          }
+                          input {
+                              color: #999999;
+                              font-family: PingFangSC-Regular;
+                              font-size: 14px;
+                              padding-left: 0;
+                              text-align: right;
+                          }
+                      }
+                  }
+              }
+          }
+          .personal_informatin {
+              background: #ffffff;
+              box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+              border-radius: 5px;
+              margin-bottom: 10px;
+              /deep/ .personalInformation {
+                  .details {
+                      ul {
+                          li {
+                              span {
+                                  width: auto;
+                              }
+                              > div {
+                                  //width: auto;
+                                  input {
+                                      color: #999999;
+                                  }
+                                  input::-webkit-input-placeholder {
+                                      color: #ccc !important;
+                                      opacity: 1;
+                                      font-family: PingFangSC-Regular;
+                                      font-size: 14px !important;
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+          /deep/ .weui-btn {
+              background: #019ddd;
+              font-family: PingFangSC-Regular;
+              font-size: 16px;
+
+              height: 50px;
+              border-radius: 6px;
+          }
+      }
+  }
 </style>

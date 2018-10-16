@@ -87,8 +87,8 @@ Vue.use(VueTouch)
 Vue.use(VueScroller)
 Vue.use(Lazyload, {
     attempt: 3,
-    error: '../static/images/defaultAuthor.png',
-    loading: '../static/images/defaultAuthor.png'
+    /*  error: '../static/images/defaultAuthor.png',
+     loading: '../static/images/defaultAuthor.png' */
 });
 
 createAPI(Vue, ActionSheet, ['select'], true)

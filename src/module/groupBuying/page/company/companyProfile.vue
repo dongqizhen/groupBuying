@@ -58,7 +58,6 @@ export default {
       typeData: [],
       isShowBtn: false,
       btnText: 0
-      // curTypeVal: ""
     };
   },
   mixins: [getProductList],
@@ -112,11 +111,12 @@ export default {
       }
     );
     setTimeout(() => {
-      this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
-
-      this.$refs.Personal_information.$el.style.height =
-        this.parentHeight + "px";
-    }, 300);
+      if (this.parentHeight == "") {
+        this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
+        this.$refs.Personal_information.$el.style.height =
+          this.parentHeight + "px";
+      }
+    }, 500);
   }
 };
 </script>
@@ -191,8 +191,8 @@ export default {
       .product_list {
         background: #ffffff;
         /* box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                                                            border-radius: 5px;
-                                                            margin-top: 10px; */
+                                                              border-radius: 5px;
+                                                              margin-top: 10px; */
         /deep/ .typeScrollNavBar {
           border-bottom-left-radius: 5px;
           border-bottom-right-radius: 5px;

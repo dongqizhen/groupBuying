@@ -179,10 +179,24 @@ export const toNativeCommentDetails = {
                     actionName: 'CommonDiscuzz',
                     type: type,
                     id: id,
-                    index: index
+                    index: index,
+
                 },
-                data => {}
+                data => {
+
+                    this.deleteCallback(data.id, data.index)
+                }
             );
+        },
+        deleteCallback(id, index) {
+
+            if (id != '' || id != -1) {
+                this.$emit('delete_child_comment', id, index)
+
+            } else {
+                this.$emit("delete_commit", '', index);
+            }
+
         }
     }
 }

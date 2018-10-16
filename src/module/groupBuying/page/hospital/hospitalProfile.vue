@@ -82,8 +82,9 @@ export default {
   methods: {
     ...mapMutations(["setTransition"]),
     packUp() {
+      console.log(this.parentHeight);
       const childHeight = this.$refs.Personal_information.$el.childNodes[0]
-        .clientHeight;
+        .clientHeight; //第一个子元素的高度
 
       if (this.btnText == 0) {
         this.btnText = 1;
@@ -163,6 +164,10 @@ export default {
         console.log(data);
         this.list = data.list;
         if (this.list.length != 0) {
+          // this.demandListData = data.list[0].demandList;
+          // this.typeData = _.map(data.list, "name");
+          // this.slectedTypeKeyWord = this.typeData[0];
+          // console.log(this.typeData);
           if (_.isEmpty(this.demandListData)) {
             this.demandListData = data.list[0].demandList;
             this.typeData = _.map(data.list, "name");
@@ -205,11 +210,12 @@ export default {
     });
 
     setTimeout(() => {
-      this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
-
-      this.$refs.Personal_information.$el.style.height =
-        this.parentHeight + "px";
-    }, 300);
+      if (this.parentHeight == "") {
+        this.parentHeight = this.$refs.Personal_information.$el.clientHeight;
+        this.$refs.Personal_information.$el.style.height =
+          this.parentHeight + "px";
+      }
+    }, 500);
   }
 };
 </script>

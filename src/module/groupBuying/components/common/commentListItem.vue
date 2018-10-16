@@ -19,7 +19,7 @@
             <div class="replyBtn">
                 <span @click.stop="moreOpetationReward(commentData.id)">打赏</span>
                 <span><a>{{commentData.commentNum}}</a>回复</span>
-                <span class="delete" v-if="$USER_INFO.userid==commentData.userId" @click.stop=" delete_commit(commentData.id)">删除</span>
+                <span class="delete" v-if="$USER_INFO.userid==commentData.userId" @click.stop="delete_commit(commentData.id)">删除</span>
             </div>
             <ul class="reply" v-if="commentData.replyList.length">
                 <li v-for="(val,index) in commentData.replyList" :key="index">
@@ -267,7 +267,7 @@
                     }
                     span {
                         /* display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center; */
                         &.name {
                             color: #406599;
                         }

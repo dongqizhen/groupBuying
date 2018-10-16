@@ -7,13 +7,13 @@
             <div class="time_box">
                 <div class="left">
                     <p>
-                        时间：
+                        <i></i>
                         <span>{{dataValue.dateArea}}</span>
                     </p>
                     <p>
-                        地点：
+                        <i></i>
                         <span @click.stop="toNativeMapPage(dataValue)">{{dataValue.addr}}
-                            <i></i>
+
                         </span>
 
                     </p>
@@ -157,24 +157,31 @@
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
+                        > i {
+                            display: flex;
+                            height: 13px;
+                            width: 10px;
+                            background: url("../../../../../static/images/site.png")
+                                no-repeat center;
+                            background-size: 100% 100%;
+                            margin-right: 4px;
+                            //margin-top: 2px;
+                        }
                         &:first-child {
                             margin-bottom: 17px;
+                            i {
+                                background: url("../../../../../static/images/timer.png")
+                                    no-repeat center;
+                                background-size: 100% 100%;
+                                height: 14px;
+                                width: 14px;
+                            }
                         }
                         span {
                             color: #151515;
                             display: flex;
                             justify-content: flex-start;
                             align-items: center;
-                            i {
-                                display: flex;
-                                height: 13px;
-                                width: 10px;
-                                background: url("../../../../../static/images/site.png")
-                                    no-repeat center;
-                                background-size: 100% 100%;
-                                margin-left: 3px;
-                                //margin-top: 2px;
-                            }
                         }
                     }
                 }

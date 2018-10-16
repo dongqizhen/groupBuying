@@ -1,8 +1,9 @@
 <template>
     <div class="hosManAttention">
         <div class="leftBox">
+
             <!-- <div v-lazy-container="{ selector: 'img' }">
-                <img :data-src="result.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="">
+                <img :data-src="result.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="" @click.stop="friendInfo(result.userId)">
             </div> -->
             <img v-lazy="result.userImageUrl" alt="" @click.stop="friendInfo(result.userId)">
             <div class="nameAndHospital">
@@ -55,6 +56,18 @@
         .leftBox {
             display: flex;
             padding: 15px 0 15px 13px;
+            img[lazy="loading"] {
+                /*your style here*/
+                background: url("../../../../../static/images/defaultAuthor.png")
+                    no-repeat center;
+                background-size: 46px 46px;
+            }
+            img[lazy="error"] {
+                /*your style here*/
+                background: url("../../../../../static/images/defaultAuthor.png")
+                    no-repeat center;
+                background-size: 46px 46px;
+            }
             img {
                 width: 46px;
                 height: 46px;

@@ -10,7 +10,7 @@
                     <span>{{result.addr}}</span>
                 </div>
             </div>
-            <router-link to="/hospitalProfile" @click.native="clickLink">
+            <router-link :to='{path:"/hospitalProfile",query:{id:result.hospitalId}}' @click.native="clickLink">
                 <div class="hospitalIntroduce">
                     <span>医院介绍</span>
                     <img src="../../../../../static/images/rightArrow.png" alt="">
