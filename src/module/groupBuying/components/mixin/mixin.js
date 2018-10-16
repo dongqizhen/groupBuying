@@ -244,7 +244,7 @@ export const toNativeBanner = {
                 'webInvokeNative', {
                     method: 'toNativeBanner',
                     id: val.id,
-                    name: '',
+                    name: val.name ? val.name : '',
                     img: val.img,
                     linkedType: val.linkedType,
                     linkedId: val.linkedId,

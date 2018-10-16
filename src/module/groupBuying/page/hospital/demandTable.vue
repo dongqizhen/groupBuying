@@ -1,26 +1,26 @@
 <template>
-    <div class="container demandTable">
-        <Header title="需求清单">
-            <!--  <router-link to="/submitGroupDemand" slot="explain" @click.native="setTransition('turn-on')">上传</router-link> -->
-        </Header>
-        <div class="content">
-            <div v-if="hasNet">
-                <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="slectedTypeKeyWord" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
-                <div class="scroll-list-wrap">
-                    <cube-scroll v-if="hasData">
-                        <div v-for="(val,index) in demandListData" :key="index" class="demandList-container" @click="handleClick(val.id,slectedTypeKeyWord)">
-                            <budget-count :demandListData="val" :slectedTypeKeyWord="slectedTypeKeyWord"></budget-count>
-                            <demand-list pageName="hospitalProfile" :data="val" :slectedTypeKeyWord="slectedTypeKeyWord"></demand-list>
-                        </div>
-                    </cube-scroll>
-
-                    <no-data v-else></no-data>
-                </div>
+  <div class="container demandTable">
+    <Header title="需求清单">
+      <!--  <router-link to="/submitGroupDemand" slot="explain" @click.native="setTransition('turn-on')">上传</router-link> -->
+    </Header>
+    <div class="content">
+      <div v-if="hasNet">
+        <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="slectedTypeKeyWord" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+        <div class="scroll-list-wrap">
+          <cube-scroll v-if="hasData">
+            <div v-for="(val,index) in demandListData" :key="index" class="demandList-container" @click="handleClick(val.id,slectedTypeKeyWord)">
+              <budget-count :demandListData="val" :slectedTypeKeyWord="slectedTypeKeyWord"></budget-count>
+              <demand-list pageName="hospitalProfile" :data="val" :slectedTypeKeyWord="keyWords"></demand-list>
             </div>
+          </cube-scroll>
 
-            <no-net v-else v-on:refresh="getData"></no-net>
+          <no-data v-else></no-data>
         </div>
+      </div>
+
+      <no-net v-else v-on:refresh="getData"></no-net>
     </div>
+  </div>
 </template>
 
 <script>
@@ -127,6 +127,26 @@ export default {
         path: "submitGroupDemand",
         query: { id: id }
       });
+    }
+  },
+  computed: {
+    keyWords() {
+      switch (this.slectedTypeKeyWord) {
+        case "设备团购":
+          return "SBTG";
+        case "耗材团购":
+          return "HCTG";
+        case "咨询团购":
+          return "ZXTG";
+        case "金融团购":
+          return "JRTG";
+        case "信息化团购":
+          return "XXHTG";
+        case "售后团购":
+          return "SHTG";
+        default:
+          return;
+      }
     }
   }
 };

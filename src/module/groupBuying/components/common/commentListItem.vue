@@ -88,15 +88,7 @@
             },
             NativeCommentDetails() {}
         },
-        mounted() {
-            //注册原生调用删除评论方法
-            window.WebViewJavascriptBridge.registerHandler(
-                "deleteCommont",
-                (data, responseCallback) => {
-                    this.delete_commit(data.id);
-                }
-            );
-        },
+        mounted() {},
         props: {
             commentData: {
                 type: Object,
@@ -275,7 +267,7 @@
                     }
                     span {
                         /* display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center; */
                         &.name {
                             color: #406599;
                         }
