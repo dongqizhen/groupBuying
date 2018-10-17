@@ -160,7 +160,7 @@
                         > i {
                             display: flex;
                             height: 13px;
-                            width: 10px;
+                            width: 14px;
                             background: url("../../../../../static/images/site.png")
                                 no-repeat center;
                             background-size: 100% 100%;
@@ -178,7 +178,9 @@
                             }
                         }
                         span {
-                            color: #151515;
+                            font-family: PingFangSC-Medium;
+                            font-size: 12px;
+                            color: #333333;
                             display: flex;
                             justify-content: flex-start;
                             align-items: center;
@@ -192,10 +194,11 @@
                     font-family: PingFangSC-Regular;
                     font-size: 10px;
                     color: #666666;
+                    padding-top: 2px;
                     span {
                         display: block;
                         &:first-child {
-                            margin-bottom: 10.5px;
+                            margin-bottom: 11.5px;
                         }
                         a {
                             font-family: BebasNeue, Arial, Helvetica, sans-serif;

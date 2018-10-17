@@ -199,13 +199,15 @@
                 height: 100%;
                 align-items: center;
                 img {
-                    width: 10.8px;
-                    height: 14px;
-                    vertical-align: middle;
+                    width: 14px;
+                    height: 13px;
+                    // vertical-align: middle;
                     margin-right: 3.2px;
                 }
                 span {
                     font-size: 13px;
+                    display: flex;
+                    align-items: center;
                     color: #999;
                     font-family: PingFangSC-Regular;
                     display: flex;
