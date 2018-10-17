@@ -22,7 +22,7 @@
             <div class="products" v-if="groupPurchaseTypeList.length">
               <model-scroll-nav-bar :modelData="modelData" :selectModelVal="selectModelVal" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
               <ul>
-                <li v-for="data in swipeData" :key="data.id" @click="onItemClick(data.id)">
+                <li v-for="data in swipeData" :key="data.id">
                   <product-list :listData="data"></product-list>
                 </li>
 
@@ -74,13 +74,6 @@ export default {
   },
   methods: {
     ...mapMutations(["setTransition"]),
-    onItemClick(id) {
-      this.setTransition("turn-on");
-      this.$router.push({
-        path: `/productDetails/${id}`,
-        query: { come: 1 }
-      });
-    },
     packUp() {
       const childHeight = this.$refs.Personal_information.$el.childNodes[0]
         .clientHeight;

@@ -10,8 +10,8 @@ import store from './store/index'
 import Util from '@/common/js/util'
 import Axios from '@/config/axios.js'
 import VueTouch from 'vue-touch-easyhi'
-import VueTouchRipple from 'vue-touch-ripple'
-import 'vue-touch-ripple/dist/vue-touch-ripple.css'
+/* import VueTouchRipple from 'vue-touch-ripple'
+import 'vue-touch-ripple/dist/vue-touch-ripple.css' */
 //import "../../../static/css/cube-ui/cube-ui.scss"
 import {
     connectWebViewJavascriptBridge,
@@ -75,14 +75,14 @@ if ('addEventListener' in document) {
 
 
 Vue.use(VueTouch)
-    .use(Vuex)
-    .use(VueTouchRipple, {
-        // default global options
-        color: '#999',
-        opacity: 0.3,
-        speed: 1,
-        transition: 'ease'
-    }).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize).use(Vant);
+    .use(Vuex).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize).use(Vant);
+// .use(VueTouchRipple, {
+//     // default global options
+//     color: '#999',
+//     opacity: 0.3,
+//     speed: 1,
+//     transition: 'ease'
+// })
 
 Vue.use(VueScroller)
 Vue.use(Lazyload, {

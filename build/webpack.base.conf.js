@@ -31,7 +31,7 @@ const webpackConfig = {
     entry: entries,
     output: {
         path: config.build.assetsRoot,
-        filename: '[name].js',
+        filename: process.env.NODE_ENV === 'production' ? '[name].[chunkhash].js' : '[name].[hash].js',
         publicPath: process.env.NODE_ENV === 'production' ?
             config.build.assetsPublicPath : config.dev.assetsPublicPath
     },
