@@ -57,6 +57,7 @@ export default {
       disabled: true,
       typeData: [],
       isShowBtn: false,
+      parentHeight: "",
       btnText: 0
     };
   },
@@ -94,7 +95,7 @@ export default {
     }
   },
 
-  created() {
+  activated() {
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
       {
