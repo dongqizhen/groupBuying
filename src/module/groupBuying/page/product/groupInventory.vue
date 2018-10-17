@@ -76,11 +76,11 @@ export default {
       );
     }
   },
-  mounted() {
+  activated() {
     this.reqData();
   },
   deactivated() {
-    this.$destroy();
+    // this.$destroy();
   }
 };
 </script>
