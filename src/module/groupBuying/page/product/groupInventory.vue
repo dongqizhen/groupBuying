@@ -5,11 +5,9 @@
       <list-filter v-on:getSortType="getIndex"></list-filter>
       <div class="proList">
           <ul>
-            <router-link tag="li" :to="{ path: 'productDetails', query: { id: listItem.id }}" v-for="(listItem,index) in lists" :key="index" @click.native="setTransition('turn-on')">
-                <a>
+              <li v-for="(listItem,index) in lists" :key="index" @click="OnItemClick(listItem.id)">
                   <product-list class="itemPro" :listData="listItem"></product-list>
-                </a>
-            </router-link>
+              </li>
           </ul>
       </div>
     </div>
@@ -35,6 +33,11 @@ export default {
   },
   methods: {
     ...mapMutations(["setTransition"]),
+    OnItemClick(id) {
+      console.log(`/productDetails/${id}`);
+      this.setTransition("turn-on");
+      this.$router.push(`/productDetails/${id}`);
+    },
     getIndex(obj) {
       console.log(obj);
       switch (obj.index) {

@@ -2,7 +2,7 @@
   <div class="container">
     <Header style="position: absolute;" :isSearchHide="false"></Header>
     <div class="content">
-      <scroller>
+      <scroller :class="this.$route.query.come==1?'height':''">
         <cube-slide ref="slide" :data="Banneritems" class="banner">
             <cube-slide-item v-for="(item, index) in Banneritems" :key="index">
               <a>
@@ -17,7 +17,8 @@
           <div class="prolineAndBrandAndModel">{{data.productLineName}}/{{data.brandName}}{{data.modelName?"/":""}}{{data.modelName}}</div>
           <div class="proPrice">
             <span class="currency">￥</span>
-            <span :class="data.isOpen?'':'textStyle'">{{data.isOpen?data.price:"团购办现场宣布价格"}}</span>
+            <span :class="data.isOpen?'price':'textStyle'">{{data.isOpen?data.price.split(".")[0]:"团购办现场宣布价格"}}</span>
+            <span :class="data.isOpen?'point':'textStyle'">{{data.isOpen?'.'+data.price.split(".")[1]:""}}</span>
             <span class="priceUnit" v-if="data.isOpen">万元</span>
           </div>
         </div>
@@ -40,7 +41,7 @@
           <div class="proInfo">{{data.introduce}}</div>
         </div>
       </scroller>
-      <footer-menu :isStore="isStore" v-on:selectedLabel="selectLabel"></footer-menu>
+      <footer-menu :isStore="isStore" v-on:selectedLabel="selectLabel" v-if="this.$route.query.come==1?false:true"></footer-menu>
     </div>
   </div>
 </template>
@@ -64,6 +65,7 @@ export default {
     Header,
     footerMenu
   },
+  props: ["id"],
   methods: {
     ...mapMutations["setTranstion"],
     selectLabel(obj) {
@@ -79,7 +81,7 @@ export default {
             {
               method: "addOrDeleteFavorite_v27",
               params: {
-                id: this.$route.query.id,
+                id: this.id,
                 type: 20,
                 controlflag: obj.num % 2, //1表示取消，0表示添加（传的是现在的状态）
                 smallType: "" //未知
@@ -100,7 +102,8 @@ export default {
       "/server_pro/groupPurchaseCompanyProduct!request.action",
       {
         method: "getGroupPurchaseCompanyProductDetail",
-        params: { id: this.$route.query.id }
+
+        params: { id: this.id }
       },
       data => {
         console.log(data);
@@ -127,6 +130,9 @@ export default {
     /deep/ ._v-container {
       background: #f6f6f6;
       height: calc(100% - 48px) !important;
+    }
+    /deep/ ._v-container.height {
+      height: 100% !important;
     }
     .cube-slide.banner {
       height: 353px;
@@ -181,9 +187,18 @@ export default {
           font-family: PingFangSC-Medium;
           margin-right: 2px;
         }
+        .price {
+          margin-right: -5px;
+          margin-left: -5px;
+        }
         .textStyle {
           font-family: PingFangSC-Medium;
           font-size: 14px;
+          color: #fb4354;
+        }
+        .point {
+          font-family: PingFangSC-Medium;
+          font-size: 13px;
           color: #fb4354;
         }
         .priceUnit {

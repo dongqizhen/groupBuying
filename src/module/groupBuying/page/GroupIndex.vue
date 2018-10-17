@@ -46,325 +46,320 @@
 </template>
 
 <script>
-    import Header from "../components/header/header";
-    import ListTab from "../components/common/listTab";
-    import { mapMutations } from "vuex";
-    import { _getData } from "../service/getData";
-    import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
-    import _ from "lodash";
-    import { Toast } from "vant";
-    import { toNativeBanner } from "../components/mixin/mixin";
+import Header from "../components/header/header";
+import ListTab from "../components/common/listTab";
+import { mapMutations } from "vuex";
+import { _getData } from "../service/getData";
+import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
+import _ from "lodash";
+import { Toast } from "vant";
+import { toNativeBanner } from "../components/mixin/mixin";
 
-    const routerLinkArr = [
+const routerLinkArr = [
+  {
+    path: "/hospitalSeal",
+    name: "医院团购报名",
+    imgurl: "../static/images/hospitalApply.png",
+    num: ""
+  },
+  {
+    path: "/enterpriseSeal",
+    name: "企业团购报名",
+    imgurl: "../static/images/companyApply.png",
+    num: ""
+  },
+  {
+    path: "/",
+    name: "我的团购",
+    imgurl: "../static/images/myApply.png"
+  }
+];
+
+export default {
+  name: "index",
+  data() {
+    return {
+      routerLinkArr,
+      selectedLabel: "团购",
+      tabs: [
         {
-            path: "/hospitalSeal",
-            name: "医院团购报名",
-            imgurl: "../static/images/hospitalApply.png",
-            num: ""
+          label: "产品"
         },
         {
-            path: "/enterpriseSeal",
-            name: "企业团购报名",
-            imgurl: "../static/images/companyApply.png",
-            num: ""
+          label: "商家"
         },
         {
-            path: "/",
-            name: "我的团购",
-            imgurl: "../static/images/myApply.png"
+          label: "团购"
         }
-    ];
-
-    export default {
-        name: "index",
-        data() {
-            return {
-                routerLinkArr,
-                selectedLabel: "团购",
-                tabs: [
-                    {
-                        label: "产品"
-                    },
-                    {
-                        label: "商家"
-                    },
-                    {
-                        label: "团购"
-                    }
-                ],
-                Banneritems: [],
-                meetingList: {}
-            };
-        },
-        mixins: [toNativeBanner],
-        components: {
-            Header,
-            ListTab,
-            Grid,
-            GridItem,
-            Badge,
-            Tab,
-            TabItem
-        },
-        methods: {
-            ...mapMutations([
-                "setTransition",
-                "setUserType",
-                "setUserCompanyIdOrHospitalId"
-            ]),
-            handleClick(item, index) {
-                if (item.path == "/") {
-                    if (index == 0) {
-                        Toast({
-                            message:
-                                "您已报名成功,请到‘我的团购’提交需求或修改相关信息",
-                            duration: 1000
-                        });
-                        return;
-                    } else if (index == 1) {
-                        Toast({
-                            message:
-                                "您已报名成功,请到‘我的团购’上传产品或修改相关信息",
-                            duration: 1000
-                        });
-                        return;
-                    } else if (index == 2) {
-                        Toast({ message: "请报名后再点击查看", duration: 1000 });
-                        return;
-                    }
-                } else {
-                    this.setTransition("turn-on");
-                }
-            },
-            handler() {},
-            showDialog() {
-                this.$createDialog({
-                    type: "confirm",
-                    icon: "",
-                    title: "",
-                    content: "18810041523",
-                    confirmBtn: {
-                        text: "取消",
-                        active: false,
-                        disabled: false,
-                        href: "javascript:;"
-                    },
-                    cancelBtn: {
-                        text: "呼叫",
-                        active: true,
-                        disabled: false,
-                        href: "tel:18810041523"
-                    },
-                    onConfirm: () => {},
-                    onCancel: () => {}
-                }).show();
-            }
-        },
-        watch: {
-            data() {}
-        },
-        mounted() {
-            _getData(
-                //获取轮播图
-                "/server/banner!request.action",
-                {
-                    method: "getAppBannerList",
-                    params: { type: 15 }
-                },
-                data => {
-                    console.log(data);
-                    this.Banneritems = data.bannerList;
-                }
-            );
-            _getData(
-                //获取团购大会列表
-                "/server_pro/groupPurchase!request.action",
-                {
-                    method: "getPageList",
-                    params: {}
-                },
-                data => {
-                    this.meetingList = _.keyBy(data.list, val => {
-                        return `${val.year}(${val.num}场)`;
-                    });
-                }
-            );
-        },
-        created() {},
-        activated() {
-            _getData(
-                //获取用户类型(企业或医院)
-                "/server_pro/groupPurchase!request.action",
-                {
-                    method: "getIsRegGroupPuchase",
-                    params: {}
-                },
-                data => {
-                    console.log("获取的用户类型：", data);
-                    if (data.type) {
-                        this.routerLinkArr[0].path = "/";
-                        this.routerLinkArr[1].path = "/";
-                    }
-                    this.setUserType(data.type);
-                    this.setUserCompanyIdOrHospitalId(data.id);
-                    this.routerLinkArr[0].num = data.hospitalNum;
-                    this.routerLinkArr[1].num = data.companyNum;
-                    this.routerLinkArr[2].path = data.type
-                        ? data.type == "company"
-                            ? "/myComponyGroupBuy"
-                            : "/myHospitalGroupBuy"
-                        : "/";
-                }
-            );
-        },
-        deactivated() {}
+      ],
+      Banneritems: [],
+      meetingList: {}
     };
+  },
+  mixins: [toNativeBanner],
+  components: {
+    Header,
+    ListTab,
+    Grid,
+    GridItem,
+    Badge,
+    Tab,
+    TabItem
+  },
+  methods: {
+    ...mapMutations([
+      "setTransition",
+      "setUserType",
+      "setUserCompanyIdOrHospitalId"
+    ]),
+    handleClick(item, index) {
+      if (item.path == "/") {
+        if (index == 0) {
+          Toast({
+            message: '您已报名成功,请到"我的团购"提交需求或修改相关信息',
+            duration: 1000
+          });
+          return;
+        } else if (index == 1) {
+          Toast({
+            message: '您已报名成功,请到"我的团购"上传产品或修改相关信息',
+            duration: 1000
+          });
+          return;
+        } else if (index == 2) {
+          Toast({ message: "请报名后再点击查看", duration: 1000 });
+          return;
+        }
+      } else {
+        this.setTransition("turn-on");
+      }
+    },
+    handler() {},
+    showDialog() {
+      this.$createDialog({
+        type: "confirm",
+        icon: "",
+        title: "",
+        content: "18810041523",
+        confirmBtn: {
+          text: "取消",
+          active: false,
+          disabled: false,
+          href: "javascript:;"
+        },
+        cancelBtn: {
+          text: "呼叫",
+          active: true,
+          disabled: false,
+          href: "tel:18810041523"
+        },
+        onConfirm: () => {},
+        onCancel: () => {}
+      }).show();
+    }
+  },
+  watch: {
+    data() {}
+  },
+  mounted() {
+    _getData(
+      //获取轮播图
+      "/server/banner!request.action",
+      {
+        method: "getAppBannerList",
+        params: { type: 15 }
+      },
+      data => {
+        console.log(data);
+        this.Banneritems = data.bannerList;
+      }
+    );
+    _getData(
+      //获取团购大会列表
+      "/server_pro/groupPurchase!request.action",
+      {
+        method: "getPageList",
+        params: {}
+      },
+      data => {
+        this.meetingList = _.keyBy(data.list, val => {
+          return `${val.year}(${val.num}场)`;
+        });
+      }
+    );
+  },
+  activated() {
+    _getData(
+      //获取用户类型(企业或医院)
+      "/server_pro/groupPurchase!request.action",
+      {
+        method: "getIsRegGroupPuchase",
+        params: {}
+      },
+      data => {
+        console.log("获取的用户类型：", data);
+        if (data.type) {
+          this.routerLinkArr[0].path = "/";
+          this.routerLinkArr[1].path = "/";
+        }
+        this.setUserType(data.type);
+        this.setUserCompanyIdOrHospitalId(data.id);
+        this.routerLinkArr[0].num = data.hospitalNum;
+        this.routerLinkArr[1].num = data.companyNum;
+        this.routerLinkArr[2].path = data.type
+          ? data.type == "company"
+            ? "/myComponyGroupBuy"
+            : "/myHospitalGroupBuy"
+          : "/";
+      }
+    );
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../../static/scss/_commonScss";
-    .container {
-        @include basic_container_style;
-        /deep/ header {
-            .vux-tab-wrap {
-                height: 100%;
-                width: 204px;
-                .vux-tab {
-                    background: transparent;
-                    .vux-tab-item {
-                        font-family: PingFangSC-Regular;
-                        font-size: 15px;
-                        color: #666666;
-                        background: transparent;
-                    }
-                    .vux-tab-ink-bar {
-                        background: none !important;
-                        span {
-                            border-radius: 2px;
-                        }
-                    }
-                }
-            }
+@import "../../../../static/scss/_commonScss";
+.container {
+  @include basic_container_style;
+  /deep/ header {
+    .vux-tab-wrap {
+      height: 100%;
+      width: 204px;
+      .vux-tab {
+        background: transparent;
+        .vux-tab-item {
+          font-family: PingFangSC-Regular;
+          font-size: 15px;
+          color: #666666;
+          background: transparent;
         }
-        .content {
-            position: relative;
-            .cube-slide.banner {
-                height: 145px;
-                @include box_shadow_style;
-                .cube-slide-item {
-                    a {
-                        img {
-                            width: 100%;
-                        }
-                    }
-                }
-            }
-            .icons_box {
-                display: flex;
-                flex-wrap: nowrap;
-                justify-content: center;
-                height: 110px;
-                background: #fff;
-                margin: 10px 0;
-                box-shadow: $base-box-shadow;
-                border-radius: 5px;
-                &::before {
-                    border: none;
-                }
-
-                > a {
-                    display: flex;
-                    align-items: center;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    text-decoration: none;
-                    padding: 0;
-                    position: relative;
-                    // overflow: auto;
-                    &::after {
-                        border: none;
-                    }
-
-                    /deep/ .weui-grid__icon {
-                        margin-bottom: 5px;
-                        width: 46px;
-                        height: 46px;
-                        margin-top: 20px;
-                        img {
-                            width: 46px;
-                            height: 46px;
-                        }
-                    }
-                    .weui-grid__label {
-                        span {
-                            color: #666666;
-                            font-size: 13px;
-                            font-family: PingFangSC-Regular;
-                        }
-                    }
-                    > span {
-                        position: absolute;
-                        background: #fb4354;
-                        height: 15px;
-                        font-family: PingFangSC-Medium;
-                        font-size: 10px;
-                        color: #ffffff;
-                        display: flex;
-                        justify-content: center;
-                        flex-wrap: nowrap;
-                        align-items: center;
-                        top: 15px;
-                        left: 50%;
-                        min-width: 68px;
-                        // width: auto;
-                        z-index: 10;
-                        padding: 0 5px;
-                        &.vux-badge {
-                            width: auto;
-                        }
-                    }
-                    &:active {
-                        background: rgba($color: #999, $alpha: 0.3);
-                    }
-                }
-            }
-            .meeting_list {
-                background: #fff;
-                box-shadow: $base-box-shadow;
-                border-radius: 5px;
-                width: 100%;
-                > h2 {
-                    height: 57px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 15px;
-                    text-align: center;
-                    color: #666666;
-                    font-family: PingFangSC-Medium;
-                    border-bottom: $border_style;
-                    span {
-                        display: block;
-                        border-top: 1px solid #cccccc;
-                        width: 20px;
-                        margin: 0 18px;
-                    }
-                }
-            }
-            .fixBox {
-                width: 57px;
-                height: 57px;
-                position: absolute;
-                bottom: 54px;
-                right: 9px;
-                background: url("../../../../static/images/floatBtn.png") no-repeat
-                    center;
-                background-size: 100% 100%;
-                a {
-                    display: flex;
-                    height: 100%;
-                }
-            }
+        .vux-tab-ink-bar {
+          background: none !important;
+          span {
+            border-radius: 2px;
+          }
         }
+      }
     }
+  }
+  .content {
+    position: relative;
+    .cube-slide.banner {
+      height: 145px;
+      @include box_shadow_style;
+      .cube-slide-item {
+        a {
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .icons_box {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      height: 110px;
+      background: #fff;
+      margin: 10px 0;
+      box-shadow: $base-box-shadow;
+      border-radius: 5px;
+      &::before {
+        border: none;
+      }
+
+      > a {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: flex-start;
+        text-decoration: none;
+        padding: 0;
+        position: relative;
+        // overflow: auto;
+        &::after {
+          border: none;
+        }
+
+        /deep/ .weui-grid__icon {
+          margin-bottom: 5px;
+          width: 46px;
+          height: 46px;
+          margin-top: 20px;
+          img {
+            width: 46px;
+            height: 46px;
+          }
+        }
+        .weui-grid__label {
+          span {
+            color: #666666;
+            font-size: 13px;
+            font-family: PingFangSC-Regular;
+          }
+        }
+        > span {
+          position: absolute;
+          background: #fb4354;
+          height: 15px;
+          font-family: PingFangSC-Medium;
+          font-size: 10px;
+          color: #ffffff;
+          display: flex;
+          justify-content: center;
+          flex-wrap: nowrap;
+          align-items: center;
+          top: 15px;
+          left: 50%;
+          min-width: 68px;
+          // width: auto;
+          z-index: 10;
+          padding: 0 5px;
+          &.vux-badge {
+            width: auto;
+          }
+        }
+        &:active {
+          background: rgba($color: #999, $alpha: 0.3);
+        }
+      }
+    }
+    .meeting_list {
+      background: #fff;
+      box-shadow: $base-box-shadow;
+      border-radius: 5px;
+      width: 100%;
+      > h2 {
+        height: 57px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        text-align: center;
+        color: #666666;
+        font-family: PingFangSC-Medium;
+        border-bottom: $border_style;
+        span {
+          display: block;
+          border-top: 1px solid #cccccc;
+          width: 20px;
+          margin: 0 18px;
+        }
+      }
+    }
+    .fixBox {
+      width: 57px;
+      height: 57px;
+      position: absolute;
+      bottom: 54px;
+      right: 9px;
+      background: url("../../../../static/images/floatBtn.png") no-repeat center;
+      background-size: 100% 100%;
+      a {
+        display: flex;
+        height: 100%;
+      }
+    }
+  }
+}
 </style>

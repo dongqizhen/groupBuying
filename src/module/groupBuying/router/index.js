@@ -103,9 +103,10 @@ const router = new Router({
             props: true
         },
         {
-            path: '/productDetails',
+            path: '/productDetails/:id',
             name: '产品详情',
-            component: productDetails
+            component: productDetails,
+            props: true
         },
         {
             path: '/myComponyGroupBuy',

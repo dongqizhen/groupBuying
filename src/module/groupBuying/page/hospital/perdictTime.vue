@@ -165,6 +165,7 @@ export default {
               background: rgba(1, 157, 221, 0.08);
               border: 1px solid #019ddd;
               border-radius: 7px;
+              color: #019ddd;
             }
             &.disabledStyle {
               border: 1px solid #cbcbcb;

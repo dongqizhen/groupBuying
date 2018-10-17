@@ -13,8 +13,8 @@
                         <scroller>
                             <cube-swipe>
                                 <transition-group name="swipe" tag="ul" class="Swipe_box">
-                                    <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="index">
-                                        <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive" @item-click="onItemClick">
+                                    <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="index" @click="onItemClick(data.id)">
+                                        <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive" >
                                             <product-list :listData="data"></product-list>
                                         </cube-swipe-item>
                                     </li>
@@ -74,13 +74,18 @@ export default {
   },
   methods: {
     ...mapMutations(["setTransition"]),
-    onItemClick(item) {
-      console.log("click item:", item);
+    onItemClick(id) {
+      console.log("click item:", id);
+      this.setTransition("turn-on");
+      this.$router.push({
+        path: `/productDetails/${id}`,
+        query: { come: 1 }
+      });
     },
     onBtnClick(btn, index) {
       console.log(index);
       console.log(this.swipeData[index].id);
-
+      event.stopPropagation();
       if (btn.action === "delete") {
         /* this.$createActionSheet({
               title: "确认要删除吗",
@@ -130,7 +135,7 @@ export default {
         this.setTransition("turn-on");
         this.$refs.swipeItem[index].shrink();
         this.$router.push({
-          path: "uploadProduct",
+          path: "/uploadProduct",
           query: { id: this.swipeData[index].id }
         });
       }

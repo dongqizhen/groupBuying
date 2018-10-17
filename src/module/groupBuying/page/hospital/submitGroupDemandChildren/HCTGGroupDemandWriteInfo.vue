@@ -505,26 +505,6 @@ export default {
             background-size: 100% 100%;
             margin-left: 3px;
           }
-          &.maintanceType {
-            justify-content: flex-start;
-            align-items: center;
-            span {
-              height: 29px;
-              line-height: 29px;
-              padding: 0 16px;
-              font-family: PingFangSC-Regular;
-              font-size: 14px;
-              color: #333333;
-              margin-right: 10px;
-              background: rgba(142, 142, 142, 0.05);
-              border-radius: 2px;
-              &.active {
-                background: rgba(1, 157, 221, 0.14);
-                font-family: PingFangSC-Medium;
-                color: #019ddd;
-              }
-            }
-          }
         }
       }
       > span {
