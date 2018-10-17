@@ -57,8 +57,8 @@
               disabled: true,
               typeData: [],
               isShowBtn: false,
-              parentHeight: "",
-              btnText: 0
+              btnText: 0,
+              parentHeight: ""
           };
       },
       mixins: [getProductList],
@@ -81,21 +81,22 @@
               if (this.btnText == 0) {
                   this.btnText = 1;
 
-                  if (this.btnText == 0) {
-                      this.btnText = 1;
-
-                      this.$refs.Personal_information.$el.style.height =
-                          childHeight + "px";
-                  } else {
-                      this.btnText = 0;
-                      console.log(this.parentHeight + "px");
-                      this.$refs.Personal_information.$el.style.height =
-                          this.parentHeight + "px";
-                  }
-                  // console.log(this.$refs.scroll);
+                  this.$refs.Personal_information.$el.style.height =
+                      childHeight + "px";
+              } else {
+                  this.btnText = 0;
+                  console.log(this.parentHeight + "px");
+                  this.$refs.Personal_information.$el.style.height =
+                      this.parentHeight + "px";
               }
+              // console.log(this.$refs.scroll);
+
+              setTimeout(() => {
+                  this.$refs.scroll.refresh();
+              }, 300);
           }
       },
+
       activated() {
           _getData(
               "/server_pro/groupPurchaseCompany!request.action",
@@ -193,8 +194,8 @@
               .product_list {
                   background: #ffffff;
                   /* box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                                                                          border-radius: 5px;
-                                                                          margin-top: 10px; */
+                                                                      border-radius: 5px;
+                                                                      margin-top: 10px; */
                   /deep/ .typeScrollNavBar {
                       border-bottom-left-radius: 5px;
                       border-bottom-right-radius: 5px;
