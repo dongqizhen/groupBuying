@@ -52,7 +52,8 @@ const webpackConfig = {
             commonjs: 'lodash',
             amd: 'lodash',
             root: '_' // 指向全局变量
-        }
+        },
+        vant: 'vant'
     },
     module: {
         rules: [
