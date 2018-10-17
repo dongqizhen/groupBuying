@@ -16,8 +16,9 @@
           </div>
           <div class="prolineAndBrandAndModel">{{data.productLineName}}/{{data.brandName}}{{data.modelName?"/":""}}{{data.modelName}}</div>
           <div class="proPrice">
-            <span class="currency">￥</span>{{data.price}}
-            <span class="priceUnit">万元</span>
+            <span class="currency">￥</span>
+            <span :class="data.isOpen?'':'textStyle'">{{data.isOpen?data.price:"团购办现场宣布价格"}}</span>
+            <span class="priceUnit" v-if="data.isOpen">万元</span>
           </div>
         </div>
         <div class="proParam">
@@ -179,6 +180,11 @@ export default {
           font-size: 13px;
           font-family: PingFangSC-Medium;
           margin-right: 2px;
+        }
+        .textStyle {
+          font-family: PingFangSC-Medium;
+          font-size: 14px;
+          color: #fb4354;
         }
         .priceUnit {
           font-size: 12px;

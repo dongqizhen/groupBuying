@@ -46,7 +46,7 @@ export default {
       isRate: ""
     };
   },
-  created() {
+  activated() {
     this.title = this.$route.query.groupPurchaseTypeName + "分类";
     this.groupPurchaseTypeId = this.$route.query.groupPurchaseTypeId;
     this.groupPurchaseId = this.$route.query.groupPurchaseId;
@@ -93,6 +93,16 @@ export default {
       var selectValue = _.find(this.DATA_MAP, o => {
         return o.name === label;
       });
+      console.log(selectValue);
+      this.$router.replace({
+        path: this.$route.path,
+        query: {
+          groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
+          groupPurchaseId: this.$route.query.groupPurchaseId,
+          productLineId: selectValue.id,
+          groupPurchaseTypeName: this.$route.query.groupPurchaseTypeName
+        }
+      });
       this.selectedId = selectValue.id;
       this.scrollData = selectValue.brandList;
       this.totalNum = selectValue.totalNum;
@@ -114,9 +124,8 @@ export default {
     },
     totalNum() {}
   },
-  activated() {},
   deactivated() {
-    this.$destroy();
+    // this.$destroy();
   }
 };
 </script>
