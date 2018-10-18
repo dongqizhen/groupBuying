@@ -11,6 +11,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 var glob = require('glob');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const env = require('../config/prod.env')
 
@@ -66,6 +67,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 safe: true
             }
         }),
+        new BundleAnalyzerPlugin(),
         // generate dist index.html with correct asset hash for caching.
         // you can customize output by editing /index.html
         // see https://github.com/ampedandwired/html-webpack-plugin

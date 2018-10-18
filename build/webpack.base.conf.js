@@ -47,6 +47,13 @@ const webpackConfig = {
             'static': path.resolve(__dirname, '../static')
         }
     },
+    externals: {
+        // lodash: {
+        //     commonjs: 'lodash',
+        //     amd: 'lodash',
+        //     root: '_' // 指向全局变量
+        // }
+    },
     module: {
         rules: [
             // 是否启用ESlint

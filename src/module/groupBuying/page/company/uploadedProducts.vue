@@ -26,8 +26,9 @@
                 <no-data v-else></no-data>
             </div>
             <loading v-else :show="isLoading" text="Loading..."></loading>
-        </div>
+
     </div>
+  </div>
 </template>
 
 <script>
@@ -83,19 +84,7 @@ export default {
       });
     },
     onBtnClick(btn, index) {
-      console.log(index);
-      console.log(this.swipeData[index].id);
-      event.stopPropagation();
       if (btn.action === "delete") {
-        /* this.$createActionSheet({
-              title: "确认要删除吗",
-              active: 0,
-              data: [{ content: "删除" }],
-              onSelect: (item, val) => {
-                  alert();
-                  this.swipeData.splice(index, 1);
-              }
-          }).show(); */
         this.$createDialog({
           type: "confirm",
           icon: "",
@@ -124,9 +113,7 @@ export default {
             ).then(() => {
               this.swipeData.splice(index, 1);
               this.$refs.swipeItem[this.activeIndex].shrink();
-              // if (this.swipeData.length == 0) {
               this.getData();
-              // }
             });
           },
           onCancel: () => {}
@@ -135,7 +122,7 @@ export default {
         this.setTransition("turn-on");
         this.$refs.swipeItem[index].shrink();
         this.$router.push({
-          path: "/uploadProduct",
+          path: "uploadProduct",
           query: { id: this.swipeData[index].id }
         });
       }
@@ -186,8 +173,8 @@ export default {
       /deep/ ._v-container {
         height: 100%;
         /*  ._v-content {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              padding-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          } */
       }
     }
     /deep/ ul.Swipe_box {

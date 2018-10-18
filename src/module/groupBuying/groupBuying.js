@@ -4,12 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
-import Vant from 'vant'
-import 'vant/lib/vant-css/index.css'
+import vant from 'vant'
 import store from './store/index'
 import Util from '@/common/js/util'
 import Axios from '@/config/axios.js'
-import VueTouch from 'vue-touch-easyhi'
+//import VueTouch from 'vue-touch-easyhi'
 /* import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css' */
 //import "../../../static/css/cube-ui/cube-ui.scss"
@@ -18,11 +17,11 @@ import {
     setupWebViewJavascriptBridge
 } from '../../common/js/jsBridge'
 import {
-    SwipeCell,
-    Lazyload
+    Lazyload,
+    Toast
 } from 'vant';
-import 'vant/lib/vant-css/index.css';
-import VueTextareaAutosize from 'vue-textarea-autosize';
+//import 'vant/lib/vant-css/index.css';
+
 import VueScroller from 'vue-scroller'
 import {
     XButton,
@@ -34,7 +33,7 @@ import {
 import FastClick from 'fastclick';
 import Cube, {
     Button,
-    Toast,
+    //Toast,
     Dialog,
     ImagePreview,
     Sticky,
@@ -74,8 +73,7 @@ if ('addEventListener' in document) {
 }
 
 
-Vue.use(VueTouch)
-    .use(Vuex).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(SwipeCell).use(Input).use(Swipe).use(Radio).use(Cube).use(VueTextareaAutosize).use(Vant);
+Vue.use(Vuex).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(Input).use(Swipe).use(Radio).use(Cube).use(Lazyload).use(Toast).use(vant);
 // .use(VueTouchRipple, {
 //     // default global options
 //     color: '#999',
@@ -92,7 +90,7 @@ Vue.use(Lazyload, {
 });
 
 createAPI(Vue, ActionSheet, ['select'], true)
-createAPI(Vue, Toast, ['click'], true)
+    //createAPI(Vue, Toast, ['click'], true)
 createAPI(Vue, Dialog, ['confirm', 'cancel'], true)
 
 Vue.component('loading', Loading)
@@ -112,41 +110,16 @@ const initVueApp = () => {
         template: '<App/>'
     })
 }
-console.log(Util.isAndroid())
-    // 第一连接时初始化bridage
+
+// 第一连接时初始化bridage
 if (Util.isAndroid()) {
     new connectWebViewJavascriptBridge(function(bridge) {
-
         initVueApp()
-
-        bridge.init(function(message, responseCallback) {
-            console.log('JS got a message', message);
-            var data = {
-                'Javascript Responds': '测试中文!'
-            };
-            console.log('JS responding with', data);
-            responseCallback(data);
-        });
-        // 注册一个"functionInJs",
-        bridge.registerHandler("functionInJs", function(data, responseCallback) {
-
-            bridge.callHandler(
-                "Log", {
-                    param: JSON.stringify({
-                        data: "1111111111"
-                    })
-                },
-                function(responseData) {
-                    responseCallback(responseData);
-                }
-            );
-
-        });
     })
 } else {
 
     new setupWebViewJavascriptBridge(function(bridge) {
-        initVueApp(); // vue 实例    
+        initVueApp(); // vue 实例
     })
 
 }
