@@ -9,12 +9,12 @@ let beta = {
     BASE_URL: "https://www.api/code"
 }
 let gamma = {
-    URL: "https://www.api/code",
-    BASE_URL: "https://www.api/code"
+    URL: "http://prople.haoyigong.com",
+    WEB_URL: "http://webple.haoyigong.com"
 }
 let release = {
-    URL: "https://www.api/code",
-    BASE_URL: "https://www.api/code"
+    URL: "http://pro.haoyigong.com",
+    WEB_URL: "http://web.haoyigong.com"
 }
 
 

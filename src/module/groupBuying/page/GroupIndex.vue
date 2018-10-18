@@ -52,6 +52,7 @@
     import { _getData } from "../service/getData";
     import { Grid, GridItem, Badge, Tab, TabItem } from "vux";
     import _ from "lodash";
+    console.log(_);
     import { Toast } from "vant";
     import { toNativeBanner } from "../components/mixin/mixin";
 
@@ -166,7 +167,7 @@
         mounted() {
             _getData(
                 //获取轮播图
-                "/server/banner!request.action",
+                `${this.$API_URL.WEB_URL}/server/banner!request.action`,
                 {
                     method: "getAppBannerList",
                     params: { type: 15 }
