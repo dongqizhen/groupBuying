@@ -296,7 +296,8 @@ export default {
           color: #cccccc;
           text-align: right;
           margin-right: 13px;
-          background: url("/static/images/grayarrow.png") no-repeat center right;
+          background: url("../../../../../../static/images/grayarrow.png")
+            no-repeat center right;
           background-size: 8px 14px;
           &.valueStyle {
             color: #999;
@@ -313,7 +314,8 @@ export default {
             display: flex;
             height: 14px;
             width: 8px;
-            background: url("/static/images/grayarrow.png") no-repeat center;
+            background: url("../../../../../../static/images/grayarrow.png")
+              no-repeat center;
             background-size: 100% 100%;
             margin-left: 3px;
           }
@@ -355,7 +357,8 @@ export default {
           display: flex;
           height: 14px;
           width: 8px;
-          background: url("/static/images/grayarrow.png") no-repeat center;
+          background: url("../../../../../../static/images/grayarrow.png")
+            no-repeat center;
           background-size: 100% 100%;
           margin-left: 3px;
         }
@@ -551,141 +554,6 @@ export default {
       }
     }
   }
-  .selectBrand {
-    @include box_shadow_style;
-    margin-bottom: 10px;
-    padding-bottom: 0.1px;
-    /deep/ .basicTitle {
-      h2 {
-        padding-right: 0;
-        border-bottom: none;
-        i {
-          width: 10px;
-          height: 10px;
-        }
-        > span {
-          font-family: PingFangSC-Regular;
-          font-size: 12px;
-          color: #999999;
-          display: flex;
-          height: 22px;
-          align-items: center;
-          border-radius: 22px;
-          padding: 0 13px;
-          &:active {
-            background: rgba($color: #999, $alpha: 0.3);
-          }
-        }
-      }
-    }
-    ul {
-      background: #ffffff;
-      box-shadow: 0.5px 2px 7px 0.5px rgba(0, 0, 0, 0.09);
-      margin: 0 13px;
-      margin-bottom: 10px;
-      li {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        height: 47px;
-        border-bottom: 0.5px solid #f6f6f6;
-        margin-left: 13px;
-
-        a {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          text-decoration: none;
-          width: 100%;
-          span {
-            font-family: PingFangSC-Regular;
-            font-size: 14px;
-            color: #333333;
-            float: left;
-            //justify-content: flex-start;
-            // flex-wrap: nowrap;
-            width: auto;
-            // word-wrap: normal;
-          }
-          > div {
-            //width: calc(100% - 70px);
-            display: flex;
-            justify-content: flex-end;
-            padding-right: 13px;
-            font-family: PingFangSC-Regular;
-            font-size: 14px;
-            color: #999999;
-            i {
-              display: flex;
-              height: 14px;
-              width: 8px;
-              background: url("/static/images/grayarrow.png") no-repeat center;
-              background-size: 100% 100%;
-              margin-left: 3px;
-            }
-          }
-        }
-        > span {
-          font-family: PingFangSC-Regular;
-          font-size: 14px;
-          color: #333333;
-        }
-        > div {
-          display: flex;
-          justify-content: flex-end;
-          padding-right: 13px;
-          font-family: PingFangSC-Regular;
-          font-size: 14px;
-          color: #999999;
-          i {
-            display: flex;
-            height: 14px;
-            width: 8px;
-            background: url("/static/images/grayarrow.png") no-repeat center;
-            background-size: 100% 100%;
-            margin-left: 3px;
-          }
-        }
-        /deep/ .cube-input {
-          &.showStyle {
-            input {
-              flex: 0;
-            }
-          }
-          flex: 1;
-          &:after {
-            border: none;
-          }
-          input {
-            color: #999999;
-            font-family: PingFangSC-Regular;
-            font-size: 14px;
-            padding-left: 0;
-          }
-          .showModel {
-            flex: 1;
-            span {
-              background: rgba(142, 142, 142, 0.05);
-              border-radius: 2px;
-              padding: 0 10px;
-              text-align: center;
-              font-family: PingFangSC-Regular;
-              font-size: 12px;
-              color: #666666;
-              margin-right: 5px;
-              width: 66px;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              overflow: hidden;
-              &:last-child {
-                margin-right: 0;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
   .parameter {
     @include box_shadow_style;
     margin-bottom: 10px;
@@ -723,7 +591,8 @@ export default {
               display: flex;
               height: 14px;
               width: 8px;
-              background: url("/static/images/grayarrow.png") no-repeat center;
+              background: url("../../../../../../static/images/grayarrow.png")
+                no-repeat center;
               background-size: 100% 100%;
               margin-left: 3px;
             }
@@ -745,7 +614,8 @@ export default {
             display: flex;
             height: 14px;
             width: 8px;
-            background: url("/static/images/grayarrow.png") no-repeat center;
+            background: url("../../../../../../static/images/grayarrow.png")
+              no-repeat center;
             background-size: 100% 100%;
             margin-left: 3px;
           }

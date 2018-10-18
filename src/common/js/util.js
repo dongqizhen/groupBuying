@@ -47,7 +47,7 @@ Util.prototype.toData = json => {
 
 /**
  * @description 判断是安卓/ios
- * @returns {"true/false"} 
+ * @returns {"true/false"}
  */
 Util.prototype.isAndroid = () => {
     var u = navigator.userAgent,

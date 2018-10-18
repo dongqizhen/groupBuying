@@ -486,7 +486,8 @@ export default {
           color: #cccccc;
           text-align: right;
           margin-right: 13px;
-          background: url("/static/images/grayarrow.png") no-repeat center right;
+          background: url("../../../../../../static/images/grayarrow.png")
+            no-repeat center right;
           background-size: 8px 14px;
           &.valueStyle {
             color: #999;
@@ -503,7 +504,8 @@ export default {
             display: flex;
             height: 14px;
             width: 8px;
-            background: url("/static/images/grayarrow.png") no-repeat center;
+            background: url("../../../../../../static/images/grayarrow.png")
+              no-repeat center;
             background-size: 100% 100%;
             margin-left: 3px;
           }
@@ -545,7 +547,8 @@ export default {
           display: flex;
           height: 14px;
           width: 8px;
-          background: url("/static/images/grayarrow.png") no-repeat center;
+          background: url("../../../../../../static/images/grayarrow.png")
+            no-repeat center;
           background-size: 100% 100%;
           margin-left: 3px;
         }
@@ -809,7 +812,8 @@ export default {
               display: flex;
               height: 14px;
               width: 8px;
-              background: url("/static/images/grayarrow.png") no-repeat center;
+              background: url("../../../../../../static/images/grayarrow.png")
+                no-repeat center;
               background-size: 100% 100%;
               margin-left: 3px;
             }
@@ -831,7 +835,8 @@ export default {
             display: flex;
             height: 14px;
             width: 8px;
-            background: url("/static/images/grayarrow.png") no-repeat center;
+            background: url("../../../../../../static/images/grayarrow.png")
+              no-repeat center;
             background-size: 100% 100%;
             margin-left: 3px;
           }
@@ -913,7 +918,8 @@ export default {
               display: flex;
               height: 14px;
               width: 8px;
-              background: url("/static/images/grayarrow.png") no-repeat center;
+              background: url("../../../../../../static/images/grayarrow.png")
+                no-repeat center;
               background-size: 100% 100%;
               margin-left: 3px;
             }
@@ -935,7 +941,8 @@ export default {
             display: flex;
             height: 14px;
             width: 8px;
-            background: url("/static/images/grayarrow.png") no-repeat center;
+            background: url("../../../../../../static/images/grayarrow.png")
+              no-repeat center;
             background-size: 100% 100%;
             margin-left: 3px;
           }

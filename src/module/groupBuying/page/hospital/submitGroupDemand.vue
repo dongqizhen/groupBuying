@@ -27,8 +27,7 @@
                 <div>
                   <router-view></router-view>
                 </div>
-                <!-- <group-demand-write-info :data="data" ref="groupDemandWriteInfo" :groupPurchaseId="this.submitData.groupPurchaseId" :groupType="this.groupItemObj" :groupPurchaseTypeId="submitData.groupPurchaseTypeId"></group-demand-write-info> -->
-            </div>
+                </div>
             <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购需求表</x-button>
             <x-button v-else type="primary" show-loading>提交中</x-button>
              </cube-scroll>
@@ -42,7 +41,6 @@ import Header from "../../components/header/header";
 import listItem from "../../components/common/listItem";
 import basicTitle from "../../components/common/basicTitle";
 import selectProjectNav from "../../components/common/selectProjectNav";
-import groupDemandWriteInfo from "../../components/common/groupDemandWriteInfo";
 import { Group, XTextarea, XNumber, CellBox } from "vux";
 import compress from "../../../../../static/js/compressImage";
 import { mapMutations } from "vuex";
@@ -97,8 +95,7 @@ export default {
     Group,
     XTextarea,
     XNumber,
-    CellBox,
-    groupDemandWriteInfo
+    CellBox
   },
   methods: {
     ...mapMutations([
@@ -894,7 +891,8 @@ export default {
             i {
               width: 17px;
               height: 14px;
-              background: url("/static/images/service.png") no-repeat center;
+              background: url("../../../../../static/images/service.png")
+                no-repeat center;
               background-size: 100% 100%;
               margin-right: 3px;
             }

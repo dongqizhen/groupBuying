@@ -48,13 +48,6 @@ const webpackConfig = {
         }
     },
     externals: {
-<<<<<<< HEAD
-        // lodash: {
-        //     commonjs: 'lodash',
-        //     amd: 'lodash',
-        //     root: '_' // 指向全局变量
-        // }
-=======
         /* "lodash": {
             commonjs: 'lodash',
             amd: 'lodash',
@@ -66,7 +59,6 @@ const webpackConfig = {
             root: 'vant' // 指向全局变量
         } */
 
->>>>>>> 10f83a8cd66265254de8cf6a00b4f16e324f6ee1
     },
     module: {
         rules: [

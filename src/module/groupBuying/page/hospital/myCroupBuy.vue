@@ -16,7 +16,7 @@
 
         </scroller>
       </div>
-      <div :class="isDisabled?'btn_container_disabled':'btn_container'">
+      <div class="btn_container">
         <x-button type="primary" @click.native="submitBtnClick" :disabled="isDisabled">提交我的团购需求</x-button>
       </div>
 
@@ -61,12 +61,10 @@ export default {
       },
       data => {
         this.detailData = data;
-        this.isDisabled = data.review == 1 ? false : true;
+        // this.isDisabled = data.review == 1 ? false : true;
         console.log(this.detailData);
       }
     );
-  },
-  created() {
     _getData(
       "/server_pro/groupPurchaseHospital!request.action",
       {
