@@ -3,11 +3,13 @@ import {
     Toast
 } from 'vant'
 // request demo
+const userInfo = commonMessage();
+console.log(userInfo)
 export async function _getData(url = '', data = {}, successCallBack, errorCallBack) {
     return await axios
         .post(url, {
-            userid: 10493, //10533 //10493
-            token: "09a52ead-ef25-411d-8ac2-e3384fceed68",
+            userid: userInfo.userid, //10533 //10493
+            token: userInfo.token,
             ...data
         })
         .then(data => {

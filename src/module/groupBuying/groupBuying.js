@@ -8,10 +8,12 @@ import vant from 'vant'
 import store from './store/index'
 import Util from '@/common/js/util'
 import Axios from '@/config/axios.js'
+
 //import VueTouch from 'vue-touch-easyhi'
 /* import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css' */
-//import "../../../static/css/cube-ui/cube-ui.scss"
+
+import "../../../static/css/cube-ui/cube-ui.scss"
 import {
     connectWebViewJavascriptBridge,
     setupWebViewJavascriptBridge
@@ -20,7 +22,8 @@ import {
     Lazyload,
     Toast
 } from 'vant';
-//import 'vant/lib/vant-css/index.css';
+import 'vant/lib/vant-css/index.css';
+
 
 import VueScroller from 'vue-scroller'
 import {
@@ -61,7 +64,8 @@ Vue.directive('ripple', Ripple);
 
 Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
-Vue.prototype.$API_URL = process.env.API_HOST.URL
+
+Vue.prototype.$API_URL = process.env.API_HOST
     //Vue.prototype.$bridge = jsbridge
 Vue.prototype.$USER_INFO = commonMessage()
 Vue.config.productionTip = false
