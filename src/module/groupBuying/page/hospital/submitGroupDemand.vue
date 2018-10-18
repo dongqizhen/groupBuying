@@ -276,11 +276,11 @@ export default {
         },
         data => {
           console.log(data);
-          this.$router.replace("/myHospitalGroupBuy");
           this.saveId = "";
           this.editSelectId = "";
           this.current = null;
           this.vuexInitialFun();
+          this.$router.go(-1);
         }
       );
       this.submitBtnStatus = true;
