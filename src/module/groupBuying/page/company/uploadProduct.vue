@@ -21,7 +21,11 @@
           <div class="productBasicInfromation">
             <basic-title title="产品基本信息" imgurl="../static/images/basicInformation.png">
               <span slot="select">建议:通过PC端批量上传</span>
-              <a slot="check" class="server" @click="service">
+              <a slot="check" class="server" href="javascript:;" v-if="$util.isAndroid()" @click="showDialog">
+                <i></i>
+                客服
+              </a>
+              <a slot="check" class="server" v-else href="tel:18810041523">
                 <i></i>
                 客服
               </a>
@@ -29,7 +33,6 @@
             <div>
               <router-view></router-view>
             </div>
-            <!-- <product-basic-info ref="basicInfo" :data="data" :groupType="this.groupItemObj"></product-basic-info> -->
           </div>
           <div class="img_upload">
             <basic-title title="产品图片" imgurl="../static/images/imgUpload.png">
@@ -59,7 +62,6 @@ import Header from "../../components/header/header";
 import listItem from "../../components/common/listItem";
 import basicTitle from "../../components/common/basicTitle";
 import selectProjectNav from "../../components/common/selectProjectNav";
-import productBasicInfo from "../../components/common/productBasicInfo";
 import { Group, XTextarea, base64 } from "vux";
 import { _getData } from "../../service/getData";
 import _ from "lodash";
@@ -78,7 +80,7 @@ export default {
       toastText: "",
       submitBtnStatus: true,
       action: {
-        target: "http://60.195.252.86:8080/server/imageupload",
+        target: `${this.$API_URL.WEB_URL}/server/imageupload`,
         files: []
       },
       groupUnderWayList: [],
@@ -110,8 +112,7 @@ export default {
     basicTitle,
     selectProjectNav,
     Group,
-    XTextarea,
-    productBasicInfo
+    XTextarea
   },
   methods: {
     ...mapMutations([
@@ -233,8 +234,27 @@ export default {
     getItemObj(itemObj) {
       this.groupItemObj = itemObj;
     },
-    service() {
-      callPhone("18735342261");
+    showDialog() {
+      this.$createDialog({
+        type: "confirm",
+        icon: "",
+        title: "",
+        content: "18810041523",
+        confirmBtn: {
+          text: "取消",
+          active: false,
+          disabled: false,
+          href: "javascript:;"
+        },
+        cancelBtn: {
+          text: "呼叫",
+          active: true,
+          disabled: false,
+          href: "tel:18810041523"
+        },
+        onConfirm: () => {},
+        onCancel: () => {}
+      }).show();
     },
     getCurrentIndex(v) {
       this.current = v;

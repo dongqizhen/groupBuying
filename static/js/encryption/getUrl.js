@@ -94,7 +94,7 @@ function commonMessage() {
             "medicalDetail": medicalDetail,
             "urlMedical": urlMedical,
             "urlGod": urlGod,
-            // "userid": "10510",
+            // "userid": "10533",
             "userid": "7544",
             "token": "web9275a051-d0ac-44e0-a8f0-d440def81d40",
             "urlBanner": urlBanner,
