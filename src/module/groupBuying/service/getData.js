@@ -2,13 +2,14 @@ import axios from '@/config/axios.js'
 import {
     Toast
 } from 'vant'
+
 // request demo
 const userInfo = commonMessage();
-console.log(userInfo)
+
 export async function _getData(url = '', data = {}, successCallBack, errorCallBack) {
     return await axios
         .post(url, {
-            userid: userInfo.userid, //10533 //10493
+            userid: userInfo.userid || '7544', //10533 //10493
             token: userInfo.token,
             ...data
         })

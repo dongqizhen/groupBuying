@@ -63,4 +63,12 @@ Util.prototype.isAndroid = () => {
     }
 }
 
+//获取url参数
+Util.prototype.getUrlParam = name => {
+    const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    const r = window.decodeURI(window.decodeURI(window.location.search.substr(1))).match(reg); //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+}
+
 export default new Util()

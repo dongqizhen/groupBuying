@@ -112,7 +112,7 @@
             },
             async getHistorySearch() {
                 await _getData(
-                    "/server/searchrecord!request.action",
+                    `${this.$API_URL.WEB_URL}/server/searchrecord!request.action`,
                     {
                         method: "getSearchlist_v28",
                         params: { type: 21 }
@@ -125,7 +125,7 @@
             },
             async del() {
                 await _getData(
-                    "/server/searchrecord!request.action",
+                    `${this.$API_URL.WEB_URL}/server/searchrecord!request.action`,
                     {
                         method: "deletedUserSearchRecord",
                         params: { type: 21 }

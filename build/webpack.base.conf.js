@@ -8,6 +8,7 @@ var entries = getEntry(['./src/module/*.js', './src/module/**/*.js']);
 const TransformModulesPlugin = require('webpack-transform-modules-plugin')
 const PostCompilePlugin = require('webpack-post-compile-plugin')
 const vuxLoader = require('vux-loader')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -48,13 +49,6 @@ const webpackConfig = {
         }
     },
     externals: {
-<<<<<<< HEAD
-        // lodash: {
-        //     commonjs: 'lodash',
-        //     amd: 'lodash',
-        //     root: '_' // 指向全局变量
-        // }
-=======
         /* "lodash": {
             commonjs: 'lodash',
             amd: 'lodash',
@@ -66,7 +60,6 @@ const webpackConfig = {
             root: 'vant' // 指向全局变量
         } */
 
->>>>>>> 10f83a8cd66265254de8cf6a00b4f16e324f6ee1
     },
     module: {
         rules: [
@@ -130,7 +123,12 @@ const webpackConfig = {
     },
     plugins: [
         new PostCompilePlugin(),
-        new TransformModulesPlugin()
+        new TransformModulesPlugin(),
+        new HtmlWebpackIncludeAssetsPlugin({
+            assets: process.env.NODE_ENV === 'production' ? [] : ['static/js/WebViewJavascriptBridge.js'],
+            append: false, //之后添加
+            hash: true
+        })
     ]
 }
 

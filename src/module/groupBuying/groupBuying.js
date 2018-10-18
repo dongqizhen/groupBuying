@@ -4,7 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
-import vant from 'vant'
 import store from './store/index'
 import Util from '@/common/js/util'
 import Axios from '@/config/axios.js'
@@ -38,9 +37,9 @@ import Cube, {
     Button,
     //Toast,
     Dialog,
-    ImagePreview,
-    Sticky,
-    Radio,
+    //ImagePreview,
+    //Sticky,
+    //Radio,
     Checkbox,
     Scroll,
     TabBar,
@@ -51,16 +50,17 @@ import Cube, {
     createAPI,
     ActionSheet
 } from 'cube-ui';
-import Ripple from 'vue-ripple-directive'
+
+//import Ripple from 'vue-ripple-directive'
 // import animated from 'animate.css' // npm install animate.css --save安装，在引入
 
 // Vue.use(animated)
 
 
 
-Ripple.color = 'rgba(153, 153, 153, 0.3)';
+/* Ripple.color = 'rgba(153, 153, 153, 0.3)';
 Ripple.zIndex = 55;
-Vue.directive('ripple', Ripple);
+Vue.directive('ripple', Ripple); */
 
 Vue.prototype.$util = Util
 Vue.prototype.$http = Axios
@@ -68,6 +68,7 @@ Vue.prototype.$http = Axios
 Vue.prototype.$API_URL = process.env.API_HOST
     //Vue.prototype.$bridge = jsbridge
 Vue.prototype.$USER_INFO = commonMessage()
+alert(commonMessage().userid)
 Vue.config.productionTip = false
 
 if ('addEventListener' in document) {
@@ -77,7 +78,7 @@ if ('addEventListener' in document) {
 }
 
 
-Vue.use(Vuex).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(Input).use(Swipe).use(Radio).use(Cube).use(Lazyload).use(Toast).use(vant);
+Vue.use(Vuex).use(TabBar).use(Slide).use(Scroll).use(ScrollNavBar).use(Input).use(Swipe).use(Cube).use(Lazyload).use(Toast);
 // .use(VueTouchRipple, {
 //     // default global options
 //     color: '#999',
