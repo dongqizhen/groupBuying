@@ -67,7 +67,7 @@ Vue.prototype.$http = Axios
 Vue.prototype.$API_URL = process.env.API_HOST
     //Vue.prototype.$bridge = jsbridge
 Vue.prototype.$USER_INFO = commonMessage()
-alert(commonMessage().userid)
+    // alert(commonMessage().userid)
 Vue.config.productionTip = false
 
 if ('addEventListener' in document) {
