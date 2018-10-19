@@ -13,7 +13,6 @@ import Axios from '@/config/axios.js'
 /* import VueTouchRipple from 'vue-touch-ripple'
 import 'vue-touch-ripple/dist/vue-touch-ripple.css' */
 
-import "../../../static/css/cube-ui/cube-ui.scss"
 import {
     connectWebViewJavascriptBridge,
     setupWebViewJavascriptBridge
