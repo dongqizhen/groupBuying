@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 var glob = require('glob')
-var qrcode = require('qrcode-terminal-alpha')
+    //var qrcode = require('qrcode-terminal-alpha')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -81,7 +81,6 @@ for (var pathname in pages) {
         inject: true, // js插入位置
         // necessary to consistently work with multiple chunks via CommonsChunkPlugin
         chunksSortMode: 'dependency'
-
     };
     if (pathname in devWebpackConfig.entry) {
         conf.chunks = ['manifest', 'vendor', pathname];
@@ -151,9 +150,9 @@ module.exports = new Promise((resolve, reject) => {
                     utils.createNotifierCallback() : undefined
             }))
             resolve(devWebpackConfig)
-            qrcode.generate(`http://${getLocalIp()}:${port}`, {
-                small: true
-            });
+                /* qrcode.generate(`http://${getLocalIp()}:${port}`, {
+                    small: true
+                }); */
         }
     })
 })

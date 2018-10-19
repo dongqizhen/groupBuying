@@ -124,7 +124,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, '../static'),
             to: config.build.assetsSubDirectory,
-            ignore: ['.*']
+            ignore: ['.*', 'scss/*.scss']
         }])
     ]
 })
@@ -162,7 +162,15 @@ for (var pathname in pages) {
         template: pages[pathname], // 模板路径
         inject: true, // js插入位置
         // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-        chunksSortMode: 'dependency'
+        chunksSortMode: 'dependency',
+        minify: {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeAttributeQuotes: true
+                // more options:
+                // https://github.com/kangax/html-minifier#options-quick-reference
+        }
+
     };
 
     if (pathname in webpackConfig.entry) {

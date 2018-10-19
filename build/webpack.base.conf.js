@@ -8,6 +8,7 @@ var entries = getEntry(['./src/module/*.js', './src/module/**/*.js']);
 const TransformModulesPlugin = require('webpack-transform-modules-plugin')
 const PostCompilePlugin = require('webpack-post-compile-plugin')
 const vuxLoader = require('vux-loader')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -122,7 +123,12 @@ const webpackConfig = {
     },
     plugins: [
         new PostCompilePlugin(),
-        new TransformModulesPlugin()
+        new TransformModulesPlugin(),
+        new HtmlWebpackIncludeAssetsPlugin({
+            assets: process.env.NODE_ENV === 'production' ? [] : ['static/js/WebViewJavascriptBridge.js'],
+            append: false, //之后添加
+            hash: true
+        })
     ]
 }
 
