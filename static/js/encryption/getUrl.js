@@ -1,5 +1,5 @@
-var g_debugmode = 0; //0=online web    1=local app web
-var g_server = 0; //0=测试环境请求地址 1=正式环境请求地址
+var g_debugmode = 1; //0=online web    1=local app web
+var g_server = 1; //0=测试环境请求地址 1=正式环境请求地址
 
 
 
