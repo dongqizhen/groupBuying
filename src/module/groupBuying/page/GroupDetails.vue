@@ -128,44 +128,43 @@ export default {
       }
     },
     jumpToGroupClassification() {
-      // if (this.$store.state.userType == "hospital") {
-      if (this.totalNum != 0) {
+      if (this.$store.state.userType == "hospital") {
+        if (this.totalNum != 0) {
+          this.setTransition("turn-on");
+          this.$router.push({
+            path: "/groupClassification",
+            query: {
+              groupPurchaseTypeId: this.currentGroupId,
+              groupPurchaseId: this.id,
+              groupPurchaseTypeName: this.groupPurchaseTypeName
+            }
+          });
+        } else {
+          Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
+          return;
+        }
+      } else {
+        Toast({ message: "只有医院用户才能查看", duration: 1000 });
+        return;
+      }
+    },
+    jumpToGroupInventory(val) {
+      console.log(val);
+      if (this.$store.state.userType == "hospital") {
         this.setTransition("turn-on");
         this.$router.push({
           path: "/groupClassification",
           query: {
             groupPurchaseTypeId: this.currentGroupId,
             groupPurchaseId: this.id,
+            productLineId: val.id,
             groupPurchaseTypeName: this.groupPurchaseTypeName
           }
         });
       } else {
-        Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
+        Toast({ message: "只有医院用户才能查看", duration: 1000 });
         return;
       }
-
-      // } else {
-      //   Toast({message:"只有医院用户才能查看",duration:1000});
-      //   return;
-      // }
-    },
-    jumpToGroupInventory(val) {
-      console.log(val);
-      // if (this.$store.state.userType == "hospital") {
-      this.setTransition("turn-on");
-      this.$router.push({
-        path: "/groupClassification",
-        query: {
-          groupPurchaseTypeId: this.currentGroupId,
-          groupPurchaseId: this.id,
-          productLineId: val.id,
-          groupPurchaseTypeName: this.groupPurchaseTypeName
-        }
-      });
-      // } else {
-      //   Toast({message:"只有医院用户才能查看",duration:1000});
-      //   return;
-      // }
     },
     selectGroup(group) {
       console.log(group);
