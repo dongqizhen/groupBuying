@@ -345,7 +345,8 @@ export default {
             width: 22px;
             height: 22px;
             border-radius: 22px;
-            background: url("/static/images/del.png") no-repeat center center;
+            background: url("../../../../../static/images/del.png") no-repeat
+              center center;
             background-size: 12px 12px;
             //padding-left: 14.5px;
             justify-content: center;

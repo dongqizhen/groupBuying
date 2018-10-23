@@ -6,6 +6,7 @@ import {
 // request demo
 const userInfo = commonMessage();
 
+
 export async function _getData(url = '', data = {}, successCallBack, errorCallBack) {
     return await axios
         .post(url, {

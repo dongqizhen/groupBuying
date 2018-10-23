@@ -1,31 +1,31 @@
 <template>
-    <div class="container uploadedProducts">
-        <Header :isSearchHide="false" title="上传的产品">
-        </Header>
-        <div class="content">
-            <div v-if="!isLoading">
-                <div v-if="groupPurchaseTypeList.length">
-                    <div class="type">
-                        <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="curTypeVal" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
-                        <model-scroll-nav-bar :modelData="modelData" :selectModelVal="selectModelVal"  v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
-                    </div>
-                    <div class="wrapper_container">
-                        <scroller>
-                            <cube-swipe>
-                                <transition-group name="swipe" tag="ul" class="Swipe_box">
-                                    <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="index" @click="onItemClick(data.id)">
-                                        <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive" >
-                                            <product-list :listData="data"></product-list>
-                                        </cube-swipe-item>
-                                    </li>
-                                </transition-group>
-                            </cube-swipe>
-                        </scroller>
-                    </div>
-                </div>
-                <no-data v-else></no-data>
-            </div>
-            <loading v-else :show="isLoading" text="Loading..."></loading>
+  <div class="container uploadedProducts">
+    <Header :isSearchHide="false" title="上传的产品">
+    </Header>
+    <div class="content">
+      <div v-if="!isLoading">
+        <div v-if="groupPurchaseTypeList.length">
+          <div class="type">
+            <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="curTypeVal" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
+            <model-scroll-nav-bar :modelData="modelData" :selectModelVal="selectModelVal" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
+          </div>
+          <div class="wrapper_container">
+            <scroller>
+              <cube-swipe>
+                <transition-group name="swipe" tag="ul" class="Swipe_box">
+                  <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="index" @click="onItemClick(data.id)">
+                    <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive">
+                      <product-list :listData="data"></product-list>
+                    </cube-swipe-item>
+                  </li>
+                </transition-group>
+              </cube-swipe>
+            </scroller>
+          </div>
+        </div>
+        <no-data v-else></no-data>
+      </div>
+      <loading v-else :show="isLoading" text="Loading..."></loading>
 
     </div>
   </div>
@@ -84,6 +84,7 @@ export default {
       });
     },
     onBtnClick(btn, index) {
+      event.stopPropagation();
       if (btn.action === "delete") {
         this.$createDialog({
           type: "confirm",
@@ -173,8 +174,8 @@ export default {
       /deep/ ._v-container {
         height: 100%;
         /*  ._v-content {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              padding-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
       }
     }
     /deep/ ul.Swipe_box {

@@ -492,11 +492,11 @@ export default {
       data => {
         console.log(data);
         this.groupUnderWayList = data.groupPurchaseList;
-        this.action.files = [];
-        this.submitData.introduce = "";
-        this.initialFun();
         if (this.$route.query.id && this.saveId != this.$route.query.id) {
           this.saveId = this.$route.query.id;
+          this.action.files = [];
+          this.submitData.introduce = "";
+          this.initialFun();
           _getData(
             "/server_pro/groupPurchaseCompanyProduct!request.action",
             {

@@ -1,81 +1,66 @@
 var g_debugmode = 1; //0=online web    1=local app web
 var g_server = 0; //0=测试环境请求地址 1=正式环境请求地址
 
-
-
 function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = window.decodeURI(window.decodeURI(window.location.search.substr(1))).match(reg); //匹配目标参数
-    if (r != null) return unescape(r[2]);
+    var r = window
+        .decodeURI(window.decodeURI(window.location.search.substr(1)))
+        .match(reg); //匹配目标参数
+    if (r != null)
+        return unescape(r[2]);
     return null; //返回参数值
 }
 
 g_userid = getUrlParam('userid');
-
 if (g_userid == null || g_userid == "null") {
-    g_userid = window.sessionStorage.getItem("g_userid");
+    g_userid = window
+        .sessionStorage
+        .getItem("g_userid");
 } else {
-    window.sessionStorage.setItem("g_userid", g_userid);
+    window
+        .sessionStorage
+        .setItem("g_userid", g_userid);
 }
-
-
 g_token = getUrlParam('token');
-
 if (g_token == null || g_token == "null") {
-    g_token = window.sessionStorage.getItem("g_token");
+    g_token = window
+        .sessionStorage
+        .getItem("g_token");
 } else {
-    window.sessionStorage.setItem("g_token", g_token);
+    window
+        .sessionStorage
+        .setItem("g_token", g_token);
 }
 
-//"userid":"测试7544"'12207'10533 '10504'正式15301',
-//"token":"web9275a051-d0ac-44e0-a8f0-d440def81d40"
-
-// "userid":"12207",
-// "token":"web9275a051-d0ac-44e0-a8f0-d440def81d40"
-//获取用户的id
+// "userid":"测试7544"'12207'10533 '10504'正式15301',
+// "token":"web9275a051-d0ac-44e0-a8f0-d440def81d40" 获取用户的id
 function commonMessage() {
-    /* var url="http://115.47.45.51:8006";
-     var urlBrand="http://115.47.45.51:8001";
-     var urlMedical="http://115.47.45.51:8003";*/
-    //  var urlGod="http://115.47.45.51:8016";
     if (g_server == 0) {
-        // var url = "http://60.195.252.86:8084";
-        // var urlBrand = "http://60.195.252.86:8080";
-        // var urlMedical = "http://60.195.252.86:8083";
-        // var medicalDetail = "http://60.195.252.86:8082";
-        // var urlGod = "http://60.195.252.86:8081";
-        // var urlBanner = "http://60.195.252.86:8099";
-        // var urlQuestionnaire = "http://60.195.252.86:8018";
-
-        // var url = "http://60.195.252.86:8080";
+        // var url = "http://60.195.252.86:8084"; var urlBrand =
+        // "http://60.195.252.86:8080"; var urlMedical = "http://60.195.252.86:8083";
+        // var medicalDetail = "http://60.195.252.86:8082"; var urlGod =
+        // "http://60.195.252.86:8081"; var urlBanner = "http://60.195.252.86:8099"; var
+        // urlQuestionnaire = "http://60.195.252.86:8018"; var url =
+        // "http://60.195.252.86:8080";
         var urlBrand = "http://60.195.252.86:8080";
         var urlMedical = "http://60.195.252.86:8080";
         var medicalDetail = "http://60.195.252.86:8080";
         var urlGod = "http://60.195.252.86:8080";
-        // var urlBanner = "http://60.195.252.86:8080";
-        // var urlQuestionnaire = "http://60.195.252.86:8080";
-
-        // var url = "http://60.195.252.68:8084";
-        // var urlBrand = "http://60.195.252.68:8080";
-        // var urlMedical = "http://60.195.252.68:8083";
-        // var medicalDetail = "http://60.195.252.68:8082";
-        // var urlGod = "http://60.195.252.68:8081";
-        // var urlBanner = "http://60.195.252.68:8068";
-        // var urlQuestionnaire = "http://60.195.252.68:8018";
-        // var urlOther = "http://60.195.252.68:8085";
-
-        //验收环境，采用域名方式
-        // var urlBrand = "http://webple.haoyigong.com";
-        // var urlMedical = "http://prople.haoyigong.com";
-        // var url = "http://dataple.haoyigong.com";
-        // var medicalDetail = "http://infople.haoyigong.com";
-        // var urlGod = "http://payple.haoyigong.com";
-        // var urlBanner = "http://rgple.haoyigong.com";
-        // var urlQuestionnaire = "http://diaowenple.haoyigong.com";
-
-        // var other_Url = "http://otherple.haoyigong.com/server_other";
-        // var file_Url = "http://fileple.haoyigong.com/server";
-        // var video_Url = "http://videople.haoyigong.com/server"
+        // var urlBanner = "http://60.195.252.86:8080"; var urlQuestionnaire =
+        // "http://60.195.252.86:8080"; var url = "http://60.195.252.68:8084"; var
+        // urlBrand = "http://60.195.252.68:8080"; var urlMedical =
+        // "http://60.195.252.68:8083"; var medicalDetail = "http://60.195.252.68:8082";
+        // var urlGod = "http://60.195.252.68:8081"; var urlBanner =
+        // "http://60.195.252.68:8068"; var urlQuestionnaire =
+        // "http://60.195.252.68:8018"; var urlOther = "http://60.195.252.68:8085";
+        // 验收环境，采用域名方式 var urlBrand = "http://webple.haoyigong.com"; var urlMedical =
+        // "http://prople.haoyigong.com"; var url = "http://dataple.haoyigong.com"; var
+        // medicalDetail = "http://infople.haoyigong.com"; var urlGod =
+        // "http://payple.haoyigong.com"; var urlBanner = "http://rgple.haoyigong.com";
+        // var urlQuestionnaire = "http://diaowenple.haoyigong.com"; var other_Url =
+        // "http://otherple.haoyigong.com/server_other"; var file_Url =
+        // "http://fileple.haoyigong.com/server"; var video_Url =
+        // "http://videople.haoyigong.com/server"
     } else {
         var url = "http://data.haoyigong.com";
         var urlBrand = "http://web.haoyigong.com";
@@ -85,7 +70,6 @@ function commonMessage() {
         var urlBanner = "http://rg.haoyigong.com";
         var urlQuestionnaire = "http://diaowen.haoyigong.com";
         //var urlQuestionnaire = "http://60.195.252.83:8018";
-
     }
     if (g_debugmode == 0) {
         return user = {
@@ -113,10 +97,7 @@ function commonMessage() {
             "urlQuestionnaire": urlQuestionnaire
         };
     }
-
 }
-
-
 
 /**
  * @description 判断是安卓/ios
@@ -135,8 +116,6 @@ function isAndroid() {
         return false;
     }
 }
-
-
 
 /**
  * 应付测试数据加密,生成随机字符串并解密,只适用于纯数字，比如id,index
@@ -167,7 +146,9 @@ function encryptData(type, val, min, max, charStr) {
         return res;
     }
 
-    range = ((max && typeof max == 'number') ? Math.round(Math.random() * (max - min)) + min : min);
+    range = ((max && typeof max == 'number') ?
+        Math.round(Math.random() * (max - min)) + min :
+        min);
     charStr = charStr || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     for (var i = 0; i < range; i++) {
         var index = Math.round(Math.random() * (charStr.length - 1));
@@ -180,7 +161,9 @@ function encryptData(type, val, min, max, charStr) {
  * 判断是否是微信浏览器
  */
 function is_weixn() {
-    var ua = navigator.userAgent.toLowerCase();
+    var ua = navigator
+        .userAgent
+        .toLowerCase();
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
         return true;
     } else {

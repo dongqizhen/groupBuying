@@ -82,12 +82,12 @@ export default {
       routerLinkArr,
       selectedLabel: "团购",
       tabs: [
-        {
-          label: "产品"
-        },
-        {
-          label: "商家"
-        },
+        // {
+        //   label: "产品"
+        // },
+        // {
+        //   label: "商家"
+        // },
         {
           label: "团购"
         }
@@ -235,6 +235,7 @@ export default {
         }
         .vux-tab-ink-bar {
           background: none !important;
+          left: 92px;
           span {
             border-radius: 2px;
           }

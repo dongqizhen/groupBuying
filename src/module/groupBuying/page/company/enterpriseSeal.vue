@@ -91,13 +91,13 @@ export default {
       submitData: {
         id: "",
         companyName: "",
-        address: "北京市",
-        lat: "39.944193", //纬度
-        lng: "116.375416", //经度
+        address: "",
+        lat: "", //纬度
+        lng: "", //经度
         introduce: "",
         groupPurchaseTypeId: "",
-        province: "北京市",
-        city: "北京市",
+        province: "",
+        city: "",
         companyType: "",
         businessId: "",
         contact: ""

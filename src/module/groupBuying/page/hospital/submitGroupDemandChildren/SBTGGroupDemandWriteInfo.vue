@@ -35,7 +35,7 @@
             </li>
         </ul>
         <div class="selectBrand">
-            <basic-title title='首选' imgurl='../../../../../static/images/selected-first.png'>
+            <basic-title title='首选' imgurl='../../../../../../static/images/selected-first.png'>
                 <span slot="select">(必填)</span>
                 <span slot="check" @click.stop="clear(0)">清空</span>
             </basic-title>
@@ -60,7 +60,7 @@
                     </a>
                 </li>
             </ul>
-            <basic-title title='次选' imgurl='../../../../../static/images/selected-second.png'>
+            <basic-title title='次选' imgurl='../../../../../../static/images/selected-second.png'>
                 <span slot="check" @click.stop="clear(1)">清空</span>
             </basic-title>
             <ul>
@@ -84,7 +84,7 @@
                     </a>
                 </li>
             </ul>
-            <basic-title title='再选' imgurl='../../../../../static/images/selected-three.png'>
+            <basic-title title='再选' imgurl='../../../../../../static/images/selected-three.png'>
             <span slot="check" @click.stop="clear(2)">清空</span></basic-title>
             <ul>
                 <li @click="jumpToBrand(2)">
@@ -508,26 +508,6 @@ export default {
               no-repeat center;
             background-size: 100% 100%;
             margin-left: 3px;
-          }
-          &.maintanceType {
-            justify-content: flex-start;
-            align-items: center;
-            span {
-              height: 29px;
-              line-height: 29px;
-              padding: 0 16px;
-              font-family: PingFangSC-Regular;
-              font-size: 14px;
-              color: #333333;
-              margin-right: 10px;
-              background: rgba(142, 142, 142, 0.05);
-              border-radius: 2px;
-              &.active {
-                background: rgba(1, 157, 221, 0.14);
-                font-family: PingFangSC-Medium;
-                color: #019ddd;
-              }
-            }
           }
         }
       }

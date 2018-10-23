@@ -70,7 +70,9 @@ export default {
       {
         method: "getMyGroupPurchaseHospital",
 
-        params: { groupPurchaseHospitalId: "1" }
+        params: {
+          groupPurchaseHospitalId: this.$store.state.userCompanyIdOrHospitalId
+        }
       },
       data => {
         console.log(data);
