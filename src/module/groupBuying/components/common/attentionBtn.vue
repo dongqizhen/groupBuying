@@ -1,6 +1,6 @@
 <template>
 
-    <div class="attentionBtn" @click.stop="triggleSrc(result.isFollw)" v-if="isShowBtn">
+    <div class="attentionBtn" @click.stop="triggleSrc(isAttention)" v-if="isShowBtn">
         <img v-if="isAttention==0" src="../../../../../static/images/attention-active.png">
         <img v-else-if="isAttention==1" src="../../../../../static/images/attention.png" alt="" srcset="">
         <img v-else src="../../../../../static/images/attention-each.png" alt="">
@@ -18,12 +18,12 @@
                 // this.isAttention = !this.isAttention;
 
                 _getData(
-                    "/server/follow!request.action",
+                    `${this.$API_URL.WEB_URL}/server/follow!request.action`,
                     {
                         method: "addOrDeleteFollow",
                         params: {
                             followId: this.result.userId,
-                            controlflag: status == 1 ? 0 : 1
+                            controlflag: status == 1 || 2 ? 0 : 1
                         }
                     },
                     data => {
@@ -43,7 +43,6 @@
         },
         watch: {
             result(newVal) {
-                console.log(11);
                 this.isAttention = newVal.isFollw;
             }
         }

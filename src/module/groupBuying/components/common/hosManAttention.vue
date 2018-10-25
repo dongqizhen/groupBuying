@@ -1,11 +1,11 @@
 <template>
-    <div class="hosManAttention">
+    <div class="hosManAttention" @click.stop="friendInfo(result.userId)">
         <div class="leftBox">
 
             <!-- <div v-lazy-container="{ selector: 'img' }">
                 <img :data-src="result.userImageUrl" data-error="../static/images/defaultAuthor.png" data-loading="../static/images/defaultAuthor.png" alt="" @click.stop="friendInfo(result.userId)">
             </div> -->
-            <img v-lazy="result.userImageUrl" alt="" @click.stop="friendInfo(result.userId)">
+            <img v-lazy="result.userImageUrl" alt="">
             <div class="nameAndHospital">
                 <span class="name">{{result.userName || result.username}}</span>
                 <slot name="hospitalName"></slot>
