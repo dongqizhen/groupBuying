@@ -1,77 +1,78 @@
 <template>
-    <div class="container">
-        <Header title="团购详情" :isSearchHide="true" :saveId="saveId" v-on:changeSaveId="changeSaveId"></Header>
-        <div class="content">
-            <div class="scroll-list-wrap">
+  <div class="container">
+    <Header title="团购详情" :isSearchHide="true" :saveId="saveId" v-on:changeSaveId="changeSaveId"></Header>
+    <div class="content">
+      <div class="scroll-list-wrap">
 
-                <cube-scroll ref="scroll">
-                    <div class="wrapper">
-                        <div class="basic_information">
-                            <basic-title title="团购基本信息" imgurl="../static/images/groupBuy.png"></basic-title>
-                            <list-item :dataValue="this.$store.state.page.detailsPageData"></list-item>
-                        </div>
-                        <div class="hospitalNeeds">
-                            <h2><span></span>团购大会列表<span></span></h2>
-                            <span>企业用户查看</span>
-                            <ul>
-                                <li v-for="(val,index) in hospitalGroupList" :key="index" @click="jumpToGroupDemand(val)">
-                                    <a>
-                                        <i><img :src="val.imageUrl"></i>
-                                        {{val.name}}
-                                        <span>已有
-                                            <a>{{val.hospitalNum}}</a>家医院提交团购需求
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="Enterprise_Product">
-                            <h2><span></span>企业产品<span></span></h2>
-                            <span>医院用户查看</span>
-                            <ul class="nav">
-                                <li v-for="group in groupList" :key="group.id" :class="currentGroupId===group.id?'active':''" @click="selectGroup(group)">{{group.name}}</li>
-                            </ul>
-                            <div class="subscription">
-                                <h3>
-                                    <p>{{groupPurchaseTypeName}}产品清单</p>
-                                    <a @click="jumpToGroupClassification">
-                                        <span>查看全部 ({{totalNum}}款)
-                                            <i></i>
-                                        </span>
-                                    </a>
-                                </h3>
-                                <ul class="type">
-                                    <li v-for="(inventoryItem,index) in groupInventoryList" :key="index" @click="jumpToGroupInventory(inventoryItem)">
-                                        <a>
-                                            {{inventoryItem.name}}
-                                            <span>{{inventoryItem.num}}款</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="brand">
-                                <h2>{{groupPurchaseTypeName}}入围品牌</h2>
-                                <ul>
-                                    <li>
-                                        <span>品牌</span>
-                                        <span>团购占有率</span>
-                                        <span>市场保有率</span>
-                                        <span>售后排名</span>
-                                    </li>
-                                    <li v-for="(item,index) in enterBrandList" :key="index">
-                                        <span><img :src="item.imageUrl">{{item.brandName}}</span>
-                                        <span>{{item.proportion}}</span>
-                                        <span>{{item.marketRate}}</span>
-                                        <span>{{item.saleRank}}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </cube-scroll>
+        <cube-scroll ref="scroll">
+          <div class="wrapper">
+            <div class="basic_information">
+              <basic-title title="团购基本信息" imgurl="../static/images/groupBuy.png"></basic-title>
+              <list-item :dataValue="this.$store.state.page.detailsPageData"></list-item>
             </div>
-        </div>
+            <div class="hospitalNeeds">
+              <h2><span></span>团购大会列表<span></span></h2>
+              <span>企业用户查看</span>
+              <ul>
+                <li v-for="(val,index) in hospitalGroupList" :key="index" @click="jumpToGroupDemand(val)">
+                  <a>
+                    <i><img :src="val.imageUrl"></i>
+                    {{val.name}}
+                    <span>已有
+                      <a>{{val.hospitalNum}}</a>家医院提交团购需求
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="Enterprise_Product">
+              <h2><span></span>企业产品<span></span></h2>
+              <span>医院用户查看</span>
+              <ul class="nav">
+                <li v-for="group in groupList" :key="group.id" :class="currentGroupId===group.id?'active':''" @click="selectGroup(group)">{{group.name}}({{totalNum}})</li>
+              </ul>
+              <div class="subscription">
+                <h3>
+                  <p>{{groupPurchaseTypeName}}产品清单</p>
+                  <a @click="jumpToGroupClassification">
+                    <span>查看全部 ({{totalNum}}款)
+                      <i></i>
+                    </span>
+                  </a>
+                </h3>
+                <ul class="type">
+                  <li v-for="(inventoryItem,index) in groupInventoryList" :key="index" @click="jumpToGroupInventory(inventoryItem)">
+                    <a>
+                      {{inventoryItem.name}}
+                      <span>{{inventoryItem.num}}款</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="brand">
+                <h2>{{groupPurchaseTypeName}}入围品牌</h2>
+                <ul v-if="enterBrandList.length>0">
+                  <li>
+                    <span>品牌</span>
+                    <span>团购占有率</span>
+                    <span>市场保有率</span>
+                    <span>售后排名</span>
+                  </li>
+                  <li v-for="(item,index) in enterBrandList" :key="index">
+                    <span><img :src="item.imageUrl">{{item.brandName}}</span>
+                    <span>{{item.proportion}}</span>
+                    <span>{{item.marketRate}}</span>
+                    <span>{{item.saleRank}}</span>
+                  </li>
+                </ul>
+                <no-data v-else mainTitle="暂无入围品牌" :isShowSecondTitle="false"></no-data>
+              </div>
+            </div>
+          </div>
+        </cube-scroll>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -82,6 +83,8 @@ import { _getData } from "../service/getData";
 import { mapMutations } from "vuex";
 import { Toast } from "vant";
 import _ from "lodash";
+import noData from "../components/noData/noData.vue";
+
 export default {
   data() {
     return {
@@ -100,53 +103,54 @@ export default {
   components: {
     Header,
     ListItem,
-    basicTitle
+    basicTitle,
+    noData
   },
   props: ["id"],
   methods: {
     ...mapMutations(["setTransition"]),
     jumpToGroupDemand(val) {
       console.log(val);
-      // if (this.$store.state.userType == "company") {
-      if (val.hospitalNum != 0) {
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "/groupDemand",
-          query: {
-            groupPurchaseId: this.id,
-            groupPurchaseTypeId: val.id,
-            groupTypeCode: val.code
-          }
-        });
+      if (this.$store.state.userType == "company") {
+        if (val.hospitalNum != 0) {
+          this.setTransition("turn-on");
+          this.$router.push({
+            path: "/groupDemand",
+            query: {
+              groupPurchaseId: this.id,
+              groupPurchaseTypeId: val.id,
+              groupTypeCode: val.code
+            }
+          });
+        } else {
+          Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
+          return;
+        }
       } else {
-        Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
+        Toast({ message: "只有企业用户才能查看", duration: 1000 });
         return;
       }
-      // } else {
-      //   Toast({ message: "只有企业用户才能查看", duration: 1000 });
-      //   return;
-      // }
     },
     jumpToGroupClassification() {
-      // if (this.$store.state.userType == "hospital") {
-      if (this.totalNum != 0) {
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "/groupClassification",
-          query: {
-            groupPurchaseTypeId: this.currentGroupId,
-            groupPurchaseId: this.id,
-            groupPurchaseTypeName: this.groupPurchaseTypeName
-          }
-        });
+      if (this.$store.state.userType == "hospital") {
+        if (this.totalNum != 0) {
+          this.setTransition("turn-on");
+          this.$router.push({
+            path: "/groupClassification",
+            query: {
+              groupPurchaseTypeId: this.currentGroupId,
+              groupPurchaseId: this.id,
+              groupPurchaseTypeName: this.groupPurchaseTypeName
+            }
+          });
+        } else {
+          Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
+          return;
+        }
       } else {
-        Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
+        Toast({ message: "只有医院用户才能查看", duration: 1000 });
         return;
       }
-      // } else {
-      //   Toast({ message: "只有医院用户才能查看", duration: 1000 });
-      //   return;
-      // }
     },
     jumpToGroupInventory(val) {
       console.log(val);
@@ -507,6 +511,9 @@ export default {
               }
             }
           }
+        }
+        /deep/ .noData {
+          padding: 20px 0;
         }
       }
     }

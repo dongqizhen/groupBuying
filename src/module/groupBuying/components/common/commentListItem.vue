@@ -121,6 +121,18 @@
                 width: 36px;
                 border-radius: 100%;
             }
+            img[lazy="loading"] {
+                /*your style here*/
+                background: url("../../../../../static/images/defaultAuthor.png")
+                    no-repeat center;
+                background-size: 36px 36px;
+            }
+            img[lazy="error"] {
+                /*your style here*/
+                background: url("../../../../../static/images/defaultAuthor.png")
+                    no-repeat center;
+                background-size: 36px 36px;
+            }
         }
         .right {
             width: calc(100% - 46px);
@@ -146,13 +158,14 @@
                 .approve {
                     color: #aaa;
                     position: absolute;
-                    right: 0;
+                    right: -13px;
                     top: 0;
                     line-height: 24px;
                     height: 24px;
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
+                    padding: 13px;
                     /deep/ .VueStar {
                         height: 16px;
                         width: 16px;
@@ -267,7 +280,7 @@
                     }
                     span {
                         /* display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center; */
                         &.name {
                             color: #406599;
                         }

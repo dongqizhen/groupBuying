@@ -2,7 +2,7 @@
     <div class="noData">
         <img src="../../../../../static/images/noData.png" alt="">
         <span>{{mainTitle}}</span>
-        <span>{{secondTitle}}</span>
+        <span><a v-if="isShowSecondTitle">{{secondTitle}}</a></span>
     </div>
 </template>
 
@@ -19,6 +19,10 @@
             secondTitle: {
                 type: String,
                 default: "赶快去参加团购吧"
+            },
+            isShowSecondTitle: {
+                type: Boolean,
+                default: true
             }
         }
     };
@@ -41,6 +45,12 @@
             font-family: PingFangSC-Regular;
             font-size: 15px;
             color: #666666;
+            a {
+                font-size: 12px;
+                color: #999999;
+                margin-top: 10px;
+                text-decoration: none;
+            }
             &:last-child {
                 font-size: 12px;
                 color: #999999;

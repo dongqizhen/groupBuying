@@ -1,10 +1,10 @@
 <template>
 
   <div class="container">
-    <Header :isSearchHide="true">
-      <tab slot="mainTitle" :line-width="2" custom-bar-width="20px" active-color="#019DDD" default-color="#666">
+    <Header :isSearchHide="true" title="团购">
+      <!-- <tab slot="mainTitle" :line-width="2" custom-bar-width="20px" active-color="#019DDD" default-color="#666">
         <tab-item v-for="(item, index) in tabs" @on-item-click="handler" :key="index" :selected="index==2?true:false">{{item.label}}</tab-item>
-      </tab>
+      </tab> -->
       <!-- <cube-tab-bar v-model="selectedLabel" showSlider slot="mainTitle" @change="tabBarChange">
                 <cube-tab v-for="(item, index) in tabs" :label="item.label" :key="index">
                 </cube-tab>
@@ -236,7 +236,6 @@ export default {
         .vux-tab-ink-bar {
           background: none !important;
           left: 92px;
-          display: none !important;
           span {
             border-radius: 2px;
           }
