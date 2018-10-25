@@ -35,7 +35,7 @@
             </li>
         </ul>
         <div class="selectBrand">
-            <basic-title title='首选' imgurl='../../../../../../static/images/selected-first.png'>
+            <basic-title title='首选' imgurl='../static/images/selected-first.png'>
                 <span slot="select">(必填)</span>
                 <span slot="check" @click.stop="clear(0)">清空</span>
             </basic-title>
@@ -60,7 +60,7 @@
                     </a>
                 </li>
             </ul>
-            <basic-title title='次选' imgurl='../../../../../../static/images/selected-second.png'>
+            <basic-title title='次选' imgurl='../static/images/selected-second.png'>
                 <span slot="check" @click.stop="clear(1)">清空</span>
             </basic-title>
             <ul>
@@ -84,7 +84,7 @@
                     </a>
                 </li>
             </ul>
-            <basic-title title='再选' imgurl='../../../../../../static/images/selected-three.png'>
+            <basic-title title='再选' imgurl='../static/images/selected-three.png'>
             <span slot="check" @click.stop="clear(2)">清空</span></basic-title>
             <ul>
                 <li @click="jumpToBrand(2)">
@@ -430,24 +430,26 @@ export default {
         "年" +
         this.$store.state.page.submitGroupDemand.SBTG.loadTime.quarter
       : "";
-    _getData(
-      "/server_pro/groupPurchaseHospital!request.action",
-      {
-        method: "getGroupPurchaseHospitalCountInfo",
-        params: {
-          groupPurchaseId: this.$route.query.groupPurchaseId,
-          groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
-          productLineId: this.info.productLineId,
-          productLineAliasId: this.info.aliasProductLineId
+    if (this.info.productLineId) {
+      _getData(
+        "/server_pro/groupPurchaseHospital!request.action",
+        {
+          method: "getGroupPurchaseHospitalCountInfo",
+          params: {
+            groupPurchaseId: this.$route.query.groupPurchaseId,
+            groupPurchaseTypeId: this.$route.query.groupPurchaseTypeId,
+            productLineId: this.info.productLineId,
+            productLineAliasId: this.info.aliasProductLineId
+          }
+        },
+        data => {
+          console.log(data);
+          this.info.demandNum = data.demandNum;
+          this.info.histroyTotalDemandNum = data.histroyTotalDemandNum;
+          this.info.totalPrice = data.totalPrice;
         }
-      },
-      data => {
-        console.log(data);
-        this.info.demandNum = data.demandNum;
-        this.info.histroyTotalDemandNum = data.histroyTotalDemandNum;
-        this.info.totalPrice = data.totalPrice;
-      }
-    );
+      );
+    }
   }
 };
 </script>

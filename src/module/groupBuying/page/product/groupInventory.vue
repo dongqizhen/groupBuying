@@ -23,7 +23,9 @@ export default {
   data() {
     return {
       title: "",
-      lists: []
+      lists: [],
+      sortName: "",
+      sortType: ""
     };
   },
   components: {
@@ -42,15 +44,20 @@ export default {
       console.log(obj);
       switch (obj.index) {
         case 0:
+          this.sortName = "createdOn";
           this.reqData("createdOn");
           break;
         case 1:
+          this.sortName = "countNum";
           this.reqData("countNum");
           break;
         case 2:
+          this.sortName = "favoriteNum";
           this.reqData("favoriteNum");
           break;
         case 3:
+          this.sortName = "price";
+          this.sortType = obj.num % 2 ? 1 : 0;
           obj.num % 2 ? this.reqData("price", 1) : this.reqData("price", 0);
           break;
       }
@@ -80,11 +87,9 @@ export default {
     }
   },
   activated() {
-    this.reqData();
+    this.reqData(this.sortName, this.sortType);
   },
-  deactivated() {
-    // this.$destroy();
-  }
+  deactivated() {}
 };
 </script>
 

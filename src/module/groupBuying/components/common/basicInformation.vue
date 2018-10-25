@@ -77,7 +77,7 @@ export default {
           this.status = "审核未通过";
           break;
       }
-      if (this.$store.state.userType == "company") {
+      if (this.detailData.bussinessList) {
         if (this.detailData.bussinessList.length != 0) {
           this.mainBusinessName = _.join(
             _.map(this.detailData.bussinessList, "name"),
