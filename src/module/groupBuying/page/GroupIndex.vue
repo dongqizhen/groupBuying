@@ -236,6 +236,7 @@ export default {
         .vux-tab-ink-bar {
           background: none !important;
           left: 92px;
+          display: none !important;
           span {
             border-radius: 2px;
           }

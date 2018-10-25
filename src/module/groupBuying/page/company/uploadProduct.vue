@@ -213,7 +213,8 @@ export default {
           this.saveId = "";
           this.editSelectId = "";
           this.current = null;
-          (this.submitData.introduce = ""), (this.action.files = []);
+          this.submitData.introduce = "";
+          this.action.files = [];
           this.initialFun();
           this.$router.go(-1);
         }
@@ -222,10 +223,16 @@ export default {
     },
     changeSaveId(val) {
       this.saveId = val;
+      this.initialFun();
+      this.submitData.introduce = "";
+      this.action.files = [];
     },
     changeEditSelectId(val) {
       this.editSelectId = val;
       this.current = null;
+      this.initialFun();
+      this.submitData.introduce = "";
+      this.action.files = [];
     },
     selectGroupId(value) {
       this.submitData.groupPurchaseTypeId = value;

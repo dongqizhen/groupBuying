@@ -16,7 +16,7 @@
             <cube-checkbox v-model="checked" v-if="this.Multiple">
                 不了解产品型号，请厂家根据我院临床需求推荐
             </cube-checkbox>
-            <search placeholder="请输入型号" :isShowSave="this.Multiple?true:false" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
+            <search placeholder="请输入型号" :searchValue="searchValue" :isShowSave="this.Multiple?true:false" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
             <div class="Model_container">
                 <h2>请选择：<span>(企业提供的型号清单)</span></h2>
                 <cube-index-list :data="modelData">
@@ -49,7 +49,8 @@ export default {
       itemSelect: [],
       groupTypeCode: "",
       page: "",
-      Multiple: ""
+      Multiple: "",
+      searchValue: ""
     };
   },
   components: {
@@ -83,7 +84,7 @@ export default {
           this.itemSelect.push({ id: "", name: this.tempLastSearchValue });
         } else {
           if (this.tempLastSearchValue == "") {
-            var tempArr = [];
+            let tempArr = [];
             _.map(this.modelData, o => {
               return (tempArr = _.concat(tempArr, o.items));
             });
@@ -214,12 +215,13 @@ export default {
     },
     saveModel(name) {
       console.log(name);
+      this.searchValue = name;
       let modelListCommon, itemSelectCommon;
       itemSelectCommon = _.find(this.itemSelect, function(o) {
         return o.name.toUpperCase() === name.toUpperCase();
       });
       if (this.modelData.length > 0) {
-        var tempArr = [];
+        let tempArr = [];
         _.map(this.modelData, o => {
           return (tempArr = _.concat(tempArr, o.items));
         });
@@ -229,14 +231,24 @@ export default {
       }
       if (this.itemSelect.length === 3) {
         Toast("最多选择三个型号");
+        return;
       } else {
         if (!itemSelectCommon && !modelListCommon) {
           this.itemSelect.push({ id: "", name: name });
+          console.log(111);
+          console.log(this.searchValue);
+          this.searchValue = "";
+          console.log(this.searchValue);
         } else {
           if (!itemSelectCommon && modelListCommon) {
             this.itemSelect.push(modelListCommon);
+            console.log(222);
+            console.log(this.searchValue);
+            this.searchValue = "";
+            console.log(this.searchValue);
           } else if (itemSelectCommon) {
             Toast({ message: "已选型号,请勿重复", duration: 1000 });
+            return;
           }
         }
       }
@@ -274,6 +286,7 @@ export default {
     itemSelect() {
       if (this.itemSelect.length > 3) {
         Toast("最多选择三个型号");
+        return;
       }
     }
   }

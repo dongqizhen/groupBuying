@@ -188,6 +188,11 @@ export default {
           this.$store.state.page.mainBusiness
         );
         this.submitData.contact = JSON.stringify(this.$refs.person.persons);
+        this.submitData.lat = this.responseDataObj.latitude;
+        this.submitData.lng = this.responseDataObj.longitude;
+        this.submitData.province = this.responseDataObj.provinceName;
+        this.submitData.city = this.responseDataObj.cityName;
+        this.submitData.address = this.responseDataObj.address;
         this.submit();
         this.submitBtnStatus = true;
       }

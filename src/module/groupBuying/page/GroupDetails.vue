@@ -107,46 +107,46 @@ export default {
     ...mapMutations(["setTransition"]),
     jumpToGroupDemand(val) {
       console.log(val);
-      if (this.$store.state.userType == "company") {
-        if (val.hospitalNum != 0) {
-          this.setTransition("turn-on");
-          this.$router.push({
-            path: "/groupDemand",
-            query: {
-              groupPurchaseId: this.id,
-              groupPurchaseTypeId: val.id,
-              groupTypeCode: val.code
-            }
-          });
-        } else {
-          Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
-          return;
-        }
+      // if (this.$store.state.userType == "company") {
+      if (val.hospitalNum != 0) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "/groupDemand",
+          query: {
+            groupPurchaseId: this.id,
+            groupPurchaseTypeId: val.id,
+            groupTypeCode: val.code
+          }
+        });
       } else {
-        Toast({ message: "只有企业用户才能查看", duration: 1000 });
+        Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
         return;
       }
+      // } else {
+      //   Toast({ message: "只有企业用户才能查看", duration: 1000 });
+      //   return;
+      // }
     },
     jumpToGroupClassification() {
-      if (this.$store.state.userType == "hospital") {
-        if (this.totalNum != 0) {
-          this.setTransition("turn-on");
-          this.$router.push({
-            path: "/groupClassification",
-            query: {
-              groupPurchaseTypeId: this.currentGroupId,
-              groupPurchaseId: this.id,
-              groupPurchaseTypeName: this.groupPurchaseTypeName
-            }
-          });
-        } else {
-          Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
-          return;
-        }
+      // if (this.$store.state.userType == "hospital") {
+      if (this.totalNum != 0) {
+        this.setTransition("turn-on");
+        this.$router.push({
+          path: "/groupClassification",
+          query: {
+            groupPurchaseTypeId: this.currentGroupId,
+            groupPurchaseId: this.id,
+            groupPurchaseTypeName: this.groupPurchaseTypeName
+          }
+        });
       } else {
-        Toast({ message: "只有医院用户才能查看", duration: 1000 });
+        Toast({ message: "暂无数据,请稍后查看", duration: 1000 });
         return;
       }
+      // } else {
+      //   Toast({ message: "只有医院用户才能查看", duration: 1000 });
+      //   return;
+      // }
     },
     jumpToGroupInventory(val) {
       console.log(val);

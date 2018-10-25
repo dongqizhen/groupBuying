@@ -123,7 +123,8 @@ export const getProductList = {
 export const openNativeNav = {
     data() {
         return {
-            responseData: ""
+            responseData: "",
+            responseDataObj: {}
         }
     },
 
@@ -135,6 +136,7 @@ export const openNativeNav = {
                     isForResult: true
                 },
                 data => {
+                    this.responseDataObj = data;
                     if (data.provinceName == data.cityName) {
                         this.responseData = data.cityName;
                     } else {

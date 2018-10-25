@@ -298,15 +298,18 @@ export default {
           this.saveId = "";
           this.editSelectId = "";
           this.current = null;
+          this.vuexInitialFun();
         }
       );
     },
     changeSaveId(val) {
       this.saveId = val;
+      this.vuexInitialFun();
     },
     changeEditSelectId(val) {
       this.editSelectId = val;
       this.current = null;
+      this.vuexInitialFun();
     },
     handleSelect(value) {
       this.submitData.groupPurchaseTypeId = value;

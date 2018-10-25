@@ -17,13 +17,15 @@ export default {
       value: ""
     };
   },
-  props: ["placeholder", "disabled", "type", "isShowSave"],
+  props: ["placeholder", "disabled", "type", "isShowSave", "searchValue"],
   methods: {
     search() {
       this.$emit("inputValue", this.value);
     },
     save() {
       this.$emit("saveValue", this.value);
+      console.log(this.searchValue);
+      this.value = this.searchValue;
     }
   },
   deactivated() {
