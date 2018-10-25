@@ -29,7 +29,7 @@
               <h2><span></span>企业产品<span></span></h2>
               <span>医院用户查看</span>
               <ul class="nav">
-                <li v-for="group in groupList" :key="group.id" :class="currentGroupId===group.id?'active':''" @click="selectGroup(group)">{{group.name}}({{totalNum}})</li>
+                <li v-for="group in groupList" :key="group.id" :class="currentGroupId===group.id?'active':''" @click="selectGroup(group)">{{group.name}}({{group.totalNum}})</li>
               </ul>
               <div class="subscription">
                 <h3>
