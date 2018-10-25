@@ -10,6 +10,15 @@
     <meta http-equiv="Expires" content="0" />
 
     <title>团购</title>
+    <script src="../static/js/encryption/getUrl.js" type="text/javascript " charset="utf-8"></script>
+    <script>
+        if (isAndroid()) {
+            var script = document.createElement("script");
+            script.setAttribute("src", "../static/js/WebViewJavascriptBridge.js");
+            var head = document.head || document.getElementsByTagName('head')[0];
+            head.appendChild(script)
+        }
+    </script>
     <!-- <link rel="stylesheet" href="https://unpkg.com/vant/lib/vant-css/index.css"> -->
     <link rel="stylesheet" href="../static/css/flexible.css">
     <!--  <style>
@@ -27,7 +36,10 @@
     <!-- built files will be auto injected -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script> -->
     <!-- <script src="https://unpkg.com/vant/lib/vant.min.js"></script> -->
-    <script src="../static/js/encryption/getUrl.js" type="text/javascript " charset="utf-8"></script>
+
+
+
+
     <script src="../static/js/encryption/zaes.js" type="text/javascript " charset="utf-8"></script>
     <script src="../static/js/encryption/mode-ecb.js " type="text/javascript " charset="utf-8"></script>
     <script src="../static/js/encryption/commonEncrypDecryp.js " type="text/javascript " charset="utf-8"></script>

@@ -20,7 +20,7 @@
                                 <span class="value">{{resultData.num}}台</span>
                             </div>
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
                             </div>
                         </div>
                         <div class="common hopePrice">
@@ -30,7 +30,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购，CT类设备已累计申报<span>{{resultData.demandNum}}</span>台，总预算为<span>{{resultData.totalPrice}}</span>万元。
+                                本次团购，{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台，总预算为<span>{{resultData.totalPrice}}</span>万元。
                             </div>
                         </div>
                         <div class="common hopeBrand">
@@ -78,7 +78,7 @@
                                 <span class="value">{{resultData.num}}单</span>
                             </div>
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>单。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>单。
                             </div>
                         </div>
                         <div class="common hopePrice">
@@ -88,7 +88,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购，CT类设备已累计申报<span>{{resultData.demandNum}}</span>单，总预算为<span>{{resultData.totalPrice}}</span>万元。
+                                本次团购，{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>单，总预算为<span>{{resultData.totalPrice}}</span>万元。
                             </div>
                         </div>
                         <div class="common hopeBrand">
@@ -148,7 +148,7 @@
                                 </div>
 
                                 <div class="infoCount">
-                                    本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
+                                    本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
                                 </div>
                             </div>
                             <div class="common hopePrice">
@@ -158,7 +158,7 @@
                                 </div>
 
                                 <div class="infoCount">
-                                    本次团购，CT类设备已累计申报<span>{{resultData.demandNum}}</span>台，总维修预算为<span>{{resultData.totalPrice}}</span>万元
+                                    本次团购，{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台，总维修预算为<span>{{resultData.totalPrice}}</span>万元
                                 </div>
                             </div>
                             <div class="common">
@@ -199,7 +199,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>单。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>单。
                             </div>
                         </div>
                         <div class="common productSort">
@@ -213,7 +213,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
                             </div>
                         </div>
                         <div class="common productSort">
@@ -247,7 +247,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>次,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>次。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>次,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>次。
                             </div>
                         </div>
                         <div class="common productSort">
@@ -261,7 +261,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>次,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>次,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
                             </div>
                         </div>
                         <div class="common productSort">
@@ -299,7 +299,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
                             </div>
                         </div>
 
@@ -310,7 +310,7 @@
                             </div>
 
                             <div class="infoCount">
-                                本次团购,CT类设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
                             </div>
                         </div>
                         <div class="common productSort">
@@ -343,7 +343,7 @@
                         </div>
                     </div>
                     <div class="comment">
-                        <h2>会员企业留言区<span>（仅限铂金、钻石会员）</span></h2>
+                        <h2>会员企业留言区（{{amount}}）<span>仅限铂金、钻石会员</span></h2>
                         <div class="commentContainer">
                             <ul v-if="commentList.length">
                                 <li v-for="(val,index) in commentList" :key="index">
@@ -387,7 +387,8 @@
                 currentPage: 1,
                 pageCount: 1,
                 pullUpFlag: true,
-                isShow: false
+                isShow: false,
+                amount: ""
             };
         },
         components: {
@@ -423,6 +424,7 @@
                     },
                     data => {
                         console.log(data);
+                        this.amount = data.amount;
                         if (this.currentPage == 1) {
                             this.commentList = data.list;
                         } else {
@@ -536,9 +538,9 @@
                 console.log(newVal, oldVal, newVal == oldVal);
 
                 /* this.$nextTick(() => {
-                                    this.isShow = false;
-                                });
-                                this.isShow = true; */
+                                                            this.isShow = false;
+                                                        });
+                                                        this.isShow = true; */
             }
         }
     };

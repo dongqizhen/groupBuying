@@ -88,9 +88,9 @@
                 display: flex;
                 justify-content: flex-start;
                 img {
-                    width: 11px;
-                    height: 14px;
-                    margin-right: 13px;
+                    width: 14px;
+                    height: 13px;
+                    margin-right: 8px;
                 }
                 span {
                     font-family: PingFangSC-Medium;
