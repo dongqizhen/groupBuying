@@ -26,7 +26,7 @@
                         <div class="common hopePrice">
                             <div>
                                 <span>期望采购总价</span>
-                                <span class="value">{{resultData.price}}万</span>
+                                <span class="value">{{resultData.price}}万元</span>
                             </div>
 
                             <div class="infoCount">
@@ -84,7 +84,7 @@
                         <div class="common hopePrice">
                             <div>
                                 <span>期望采购总价</span>
-                                <span class="value">{{resultData.price}}万</span>
+                                <span class="value">{{resultData.price}}万元</span>
                             </div>
 
                             <div class="infoCount">
@@ -154,7 +154,7 @@
                             <div class="common hopePrice">
                                 <div>
                                     <span>维修预算(总价)</span>
-                                    <span class="value">{{resultData.price}}万</span>
+                                    <span class="value">{{resultData.price}}万元</span>
                                 </div>
 
                                 <div class="infoCount">
@@ -209,7 +209,7 @@
                         <div class="common hopePrice">
                             <div>
                                 <span>期望融资金额</span>
-                                <span class="value">{{resultData.price}}万</span>
+                                <span class="value">{{resultData.price}}万元</span>
                             </div>
 
                             <div class="infoCount">
@@ -257,7 +257,7 @@
                         <div class="common hopePrice">
                             <div>
                                 <span>期望采购总价</span>
-                                <span class="value">{{resultData.price}}万</span>
+                                <span class="value">{{resultData.price}}万元</span>
                             </div>
 
                             <div class="infoCount">
@@ -306,7 +306,7 @@
                         <div class="common hopePrice">
                             <div>
                                 <span>期望采购总价</span>
-                                <span class="value">{{resultData.price}}万</span>
+                                <span class="value">{{resultData.price}}万元</span>
                             </div>
 
                             <div class="infoCount">
@@ -538,9 +538,9 @@
                 console.log(newVal, oldVal, newVal == oldVal);
 
                 /* this.$nextTick(() => {
-                                                            this.isShow = false;
-                                                        });
-                                                        this.isShow = true; */
+                                                                this.isShow = false;
+                                                            });
+                                                            this.isShow = true; */
             }
         }
     };

@@ -14,7 +14,7 @@
             <div class="budget" :style="{display:result.code=='JRTG'?'none':''}">
                 <img src="../../../../../static/images/budget.png">
                 <span>{{result.num}}台预算总计</span>
-                <span class="moneyCount">{{result.price}}万</span>
+                <span class="moneyCount">{{result.price}}万元</span>
             </div>
         </div>
         <router-link :to="{path:'/hospitalProfile',query:{id:result.hospitalId}}" @click.native.stop="clickLink">
@@ -193,7 +193,7 @@
             padding: 0 13px;
             align-items: center;
             .address {
-                width: 176px;
+                width: 140px;
                 display: flex;
                 justify-content: flex-start;
                 height: 100%;
@@ -216,7 +216,7 @@
                     &:last-child {
                         font-family: PingFangSC-Medium;
                         color: #333;
-                        width: 121px;
+                        width: 85px;
                         line-height: 40px;
                         display: inline-block;
                         overflow: hidden;
@@ -228,9 +228,9 @@
                 }
             }
             .budget {
-                width: 147px;
+                flex: 1;
                 display: flex;
-                justify-content: flex-start;
+                justify-content: flex-end;
                 align-items: center;
                 img {
                     width: 14px;
