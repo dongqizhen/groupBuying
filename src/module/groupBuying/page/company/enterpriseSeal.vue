@@ -243,7 +243,7 @@ export default {
           this.contact = data.contactList;
           this.companyTypeName = data.companyTypeName;
           this.submitData.companyName = data.companyName;
-          this.responseData = data.address;
+          this.responseData = data.addr;
           this.submitData.introduce = data.introduce;
           this.editSelectId = data.groupPurchaseTypeId;
         }

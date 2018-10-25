@@ -1,7 +1,7 @@
 const chalk = require('chalk')
 
 let alpha = {
-    URL: "http://60.195.252.86:8080",
+    URL: "http://60.195.252.86:8083",
     WEB_URL: "http://60.195.252.86:8080"
 }
 let beta = {

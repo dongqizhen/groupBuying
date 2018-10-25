@@ -199,7 +199,7 @@ export default {
           this.submitData.id = data.id;
           this.contact = data.contactList;
           this.submitData.hospitalName = data.hospitalName;
-          this.responseData = data.address;
+          this.responseData = data.addr;
           this.submitData.introduce = data.introduce;
           this.editSelectId = data.groupPurchaseTypeId;
         }
