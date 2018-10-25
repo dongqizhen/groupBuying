@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="医院介绍">
-      <router-link :to="{path:'hospitalSeal',query:{id:$route.query.id}}" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link>
+      <!-- <router-link :to="{path:'hospitalSeal',query:{id:$route.query.id}}" slot="explain" @click.native="setTransition('turn-on')">编辑</router-link> -->
     </Header>
     <div class="content">
       <div class="scroll-list-wrap">

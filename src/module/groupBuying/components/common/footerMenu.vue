@@ -68,7 +68,7 @@ export default {
       num: null
     };
   },
-  props: ["isStore"],
+  props: ["isStore", "data"],
   mixins: [directMessages],
   watch: {
     isStore() {
@@ -79,7 +79,8 @@ export default {
         this.num = 1;
       }
       console.log(this.num);
-    }
+    },
+    data() {}
   },
   methods: {
     clickHandler(label) {
@@ -95,12 +96,17 @@ export default {
         console.log(this.num);
         this.$emit("selectedLabel", { label: label, num: this.num });
       } else if (label == "私信商家") {
-        this.directMessages("lxb", 10533);
+        this.directMessages(this.data.companyUserName, this.data.companyUserId);
+      } else if (label == "查看商家") {
+        console.log(this.data.companyId);
+        this.$router.push({
+          path: "/companyProfile",
+          query: { id: this.data.companyId }
+        });
+      } else {
       }
     },
-    changeHandler(label) {
-      // if you clicked different tab, this methods can be emitted
-    }
+    changeHandler(label) {}
   }
 };
 </script>

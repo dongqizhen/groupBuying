@@ -16,7 +16,7 @@
           </div>
           <div class="prolineAndBrandAndModel">{{data.productLineName}}/{{data.brandName}}{{data.modelName?"/":""}}{{data.modelName}}</div>
           <div class="proPrice">
-            <span class="currency">￥</span>
+            <span class="currency" v-if="data.isOpen">￥</span>
             <span :class="data.isOpen?'price':'textStyle'">{{data.isOpen?data.price.split(".")[0]:"团购办现场宣布价格"}}</span>
             <span :class="data.isOpen?'point':'textStyle'">{{data.isOpen?'.'+data.price.split(".")[1]:""}}</span>
             <span class="priceUnit" v-if="data.isOpen">万元</span>
@@ -41,7 +41,7 @@
           <div class="proInfo">{{data.introduce}}</div>
         </div>
       </scroller>
-      <footer-menu :isStore="isStore" v-on:selectedLabel="selectLabel" v-if="this.$route.query.come==1?false:true"></footer-menu>
+      <footer-menu :data="data" :isStore="isStore" v-on:selectedLabel="selectLabel" v-if="this.$route.query.come==1?false:true"></footer-menu>
     </div>
   </div>
 </template>
@@ -58,7 +58,8 @@ export default {
       Banneritems: [],
       params: [],
       data: {},
-      isStore: ""
+      isStore: "",
+      companyId: ""
     };
   },
   components: {
