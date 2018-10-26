@@ -15,21 +15,21 @@
                     <cube-scroll v-if="hasData" @pulling-up="onPullingUp" ref='scroll' :options="options">
                         <div class="search_list">
                             <div class="search_container" v-if="!loading">
-
                                 <div class="company common" v-if="type==13">
                                     <h2><i></i>企业产品</h2>
                                     <div v-if="!loading">
-                                        <product-list v-for="(val,index) in listData" :listData='val' :key="index"></product-list>
+                                      <ul>
+                                        <li v-for="(val,index) in listData" :key="index" @click="jumpToDetails(val.id)">
+                                            <product-list  :listData='val' ></product-list>
+                                        </li>
+                                      </ul>
                                     </div>
                                 </div>
                                 <div class="hospital common" v-else-if="type==14">
                                     <h2><i></i>医院需求</h2>
-
                                     <submit-hospital-req-info-item v-for="(val,index) in listData" :result='val' :key="index" v-if="!loading" :type='val.code'></submit-hospital-req-info-item>
-
                                 </div>
                             </div>
-
                         </div>
                     </cube-scroll>
                     <no-data v-else></no-data>
@@ -47,6 +47,7 @@ import productList from "../../components/common/productList.vue";
 import submitHospitalReqInfoItem from "../../components/common/submitHospitalReqInfoItem.vue";
 import { _getData } from "../../service/getData";
 import noData from "../../components/noData/noData.vue";
+import { mapMutations } from "vuex";
 
 export default {
   data() {
@@ -73,6 +74,7 @@ export default {
     noData
   },
   methods: {
+    ...mapMutations(["setTransition"]),
     async getData(currentPage) {
       await _getData(
         "/server_pro/video!request.action",
@@ -128,6 +130,10 @@ export default {
           this.$refs.scroll.forceUpdate();
         });
       }, 500);
+    },
+    jumpToDetails(id) {
+      this.setTransition("turn-on");
+      this.$router.push(`/productDetails/${id}`);
     }
   },
   activated() {

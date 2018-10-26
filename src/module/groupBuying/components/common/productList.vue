@@ -6,7 +6,8 @@
     <div class="right_box">
       <p>
         <span v-if="listData.isOpen">￥</span>
-        <span :class="listData.isOpen?'price':'textStyle'">{{listData.isOpen?listData.price+"万元":listData.price}}</span>
+        <span :class="listData.isOpen?'price':'textStyle'">{{listData.isOpen?listData.price:listData.price}}</span>
+        <span v-if="listData.isOpen" class="priceUnit">万元</span>
         <span class="groupbuy">团购价</span>
       </p>
       <span>{{listData.name}}</span>
@@ -71,6 +72,9 @@ export default {
         //margin-right: 2px;
         &.price {
           font-size: 18px;
+        }
+        &.priceUnit {
+          font-size: 14px;
         }
         &.textStyle {
           font-family: PingFangSC-Medium;

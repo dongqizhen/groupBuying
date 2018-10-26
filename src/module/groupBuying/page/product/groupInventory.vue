@@ -3,16 +3,16 @@
     <Header :title="title"></Header>
     <div class="content">
       <list-filter v-on:getSortType="getIndex"></list-filter>
-       <div class="scroll-list-wrap">
+      <div class="scroll-list-wrap">
         <cube-scroll ref="scroll">
-      <div class="proList">
-          <ul>
-              <li v-for="(listItem,index) in lists" :key="index" @click="OnItemClick(listItem.id)">
-                  <product-list class="itemPro" :listData="listItem"></product-list>
-              </li>
-          </ul>
-      </div>
-       </cube-scroll>
+          <div class="proList">
+              <ul>
+                  <li v-for="(listItem,index) in lists" :key="index" @click="OnItemClick(listItem.id)">
+                      <product-list class="itemPro" :listData="listItem"></product-list>
+                  </li>
+              </ul>
+          </div>
+        </cube-scroll>
       </div>
     </div>
 </div>
@@ -108,6 +108,9 @@ export default {
     height: calc(100% - #{$header-height});
     background-color: $base-backgroud;
     overflow: auto;
+    .scroll-list-wrap {
+      height: calc(100% - 46px);
+    }
     .proList {
       width: 100%;
       padding-top: 7px;
