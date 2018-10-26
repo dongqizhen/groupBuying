@@ -1,64 +1,65 @@
 <template>
-    <div class="groupDemandWriteInfo">
-        <ul>
-            <li @click="jumpProductCateGory">
-                <a >
-                    <span>金融分类:</span>
-                    <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
-                      <i slot="append"></i>
-                    </cube-input>
-                </a>
-            </li>
-            <li class="price">
-                <div>
-                  <span>预计融资金额:</span>
-                    <cube-input placeholder="请真实填写融资金额" type="number" @input="savePriceValue" :disabled="false" v-model="info.price">
-                    </cube-input>
-                  <div class="unit">万元</div>
-                </div>
-                <p>
-                    本次团购,{{info.productLineName}}金融已累计申报<span>{{info.demandNum}}</span>单,总融资金额为<span>{{info.totalPrice}}</span>万元
-                </p>
-            </li>
-            <li class="clinic">
-                <group>
-                    <x-textarea title="应用方向:" v-model="info.application" @on-change="saveApplicationValue" placeholder="为保证你的采购质量及效率请详细填写融资应用方向" autosize></x-textarea>
-                </group>
-            </li>
-            <li class="SHTGbrand" @click="jumpSelectBrand">
-              <a>
-                 <span>金融服务商:</span>
-                    <cube-input placeholder="请选择服务商" :disabled="true" v-model="info.brandName">
-                      <i slot="append"></i>
-                    </cube-input></a>
-            </li>
-        </ul>
-        <div class="parameter">
-            <ul>
-                <li @click="jumpMainParams">
-                    <a>
-                        <span>关键词:</span>
-                        <cube-input placeholder="请选择或输入关键词" :disabled="true" v-model="info.mainParamsName">
-                              <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-                <li @click="jumpPredictTime">
-                    <a>
-                        <span>预计融资时间:</span>
-                        <cube-input placeholder="请选择预计融资时间" :disabled="true" v-model="info.showLoadTime">
-                              <i slot="append"></i>
-                        </cube-input>
-                    </a>
-                </li>
-                <li class="clinic">
-                    <group>
-                        <x-textarea title="采购需求说明:" @on-change="saveIntroduceValue" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
-                    </group>
-                </li>
-            </ul>
+  <div class="groupDemandWriteInfo">
+    <ul>
+      <li @click="jumpProductCateGory">
+        <a>
+          <span>金融分类:</span>
+          <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
+            <i slot="append"></i>
+          </cube-input>
+        </a>
+      </li>
+      <li class="price">
+        <div>
+          <span>预计融资金额:</span>
+          <cube-input placeholder="请真实填写融资金额" type="number" @input="savePriceValue" :disabled="false" v-model="info.price">
+          </cube-input>
+          <div class="unit">万元</div>
         </div>
+        <p>
+          本次团购,{{info.productLineName}}金融已累计申报<span>{{info.demandNum}}</span>单,总融资金额为<span>{{info.totalPrice}}</span>万元
+        </p>
+      </li>
+      <li class="clinic">
+        <group>
+          <x-textarea title="应用方向:" v-model="info.application" @on-change="saveApplicationValue" placeholder="为保证你的采购质量及效率请详细填写融资应用方向" autosize></x-textarea>
+        </group>
+      </li>
+      <li class="SHTGbrand" @click="jumpSelectBrand">
+        <a>
+          <span>金融服务商:</span>
+          <cube-input placeholder="请选择服务商" :disabled="true" v-model="info.brandName">
+            <i slot="append"></i>
+          </cube-input>
+        </a>
+      </li>
+    </ul>
+    <div class="parameter">
+      <ul>
+        <li @click="jumpMainParams">
+          <a>
+            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>关键词:</span>
+            <cube-input placeholder="请选择或输入关键词" :disabled="true" v-model="info.mainParamsName">
+              <i slot="append"></i>
+            </cube-input>
+          </a>
+        </li>
+        <li @click="jumpPredictTime">
+          <a>
+            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>预计融资时间:</span>
+            <cube-input placeholder="请选择预计融资时间" :disabled="true" v-model="info.showLoadTime">
+              <i slot="append"></i>
+            </cube-input>
+          </a>
+        </li>
+        <li class="clinic">
+          <group>
+            <x-textarea title='<i><img src="../../../../../../static/images/star.png" alt=""></i>采购需求说明:' @on-change="saveIntroduceValue" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+          </group>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 <script>
 import basicTitle from "../../../components/common/basicTitle";
@@ -173,7 +174,7 @@ export default {
           }
         });
       } else {
-        Toast("请先选择团购大会");
+        Toast("请先选择团购需求类型");
         return;
       }
     }
@@ -279,6 +280,19 @@ export default {
           color: #333333;
           float: left;
           width: auto;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          i {
+            display: flex;
+            height: 7px;
+            width: 7px;
+            margin-right: 2px;
+            img {
+              height: 7px;
+              width: 7px;
+            }
+          }
         }
         /deep/ .cube-btn {
           flex: 1;
@@ -433,6 +447,21 @@ export default {
               color: #333333;
               display: flex;
               align-items: center;
+              label {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                i {
+                  display: flex;
+                  height: 7px;
+                  width: 7px;
+                  margin-right: 2px;
+                  img {
+                    height: 7px;
+                    width: 7px;
+                  }
+                }
+              }
             }
             .weui-cell__bd {
               width: 100%;

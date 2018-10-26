@@ -112,7 +112,7 @@
       <ul>
         <li @click="jumpMainParams">
           <a>
-            <span>重要参数:</span>
+            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>重要参数:</span>
             <cube-input placeholder="请选择或输入重要参数" :disabled="true" v-model="info.mainParamsName">
               <i slot="append"></i>
             </cube-input>
@@ -120,15 +120,16 @@
         </li>
         <li @click="jumpPredictTime">
           <a>
-            <span>预计装机时间:</span>
+            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>预计装机时间:</span>
             <cube-input placeholder="请选择预计装机时间" :disabled="true" v-model="info.showLoadTime">
               <i slot="append"></i>
             </cube-input>
           </a>
         </li>
         <li class="clinic">
+
           <group>
-            <x-textarea title="采购需求说明:" v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+            <x-textarea title='<i><img src="../static/images/star.png" alt=""></i>采购需求说明:' v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
           </group>
         </li>
       </ul>
@@ -334,7 +335,7 @@ export default {
           }
         });
       } else {
-        Toast("请先选择团购大会");
+        Toast("请先选择团购需求类型");
         return;
       }
     }
@@ -888,6 +889,19 @@ export default {
             color: #333333;
             float: left;
             width: auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            i {
+              display: flex;
+              height: 7px;
+              width: 7px;
+              margin-right: 2px;
+              img {
+                height: 7px;
+                width: 7px;
+              }
+            }
           }
           > div {
             //width: calc(100% - 70px);
@@ -969,6 +983,21 @@ export default {
                 color: #333333;
                 display: flex;
                 align-items: center;
+                label {
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: center;
+                  i {
+                    display: flex;
+                    height: 7px;
+                    width: 7px;
+                    margin-right: 2px;
+                    img {
+                      height: 7px;
+                      width: 7px;
+                    }
+                  }
+                }
               }
               .weui-cell__bd {
                 width: 100%;

@@ -312,6 +312,7 @@ export default {
           color: #333333;
           letter-spacing: 0;
           > a {
+            color: #333333;
             text-decoration: none;
             display: flex;
             height: 100%;
