@@ -31,7 +31,7 @@
               title: "",
               lists: [],
               /*  sortName: "",
-                                      sortType: "", */
+                                        sortType: "", */
               isLoading: true
           };
       },
@@ -92,7 +92,7 @@
                           sortName: sortName,
                           sortType: sortType,
                           currentPage: "1",
-                          countPerPage: "20"
+                          countPerPage: "10"
                       }
                   },
                   data => {
