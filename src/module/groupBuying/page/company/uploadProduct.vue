@@ -560,6 +560,18 @@ export default {
               }
             }
           );
+        } else {
+          this.current = 0;
+          this.submitData.groupPurchaseId = data.groupPurchaseList[0].id;
+          this.$router.replace({
+            path: this.$route.path,
+            query: {
+              id: this.$route.query.id,
+              groupPurchaseTypeId: this.submitData.groupPurchaseTypeId,
+              groupPurchaseId: this.submitData.groupPurchaseId,
+              groupTypeCode: this.groupItemObj.code
+            }
+          });
         }
       }
     );

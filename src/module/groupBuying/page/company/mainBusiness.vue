@@ -198,7 +198,7 @@ export default {
           font-family: PingFangSC-Regular;
           font-size: 13px;
           color: #666666;
-          width: 104px;
+          width: 103px;
           padding-left: 10px;
           margin-right: 5px;
           &.disabled {
@@ -210,7 +210,7 @@ export default {
           }
           > span {
             //display: flex;
-            width: 71px;
+            width: 70px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;

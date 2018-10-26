@@ -235,17 +235,11 @@ export default {
       } else {
         if (!itemSelectCommon && !modelListCommon) {
           this.itemSelect.push({ id: "", name: name });
-          console.log(111);
-          console.log(this.searchValue);
           this.searchValue = "";
-          console.log(this.searchValue);
         } else {
           if (!itemSelectCommon && modelListCommon) {
             this.itemSelect.push(modelListCommon);
-            console.log(222);
-            console.log(this.searchValue);
             this.searchValue = "";
-            console.log(this.searchValue);
           } else if (itemSelectCommon) {
             Toast({ message: "已选型号,请勿重复", duration: 1000 });
             return;

@@ -24,7 +24,11 @@ export default {
     },
     save() {
       this.$emit("saveValue", this.value);
-      console.log(this.searchValue);
+      this.value = this.searchValue;
+    }
+  },
+  watch: {
+    searchValue() {
       this.value = this.searchValue;
     }
   },
