@@ -22,7 +22,7 @@
                             <p>共<span>{{totalnum}}</span>个结果</p>
                             <div class="company common">
                                 <h2><i></i>企业产品</h2>
-                                <router-link :to="{path:`/productDetail${listData.productList[0].id}`}" v-if="listData.productList.length!=0">
+                                <router-link :to="{path:`/productDetails/${listData.productList.length!=0?listData.productList[0].id:''}`}" v-if="listData.productList.length!=0" @click.native="setTransition('turn-on')">
                                     <product-list :listData='listData.productList[0]'></product-list>
                                 </router-link>
                                 <div class="bottom" @click.stop="handleClick(13)">查看全部{{listData.productNum}}个结果</div>
