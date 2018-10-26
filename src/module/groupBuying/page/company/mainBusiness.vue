@@ -217,9 +217,9 @@ export default {
           }
           i {
             display: flex;
-            width: 22px;
-            height: 22px;
-            border-radius: 22px;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
             background: url("../../../../assets/images/del.png") no-repeat
               center center;
             background-size: 12px 12px;
