@@ -15,6 +15,7 @@
 
 <script>
 import { directMessages } from "../mixin/mixin";
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -83,6 +84,7 @@ export default {
     data() {}
   },
   methods: {
+    ...mapMutations["setTranstion"],
     clickHandler(label) {
       // if you clicked home tab, then print 'Home'
       console.log(label);
@@ -99,6 +101,7 @@ export default {
         this.directMessages(this.data.companyUserName, this.data.companyUserId);
       } else if (label == "查看商家") {
         console.log(this.data.companyId);
+        this.setTranstion("turn-on");
         this.$router.push({
           path: "/companyProfile",
           query: { id: this.data.companyId }

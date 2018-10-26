@@ -102,7 +102,7 @@ export default {
       "/server_pro/groupPurchaseCompanyProduct!request.action",
       {
         method: "getPreloadingTimeList",
-        params: {}
+        params: { id: this.$route.query.groupPurchaseId }
       },
       data => {
         console.log(data);

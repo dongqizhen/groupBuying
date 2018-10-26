@@ -295,11 +295,11 @@
                         <div class="common hopePrice">
                             <div>
                                 <span>需求数量</span>
-                                <span class="value">{{resultData.num}}台</span>
+                                <span class="value">{{resultData.num}}单</span>
                             </div>
 
                             <p class="infoCount">
-                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>台。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.histroyTotalDemandNum}}</span>单。
                             </p>
                         </div>
 
@@ -310,7 +310,7 @@
                             </div>
 
                             <p class="infoCount">
-                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>台,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
+                                本次团购,{{resultData.productLineName}}设备已累计申报<span>{{resultData.demandNum}}</span>单,历史累计申报共<span>{{resultData.totalPrice}}</span>万元。
                             </p>
                         </div>
                         <div class="common productSort">

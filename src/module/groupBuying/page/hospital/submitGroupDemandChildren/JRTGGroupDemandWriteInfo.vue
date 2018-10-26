@@ -160,7 +160,7 @@ export default {
       }
     },
     jumpPredictTime() {
-      if (this.$route.query.groupPurchaseTypeId) {
+      if (this.$route.query.groupPurchaseId) {
         this.setTransition("turn-on");
         this.$router.push({
           path: "/perdictTime",
@@ -168,11 +168,12 @@ export default {
             groupTypeCode: "JRTG",
             page: "submitGroupDemand",
             vuexSelectValue: this.$store.state.page.submitGroupDemand.JRTG
-              .loadTime
+              .loadTime,
+            groupPurchaseId: this.$route.query.groupPurchaseId
           }
         });
       } else {
-        Toast("请先选择团购需求类型");
+        Toast("请先选择团购大会");
         return;
       }
     }
