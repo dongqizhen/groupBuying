@@ -62,7 +62,7 @@
         </li>
         <li class="clinic">
           <group>
-            <x-textarea title='<i><img src="../../../../../../static/images/star.png" alt=""></i>采购需求说明:' @on-change="saveIntroduceValue" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+            <x-textarea title='<i><img src="../static/images/star.png" alt=""></i>采购需求说明:' @on-change="saveIntroduceValue" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
           </group>
         </li>
       </ul>
@@ -175,7 +175,7 @@
               }
           },
           jumpPredictTime() {
-              if (this.$route.query.groupPurchaseTypeId) {
+              if (this.$route.query.groupPurchaseId) {
                   this.setTransition("turn-on");
                   this.$router.push({
                       path: "/perdictTime",
@@ -183,7 +183,8 @@
                           groupTypeCode: "ZXTG",
                           page: "submitGroupDemand",
                           vuexSelectValue: this.$store.state.page
-                              .submitGroupDemand.ZXTG.loadTime
+                              .submitGroupDemand.ZXTG.loadTime,
+                          groupPurchaseId: this.$route.query.groupPurchaseId
                       }
                   });
               } else {

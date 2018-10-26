@@ -1,5 +1,5 @@
 <template>
-    <div class="personalInformation">
+    <div class="personalInformation" v-if="persons">
         <div class="details" v-for="(itemPerson,index) in persons" :key="index">
             <h2>
                 <p>
@@ -78,7 +78,9 @@
                 this.persons = newVal;
             }
         },
-        mounted() {},
+        mounted() {
+            console.log(this.data);
+        },
         computed: {},
         methods: {
             addOrdelete(i) {

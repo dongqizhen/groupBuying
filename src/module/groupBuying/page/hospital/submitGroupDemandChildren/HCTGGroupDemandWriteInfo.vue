@@ -128,7 +128,7 @@
         </li>
         <li class="clinic">
           <group>
-            <x-textarea title="<i><img src='../../../../../../static/images/star.png' alt=''></i>采购需求说明:" v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+            <x-textarea title="<i><img src='../static/images/star.png' alt=''></i>采购需求说明:" v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
           </group>
         </li>
       </ul>
@@ -321,7 +321,7 @@
               }
           },
           jumpPredictTime() {
-              if (this.$route.query.groupPurchaseTypeId) {
+              if (this.$route.query.groupPurchaseId) {
                   this.setTransition("turn-on");
                   this.$router.push({
                       path: "/perdictTime",
@@ -329,7 +329,8 @@
                           groupTypeCode: "HCTG",
                           page: "submitGroupDemand",
                           vuexSelectValue: this.$store.state.page
-                              .submitGroupDemand.HCTG.loadTime
+                              .submitGroupDemand.HCTG.loadTime,
+                          groupPurchaseId: this.$route.query.groupPurchaseId
                       }
                   });
               } else {
@@ -494,8 +495,8 @@
                       color: #cccccc;
                       text-align: right;
                       margin-right: 13px;
-                      background: url("/static/images/grayarrow.png") no-repeat
-                          center right;
+                      background: url("../../../../../../static/images/grayarrow.png")
+                          no-repeat center right;
                       background-size: 8px 14px;
                       &.valueStyle {
                           color: #999;
@@ -512,7 +513,7 @@
                           display: flex;
                           height: 14px;
                           width: 8px;
-                          background: url("/static/images/grayarrow.png")
+                          background: url("../../../../../../static/images/grayarrow.png")
                               no-repeat center;
                           background-size: 100% 100%;
                           margin-left: 3px;
@@ -535,8 +536,8 @@
                       display: flex;
                       height: 14px;
                       width: 8px;
-                      background: url("/static/images/grayarrow.png") no-repeat
-                          center;
+                      background: url("../../../../../../static/images/grayarrow.png")
+                          no-repeat center;
                       background-size: 100% 100%;
                       margin-left: 3px;
                   }
@@ -800,7 +801,7 @@
                               display: flex;
                               height: 14px;
                               width: 8px;
-                              background: url("/static/images/grayarrow.png")
+                              background: url("../../../../../../static/images/grayarrow.png")
                                   no-repeat center;
                               background-size: 100% 100%;
                               margin-left: 3px;
@@ -823,7 +824,7 @@
                           display: flex;
                           height: 14px;
                           width: 8px;
-                          background: url("/static/images/grayarrow.png")
+                          background: url("../../../../../../static/images/grayarrow.png")
                               no-repeat center;
                           background-size: 100% 100%;
                           margin-left: 3px;
@@ -919,7 +920,7 @@
                               display: flex;
                               height: 14px;
                               width: 8px;
-                              background: url("/static/images/grayarrow.png")
+                              background: url("../../../../../../static/images/grayarrow.png")
                                   no-repeat center;
                               background-size: 100% 100%;
                               margin-left: 3px;
@@ -942,7 +943,7 @@
                           display: flex;
                           height: 14px;
                           width: 8px;
-                          background: url("/static/images/grayarrow.png")
+                          background: url("../../../../../../static/images/grayarrow.png")
                               no-repeat center;
                           background-size: 100% 100%;
                           margin-left: 3px;

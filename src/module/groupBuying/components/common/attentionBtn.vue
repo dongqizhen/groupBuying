@@ -23,7 +23,7 @@
                         method: "addOrDeleteFollow",
                         params: {
                             followId: this.result.userId,
-                            controlflag: status == 1 || status == 2 ? 0 : 1
+                            controlflag: status == 0 || status == 2 ? 1 : 0
                         }
                     },
                     data => {
