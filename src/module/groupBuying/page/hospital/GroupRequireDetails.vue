@@ -451,7 +451,7 @@ export default {
     },
     model() {
       return this.resultData.brandList
-        ? _.join(this.resultData.brandList[0].model, ",")
+        ? _.join(_.map(this.resultData.brandList[0].model, "name"), ",")
         : "";
     },
     comment_success() {

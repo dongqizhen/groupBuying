@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { directMessages } from "../mixin/mixin";
 import { mapMutations } from "vuex";
 export default {
   data() {
@@ -64,49 +63,31 @@ export default {
           name: "加入我的团购需求表"
         }
       ],
-      hospitalID: 1,
-      shopID: 1,
       num: null
     };
   },
-  props: ["isStore", "data"],
-  mixins: [directMessages],
+  props: ["isStore"],
   watch: {
     isStore() {
-      console.log(this.isStore);
       if (this.isStore) {
         this.num = 0;
       } else {
         this.num = 1;
       }
-      console.log(this.num);
-    },
-    data() {}
+    }
   },
   methods: {
     ...mapMutations(["setTransition"]),
     clickHandler(label) {
-      // if you clicked home tab, then print 'Home'
-      console.log(label);
-      console.log(this.num);
       if (label == "收藏") {
         if (this.num) {
           this.num = 0;
         } else {
           this.num = this.num + 1;
         }
-        console.log(this.num);
         this.$emit("selectedLabel", { label: label, num: this.num });
-      } else if (label == "私信商家") {
-        this.directMessages(this.data.companyUserName, this.data.companyUserId);
-      } else if (label == "查看商家") {
-        console.log(this.data.companyId);
-        this.setTransition("turn-on");
-        this.$router.push({
-          path: "/companyProfile",
-          query: { id: this.data.companyId }
-        });
       } else {
+        this.$emit("selectedLabel", { label: label });
       }
     },
     changeHandler(label) {}

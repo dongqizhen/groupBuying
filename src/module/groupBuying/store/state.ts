@@ -370,7 +370,7 @@ let state : StateType = {
         demandNum: "",
         histroyTotalDemandNum: "",
         totalPrice: "",
-        installTime: "", //安装日期
+        installTime: "请选择安装日期", //安装日期
         deviceCheckNum: "", //每天检查量
         responseTime: "", //响应时间
         maintenanceType: "", //维保类型
