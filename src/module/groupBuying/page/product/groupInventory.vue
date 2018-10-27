@@ -62,6 +62,7 @@
             getIndex(obj) {
                 this.currentPage = 1;
                 this.$refs.scroll.resetPullUpTxt();
+                this.$refs.scroll.scrollTo(0, 0);
                 switch (obj.index) {
                     case 0:
                         this.sortName = "createdOn";
@@ -108,7 +109,7 @@
                             sortName: sortName,
                             sortType: sortType,
                             currentPage: currentPage,
-                            countPerPage: "2"
+                            countPerPage: "10"
                         }
                     },
                     data => {
@@ -212,18 +213,22 @@
                         margin-right: 0;
                     }
                     .right_box {
-                        padding: 5px 13px;
+                        padding: 11.5px 13px;
                         height: 64px;
                         background-color: #fff;
                         display: flex;
                         flex-direction: column;
                         justify-content: flex-start;
-                        p span.groupbuy {
-                            display: none;
+                        p {
+                            margin-bottom: 6.5px;
+                            font-family: PingFangSC-Medium;
+                            span.groupbuy {
+                                display: none;
+                            }
                         }
                         > span {
-                            margin-top: 5px;
-                            font-weight: 600;
+                            margin-top: 0;
+                            //font-weight: 600;
                         }
                     }
                 }

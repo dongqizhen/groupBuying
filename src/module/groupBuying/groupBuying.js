@@ -70,6 +70,16 @@ Vue.prototype.$USER_INFO = commonMessage()
     // alert(commonMessage().userid)
 Vue.config.productionTip = false
 
+FastClick.prototype.focus = function(targetElement) {
+    var length;
+    if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month' && targetElement.type !== 'number') {
+        length = targetElement.value.length;
+        targetElement.setSelectionRange(length, length);
+    } else {
+        targetElement.focus();
+    }
+};
+
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
         FastClick.attach(document.body);
