@@ -40,6 +40,10 @@ const webpackConfig = merge(baseWebpackConfig, {
                     warnings: false,
                     drop_debugger: true,
                     drop_console: true,
+                    // 内嵌定义了但是只用到一次的变量
+                    collapse_vars: true,
+                    // 提取出出现多次但是没有定义成变量去引用的静态值
+                    reduce_vars: true,
                     pure_funcs: ['console.log'] //移除console
                 }
             },
