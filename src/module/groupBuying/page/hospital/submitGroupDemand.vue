@@ -274,6 +274,7 @@ export default {
       this.submitData.num = getSubmitInfo.num;
       this.submitData.hospitalId = this.$store.state.userCompanyIdOrHospitalId;
       console.log(this.submitData);
+      this.submitBtnStatus = true;
       _getData(
         "/server_pro/groupPurchaseHospital!request.action",
         {
@@ -289,7 +290,6 @@ export default {
           this.$router.go(-1);
         }
       );
-      this.submitBtnStatus = true;
     },
     deleteDemand() {
       _getData(

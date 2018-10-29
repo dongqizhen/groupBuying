@@ -67,6 +67,7 @@ export const getProductList = {
             }
         },
         getData() {
+            console.log("走一下")
             _getData(
                 "/server_pro/groupPurchaseCompanyProduct!request.action", {
                     method: "getGroupPUrchaseCompanyProductList",
