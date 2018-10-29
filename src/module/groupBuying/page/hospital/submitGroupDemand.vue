@@ -325,6 +325,7 @@ export default {
       this.groupItemObj = val;
     },
     getIndex(index) {
+      console.log(22222222222222222222222222222222);
       this.current = index;
       this.submitData.groupPurchaseId = this.groupUnderWayList[index].id;
       this.$router.replace({
@@ -776,6 +777,10 @@ export default {
         } else {
           this.current = 0;
           this.submitData.groupPurchaseId = data.groupPurchaseList[0].id;
+          console.log(111111111111111111111111111111111);
+          console.log(this.submitData.groupPurchaseTypeId);
+          console.log(this.submitData.groupPurchaseId);
+          console.log(this.groupItemObj.code);
           this.$router.replace({
             path: this.$route.path,
             query: {

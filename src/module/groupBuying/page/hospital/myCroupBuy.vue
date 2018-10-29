@@ -31,6 +31,8 @@ import listTab from "../../components/common/listTab";
 import basicTitle from "../../components/common/basicTitle";
 import { mapMutations } from "vuex";
 import { _getData } from "../../service/getData";
+import { setTimeout } from "timers";
+import _ from "lodash";
 export default {
   data() {
     return {
@@ -48,9 +50,15 @@ export default {
   methods: {
     ...mapMutations(["setTransition"]),
     submitBtnClick() {
+      this.isDisabled = true;
       this.setTransition("turn-on");
       this.$router.push("/submitGroupDemand");
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.isDisabled = false;
+    });
   },
   activated() {
     _getData(
