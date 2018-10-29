@@ -23,7 +23,14 @@ export default {
   data() {
     return {};
   },
-  props: ["title", "goback", "isSearchHide", "saveId", "editSelectId"],
+  props: [
+    "title",
+    "goback",
+    "isSearchHide",
+    "saveId",
+    "editSelectId",
+    "parentHeight"
+  ],
   methods: {
     goPrev() {
       if (this.$router.currentRoute.path == "/") {
