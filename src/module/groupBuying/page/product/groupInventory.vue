@@ -122,9 +122,15 @@
                         }
 
                         this.pageCount = data.pageCount;
+                        if (this.pageCount <= 1) {
+                            this.options.pullUpLoad.txt.more = "全部数据加载完毕";
+                        }
                     }
                 ).then(() => {
                     this.isLoading = false;
+                    this.$nextTick(() => {
+                        this.$refs.scroll.refresh();
+                    });
                 });
             },
             pullUpLoad() {
