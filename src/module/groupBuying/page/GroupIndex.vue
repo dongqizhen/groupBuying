@@ -183,6 +183,7 @@
                   params: {}
               },
               data => {
+                  console.log(data)
                   this.meetingList = _.keyBy(data.list, val => {
                       return `${val.year}(${val.num}场)`;
                   });

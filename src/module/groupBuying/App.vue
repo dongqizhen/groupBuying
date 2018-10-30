@@ -56,11 +56,11 @@
     }
     .turn-on-enter-active,
     .turn-on-leave-active {
-        transition: transform 0.4s ease;
+        transition: transform 0.3s ease;
     }
     /* .turn-on-enter-to{
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              transform: translate3d(0, 0, 0);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          transform: translate3d(0, 0, 0);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
     .turn-off-enter {
         /* transform: translate3d(-20%, 0, 0); */
     }
@@ -69,7 +69,7 @@
     }
     .turn-off-enter-active,
     .turn-off-leave-active {
-        transition: transform 0.4s ease;
+        transition: transform 0.3s ease;
     }
     .turn-off-leave-active,
     .turn-on-enter-active {
@@ -124,6 +124,15 @@
         .weui-toast {
             top: 50%;
             margin-top: -3.8em;
+            /* background: url("../../../static/images/home_loading.gif") no-repeat
+                        center;
+                    background-size: 100px 100px;
+                    i {
+                        display: none;
+                    }
+                    p {
+                        display: none;
+                    } */
         }
     }
     .cube-scroll-content {
