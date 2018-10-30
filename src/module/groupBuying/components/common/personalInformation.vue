@@ -73,8 +73,8 @@
             "itemsLength"
         ],
         watch: {
-            data(newVal) {
-                console.log(newVal);
+            data(newVal, oldVal) {
+                console.log(newVal, oldVal);
                 this.persons = newVal;
             }
         },
