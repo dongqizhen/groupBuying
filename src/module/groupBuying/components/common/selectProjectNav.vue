@@ -20,6 +20,7 @@ export default {
   methods: {
     select(item, itemObj) {
       if (this.$route.path.indexOf("submitGroupDemand") != -1) {
+        console.log(this.groupPurchaseId);
         this.$router.replace({
           path: `/submitGroupDemand/${itemObj.code}`,
           query: {
@@ -112,9 +113,11 @@ export default {
           if (this.$route.query.id) {
           } else {
             this.$router.replace({
+              path: this.$route.path,
               query: {
-                groupTypeCode: data[0].code,
-                groupPurchaseTypeId: data[0].id
+                groupPurchaseTypeId: data[0].id,
+                groupPurchaseId: this.groupPurchaseId,
+                groupTypeCode: data[0].code
               }
             });
             this.itemSelect = [];

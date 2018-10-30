@@ -9,7 +9,7 @@
           <cube-scroll ref="scroll">
             <ul>
               <li v-for="(item,index) in items" :key="index">
-              <div class="year">{{index}}:</div>
+              <div class="year">{{index}}年:</div>
               <div class="time clearfix">
                   <span v-for="itemObj in item" :key="itemObj.flag" :class="[itemObj.outTime==0?'disabledStyle':'',current===itemObj.flag && itemObj.outTime==1?'active':'']" @click="changeCurrent(itemObj)">{{itemObj.quarter}}</span>
               </div>

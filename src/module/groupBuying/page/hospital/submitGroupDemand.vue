@@ -315,6 +315,7 @@ export default {
     },
     changeSaveId(val) {
       this.saveId = val;
+      this.current = null;
       this.vuexInitialFun();
     },
     changeEditSelectId(val) {
@@ -332,6 +333,8 @@ export default {
     getIndex(index) {
       this.current = index;
       this.submitData.groupPurchaseId = this.groupUnderWayList[index].id;
+      console.log("是你变化了吗");
+      console.log(this.submitData.groupPurchaseId);
       this.$router.replace({
         path: this.$route.path,
         query: {
@@ -341,6 +344,7 @@ export default {
           groupTypeCode: this.groupItemObj.code
         }
       });
+      console.log(this.$route.fullPath);
     },
     vuexInitialFun() {
       this.SBTG({
@@ -650,7 +654,6 @@ export default {
       data => {
         console.log("正在报名的团购大会：", data);
         this.groupUnderWayList = data.groupPurchaseList;
-        console.log(this.current);
         if (this.$route.query.id && this.saveId != this.$route.query.id) {
           this.saveId = this.$route.query.id;
           _getData(
@@ -778,7 +781,8 @@ export default {
               }
             }
           );
-        } else {
+        }
+        if (this.current === null) {
           this.current = 0;
           this.submitData.groupPurchaseId = data.groupPurchaseList[0].id;
           this.$router.replace({
