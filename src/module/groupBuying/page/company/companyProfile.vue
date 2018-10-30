@@ -106,6 +106,7 @@
               await _getData(
                   "/server_pro/groupPurchaseCompany!request.action",
                   {
+                      userid: this.$route.query.userId || this.$USER_INFO.userid,
                       method: "getGroupPurchaseCompanyDetail",
                       params: { id: this.$route.query.id }
                   },
@@ -127,12 +128,6 @@
                   );
                   this.$refs.Personal_information.$el.style.height =
                       this.parentHeight + "px";
-                  /* this.$nextTick(() => {
-                                            this.$refs.Personal_information.$el.style.height =
-                                                this.$refs.Personal_information.$el.clientHeight + "px";
-                                        }); */
-
-                  //}, 500);
               });
           }
       },
@@ -223,8 +218,8 @@
               .product_list {
                   background: #ffffff;
                   /* box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                                                                                                                              border-radius: 5px;
-                                                                                                                              margin-top: 10px; */
+                                                                                                                                  border-radius: 5px;
+                                                                                                                                  margin-top: 10px; */
                   /deep/ .typeScrollNavBar {
                       border-bottom-left-radius: 5px;
                       border-bottom-right-radius: 5px;

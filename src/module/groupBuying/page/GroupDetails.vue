@@ -58,7 +58,7 @@
                     <span>市场保有率</span>
                     <span>售后排名</span>
                   </li>
-                  <li v-for="(item,index) in enterBrandList" :key="index" @click="jumpToCompany(item.companyId)">
+                  <li v-for="(item,index) in enterBrandList" :key="index" @click="jumpToCompany(item.companyId,item.companyUserId)">
                     <span><!-- <img :src="item.imageUrl"> -->{{item.companyName}}</span>
                     <!-- <span>{{item.proportion}}</span> -->
                     <span>{{item.marketRate}}</span>
@@ -179,9 +179,12 @@ export default {
     changeSaveId(val) {
       this.saveId = val;
     },
-    jumpToCompany(id) {
+    jumpToCompany(id, companyUserTd) {
       this.setTransition("turn-on");
-      this.$router.push({ path: "/companyProfile", query: { id: id } });
+      this.$router.push({
+        path: "/companyProfile",
+        query: { id: id, userId: companyUserTd }
+      });
     }
   },
   activated() {
