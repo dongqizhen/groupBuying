@@ -70,6 +70,7 @@ export const getProductList = {
             console.log("走一下")
             _getData(
                 "/server_pro/groupPurchaseCompanyProduct!request.action", {
+                    userid: this.$route.query.userId || this.$USER_INFO.userid,
                     method: "getGroupPUrchaseCompanyProductList",
                     params: {
                         companyId: this.$route.query.id

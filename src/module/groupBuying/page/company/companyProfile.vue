@@ -107,6 +107,7 @@ export default {
     _getData(
       "/server_pro/groupPurchaseCompany!request.action",
       {
+        userid: this.$route.query.userId || this.$USER_INFO.userid,
         method: "getGroupPurchaseCompanyDetail",
         params: { id: this.$route.query.id }
       },

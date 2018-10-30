@@ -78,7 +78,7 @@ export default {
           this.setTransition("turn-on");
           this.$router.push({
             path: "/companyProfile",
-            query: { id: this.data.companyId }
+            query: { id: this.data.companyId, userId: this.data.companyUserId }
           });
           break;
         case "私信商家":

@@ -346,6 +346,8 @@ export default {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            height: 30px;
+            line-height: 30px;
           }
           i {
             display: flex;
