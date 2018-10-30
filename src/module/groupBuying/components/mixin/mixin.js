@@ -23,7 +23,7 @@ export const getProductList = {
         }
     },
     activated() {
-        this.getData()
+
     },
     methods: {
         async changeModel(typeVal, modelVal) {
@@ -66,7 +66,7 @@ export const getProductList = {
                 this.$refs.swipeItem[this.activeIndex].shrink();
             }
         },
-        getData() {
+        async getData() {
             console.log("走一下")
             _getData(
                 "/server_pro/groupPurchaseCompanyProduct!request.action", {
@@ -114,7 +114,10 @@ export const getProductList = {
                         }
                     }
                 }
-            );
+            ).then(() => {
+                if (this.$refs.scroll)
+                    this.$refs.scroll.refresh()
+            });
         }
     }
 }

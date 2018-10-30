@@ -5,17 +5,18 @@
     </Header>
     <div class="content">
       <div v-if="hasNet">
+      <div v-if="hasData">
         <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="slectedTypeKeyWord" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
         <div class="scroll-list-wrap">
-          <cube-scroll v-if="hasData">
+          <cube-scroll >
             <div v-for="(val,index) in demandListData" :key="index" class="demandList-container" @click="handleClick(val.id,slectedTypeKeyWord)">
               <budget-count :demandListData="val" :slectedTypeKeyWord="slectedTypeKeyWord"></budget-count>
               <demand-list pageName="hospitalProfile" :data="val" :slectedTypeKeyWord="keyWords"></demand-list>
             </div>
           </cube-scroll>
-
-          <no-data v-else></no-data>
         </div>
+        </div>
+        <no-data v-else></no-data>
       </div>
 
       <no-net v-else v-on:refresh="getData"></no-net>
@@ -161,6 +162,9 @@ export default {
       display: flex;
       height: 100%;
       flex-direction: column;
+      > div {
+        height: 100%;
+      }
     }
     padding-top: 0;
     .scroll-list-wrap {
