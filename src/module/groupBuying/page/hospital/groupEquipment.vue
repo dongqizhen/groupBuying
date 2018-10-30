@@ -97,7 +97,7 @@ export default {
             brandId: this.$route.query.brandId,
             aliasId: this.$route.query.aliasId,
             provinceId: this.$route.query.provinceId,
-            currentPage: "1",
+            currentPage: this.currentPage || 1,
             countPerPage: 4
           }
         },
@@ -111,6 +111,11 @@ export default {
           }
 
           this.pageCount = data.pageCount;
+          if (this.pageCount <= 1) {
+            this.options.pullUpLoad.txt.more = "全部数据加载完毕";
+          } else {
+            this.options.pullUpLoad.txt.more = "上拉加载更多";
+          }
         },
         err => {
           this.loadIngTxt = "网络错误，请稍后...";
@@ -127,27 +132,27 @@ export default {
       });
     }
   },
-  activated() {
+  /* activated() {
     if (this.lists.length == 0) {
       this.reqData();
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    // 导航离开该组件的对应路由时调用
-    // 可以访问组件实例 `this`
-    console.log(to);
-    console.log(from);
-    if (to.name == "团购需求类型") {
-      this.lists = [];
-      this.currentPage = 1;
-      this.pageCount = 1;
-    }
-    next();
+  }, */
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name == "团购需求类型") {
+        vm.lists = [];
+        vm.options.pullUpLoad.txt.more = "";
+        vm.currentPage = 1;
+        vm.pageCount = 1;
+        vm.reqData();
+      }
+    });
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "../../../../../static/scss/_commonScss";
+
 .container {
   @include basic_container_style;
   .content {
@@ -158,6 +163,10 @@ export default {
       height: calc(100% - 48px);
       /deep/ .cube-scroll-content {
         padding-bottom: 0 !important;
+        min-height: calc(100% + 1px);
+        .cube-scroll-list-wrapper {
+          min-height: auto !important;
+        }
       }
     }
     .submitNumber {
