@@ -55,7 +55,7 @@ export default {
     submitBtnClick() {
       this.isDisabled = true;
       this.setTransition("turn-on");
-      this.$router.push("/submitGroupDemand");
+      this.$router.push("/submitGroupDemand/SBTG");
     }
   },
   beforeRouteEnter(to, from, next) {

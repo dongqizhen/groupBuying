@@ -7,7 +7,7 @@
             <div class="selected" v-if="this.Multiple">
                 <h2>已选型号:</h2>
                 <ul>
-                    <li v-for="item in itemSelect" :key="item.id" :class="checked?'disabled':''">
+                    <li v-for="item in itemSelect" :key="item.name" :class="checked?'disabled':''">
                         <span>{{item.name}}</span>
                         <i @click="deleteItem(item)"></i>
                     </li>
@@ -180,6 +180,7 @@ export default {
           this.itemSelect = _.without(this.itemSelect, changeItem);
           if (this.itemSelect.length == 3) {
             Toast("最多选择三个型号");
+            return;
           }
         }
       } else {
@@ -265,7 +266,7 @@ export default {
       );
     }
   },
-  mounted() {
+  activated() {
     this.groupTypeCode = this.$route.query.groupTypeCode;
     this.page = this.$route.query.page;
     this.Multiple = this.$route.query.isMultiple;
@@ -274,7 +275,7 @@ export default {
     console.log(this.itemSelect);
   },
   deactivated() {
-    this.$destroy();
+    // this.$destroy();
   },
   watch: {
     itemSelect() {
