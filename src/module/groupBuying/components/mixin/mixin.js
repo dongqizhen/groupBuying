@@ -267,7 +267,7 @@ export const directMessages = {
                     userId: userId,
                     id: userId,
                     name: userName,
-                    imageUrl: 'http://60.195.252.86:8080/server/upload/1490039174242.jpg'
+                    imageUrl: imageUrl
                 },
                 data => {}
             );

@@ -12,6 +12,7 @@
           <div class="i_join_in">
             <basic-title title="我参加的团购" imgurl='../static/images/groupBuy.png'></basic-title>
             <list-tab v-if="Object.keys(meetingListData).length" :meetingListData="meetingListData"></list-tab>
+            <no-data v-else></no-data>
           </div>
 
         </scroller>
@@ -31,6 +32,7 @@ import listTab from "../../components/common/listTab";
 import basicTitle from "../../components/common/basicTitle";
 import { mapMutations } from "vuex";
 import { _getData } from "../../service/getData";
+import noData from "../../components/noData/noData.vue";
 import { setTimeout } from "timers";
 import _ from "lodash";
 export default {
@@ -45,7 +47,8 @@ export default {
     Header,
     basicInformation,
     listTab,
-    basicTitle
+    basicTitle,
+    noData
   },
   methods: {
     ...mapMutations(["setTransition"]),
@@ -97,6 +100,11 @@ export default {
 @import "../../../../../static/scss/_commonScss";
 .container {
   @include basic_container_style;
+  /deep/ ._v-content {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
   .content {
     /deep/ .scroll-list-wrap {
       height: calc(100% - 60px);
@@ -104,6 +112,9 @@ export default {
     .i_join_in {
       @include box_shadow_style;
       margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
       /deep/ .basicTitle {
         h2 {
           border: none;

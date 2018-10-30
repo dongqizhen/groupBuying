@@ -10,7 +10,7 @@ const userInfo = commonMessage();
 export async function _getData(url = '', data = {}, successCallBack, errorCallBack) {
     return await axios
         .post(url, {
-            userid: userInfo.userid || '10533', //10533
+            userid: userInfo.userid || '15301', //10533验收:15900 15301
             token: userInfo.token,
             ...data
         })
