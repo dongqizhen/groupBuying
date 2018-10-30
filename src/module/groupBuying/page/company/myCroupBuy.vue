@@ -49,9 +49,15 @@ export default {
   methods: {
     ...mapMutations(["setTransition"]),
     submitBtnClick() {
+      this.isDisabled = true;
       this.setTransition("turn-on");
       this.$router.push("/uploadProduct");
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.isDisabled = false;
+    });
   },
   computed: {
     ...mapState(["userCompanyIdOrHospitalId"])
