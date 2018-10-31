@@ -49,7 +49,7 @@ export default {
     }
     img {
       width: 100%;
-      height: 53px;
+      height: 100%;
     }
   }
   .right_box {

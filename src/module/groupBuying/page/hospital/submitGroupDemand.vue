@@ -650,6 +650,7 @@ export default {
       data => {
         console.log("正在报名的团购大会：", data);
         this.groupUnderWayList = data.groupPurchaseList;
+        this.submitData.id = "";
         if (this.$route.query.id && this.saveId != this.$route.query.id) {
           this.saveId = this.$route.query.id;
           _getData(
@@ -863,13 +864,6 @@ export default {
           break;
       }
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (from.name != "团购需求表") {
-        this.submitData.id = "";
-      }
-    });
   },
   deactivated() {}
 };

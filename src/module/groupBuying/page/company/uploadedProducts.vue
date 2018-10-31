@@ -176,9 +176,11 @@ export default {
       position: relative;
       /deep/ ._v-container {
         height: 100%;
-        /*  ._v-content {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              padding-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          } */
+      }
+      /deep/ .productList {
+        .left_box {
+          height: 53px;
+        }
       }
     }
     /deep/ ul.Swipe_box {
