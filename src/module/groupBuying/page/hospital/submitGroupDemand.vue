@@ -332,8 +332,6 @@ export default {
     getIndex(index) {
       this.current = index;
       this.submitData.groupPurchaseId = this.groupUnderWayList[index].id;
-      console.log("是你变化了吗");
-      console.log(this.submitData.groupPurchaseId);
       this.$router.replace({
         path: this.$route.path,
         query: {
@@ -343,7 +341,6 @@ export default {
           groupTypeCode: this.groupItemObj.code
         }
       });
-      console.log(this.$route.fullPath);
     },
     vuexInitialFun() {
       this.SBTG({
@@ -869,7 +866,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if (from.name == "myHospitalGroupBuy") {
+      if (from.name != "团购需求表") {
         this.submitData.id = "";
       }
     });
