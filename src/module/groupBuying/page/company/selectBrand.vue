@@ -83,7 +83,7 @@ export default {
         if (this.itemSelect.length == 0) {
           flag = false;
           _getData(
-            "/server/productLine!request.action",
+            `${this.$API_URL.WEB_URL}/server/productLine!request.action`,
             {
               method: "getProductLineByName",
               params: {

@@ -84,7 +84,8 @@ export default {
         case "私信商家":
           this.directMessages(
             this.data.companyUserName,
-            this.data.companyUserId
+            this.data.companyUserId,
+            this.data.companyUserImageUrl
           );
           break;
         case "收藏":

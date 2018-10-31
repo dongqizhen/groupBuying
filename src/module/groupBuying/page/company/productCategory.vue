@@ -90,7 +90,7 @@ export default {
         if (this.itemSelect.length == 0) {
           flag = false;
           _getData(
-            "/server/productLine!request.action",
+            `${this.$API_URL.WEB_URL}/server/productLine!request.action`,
             {
               method: "getProductLineByName",
               params: {
@@ -229,7 +229,7 @@ export default {
       this.general_area_arr.push(item);
       this.general_area_arr = _.orderBy(this.general_area_arr, ["num"], "desc");
       _getData(
-        "/server_info/userProductLine!request.action",
+        `${this.$API_URL.INFO_URL}/server_info/userProductLine!request.action`,
         {
           method: "setTop",
           params: { id: item.id, flag: 0 }
@@ -241,7 +241,7 @@ export default {
       this.general_area_arr = _.without(this.general_area_arr, item);
       this.stick_area_arr.unshift(item);
       _getData(
-        "/server_info/userProductLine!request.action",
+        `${this.$API_URL.INFO_URL}/server_info/userProductLine!request.action`,
         {
           method: "setTop",
           params: { id: item.id, flag: 1 }

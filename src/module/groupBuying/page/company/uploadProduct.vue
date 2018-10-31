@@ -688,8 +688,8 @@ export default {
               margin-right: 0;
               border-radius: 3px;
               .cube-upload-btn-def {
-                height: 99px;
-                width: 99px;
+                height: 98px;
+                width: 98px;
                 background: #e8e8e8;
                 border-radius: 3px;
                 i {
@@ -708,8 +708,8 @@ export default {
 
             .cube-upload-file {
               .cube-upload-file-def {
-                height: 99px;
-                width: 99px;
+                height: 98px;
+                width: 98px;
                 background: #e8e8e8;
                 border-radius: 3px;
               }

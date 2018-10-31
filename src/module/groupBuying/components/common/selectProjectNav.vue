@@ -20,7 +20,6 @@ export default {
   methods: {
     select(item, itemObj) {
       if (this.$route.path.indexOf("submitGroupDemand") != -1) {
-        console.log(this.groupPurchaseId);
         this.$router.replace({
           path: `/submitGroupDemand/${itemObj.code}`,
           query: {
@@ -100,7 +99,6 @@ export default {
         );
       }
     } else {
-      console.log("走");
       _getData(
         `${this.$API_URL.WEB_URL}/server/basedata!request.action`,
         {

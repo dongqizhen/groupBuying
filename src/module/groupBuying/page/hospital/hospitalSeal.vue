@@ -76,11 +76,11 @@ export default {
       submitData: {
         id: "",
         hospitalName: "",
-        address: "",
-        lat: "", //纬度
-        lng: "", //经度
-        province: "",
-        city: "",
+        address: "北京市顺义区",
+        lat: "36", //纬度
+        lng: "46", //经度
+        province: "北京市",
+        city: "北京市",
         introduce: "",
         groupPurchaseTypeId: "",
         contact: ""
@@ -151,11 +151,11 @@ export default {
       });
       if (flag) {
         this.submitData.contact = JSON.stringify(this.$refs.person.persons);
-        this.submitData.lat = this.responseDataObj.latitude;
-        this.submitData.lng = this.responseDataObj.longitude;
-        this.submitData.province = this.responseDataObj.provinceName;
-        this.submitData.city = this.responseDataObj.cityName;
-        this.submitData.address = this.responseDataObj.address;
+        // this.submitData.lat = this.responseDataObj.latitude;
+        // this.submitData.lng = this.responseDataObj.longitude;
+        // this.submitData.province = this.responseDataObj.provinceName;
+        // this.submitData.city = this.responseDataObj.cityName;
+        // this.submitData.address = this.responseDataObj.address;
         console.log(this.submitData);
         this.submit();
         this.submitBtnStatus = true;
