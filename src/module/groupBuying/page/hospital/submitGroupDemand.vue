@@ -1,39 +1,39 @@
 <template>
-  <div class="container submitGroupDemand">
-    <Header title="提交团购需求 (医院)" :saveId="saveId" :editSelectId="editSelectId" v-on:changeSaveId="changeSaveId" v-on:changeEditSelectId="changeEditSelectId">
-      <span slot="explain" class="deleteBtn" v-if="this.$route.query.id" @click="deleteDemand">删除</span>
-    </Header>
-    <div class="content">
-      <div class="scroll-list-wrap">
-        <cube-scroll ref="scroll">
-          <div class="selectGroupMeeting">
-            <basic-title title="选择团购大会" imgurl="../static/images/groupBuy.png">
-              <span slot="select">(必选项)</span>
-            </basic-title>
-            <div class="list_box">
-              <list-item v-for="(item,index) in groupUnderWayList" :isActive="current===index?true:false" v-on:changeIdx="getIndex" :index="index" :key="item.id" :dataValue="item" :disabled="true"></list-item>
+    <div class="container submitGroupDemand">
+        <Header title="提交团购需求 (医院)" :saveId="saveId" :editSelectId="editSelectId" v-on:changeSaveId="changeSaveId" v-on:changeEditSelectId="changeEditSelectId">
+            <span slot="explain" class="deleteBtn" v-if="this.$route.query.id" @click="deleteDemand">删除</span>
+        </Header>
+        <div class="content">
+            <div class="scroll-list-wrap">
+                <cube-scroll ref="scroll">
+                    <div class="selectGroupMeeting">
+                        <basic-title title="选择团购大会" imgurl="../static/images/groupBuy.png">
+                            <span slot="select">(必选项)</span>
+                        </basic-title>
+                        <div class="list_box">
+                            <list-item v-for="(item,index) in groupUnderWayList" :isActive="current===index?true:false" v-on:changeIdx="getIndex" :index="index" :key="item.id" :dataValue="item" :disabled="true"></list-item>
+                        </div>
+                    </div>
+                    <div class="groupType">
+                        <basic-title title="团购需求类型" imgurl="../static/images/selectproject.png">
+                            <span slot="select">(必选项)</span>
+                        </basic-title>
+                        <select-project-nav :groupPurchaseId="submitData.groupPurchaseId" :editSelectValue="editSelectId" v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
+                    </div>
+                    <div class="productBasicInfromation">
+                        <basic-title :title="title" imgurl="../static/images/basicInformation.png">
+                            <span slot="select">(必填项)</span>
+                        </basic-title>
+                        <div>
+                            <router-view></router-view>
+                        </div>
+                    </div>
+                    <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购需求表</x-button>
+                    <x-button v-else type="primary" show-loading>提交中</x-button>
+                </cube-scroll>
             </div>
-          </div>
-          <div class="groupType">
-            <basic-title title="团购需求类型" imgurl="../static/images/selectproject.png">
-              <span slot="select">(必选项)</span>
-            </basic-title>
-            <select-project-nav :groupPurchaseId="submitData.groupPurchaseId" :editSelectValue="editSelectId" v-on:selectObj="getItemObj" v-on:select-value="handleSelect"></select-project-nav>
-          </div>
-          <div class="productBasicInfromation">
-            <basic-title :title="title" imgurl="../static/images/basicInformation.png">
-              <span slot="select">(必填项)</span>
-            </basic-title>
-            <div>
-              <router-view></router-view>
-            </div>
-          </div>
-          <x-button v-if="submitBtnStatus" type="primary" @click.native="submitBtnClick">提交团购需求表</x-button>
-          <x-button v-else type="primary" show-loading>提交中</x-button>
-        </cube-scroll>
-      </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -314,6 +314,7 @@ export default {
     },
     changeSaveId(val) {
       this.saveId = val;
+      this.current = null;
       this.vuexInitialFun();
     },
     changeEditSelectId(val) {
@@ -331,6 +332,8 @@ export default {
     getIndex(index) {
       this.current = index;
       this.submitData.groupPurchaseId = this.groupUnderWayList[index].id;
+      console.log("是你变化了吗");
+      console.log(this.submitData.groupPurchaseId);
       this.$router.replace({
         path: this.$route.path,
         query: {
@@ -340,6 +343,7 @@ export default {
           groupTypeCode: this.groupItemObj.code
         }
       });
+      console.log(this.$route.fullPath);
     },
     vuexInitialFun() {
       this.SBTG({
@@ -649,7 +653,6 @@ export default {
       data => {
         console.log("正在报名的团购大会：", data);
         this.groupUnderWayList = data.groupPurchaseList;
-        console.log(this.current === null);
         if (this.$route.query.id && this.saveId != this.$route.query.id) {
           this.saveId = this.$route.query.id;
           _getData(
@@ -793,18 +796,6 @@ export default {
         }
       }
     );
-    // if (this.$route.query.productId) {
-    //   _getData(
-    //     "/server_pro/groupPurchaseHospital!request.action",
-    //     {
-    //       method: "getProductInfo",
-    //       params: { id: this.$route.query.productId }
-    //     },
-    //     data => {
-    //       console.log(data);
-    //     }
-    //   );
-    // }
   },
   watch: {
     groupItemObj() {
@@ -875,6 +866,13 @@ export default {
           break;
       }
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name == "myHospitalGroupBuy") {
+        this.submitData.id = "";
+      }
+    });
   },
   deactivated() {}
 };

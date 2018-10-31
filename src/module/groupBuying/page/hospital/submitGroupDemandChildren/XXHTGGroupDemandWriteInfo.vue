@@ -1,84 +1,84 @@
 <template>
-  <div class="groupDemandWriteInfo">
-    <ul>
-      <li @click="jumpProductCateGory">
-        <a>
-          <span>平台分类:</span>
-          <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
-            <i slot="append"></i>
-          </cube-input>
-        </a>
-      </li>
-      <li class="number">
-        <group>
-          <x-number title="需求数量:" v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
-        </group>
-        <p>
-          本次团购,{{info.productLineName}}信息化已累计申报<span>{{info.demandNum}}</span>单,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>单
-        </p>
-      </li>
-      <li class="price">
-        <div>
-          <span>期望采购总价:</span>
-          <cube-input placeholder="请真实填写采购期望价格" type="number" @input="savePriceValue" :disabled="false" v-model="info.price">
-          </cube-input>
-          <div class="unit">万元</div>
+    <div class="groupDemandWriteInfo">
+        <ul>
+            <li @click="jumpProductCateGory">
+                <a>
+                    <span>平台分类:</span>
+                    <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
+                        <i slot="append"></i>
+                    </cube-input>
+                </a>
+            </li>
+            <li class="number">
+                <group>
+                    <x-number title="需求数量:" v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
+                </group>
+                <p>
+                    本次团购,{{info.productLineName}}信息化已累计申报<span>{{info.demandNum}}</span>单,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>单
+                </p>
+            </li>
+            <li class="price">
+                <div>
+                    <span>期望采购总价:</span>
+                    <cube-input placeholder="请真实填写采购期望价格" type="number" @input="savePriceValue" :disabled="false" v-model="info.price">
+                    </cube-input>
+                    <div class="unit">万元</div>
+                </div>
+                <p>
+                    本次团购,{{info.productLineName}}信息化已累计申报<span>{{info.demandNum}}</span>单,总预算为<span>{{info.totalPrice}}</span>万元
+                </p>
+            </li>
+            <li class="clinic">
+                <group>
+                    <x-textarea title="应用需求:" v-model="info.application" @on-change="saveApplicationValue" placeholder="为保证你的采购质量及效率请详细填写信息化应用需求" autosize></x-textarea>
+                </group>
+            </li>
+            <li class="SHTGbrand" @click="jumpSelectBrand">
+                <a>
+                    <span>平台品牌:</span>
+                    <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandName">
+                        <i slot="append"></i>
+                    </cube-input>
+                </a>
+            </li>
+            <li class="SHTGmodel" @click="jumpSelectModel">
+                <a>
+                    <span>平台型号:</span>
+                    <cube-input placeholder="默认为不限" :class="this.info.model.length!=0?'showStyle':''" :disabled="true">
+                        <span slot="prepend" class="showModel">
+                            <span v-for="(item,index) in info.model" :key="index">{{item.name}}</span>
+                        </span>
+                        <i slot="append"></i>
+                    </cube-input>
+                </a>
+            </li>
+        </ul>
+        <div class="parameter">
+            <ul>
+                <li @click="jumpMainParams">
+                    <a>
+                        <span><i><img src="../../../../../../static/images/star.png" alt=""></i>重要参数:</span>
+                        <cube-input placeholder="请选择或输入重要参数" :disabled="true" v-model="info.mainParamsName">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li @click="jumpPredictTime">
+                    <a>
+                        <span><i><img src="../../../../../../static/images/star.png" alt=""></i>预计装机时间:</span>
+                        <cube-input placeholder="请选择预计装机时间" :disabled="true" v-model="info.showLoadTime">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li class="clinic">
+                    <group>
+                        <x-textarea title="<i><img src='../static/images/star.png' alt=''></i>采购需求说明:" @on-change="saveIntroduceValue" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+                    </group>
+                </li>
+            </ul>
         </div>
-        <p>
-          本次团购,{{info.productLineName}}信息化已累计申报<span>{{info.demandNum}}</span>单,总预算为<span>{{info.totalPrice}}</span>万元
-        </p>
-      </li>
-      <li class="clinic">
-        <group>
-          <x-textarea title="应用需求:" v-model="info.application" @on-change="saveApplicationValue" placeholder="为保证你的采购质量及效率请详细填写信息化应用需求" autosize></x-textarea>
-        </group>
-      </li>
-      <li class="SHTGbrand" @click="jumpSelectBrand">
-        <a>
-          <span>平台品牌:</span>
-          <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandName">
-            <i slot="append"></i>
-          </cube-input>
-        </a>
-      </li>
-      <li class="SHTGmodel" @click="jumpSelectModel">
-        <a>
-          <span>平台型号:</span>
-          <cube-input placeholder="默认为不限" :class="this.info.model.length!=0?'showStyle':''" :disabled="true">
-            <span slot="prepend" class="showModel">
-              <span v-for="(item,index) in info.model" :key="index">{{item.name}}</span>
-            </span>
-            <i slot="append"></i>
-          </cube-input>
-        </a>
-      </li>
-    </ul>
-    <div class="parameter">
-      <ul>
-        <li @click="jumpMainParams">
-          <a>
-            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>重要参数:</span>
-            <cube-input placeholder="请选择或输入重要参数" :disabled="true" v-model="info.mainParamsName">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li @click="jumpPredictTime">
-          <a>
-            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>预计装机时间:</span>
-            <cube-input placeholder="请选择预计装机时间" :disabled="true" v-model="info.showLoadTime">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li class="clinic">
-          <group>
-            <x-textarea title="<i><img src='../static/images/star.png' alt=''></i>采购需求说明:" @on-change="saveIntroduceValue" v-model="info.introduce" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
-          </group>
-        </li>
-      </ul>
     </div>
-  </div>
 </template>
 <script>
 import basicTitle from "../../../components/common/basicTitle";
@@ -91,7 +91,8 @@ import { Group, XTextarea, XNumber, CellBox } from "vux";
 export default {
   data() {
     return {
-      value: ""
+      value: "",
+      y: ""
     };
   },
   computed: {
@@ -297,8 +298,22 @@ export default {
         this.info.totalPrice = data.totalPrice;
       }
     );
+    this.$nextTick().then(() => {
+      this.$parent.refresh();
+      if (this.y != 0) {
+        this.$parent.scrollTo(0, this.y);
+      }
+    });
   },
-  deactivated() {}
+  deactivated() {},
+  beforeRouteLeave(to, from, next) {
+    console.log(to);
+    if (to.name == "选择型号") {
+      this.y = this.$parent.scroll.y;
+    }
+    console.log(this.y);
+    next();
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -437,6 +452,7 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+            display: inline-block;
             &:last-child {
               margin-right: 0;
             }

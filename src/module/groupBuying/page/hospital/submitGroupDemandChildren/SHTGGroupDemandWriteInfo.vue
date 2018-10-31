@@ -1,105 +1,105 @@
 <template>
-  <div class="groupDemandWriteInfo">
-    <ul>
-      <li @click="jumpProductCateGory">
-        <a>
-          <span>设备分类:</span>
-          <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
-            <i slot="append"></i>
-          </cube-input>
-        </a>
-      </li>
-      <li class="number">
-        <group>
-          <x-number title="设备台数:" v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
-        </group>
-        <p>
-          本次团购,{{info.productLineName}}设备已累计申报<span>{{info.demandNum}}</span>台,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>台
-        </p>
-      </li>
-      <li class="price">
-        <div>
-          <span>维修预算总价:</span>
-          <cube-input placeholder="请真实填写维修预算" type="number" @input="savePriceValue" :disabled="false" v-model="info.price">
-          </cube-input>
-          <div class="unit">万元</div>
+    <div class="groupDemandWriteInfo">
+        <ul>
+            <li @click="jumpProductCateGory">
+                <a>
+                    <span>设备分类:</span>
+                    <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
+                        <i slot="append"></i>
+                    </cube-input>
+                </a>
+            </li>
+            <li class="number">
+                <group>
+                    <x-number title="设备台数:" v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
+                </group>
+                <p>
+                    本次团购,{{info.productLineName}}设备已累计申报<span>{{info.demandNum}}</span>台,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>台
+                </p>
+            </li>
+            <li class="price">
+                <div>
+                    <span>维修预算总价:</span>
+                    <cube-input placeholder="请真实填写维修预算" type="number" @input="savePriceValue" :disabled="false" v-model="info.price">
+                    </cube-input>
+                    <div class="unit">万元</div>
+                </div>
+                <p>
+                    本次团购,{{info.productLineName}}设备已累计申报<span>{{info.demandNum}}</span>台,总维修预算为<span>{{info.totalPrice}}</span>万元
+                </p>
+            </li>
+            <li class="SHTGbrand" @click="jumpSelectBrand">
+                <a>
+                    <span>设备品牌:</span>
+                    <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandName">
+                        <i slot="append"></i>
+                    </cube-input>
+                </a>
+            </li>
+            <li class="SHTGmodel" @click="jumpSelectModel">
+                <a>
+                    <span>设备型号:</span>
+                    <cube-input placeholder="默认为不限" :class="this.info.model.length!=0?'showStyle':''" :disabled="true">
+                        <span slot="prepend" class="showModel">
+                            <span v-for="(item,index) in info.model" :key="index">{{item.name}}</span>
+                        </span>
+                        <i slot="append"></i>
+                    </cube-input>
+                </a>
+            </li>
+        </ul>
+        <div class="saleAfterGroupField">
+            <ul>
+                <li>
+                    <a>
+                        <span><i><img src="../../../../../../static/images/star.png" alt=""></i>设备安装日期:</span>
+                        <cube-button @click="showDatePicker" :class="info.installTime.indexOf('-')!=-1?'valueStyle':''">{{info.installTime}}</cube-button>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span class="star"><i><img src="../../../../../../static/images/star.png" alt=""></i>该设备每天检查量：</span>
+                        <cube-input class="responseTime" placeholder="请填写每天病人数量" @input="saveDeviceCheckNumValue" v-model="info.deviceCheckNum">
+                            <span slot="append">人</span>
+                        </cube-input>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span class="star"><i><img src="../../../../../../static/images/star.png" alt=""></i>响应时间：</span>
+                        <cube-input class="responseTime" placeholder="请填写响应时间" @input="saveResponseTimeValue" v-model="info.responseTime">
+                            <span slot="append">小时以内</span>
+                        </cube-input>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span class="star"><i><img src="../../../../../../static/images/star.png" alt=""></i>维保类型：</span>
+                        <div class="maintanceType">
+                            <span v-for="(item,index) in types" :key="index" :class="currentIdx===index?'active':''" @click="addClass(index)">{{item.name}}</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <p>
-          本次团购,{{info.productLineName}}设备已累计申报<span>{{info.demandNum}}</span>台,总维修预算为<span>{{info.totalPrice}}</span>万元
-        </p>
-      </li>
-      <li class="SHTGbrand" @click="jumpSelectBrand">
-        <a>
-          <span>设备品牌:</span>
-          <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandName">
-            <i slot="append"></i>
-          </cube-input>
-        </a>
-      </li>
-      <li class="SHTGmodel" @click="jumpSelectModel">
-        <a>
-          <span>设备型号:</span>
-          <cube-input placeholder="默认为不限" :class="this.info.model.length!=0?'showStyle':''" :disabled="true">
-            <span slot="prepend" class="showModel">
-              <span v-for="(item,index) in info.model" :key="index">{{item.name}}</span>
-            </span>
-            <i slot="append"></i>
-          </cube-input>
-        </a>
-      </li>
-    </ul>
-    <div class="saleAfterGroupField">
-      <ul>
-        <li>
-          <a>
-            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>设备安装日期:</span>
-            <cube-button @click="showDatePicker" :class="info.installTime.indexOf('-')!=-1?'valueStyle':''">{{info.installTime}}</cube-button>
-          </a>
-        </li>
-        <li>
-          <a>
-            <span class="star"><i><img src="../../../../../../static/images/star.png" alt=""></i>该设备每天检查量：</span>
-            <cube-input class="responseTime" placeholder="请填写每天病人数量" @input="saveDeviceCheckNumValue" v-model="info.deviceCheckNum">
-              <span slot="append">人</span>
-            </cube-input>
-          </a>
-        </li>
-        <li>
-          <a>
-            <span class="star"><i><img src="../../../../../../static/images/star.png" alt=""></i>响应时间：</span>
-            <cube-input class="responseTime" placeholder="请填写响应时间" @input="saveResponseTimeValue" v-model="info.responseTime">
-              <span slot="append">小时以内</span>
-            </cube-input>
-          </a>
-        </li>
-        <li>
-          <a>
-            <span class="star"><i><img src="../../../../../../static/images/star.png" alt=""></i>维保类型：</span>
-            <div class="maintanceType">
-              <span v-for="(item,index) in types" :key="index" :class="currentIdx===index?'active':''" @click="addClass(index)">{{item.name}}</span>
-            </div>
-          </a>
-        </li>
-      </ul>
+        <div class="parameter">
+            <ul>
+                <li @click="jumpPredictTime">
+                    <a>
+                        <span><i><img src="../../../../../../static/images/star.png" alt=""></i>维修时间:</span>
+                        <cube-input placeholder="请选择维修时间" :disabled="true" v-model="info.showLoadTime">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li class="clinic">
+                    <group>
+                        <x-textarea title='<i><img src="../static/images/star.png" alt=""></i>备注信息:' v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="请在这里填写备注信息" autosize :height="43"></x-textarea>
+                    </group>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="parameter">
-      <ul>
-        <li @click="jumpPredictTime">
-          <a>
-            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>维修时间:</span>
-            <cube-input placeholder="请选择维修时间" :disabled="true" v-model="info.showLoadTime">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li class="clinic">
-          <group>
-            <x-textarea title='<i><img src="../static/images/star.png" alt=""></i>备注信息:' v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="请在这里填写备注信息" autosize :height="43"></x-textarea>
-          </group>
-        </li>
-      </ul>
-    </div>
-  </div>
 </template>
 <script>
 import basicTitle from "../../../components/common/basicTitle";
@@ -120,7 +120,8 @@ export default {
       types,
       value: "",
       currentDate: new Date(),
-      currentIdx: null
+      currentIdx: null,
+      y: ""
     };
   },
   computed: {
@@ -333,8 +334,22 @@ export default {
         this.info.totalPrice = data.totalPrice;
       }
     );
+    this.$nextTick().then(() => {
+      this.$parent.refresh();
+      if (this.y != 0) {
+        this.$parent.scrollTo(0, this.y);
+      }
+    });
   },
-  deactivated() {}
+  deactivated() {},
+  beforeRouteLeave(to, from, next) {
+    console.log(to);
+    if (to.name == "选择型号") {
+      this.y = this.$parent.scroll.y;
+    }
+    console.log(this.y);
+    next();
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -473,6 +488,7 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+            display: inline-block;
             &:last-child {
               margin-right: 0;
             }

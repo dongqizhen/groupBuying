@@ -21,6 +21,7 @@ const mutations = {
     state.page.mainBusiness = businessValue;
   },
   uploadProductSBTG(state, SBTGValue) {
+    console.log(SBTGValue);
     state.page.uploadProduct.SBTG = SBTGValue;
   },
   uploadProductHCTG(state, HCTGValue) {

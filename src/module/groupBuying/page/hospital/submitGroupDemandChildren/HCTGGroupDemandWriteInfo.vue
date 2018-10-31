@@ -1,139 +1,139 @@
 <template>
-  <div class="groupDemandWriteInfo">
-    <ul>
-      <li @click="jumpProductCateGory">
-        <a>
-          <span>耗材分类:</span>
-          <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
-            <i slot="append"></i>
-          </cube-input>
-        </a>
-      </li>
-      <li class="number">
-        <group>
-          <x-number title="需求数量:" v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
-        </group>
-        <p>
-          本次团购,{{info.productLineName}}耗材已累计申报<span>{{info.demandNum}}</span>单,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>单
-        </p>
-      </li>
-      <li class="price">
-        <div>
-          <span>期望采购总价:</span>
-          <cube-input placeholder="请真实填写采购期望价格" type="number" :disabled="false" v-model="info.price" @input="savePriceValue">
-          </cube-input>
-          <div class="unit">万元</div>
+    <div class="groupDemandWriteInfo">
+        <ul>
+            <li @click="jumpProductCateGory">
+                <a>
+                    <span>耗材分类:</span>
+                    <cube-input placeholder="请选择分类" :disabled="true" v-model="info.productLineName">
+                        <i slot="append"></i>
+                    </cube-input>
+                </a>
+            </li>
+            <li class="number">
+                <group>
+                    <x-number title="需求数量:" v-model="info.num" :min="1" fillable @on-change="saveNumValue"></x-number>
+                </group>
+                <p>
+                    本次团购,{{info.productLineName}}耗材已累计申报<span>{{info.demandNum}}</span>单,历史累计申报共<span>{{info.histroyTotalDemandNum}}</span>单
+                </p>
+            </li>
+            <li class="price">
+                <div>
+                    <span>期望采购总价:</span>
+                    <cube-input placeholder="请真实填写采购期望价格" type="number" :disabled="false" v-model="info.price" @input="savePriceValue">
+                    </cube-input>
+                    <div class="unit">万元</div>
+                </div>
+                <p>
+                    本次团购,{{info.productLineName}}耗材已累计申报<span>{{info.demandNum}}</span>单,总预算为<span>{{info.totalPrice}}</span>万元
+                </p>
+            </li>
+            <li class="clinic">
+                <group>
+                    <x-textarea title="应用需求:" v-model="info.application" @on-change="saveApplicationValue" placeholder="为保证你的采购质量及效率请详细填写耗材的临床用途" autosize></x-textarea>
+                </group>
+            </li>
+        </ul>
+        <div class="selectBrand">
+            <basic-title title='首选' imgurl='../static/images/selected-first.png'>
+                <span slot="select">(必填)</span>
+                <span slot="check" @click.stop="clear(0)">清空</span>
+            </basic-title>
+            <ul>
+                <li @click="jumpToBrand(0)">
+                    <a>
+                        <span>品牌：</span>
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandFirstName">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li @click="jumpToModel(0)">
+                    <a>
+                        <span>型号：</span>
+                        <cube-input placeholder="请选择型号" :class="this.info.modelFirst.length!=0?'showStyle':''" :disabled="true">
+                            <span slot="prepend" class="showModel">
+                                <span v-for="(item,index) in info.modelFirst" :key="index">{{item.name}}</span>
+                            </span>
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+            </ul>
+            <basic-title title='次选' imgurl='../static/images/selected-second.png'>
+                <span slot="check" @click.stop="clear(1)">清空</span>
+            </basic-title>
+            <ul>
+                <li @click="jumpToBrand(1)">
+                    <a>
+                        <span>品牌：</span>
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandSecondName">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li @click="jumpToModel(1)">
+                    <a>
+                        <span>型号：</span>
+                        <cube-input placeholder="请选择型号" :class="this.info.modelSecond.length!=0?'showStyle':''" :disabled="true">
+                            <span slot="prepend" class="showModel">
+                                <span v-for="(item,index) in info.modelSecond" :key="index">{{item.name}}</span>
+                            </span>
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+            </ul>
+            <basic-title title='再选' imgurl='../static/images/selected-three.png'>
+                <span slot="check" @click.stop="clear(2)">清空</span></basic-title>
+            <ul>
+                <li @click="jumpToBrand(2)">
+                    <a>
+                        <span>品牌：</span>
+                        <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandThirdName">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li @click="jumpToModel(2)">
+                    <a>
+                        <span>型号：</span>
+                        <cube-input placeholder="请选择型号" :class="this.info.modelThird.length!=0?'showStyle':''" :disabled="true">
+                            <span slot="prepend" class="showModel">
+                                <span v-for="(item,index) in info.modelThird" :key="index">{{item.name}}</span>
+                            </span>
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <p>
-          本次团购,{{info.productLineName}}耗材已累计申报<span>{{info.demandNum}}</span>单,总预算为<span>{{info.totalPrice}}</span>万元
-        </p>
-      </li>
-      <li class="clinic">
-        <group>
-          <x-textarea title="应用需求:" v-model="info.application" @on-change="saveApplicationValue" placeholder="为保证你的采购质量及效率请详细填写耗材的临床用途" autosize></x-textarea>
-        </group>
-      </li>
-    </ul>
-    <div class="selectBrand">
-      <basic-title title='首选' imgurl='../static/images/selected-first.png'>
-        <span slot="select">(必填)</span>
-        <span slot="check" @click.stop="clear(0)">清空</span>
-      </basic-title>
-      <ul>
-        <li @click="jumpToBrand(0)">
-          <a>
-            <span>品牌：</span>
-            <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandFirstName">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li @click="jumpToModel(0)">
-          <a>
-            <span>型号：</span>
-            <cube-input placeholder="请选择型号" :class="this.info.modelFirst.length!=0?'showStyle':''" :disabled="true">
-              <span slot="prepend" class="showModel">
-                <span v-for="(item,index) in info.modelFirst" :key="index">{{item.name}}</span>
-              </span>
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-      </ul>
-      <basic-title title='次选' imgurl='../static/images/selected-second.png'>
-        <span slot="check" @click.stop="clear(1)">清空</span>
-      </basic-title>
-      <ul>
-        <li @click="jumpToBrand(1)">
-          <a>
-            <span>品牌：</span>
-            <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandSecondName">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li @click="jumpToModel(1)">
-          <a>
-            <span>型号：</span>
-            <cube-input placeholder="请选择型号" :class="this.info.modelSecond.length!=0?'showStyle':''" :disabled="true">
-              <span slot="prepend" class="showModel">
-                <span v-for="(item,index) in info.modelSecond" :key="index">{{item.name}}</span>
-              </span>
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-      </ul>
-      <basic-title title='再选' imgurl='../static/images/selected-three.png'>
-        <span slot="check" @click.stop="clear(2)">清空</span></basic-title>
-      <ul>
-        <li @click="jumpToBrand(2)">
-          <a>
-            <span>品牌：</span>
-            <cube-input placeholder="请选择品牌" :disabled="true" v-model="info.brandThirdName">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li @click="jumpToModel(2)">
-          <a>
-            <span>型号：</span>
-            <cube-input placeholder="请选择型号" :class="this.info.modelThird.length!=0?'showStyle':''" :disabled="true">
-              <span slot="prepend" class="showModel">
-                <span v-for="(item,index) in info.modelThird" :key="index">{{item.name}}</span>
-              </span>
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-      </ul>
+        <div class="parameter">
+            <ul>
+                <li @click="jumpMainParams">
+                    <a>
+                        <span><i><img src="../../../../../../static/images/star.png" alt=""></i>重要规格</span>
+                        <cube-input placeholder="请选择或输入重要规格" :disabled="true" v-model="info.mainParamsName">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li @click="jumpPredictTime">
+                    <a>
+                        <span><i><img src="../../../../../../static/images/star.png" alt=""></i>预计需求时间:</span>
+                        <cube-input placeholder="请选择预计需求时间" :disabled="true" v-model="info.showLoadTime">
+                            <i slot="append"></i>
+                        </cube-input>
+                    </a>
+                </li>
+                <li class="clinic">
+                    <group>
+                        <x-textarea title="<i><img src='../static/images/star.png' alt=''></i>采购需求说明:" v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
+                    </group>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="parameter">
-      <ul>
-        <li @click="jumpMainParams">
-          <a>
-            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>重要规格</span>
-            <cube-input placeholder="请选择或输入重要规格" :disabled="true" v-model="info.mainParamsName">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li @click="jumpPredictTime">
-          <a>
-            <span><i><img src="../../../../../../static/images/star.png" alt=""></i>预计需求时间:</span>
-            <cube-input placeholder="请选择预计需求时间" :disabled="true" v-model="info.showLoadTime">
-              <i slot="append"></i>
-            </cube-input>
-          </a>
-        </li>
-        <li class="clinic">
-          <group>
-            <x-textarea title="<i><img src='../static/images/star.png' alt=''></i>采购需求说明:" v-model="info.introduce" @on-change="saveIntroduceValue" placeholder="为了使您的需求清晰准确，请尽量详细说明" autosize :height="43"></x-textarea>
-          </group>
-        </li>
-      </ul>
-    </div>
-  </div>
 </template>
 <script>
 import basicTitle from "../../../components/common/basicTitle";
@@ -145,7 +145,9 @@ import { _getData } from "../../../service/getData";
 import { Group, XTextarea, XNumber, CellBox } from "vux";
 export default {
   data() {
-    return {};
+    return {
+      y: ""
+    };
   },
   computed: {
     info() {
@@ -448,8 +450,23 @@ export default {
         }
       );
     }
+
+    this.$nextTick().then(() => {
+      this.$parent.refresh();
+      if (this.y != 0) {
+        this.$parent.scrollTo(0, this.y);
+      }
+    });
   },
-  deactivated() {}
+  deactivated() {},
+  beforeRouteLeave(to, from, next) {
+    console.log(to);
+    if (to.name == "选择型号") {
+      this.y = this.$parent.scroll.y;
+    }
+    console.log(this.y);
+    next();
+  }
 };
 </script>
 <style lang="scss" scoped>
