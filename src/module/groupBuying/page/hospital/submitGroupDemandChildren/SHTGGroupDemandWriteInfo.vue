@@ -336,15 +336,14 @@ export default {
     );
     this.$nextTick().then(() => {
       this.$parent.refresh();
-      if (this.y != 0) {
-        this.$parent.scrollTo(0, this.y);
-      }
+      this.$parent.scrollTo(0, this.y);
     });
   },
   deactivated() {},
+
   beforeRouteLeave(to, from, next) {
     console.log(to);
-    if (to.name == "选择型号") {
+    if (to.name != "我的团购（医院）") {
       this.y = this.$parent.scroll.y;
     } else {
       this.y = 0;
