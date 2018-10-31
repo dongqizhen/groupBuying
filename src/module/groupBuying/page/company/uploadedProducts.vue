@@ -32,188 +32,189 @@
 </template>
 
 <script>
-  import Header from "../../components/header/header";
-  import typeScrollNavBar from "../../components/common/typeScrollNavBar";
-  import modelScrollNavBar from "../../components/common/modelScrollNavBar";
-  import productList from "../../components/common/productList";
-  import { _getData } from "../../service/getData";
-  import { mapMutations } from "vuex";
-  import _ from "lodash";
-  import { getProductList } from "../../components/mixin/mixin";
-  import noData from "../../components/noData/noData.vue";
-  import noNet from "../../components/noNet/noNet.vue";
-  import { Loading } from "vux";
-  export default {
-      data() {
-          return {
-              btns: [
-                  {
-                      action: "rewrite",
-                      text: "编辑",
-                      color: "#ccc"
-                  },
-                  {
-                      action: "delete",
-                      text: "删除",
-                      color: " #FB4354"
-                  }
-              ]
-          };
-      },
-      mixins: [getProductList],
-      components: {
-          Header,
-          typeScrollNavBar,
-          modelScrollNavBar,
-          productList,
-          noData,
-          noNet,
-          Loading
-      },
-      created() {
-          console.log(this.swipeData);
-      },
-      methods: {
-          ...mapMutations(["setTransition"]),
-          onItemClick(id) {
-              console.log("click item:", id);
-              this.setTransition("turn-on");
-              this.$router.push({
-                  path: `/productDetails/${id}`,
-                  query: { come: 1 }
-              });
+import Header from "../../components/header/header";
+import typeScrollNavBar from "../../components/common/typeScrollNavBar";
+import modelScrollNavBar from "../../components/common/modelScrollNavBar";
+import productList from "../../components/common/productList";
+import { _getData } from "../../service/getData";
+import { mapMutations } from "vuex";
+import _ from "lodash";
+import { getProductList } from "../../components/mixin/mixin";
+import noData from "../../components/noData/noData.vue";
+import noNet from "../../components/noNet/noNet.vue";
+import { Loading } from "vux";
+export default {
+  data() {
+    return {
+      btns: [
+        {
+          action: "rewrite",
+          text: "编辑",
+          color: "#ccc"
+        },
+        {
+          action: "delete",
+          text: "删除",
+          color: " #FB4354"
+        }
+      ]
+    };
+  },
+  mixins: [getProductList],
+  components: {
+    Header,
+    typeScrollNavBar,
+    modelScrollNavBar,
+    productList,
+    noData,
+    noNet,
+    Loading
+  },
+  created() {
+    console.log(this.swipeData);
+  },
+  methods: {
+    ...mapMutations(["setTransition"]),
+    onItemClick(id) {
+      console.log("click item:", id);
+      this.setTransition("turn-on");
+      this.$router.push({
+        path: `/productDetails/${id}`,
+        query: { come: 1 }
+      });
+    },
+    onBtnClick(btn, index) {
+      event.stopPropagation();
+      if (btn.action === "delete") {
+        this.$createDialog({
+          type: "confirm",
+          icon: "",
+          title: "",
+          content: "确定要删除吗？",
+          confirmBtn: {
+            text: "确认",
+            active: true,
+            disabled: false,
+            href: "javascript:;"
           },
-          onBtnClick(btn, index) {
-              event.stopPropagation();
-              if (btn.action === "delete") {
-                  this.$createDialog({
-                      type: "confirm",
-                      icon: "",
-                      title: "",
-                      content: "确定要删除吗？",
-                      confirmBtn: {
-                          text: "确认",
-                          active: true,
-                          disabled: false,
-                          href: "javascript:;"
-                      },
-                      cancelBtn: {
-                          text: "取消",
-                          active: false,
-                          disabled: false,
-                          href: "javascript:;"
-                      },
-                      onConfirm: () => {
-                          _getData(
-                              "/server_pro/groupPurchaseCompanyProduct!request.action",
-                              {
-                                  method: "deletedProduct",
-                                  params: { id: this.swipeData[index].id }
-                              },
-                              data => {}
-                          ).then(() => {
-                              this.swipeData.splice(index, 1);
-                              this.$refs.swipeItem[this.activeIndex].shrink();
-                              this.getData();
-                          });
-                      },
-                      onCancel: () => {}
-                  }).show();
-              } else {
-                  this.setTransition("turn-on");
-                  this.$refs.swipeItem[index].shrink();
-                  this.$router.push({
-                      path: "uploadProduct",
-                      query: { id: this.swipeData[index].id }
-                  });
-              }
+          cancelBtn: {
+            text: "取消",
+            active: false,
+            disabled: false,
+            href: "javascript:;"
           },
-          onItemActive(index) {
-              console.log(index);
-              if (index === this.activeIndex) {
-                  return;
-              }
-              if (this.activeIndex !== -1) {
-                  const activeItem = this.$refs.swipeItem[this.activeIndex];
-                  activeItem.shrink();
-              }
-              this.activeIndex = index;
-          }
-      },
-      activated() {
-          this.getData();
+          onConfirm: () => {
+            _getData(
+              "/server_pro/groupPurchaseCompanyProduct!request.action",
+              {
+                method: "deletedProduct",
+                params: { id: this.swipeData[index].id }
+              },
+              data => {}
+            ).then(() => {
+              this.swipeData.splice(index, 1);
+              this.$refs.swipeItem[this.activeIndex].shrink();
+              this.getData();
+            });
+          },
+          onCancel: () => {}
+        }).show();
+      } else {
+        this.setTransition("turn-on");
+        this.$refs.swipeItem[index].shrink();
+        this.$router.push({
+          path: "uploadProduct",
+          query: { id: this.swipeData[index].id }
+        });
       }
-  };
+    },
+    onItemActive(index) {
+      console.log(index);
+      if (index === this.activeIndex) {
+        return;
+      }
+      if (this.activeIndex !== -1) {
+        const activeItem = this.$refs.swipeItem[this.activeIndex];
+        activeItem.shrink();
+      }
+      this.activeIndex = index;
+    }
+  },
+  activated() {
+    this.getData();
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  @import "../../../../../static/scss/_commonScss";
-  .container {
-      @include basic_container_style;
-      .content {
-          padding: 10px 13px;
-          overflow: hidden;
-          //padding-bottom: 0;
-          > div {
-              height: 100%;
-              display: flex;
-              flex-direction: column;
-              > div {
-                  height: 100%;
-                  display: flex;
-                  flex-direction: column;
-              }
-          }
-          .type {
-              box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-              border-radius: 5px;
-              background: #fff;
-              margin-bottom: 10px;
-          }
-          .wrapper_container {
-              height: calc(100%);
-              position: relative;
-              /deep/ ._v-container {
-                  height: 100%;
-                  /*  ._v-content {
+@import "../../../../../static/scss/_commonScss";
+.container {
+  @include basic_container_style;
+  .content {
+    padding: 10px 13px;
+    overflow: hidden;
+    //padding-bottom: 0;
+    > div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      > div {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    .type {
+      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      background: #fff;
+      margin-bottom: 10px;
+      height: 101px;
+    }
+    .wrapper_container {
+      height: calc(100% - 111px);
+      position: relative;
+      /deep/ ._v-container {
+        height: 100%;
+        /*  ._v-content {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               padding-top: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           } */
-              }
-          }
-          /deep/ ul.Swipe_box {
-              height: 100%;
-              > li {
-                  height: 80px;
-                  background: #ffffff;
-                  box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-                  border-radius: 5px;
-                  margin-bottom: 10px;
-                  &:last-child {
-                      margin-bottom: 0;
-                  }
-                  .cube-swipe-item {
-                      height: 100%;
-                      padding: 13px;
-                      display: flex;
-                      justify-content: flex-start;
-
-                      .cube-swipe-btns {
-                          li {
-                              width: 120px;
-                              font-family: PingFangSC-Regular;
-                              font-size: 16px;
-                              color: #ffffff;
-                              span {
-                                  width: 100%;
-                                  display: flex;
-                                  align-items: center;
-                                  justify-content: center;
-                              }
-                          }
-                      }
-                  }
-              }
-          }
       }
+    }
+    /deep/ ul.Swipe_box {
+      height: 100%;
+      > li {
+        height: 80px;
+        background: #ffffff;
+        box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        margin-bottom: 10px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .cube-swipe-item {
+          height: 100%;
+          padding: 13px;
+          display: flex;
+          justify-content: flex-start;
+
+          .cube-swipe-btns {
+            li {
+              width: 120px;
+              font-family: PingFangSC-Regular;
+              font-size: 16px;
+              color: #ffffff;
+              span {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            }
+          }
+        }
+      }
+    }
   }
+}
 </style>

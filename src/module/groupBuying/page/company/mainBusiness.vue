@@ -134,8 +134,7 @@ export default {
         {
           method: "getAppPageMainBusinessList",
           params: {
-            name: name,
-            code: this.$route.query.groupTypeCode
+            name: name
           }
         },
         data => {

@@ -364,6 +364,7 @@ let state : StateType = {
         brandId: "",
         brandName: "",
         model: [],
+        modelName: "",
         params: [],
         mainParamsName: "",
         loadTime: {
@@ -408,6 +409,7 @@ let state : StateType = {
         brandId: "",
         brandName: "",
         model: [],
+        modelName: "",
         params: [],
         mainParamsName: "",
         loadTime: {

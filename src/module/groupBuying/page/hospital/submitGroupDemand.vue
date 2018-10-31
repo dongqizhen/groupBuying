@@ -793,6 +793,18 @@ export default {
         }
       }
     );
+    // if (this.$route.query.productId) {
+    //   _getData(
+    //     "/server_pro/groupPurchaseHospital!request.action",
+    //     {
+    //       method: "getProductInfo",
+    //       params: { id: this.$route.query.productId }
+    //     },
+    //     data => {
+    //       console.log(data);
+    //     }
+    //   );
+    // }
   },
   watch: {
     groupItemObj() {

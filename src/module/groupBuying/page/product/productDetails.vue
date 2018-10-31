@@ -121,6 +121,11 @@ export default {
               });
             }
           );
+          // this.setTransition("turn-on");
+          // this.$router.push({
+          //   path: "/submitGroupDemand",
+          //   query: { productId: this.data.id }
+          // });
           break;
       }
     }

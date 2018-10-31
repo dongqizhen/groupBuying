@@ -44,11 +44,10 @@
       <li class="SHTGmodel" @click="jumpSelectModel">
         <a>
           <span>平台型号:</span>
-          <cube-input placeholder="默认为不限" v-model="info.modelName" :disabled="true">
-          <!-- <cube-input placeholder="默认为不限" :class="this.info.model.length!=0?'showStyle':''" :disabled="true">
+          <cube-input placeholder="默认为不限" :class="this.info.model.length!=0?'showStyle':''" :disabled="true">
             <span slot="prepend" class="showModel">
               <span v-for="(item,index) in info.model" :key="index">{{item.name}}</span>
-            </span> -->
+            </span>
             <i slot="append"></i>
           </cube-input>
         </a>
@@ -269,11 +268,7 @@ export default {
       ","
     );
     this.info.brand = this.$store.state.page.submitGroupDemand.XXHTG.brand;
-    // this.info.model = this.$store.state.page.submitGroupDemand.XXHTG.model;
-    this.info.modelName = _.join(
-      _.map(this.$store.state.page.submitGroupDemand.SBTG.model, "name"),
-      ","
-    );
+    this.info.model = this.$store.state.page.submitGroupDemand.XXHTG.model;
     this.info.mainParamsName = _.join(
       _.map(this.$store.state.page.submitGroupDemand.XXHTG.params, "name"),
       ","
