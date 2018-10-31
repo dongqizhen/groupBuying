@@ -465,16 +465,18 @@
                 );
             }
             this.$nextTick().then(() => {
-                this.$parent.refresh()
-               if(this.y!=0){
-                   this.$parent.scrollTo(0,this.y)
-               }
+                this.$parent.refresh();
+                if (this.y != 0) {
+                    this.$parent.scrollTo(0, this.y);
+                }
             });
         },
         beforeRouteLeave(to, from, next) {
             console.log(to);
             if (to.name == "选择型号") {
                 this.y = this.$parent.scroll.y;
+            } else {
+                this.y = 0;
             }
             console.log(this.y);
             next();

@@ -322,6 +322,8 @@
             console.log(to);
             if (to.name == "选择型号") {
                 this.y = this.$parent.scroll.y;
+            } else {
+                this.y = 0;
             }
             console.log(this.y);
             next();
