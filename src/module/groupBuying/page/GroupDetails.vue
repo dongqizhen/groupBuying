@@ -303,19 +303,18 @@ export default {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        padding: 0 18px;
+        padding: 0 10px;
         li {
           height: 100px;
-          width: 148px;
+          width: 160px;
           background: #ffffff;
           border: 0.5px solid rgba(1, 157, 221, 0.12);
           box-shadow: 0.5px 2px 4px 0.5px rgba(1, 157, 221, 0.09);
           border-radius: 5px;
           margin-bottom: 16px;
           display: flex;
-
           font-family: PingFangSC-Medium;
-          font-size: 12px;
+          font-size: 14px;
           color: #333333;
           letter-spacing: 0;
           > a {
@@ -337,7 +336,7 @@ export default {
               }
             }
             span {
-              font-size: 10px;
+              font-size: 12px;
               margin-top: 6px;
               color: #999999;
               display: flex;

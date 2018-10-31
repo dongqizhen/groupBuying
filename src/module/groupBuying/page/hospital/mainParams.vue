@@ -140,6 +140,7 @@ export default {
         this.itemSelect = _.without(this.itemSelect, changeParam);
         if (this.itemSelect.length === 3) {
           Toast(this.toastText);
+          return;
         }
       }
     },
@@ -169,6 +170,7 @@ export default {
       }
       if (this.itemSelect.length === 3) {
         Toast(this.toastText);
+        return;
       } else {
         if (!itemSelectCommon && !paramListCommon) {
           this.itemSelect.push({ id: "", name: name });
@@ -176,7 +178,8 @@ export default {
           if (!itemSelectCommon && paramListCommon) {
             this.itemSelect.push(paramListCommon);
           } else if (itemSelectCommon) {
-            Toast("您已选择该参数，请勿重复选择");
+            Toast("您已选择该值，请勿重复选择");
+            return;
           }
         }
       }
@@ -186,7 +189,7 @@ export default {
         "/server_pro/productParam!request.action",
         {
           method: "getList",
-          params: { name: name }
+          params: { name: name, code: this.$route.query.groupTypeCode }
         },
         data => {
           console.log(data);

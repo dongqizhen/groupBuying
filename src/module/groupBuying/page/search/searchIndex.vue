@@ -10,7 +10,7 @@
         </Header>
         <div class="content">
             <div class="history" v-if="isSearchHistory">
-                <h2>历史记录<span @click.stop="del"></span></h2>
+                <h2 v-if="this.searchList.length!=0">历史记录<span @click.stop="del"></span></h2>
                 <ul class="history_container">
                     <li v-for="(val,index) in searchList" :key="index" @click="search(val.name)">{{val.name}}</li>
                 </ul>
@@ -22,7 +22,7 @@
                             <p>共<span>{{totalnum}}</span>个结果</p>
                             <div class="company common">
                                 <h2><i></i>企业产品</h2>
-                                <router-link :to="{path:`/productDetails/${listData.productList.length!=0?listData.productList[0].id:''}`}" v-if="listData.productList.length!=0" @click.native="setTransition('turn-on')">
+                                <router-link tag="li" :to="{path:`/productDetails/${listData.productList.length!=0?listData.productList[0].id:''}`}" v-if="listData.productList.length!=0" @click.native="setTransition('turn-on')">
                                     <product-list :listData='listData.productList[0]'></product-list>
                                 </router-link>
                                 <div class="bottom" @click.stop="handleClick(13)">查看全部{{listData.productNum}}个结果</div>
@@ -234,7 +234,7 @@ export default {
     .history {
       width: 100%;
       background: #fff;
-      margin-top: 10px;
+      padding-top: 10px;
       height: calc(100% - 10px);
 
       h2 {

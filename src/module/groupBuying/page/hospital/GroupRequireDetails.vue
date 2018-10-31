@@ -42,7 +42,7 @@
                                     </span>
                                     <span class="value">
                                         <span class="brand">{{val.brandName}}</span>
-                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.modelName}}</span>
+                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.name}}</span>
                                     </span>
                                 </li>
                             </ul>
@@ -100,7 +100,7 @@
                                     </span>
                                     <span class="value">
                                         <span class="brand">{{val.brandName}}</span>
-                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.modelName}}</span>
+                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.name}}</span>
                                     </span>
                                 </li>
                             </ul>
@@ -540,9 +540,9 @@
                 console.log(newVal, oldVal, newVal == oldVal);
 
                 /* this.$nextTick(() => {
-                                                                this.isShow = false;
-                                                            });
-                                                            this.isShow = true; */
+                                                                    this.isShow = false;
+                                                                });
+                                                                this.isShow = true; */
             }
         }
     };
@@ -595,198 +595,34 @@
                     line-height: 18px;
                 }
             }
-
-            .hopePrice,
-            .number {
+            &:last-child {
+                flex: 1;
                 display: flex;
-                flex-direction: column;
-                padding: 0;
-                align-items: flex-start;
-
-                > div {
-                    display: flex;
-                    justify-content: space-between;
-                    width: 100%;
-
-                    &:first-child {
-                        padding: 13px 13px 8px;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        .value {
-                            display: flex;
-                            width: 189px;
-                        }
-                    }
-                }
-                .infoCount {
-                    width: 336px;
-                    line-height: 21px;
-                    // display: flex;
-                    background-color: rgba(244, 133, 75, 0.1);
-                    font-family: PingFangSC-Regular;
-                    font-size: 11px;
-                    color: #f4854b;
-                    padding-left: 13px;
-                    border-top-right-radius: 10.5px;
-                    border-bottom-right-radius: 10.5px;
-                    margin-bottom: 13px;
-                    // justify-content: flex-start;
-                    span {
-                        color: #fb5665;
-                        display: inline-block;
-                        height: 21px;
-                    }
-                }
-            }
-            .hopeBrand {
-                ul {
-                    width: 100%;
-                    li {
-                        margin-bottom: 13px;
-                        display: flex;
-                        justify-content: flex-start;
-                        width: 100%;
-                        > span {
-                            display: flex;
-                            &:first-child {
-                                width: 61px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: flex-start;
-                                span {
-                                    display: inline-block;
-                                    height: 100%;
-                                    line-height: 18px;
-                                    font-family: PingFangSC-Regular;
-                                    font-size: 13px;
-                                }
-                            }
-                            &:last-child {
-                                flex: 1;
-                                display: flex;
-                                justify-content: flex-start;
-                                align-items: center;
-                                .brand {
-                                    width: 56px;
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    white-space: nowrap;
-                                    margin-right: 15px;
-                                    font-family: PingFangSC-Medium;
-                                    font-size: 12px;
-                                    color: #333333;
-                                }
-                                .model {
-                                    padding: 0 10px;
-                                    background: rgba(142, 142, 142, 0.05);
-                                    border-radius: 2px;
-                                    margin-right: 5px;
-                                    font-family: PingFangSC-Regular;
-                                    font-size: 12px;
-                                    color: #666666;
-                                }
-                            }
-                        }
-
-                        &:last-child {
-                            margin-bottom: 0;
-                        }
-                        img {
-                            width: 10px;
-                            height: 10px;
-                            margin-right: 4px;
-                        }
-                        .value {
-                            // margin-left: 20px;
-                        }
-                    }
-                }
-            }
-            .param {
-                min-height: 44px;
-                padding: 0;
-                padding-left: 13px;
-                font-family: PingFangSC-Regular;
-                font-size: 13px;
-                color: #999999;
-                .paramVal {
-                    width: 250px;
-
-                    ul {
-                        display: flex;
-                        width: 100%;
-                        justify-content: flex-start;
-                        flex-wrap: wrap;
-                        li {
-                            padding: 0 15px;
-                            background-color: #ebebeb;
-                            border-radius: 2px;
-
-                            color: #333;
-                            height: 19px;
-                            line-height: 19px;
-                            margin: 5px 0;
-                            margin-right: 10px;
-                            font-family: PingFangSC-Regular;
-                            font-size: 13px;
-                        }
-                    }
-                }
-            }
-            .demandIntroduce {
-                border-bottom: none;
-            }
-            .intention {
-                @include box_shadow_style;
-                margin-bottom: 10px;
-            }
-            .box {
-                background-color: #fff;
-                margin-bottom: 10px;
-                @include box_shadow_style;
-                .number {
-                    border-bottom: $border-style;
-                }
-            }
-            .counsel {
-                @include box_shadow_style;
-                background-color: #fff;
-                margin-bottom: 10px;
-            }
-            .comment {
-                background-color: #fff;
-                h2 {
-                    padding: 13px;
+                justify-content: flex-start;
+                align-items: center;
+                .brand {
+                    width: 56px;
+                    text-align: center;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin-right: 10px;
                     font-family: PingFangSC-Medium;
-                    font-size: 14px;
+                    font-size: 12px;
                     color: #333333;
-
-                    border-bottom: $border_style;
-                    span {
-                        font-family: PingFangSC-Regular;
-                        font-size: 14px;
-                        color: #aaaaaa;
-                    }
                 }
-                .noComment {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    height: 240px;
-                    img {
-                        height: 59px;
-                        width: 57px;
-                    }
-                    span {
-                        color: #999;
-                        font-size: 12px;
-                        margin-top: 20px;
-                    }
+                .model {
+                    background: rgba(142, 142, 142, 0.05);
+                    border-radius: 2px;
+                    margin-right: 5px;
+                    font-family: PingFangSC-Regular;
+                    font-size: 12px;
+                    color: #666666;
+                    width: 60px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    text-align: center;
                 }
             }
         }

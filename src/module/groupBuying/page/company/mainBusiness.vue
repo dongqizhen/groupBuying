@@ -133,7 +133,9 @@ export default {
         "/server_pro/mainBussiness!request.action",
         {
           method: "getAppPageMainBusinessList",
-          params: { name: name }
+          params: {
+            name: name
+          }
         },
         data => {
           console.log(data);
@@ -142,7 +144,7 @@ export default {
       );
     }
   },
-  mounted() {
+  activated() {
     console.log(this.$route.query.vuexValue);
     this.selectMainBusinessArr = this.$route.query.vuexValue;
     this.reqData();

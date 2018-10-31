@@ -91,7 +91,7 @@ export default {
           color: #feffff;
           align-items: center;
           justify-content: center;
-          line-height: 15px;
+          display: flex;
           margin-left: 11px;
           text-align: center;
         }
