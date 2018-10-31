@@ -51,10 +51,11 @@
         <li @click="jumpToModel(0)">
           <a>
             <span>型号：</span>
-            <cube-input placeholder="请选择型号" :class="this.info.modelFirst.length!=0?'showStyle':''" :disabled="true">
+            <cube-input placeholder="请选择型号" :disabled="true" v-model="info.modelFirstName">
+            <!-- <cube-input placeholder="请选择型号" :class="this.info.modelFirst.length!=0?'showStyle':''" :disabled="true">
               <span slot="prepend" class="showModel">
                 <span v-for="(item,index) in info.modelFirst" :key="index">{{item.name}}</span>
-              </span>
+              </span> -->
               <i slot="append"></i>
             </cube-input>
           </a>
@@ -75,10 +76,11 @@
         <li @click="jumpToModel(1)">
           <a>
             <span>型号：</span>
-            <cube-input placeholder="请选择型号" :class="this.info.modelSecond.length!=0?'showStyle':''" :disabled="true">
+            <cube-input placeholder="请选择型号" :disabled="true" v-model="info.modelSecondName">
+            <!-- <cube-input placeholder="请选择型号" :class="this.info.modelSecond.length!=0?'showStyle':''" :disabled="true">
               <span slot="prepend" class="showModel">
                 <span v-for="(item,index) in info.modelSecond" :key="index">{{item.name}}</span>
-              </span>
+              </span> -->
               <i slot="append"></i>
             </cube-input>
           </a>
@@ -98,10 +100,11 @@
         <li @click="jumpToModel(2)">
           <a>
             <span>型号：</span>
-            <cube-input placeholder="请选择型号" :class="this.info.modelThird.length!=0?'showStyle':''" :disabled="true">
+            <cube-input placeholder="请选择型号" v-model="info.modelThirdName" :disabled="true">
+            <!-- <cube-input placeholder="请选择型号" :class="this.info.modelThird.length!=0?'showStyle':''" :disabled="true">
               <span slot="prepend" class="showModel">
                 <span v-for="(item,index) in info.modelThird" :key="index">{{item.name}}</span>
-              </span>
+              </span> -->
               <i slot="append"></i>
             </cube-input>
           </a>
@@ -419,9 +422,21 @@ export default {
       ),
       ","
     );
-    this.info.modelFirst = this.$store.state.page.submitGroupDemand.SBTG.modelFirst;
-    this.info.modelSecond = this.$store.state.page.submitGroupDemand.SBTG.modelSecond;
-    this.info.modelThird = this.$store.state.page.submitGroupDemand.SBTG.modelThird;
+    this.info.modelFirstName = _.join(
+      _.map(this.$store.state.page.submitGroupDemand.SBTG.modelFirst, "name"),
+      ","
+    );
+    this.info.modelSecondName = _.join(
+      _.map(this.$store.state.page.submitGroupDemand.SBTG.modelSecond, "name"),
+      ","
+    );
+    this.info.modelThirdName = _.join(
+      _.map(this.$store.state.page.submitGroupDemand.SBTG.modelThird, "name"),
+      ","
+    );
+    // this.info.modelFirst = this.$store.state.page.submitGroupDemand.SBTG.modelFirst;
+    // this.info.modelSecond = this.$store.state.page.submitGroupDemand.SBTG.modelSecond;
+    // this.info.modelThird = this.$store.state.page.submitGroupDemand.SBTG.modelThird;
     this.info.mainParamsName = _.join(
       _.map(this.$store.state.page.submitGroupDemand.SBTG.params, "name"),
       ","

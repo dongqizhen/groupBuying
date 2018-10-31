@@ -42,7 +42,7 @@
                                     </span>
                                     <span class="value">
                                         <span class="brand">{{val.brandName}}</span>
-                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.modelName}}</span>
+                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.name}}</span>
                                     </span>
                                 </li>
                             </ul>
@@ -100,7 +100,7 @@
                                     </span>
                                     <span class="value">
                                         <span class="brand">{{val.brandName}}</span>
-                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.modelName}}</span>
+                                        <span class="model" v-for="(item,ind) in val.model" :key="ind">{{item.name}}</span>
                                     </span>
                                 </li>
                             </ul>
@@ -669,25 +669,27 @@ export default {
               align-items: center;
               .brand {
                 width: 56px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                text-align: center;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                margin-right: 15px;
+                margin-right: 10px;
                 font-family: PingFangSC-Medium;
                 font-size: 12px;
                 color: #333333;
               }
               .model {
-                padding: 0 10px;
                 background: rgba(142, 142, 142, 0.05);
                 border-radius: 2px;
                 margin-right: 5px;
                 font-family: PingFangSC-Regular;
                 font-size: 12px;
                 color: #666666;
+                width: 60px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                text-align: center;
               }
             }
           }
