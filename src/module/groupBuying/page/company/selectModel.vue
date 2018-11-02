@@ -4,6 +4,7 @@
             <span slot="explain" class="enter" @click="clickSure">确定</span>
         </Header>
         <div class="content">
+            <search placeholder="请输入型号" :searchValue="searchValue" :isShowSave="this.Multiple?true:false" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
             <div class="selected" v-if="this.Multiple">
                 <h2>已选型号:</h2>
                 <ul>
@@ -16,7 +17,7 @@
             <cube-checkbox v-model="checked" v-if="this.Multiple">
                 不了解产品型号，请厂家根据我院临床需求推荐
             </cube-checkbox>
-            <search placeholder="请输入型号" :searchValue="searchValue" :isShowSave="this.Multiple?true:false" v-on:saveValue="saveModel" v-on:inputValue="selectModel" :disabled="checked"></search>
+
             <div class="Model_container">
                 <h2>请选择：<span>(企业提供的型号清单)</span></h2>
                 <cube-index-list :data="modelData">
@@ -320,6 +321,7 @@
                 height: 77px;
                 background: #ffffff;
                 border-radius: 5px;
+                margin-top: 10px;
                 h2 {
                     height: 36px;
                     padding-left: 13px;

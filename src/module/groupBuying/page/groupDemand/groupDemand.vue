@@ -81,9 +81,6 @@
         },
         methods: {
             ...mapMutations(["setTransition"]),
-            a() {
-                alert();
-            },
             selectItem(item) {
                 this.$router.push({
                     path: `/groupDemandDetails/${this.$route.query.groupTypeCode}`,
@@ -141,6 +138,7 @@
                 this.wzdProvinceList = selectValue.wzdProvinceList;
                 this.totalNum = selectValue.totalNum;
             },
+
             reqData() {
                 _getData(
                     "/server_pro/groupPurchaseHospital!request.action",

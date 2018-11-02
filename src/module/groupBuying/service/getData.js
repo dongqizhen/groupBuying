@@ -10,13 +10,15 @@ const userInfo = commonMessage();
 export async function _getData(url = '', data = {}, successCallBack, errorCallBack) {
     return await axios
         .post(url, {
-            userid: userInfo.userid || '15900', //10533
+            userid: userInfo.userid || '15900', //10533 15900 16511
             token: userInfo.token,
             ...data
         })
         .then(data => {
+
             if (data.data.status.code == 200) {
                 successCallBack(data.data.result)
+
             } else {
                 console.log(data.data.status)
                 Toast({
@@ -25,7 +27,7 @@ export async function _getData(url = '', data = {}, successCallBack, errorCallBa
                 });
 
             }
-
+            return data
         })
         .catch(err => {
             if (errorCallBack) {
