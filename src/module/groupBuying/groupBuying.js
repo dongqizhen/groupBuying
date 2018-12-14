@@ -20,7 +20,7 @@ import {
     Lazyload,
     Toast
 } from 'vant';
-import 'vant/lib/vant-css/index.css';
+import 'vant/lib/index.css';
 
 
 import VueScroller from 'vue-scroller'

@@ -1,20 +1,46 @@
 <template>
   <div class="container uploadedProducts">
-    <Header :isSearchHide="false" title="上传的产品">
+    <Header
+      :isSearchHide="false"
+      title="上传的产品"
+    >
     </Header>
     <div class="content">
       <div v-if="!isLoading">
         <div v-if="groupPurchaseTypeList.length">
           <div class="type">
-            <type-scroll-nav-bar :typeData="typeData" :slectedTypeKeyWord="curTypeVal" v-on:typeNavChange="TypeNavChange"></type-scroll-nav-bar>
-            <model-scroll-nav-bar :modelData="modelData" :selectModelVal="selectModelVal" v-on:modelNavChange="ModelNavChange"></model-scroll-nav-bar>
+            <type-scroll-nav-bar
+              :typeData="typeData"
+              :slectedTypeKeyWord="curTypeVal"
+              v-on:typeNavChange="TypeNavChange"
+            ></type-scroll-nav-bar>
+            <model-scroll-nav-bar
+              :modelData="modelData"
+              :selectModelVal="selectModelVal"
+              v-on:modelNavChange="ModelNavChange"
+            ></model-scroll-nav-bar>
           </div>
           <div class="wrapper_container">
             <scroller>
               <cube-swipe>
-                <transition-group name="swipe" tag="ul" class="Swipe_box">
-                  <li class="swipe-item-wrapper myUploadList" v-for="(data,index) in swipeData" :key="index" @click="onItemClick(data.id)">
-                    <cube-swipe-item ref="swipeItem" :btns="btns" :index="index" @btn-click="onBtnClick" @active="onItemActive">
+                <transition-group
+                  name="swipe"
+                  tag="ul"
+                  class="Swipe_box"
+                >
+                  <li
+                    class="swipe-item-wrapper myUploadList"
+                    v-for="(data,index) in swipeData"
+                    :key="data"
+                    @click="onItemClick(data.id)"
+                  >
+                    <cube-swipe-item
+                      ref="swipeItem"
+                      :btns="btns"
+                      :index="index"
+                      @btn-click="onBtnClick"
+                      @active="onItemActive"
+                    >
                       <product-list :listData="data"></product-list>
                     </cube-swipe-item>
                   </li>
@@ -25,192 +51,197 @@
         </div>
         <no-data v-else></no-data>
       </div>
-      <loading v-else :show="isLoading" text="Loading..."></loading>
+      <loading
+        v-else
+        :show="isLoading"
+        text="Loading..."
+      ></loading>
 
     </div>
   </div>
 </template>
 
 <script>
-import Header from "../../components/header/header";
-import typeScrollNavBar from "../../components/common/typeScrollNavBar";
-import modelScrollNavBar from "../../components/common/modelScrollNavBar";
-import productList from "../../components/common/productList";
-import { _getData } from "../../service/getData";
-import { mapMutations } from "vuex";
-import _ from "lodash";
-import { getProductList } from "../../components/mixin/mixin";
-import noData from "../../components/noData/noData.vue";
-import noNet from "../../components/noNet/noNet.vue";
-import { Loading } from "vux";
-export default {
-  data() {
-    return {
-      btns: [
-        {
-          action: "rewrite",
-          text: "编辑",
-          color: "#ccc"
-        },
-        {
-          action: "delete",
-          text: "删除",
-          color: " #FB4354"
-        }
-      ]
-    };
-  },
-  mixins: [getProductList],
-  components: {
-    Header,
-    typeScrollNavBar,
-    modelScrollNavBar,
-    productList,
-    noData,
-    noNet,
-    Loading
-  },
-  created() {
-    console.log(this.swipeData);
-  },
-  methods: {
-    ...mapMutations(["setTransition"]),
-    onItemClick(id) {
-      console.log("click item:", id);
-      this.setTransition("turn-on");
-      this.$router.push({
-        path: `/productDetails/${id}`,
-        query: { come: 1 }
-      });
+  import Header from "../../components/header/header";
+  import typeScrollNavBar from "../../components/common/typeScrollNavBar";
+  import modelScrollNavBar from "../../components/common/modelScrollNavBar";
+  import productList from "../../components/common/productList";
+  import { _getData } from "../../service/getData";
+  import { mapMutations } from "vuex";
+  import _ from "lodash";
+  import { getProductList } from "../../components/mixin/mixin";
+  import noData from "../../components/noData/noData.vue";
+  import noNet from "../../components/noNet/noNet.vue";
+  import { Loading } from "vux";
+  export default {
+    data() {
+      return {
+        btns: [
+          {
+            action: "rewrite",
+            text: "编辑",
+            color: "#ccc"
+          },
+          {
+            action: "delete",
+            text: "删除",
+            color: " #FB4354"
+          }
+        ]
+      };
     },
-    onBtnClick(btn, index) {
-      event.stopPropagation();
-      if (btn.action === "delete") {
-        this.$createDialog({
-          type: "confirm",
-          icon: "",
-          title: "",
-          content: "确定要删除吗？",
-          confirmBtn: {
-            text: "确认",
-            active: true,
-            disabled: false,
-            href: "javascript:;"
-          },
-          cancelBtn: {
-            text: "取消",
-            active: false,
-            disabled: false,
-            href: "javascript:;"
-          },
-          onConfirm: () => {
-            _getData(
-              "/server_pro/groupPurchaseCompanyProduct!request.action",
-              {
-                method: "deletedProduct",
-                params: { id: this.swipeData[index].id }
-              },
-              data => {}
-            ).then(() => {
-              this.swipeData.splice(index, 1);
-              this.$refs.swipeItem[this.activeIndex].shrink();
-              this.getData();
-            });
-          },
-          onCancel: () => {}
-        }).show();
-      } else {
+    mixins: [getProductList],
+    components: {
+      Header,
+      typeScrollNavBar,
+      modelScrollNavBar,
+      productList,
+      noData,
+      noNet,
+      Loading
+    },
+    created() {
+      console.log(this.swipeData);
+    },
+    methods: {
+      ...mapMutations(["setTransition"]),
+      onItemClick(id) {
+        console.log("click item:", id);
         this.setTransition("turn-on");
-        this.$refs.swipeItem[index].shrink();
         this.$router.push({
-          path: "uploadProduct",
-          query: { id: this.swipeData[index].id }
+          path: `/productDetails/${id}`,
+          query: { come: 1 }
         });
+      },
+      onBtnClick(btn, index) {
+        event.stopPropagation();
+        if (btn.action === "delete") {
+          this.$createDialog({
+            type: "confirm",
+            icon: "",
+            title: "",
+            content: "确定要删除吗？",
+            confirmBtn: {
+              text: "确认",
+              active: true,
+              disabled: false,
+              href: "javascript:;"
+            },
+            cancelBtn: {
+              text: "取消",
+              active: false,
+              disabled: false,
+              href: "javascript:;"
+            },
+            onConfirm: () => {
+              _getData(
+                "/server_pro/groupPurchaseCompanyProduct!request.action",
+                {
+                  method: "deletedProduct",
+                  params: { id: this.swipeData[index].id }
+                },
+                data => {}
+              ).then(() => {
+                this.swipeData.splice(index, 1);
+                this.$refs.swipeItem[this.activeIndex].shrink();
+                this.getData();
+              });
+            },
+            onCancel: () => {}
+          }).show();
+        } else {
+          this.setTransition("turn-on");
+          this.$refs.swipeItem[index].shrink();
+          this.$router.push({
+            path: "uploadProduct",
+            query: { id: this.swipeData[index].id }
+          });
+        }
+      },
+      onItemActive(index) {
+        console.log(index);
+        if (index === this.activeIndex) {
+          return;
+        }
+        if (this.activeIndex !== -1) {
+          const activeItem = this.$refs.swipeItem[this.activeIndex];
+          activeItem.shrink();
+        }
+        this.activeIndex = index;
       }
     },
-    onItemActive(index) {
-      console.log(index);
-      if (index === this.activeIndex) {
-        return;
-      }
-      if (this.activeIndex !== -1) {
-        const activeItem = this.$refs.swipeItem[this.activeIndex];
-        activeItem.shrink();
-      }
-      this.activeIndex = index;
+    activated() {
+      this.getData();
     }
-  },
-  activated() {
-    this.getData();
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../../static/scss/_commonScss";
-.container {
-  @include basic_container_style;
-  .content {
-    padding: 10px 13px;
-    overflow: hidden;
-    //padding-bottom: 0;
-    > div {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+  @import "../../../../../static/scss/_commonScss";
+  .container {
+    @include basic_container_style;
+    .content {
+      padding: 10px 13px;
+      overflow: hidden;
+      //padding-bottom: 0;
       > div {
         height: 100%;
         display: flex;
         flex-direction: column;
-      }
-    }
-    .type {
-      box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      background: #fff;
-      margin-bottom: 10px;
-      height: 101px;
-    }
-    .wrapper_container {
-      height: calc(100% - 111px);
-      position: relative;
-      /deep/ ._v-container {
-        height: 100%;
-      }
-      /deep/ .productList {
-        .left_box {
-          height: 53px;
+        > div {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
       }
-    }
-    /deep/ ul.Swipe_box {
-      height: 100%;
-      > li {
-        height: 80px;
-        background: #ffffff;
+      .type {
         box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
+        background: #fff;
         margin-bottom: 10px;
-        &:last-child {
-          margin-bottom: 0;
-        }
-        .cube-swipe-item {
+        height: 101px;
+      }
+      .wrapper_container {
+        height: calc(100% - 111px);
+        position: relative;
+        /deep/ ._v-container {
           height: 100%;
-          padding: 13px;
-          display: flex;
-          justify-content: flex-start;
+        }
+        /deep/ .productList {
+          .left_box {
+            height: 53px;
+          }
+        }
+      }
+      /deep/ ul.Swipe_box {
+        height: 100%;
+        > li {
+          height: 80px;
+          background: #ffffff;
+          box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.1);
+          border-radius: 5px;
+          margin-bottom: 10px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          .cube-swipe-item {
+            height: 100%;
+            padding: 13px;
+            display: flex;
+            justify-content: flex-start;
 
-          .cube-swipe-btns {
-            li {
-              width: 120px;
-              font-family: PingFangSC-Regular;
-              font-size: 16px;
-              color: #ffffff;
-              span {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+            .cube-swipe-btns {
+              li {
+                width: 120px;
+                font-family: PingFangSC-Regular;
+                font-size: 16px;
+                color: #ffffff;
+                span {
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
               }
             }
           }
@@ -218,5 +249,4 @@ export default {
       }
     }
   }
-}
 </style>
